@@ -1,0 +1,74 @@
+sequenceDiagram
+    autonumber
+    box rgb(240, 240, 255) Cyber (Software Stack)
+        participant Orch as Orchestrator (Kernel)
+        participant HAL as HAL Interface (Middleware)
+        participant AI as Cognitive Engine (Intelligence)
+        participant Reg as Mapping Registry (DB)
+    end
+    box rgb(255, 245, 240) Physical (Hardware World)
+        participant Bus as Unknown Bus Port (HW)
+        participant Actuator as Mechanical System
+        participant Sensor as Sensor Array (IMU/Vision)
+    end
+
+    note over Orch, Sensor: === PHASE 1: Signal Injection & Observation ===
+
+    Orch->>+HAL: TriggerProbe(PortID: 0xAF, SignalType: SAFE_PULSE)
+    note right of HAL: HAL sends a minimal, non-destructive signal.
+    HAL->>+Bus: InjectElectricalImpulse(5% Power, 50ms)
+    Bus-)+Actuator: Energize Circuit
+    
+    par Simultaneous Physical Action & Sensing
+        Actuator-->>Actuator: Physical Displacement (e.g., Slight Yaw Left)
+    and
+        Sensor->>Sensor: Capture Environmental Delta (T0 to T1)
+    end
+    
+    Bus--)-HAL: Acknowledge Signal Sent
+    
+    Sensor->>-HAL: ReportRawTelemetry(DeltaYaw: +2.5°, OpticalFlow: -X_Vector)
+    HAL->>-Orch: ProbeResult(Input:0xAF, Output: RawTelemetry)
+
+    note over Orch, Sensor: === PHASE 2: AI Semantic Understanding & Mapping ===
+
+    Orch->>+AI: InterpretObservation(RawTelemetry)
+    
+    note right of AI: AI translates digital data into physical meaning.
+    AI->>AI: Vector Analysis: (+2.5° Yaw) == ("Turning Left")
+    AI-->>AI: Semantic Conclusion: "Port 0xAF causes Left Turn"
+    
+    AI->>+Reg: CommitMapping(Key: Port_0xAF, Value: FUNC_STEER_LEFT)
+    Reg-->>-AI: Mapping Confirmed & Cached
+    
+    AI-->>-Orch: Acknowledge(Hardware 0xAF Successfully Identified)
+
+    note bottom of Reg: Future requests to "Steer Left" will now automatically use Port 0xAF.
+
+
+    Detailed Step-by-Step Explanation
+PHASE 1: Signal Injection & Observation (Steps 1-8)
+This phase is about generating physical data from an unknown source.
+
+TriggerProbe: The Core Kernel determines it's in "Calibration Mode" and asks the Middleware (HAL) to test an unidentified port (0xAF).
+
+InjectElectricalImpulse: The HAL sends a carefully limited electrical signal to the port. It must be a "safe pulse" to prevent damage if the port is connected to something sensitive.
+
+Energize Circuit: The electrical signal travels down the physical bus wire to connected hardware.
+
+Physical Displacement & Capture (Parallel): This is crucial. The system sends the signal and simultaneously watches for the result. The actuator moves physically (e.g., the wheels turn slightly), and the sensors capture this change in reality over time.
+
+ReportRawTelemetry: The sensors report back the raw mathematical data of the change (e.g., "Rotation degrees changed by +2.5").
+
+PHASE 2: AI Semantic Understanding & Mapping (Steps 9-13)
+This phase turns raw data into actionable knowledge.
+
+InterpretObservation: The Orchestrator passes the raw sensor data to the Cognitive Engine (AI).
+
+Vector Analysis & Semantic Conclusion: The AI doesn't just see numbers; it understands physics. It correlates a positive yaw rate (+2.5°) with the concept of "Turning Left." It links cause (Port 0xAF input) and effect (Left Turn output).
+
+CommitMapping: The AI instructs the Registry to permanently link the physical address 0xAF to the abstract function FUNC_STEER_LEFT.
+
+Mapping Confirmed: The knowledge is stored.
+
+Outcome: The next time a high-level agent requests the action "Steer Left," the system checks the Registry, finds it maps to 0xAF, and executes the command instantly without needing to re-test.
