@@ -1,0 +1,8 @@
+Time (T+),Action,Location,Responsibility
+0ms,Trigger,OS / Kernel,User clicks icon or Ignition signal is detected.
+5ms,Shell Init,cmd/aios-node/main.go,Entry point launches; Watchdog starts its 5s timer.
+15ms,The Handover,core/kernel.go,"core.Bootstrap() is called. The ""Nucleus"" wakes up."
+40ms,Identity Check,core/platform/boot_manager.go,System checks the IsolatedVault for a FirstBootMarker.
+100ms,Classification,core/platform/boot_manager.go,"User Matrix check: Is this the Owner, a Stranger, or a Tester?"
+200ms,Policy Lock,core/policy/,Bayesian Trust Priors are loaded based on the user identity.
+<2.0s,Ready,runtime/loader/,Fast-Boot completes; Speech/UI layers active.
