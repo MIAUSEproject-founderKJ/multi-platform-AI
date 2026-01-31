@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package aios.kernel;
+
+option go_package = "project/api/kernel";
+
+// The Primary Command Message sent from Cognition to Bridge
+message MotionIntent {
+  string intent_id = 1;
+  double throttle = 2;       // Range -1.0 to 1.0
+  double steering = 3;       // Range -1.0 to 1.0
+  bool emergency_brake = 4;
+  
+  // Metadata for the User Classification Matrix
+  UserAuth credentials = 5;
+}
+
+message UserAuth {
+  string session_token = 1;
+  enum Role {
+    STRANGER = 0;
+    PERSONAL = 1;
+    ORGANIZATION = 2;
+    TESTER = 3;
+  }
+  Role role = 2;
+}
+
+// The Telemetry Message sent from Bridge back to Cognition
+message SystemState {
+  double current_speed = 1;
+  double trust_score = 2;
+  
+  enum SafetyMode {
+    CLEAR = 0;
+    GUARDED = 1;
+    EMERGENCY_STOP = 2;
+    MAINTENANCE = 3;
+  }
+  SafetyMode mode = 3;
+  
+  repeated string active_faults = 4;
+}
+
+service KernelRouter {
+  // Stream intents from AI to Actuators
+  rpc StreamIntents(stream MotionIntent) returns (stream SystemState);
+}

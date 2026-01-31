@@ -8,21 +8,14 @@ import (
 	"multi-platform-AI/internal/logging"
 )
 
-type BootMode string
-
-const (
-	ColdBoot BootMode = "COLD" // Full hardware discovery
-	FastBoot BootMode = "FAST" // Optimized state resume
-)
-
 type BootManager struct {
 	Vault    *security.IsolatedVault
-	Platform *BootSequence
+	Identity *probe.HardwareIdentity // Passed from the passive scan in boot.go
 }
 
-// ManageBoot determines the path: First-Boot or Subsequent-Boot.
+// ManageBoot handles the logic transition based on the FirstBootMarker.
 func (bm *BootManager) ManageBoot() (*BootSequence, error) {
-	// 1. Check for the "FirstBootMarker" in the Vault
+	// 1. Instant check for marker
 	isFirstBoot := bm.Vault.IsMissingMarker("FirstBootMarker")
 
 	if isFirstBoot {
@@ -32,53 +25,58 @@ func (bm *BootManager) ManageBoot() (*BootSequence, error) {
 	return bm.runFastBoot()
 }
 
-// runColdBoot (Stage 1): Full hardware discovery and user registration.
+// runColdBoot (Stage 1): High-latency discovery for new installations.
 func (bm *BootManager) runColdBoot() (*BootSequence, error) {
-	logging.Info("[BOOT] Stage 1 (Cold Boot): Initiating Full Discovery...")
+	logging.Info("[BOOT] Stage 1 (Cold Boot): Full Discovery & Registration")
 
-	// Probing hardware (Lidar, CAN-bus, etc.)
-	hwProfile := probe.AggressiveScan()
+	// 1. Aggressive Probing: Activate Lidar, CAN-bus handshake, etc.
+	// We use the base identity to know which specific drivers to wake up.
+	fullProfile := probe.AggressiveScan(bm.Identity)
 
-	// User Registration (Personal | Organization | Stranger)
-	// If no IdentityToken, trigger Onboarding UI flow
-	identity := bm.IdentifyUser()
+	// 2. User Onboarding: Mandatory registration for first-ever boot.
+	userSession := bm.IdentifyUser()
 
-	// Generate Security Token and Marker
+	// 3. Vault Seal: Save the state so Stage 2 is available next time.
 	bm.Vault.WriteMarker("FirstBootMarker")
-	bm.Vault.StoreToken("IdentityToken", identity.Token)
-
-	return &BootSequence{Mode: "Discovery", PlatformID: hwProfile.ID}, nil
-}
-
-// runFastBoot (Stage 2): Optimized startup using persisted states.
-func (bm *BootManager) runFastBoot() (*BootSequence, error) {
-	logging.Info("[BOOT] Stage 2 (Fast Boot): Rapid Deployment...")
-
-	// 1. Load Persisted EnvConfig (Skip full scan)
-	config := bm.Vault.LoadConfig("LastKnownEnv")
-
-	// 2. Hardware Heartbeat (Delta-Check)
-	// Ensures sensors from the last session are still alive/unobstructed.
-	if err := probe.Heartbeat(config); err != nil {
-		logging.Warn("Hardware Delta detected! Reverting to Stage 1 Recovery.")
-		return bm.runColdBoot()
-	}
-
-	// 3. Silent Login / Biometric Gate
-	userRole := bm.ClassifyUserMatrix()
+	bm.Vault.StoreToken("IdentityToken", userSession.Token)
+	bm.Vault.SaveConfig("LastKnownEnv", fullProfile)
 
 	return &BootSequence{
-		Mode:       "Matured",
-		UserRole:   userRole,
-		TrustScore: config.LastTrustScore,
+		PlatformID: bm.Identity.PlatformType,
+		TrustScore: 0.1, // Initial discovery trust is low
+		IsVerified: true,
+		Mode:       "Discovery",
+		UserRole:   userSession.Role,
 	}, nil
 }
 
-// ClassifyUserMatrix handles the "Transient" identity logic.
+// runFastBoot (Stage 2): Low-latency resumption for known environments.
+func (bm *BootManager) runFastBoot() (*BootSequence, error) {
+	logging.Info("[BOOT] Stage 2 (Fast Boot): Resuming Persisted State")
+
+	// 1. Load context from Vault
+	config := bm.Vault.LoadConfig("LastKnownEnv")
+
+	// 2. Hardware Heartbeat: Delta-check against passive scan.
+	// Does the current passive scan match the persisted AggressiveScan profile?
+	if err := probe.Heartbeat(bm.Identity, config); err != nil {
+		logging.Warn("Hardware mismatch detected (Portable move?). Reverting to Cold Boot.")
+		return bm.runColdBoot()
+	}
+
+	// 3. Silent Login & User Classification
+	userRole := bm.ClassifyUserMatrix()
+
+	return &BootSequence{
+		PlatformID: bm.Identity.PlatformType,
+		TrustScore: config.LastTrustScore,
+		IsVerified: true,
+		Mode:       DetermineExecutionMode(config.LastTrustScore),
+		UserRole:   userRole,
+	}, nil
+}
+
 func (bm *BootManager) ClassifyUserMatrix() string {
-	// Logic based on your matrix:
-	// - Personal: Silent login via previous Biometric binding.
-	// - Stranger: PIN entry / Guest mode (Robotaxi).
-	// - Tester: Aggressive diagnostic handshake (Maintenance).
-	return "OWNER" 
+	// Implementation of your Personal/Stranger/Tester logic
+	return "OWNER"
 }

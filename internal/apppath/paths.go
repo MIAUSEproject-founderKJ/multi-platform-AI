@@ -12,7 +12,7 @@ import (
 var (
 	once           sync.Once
 	isPortable     bool
-	appName        = "AIofSpeech"
+	appName        = "multi-platform-AI"
 	// Path Caches
 	cachedConfigDir string
 	cachedRuntimeDir string
