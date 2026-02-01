@@ -1,0 +1,25 @@
+# /MIAUSEproject-founderKJ/multi-platform-AI/deployment/docker-compose.yaml
+
+version: '3.8'
+
+services:
+  aios-kernel:
+    build:
+      context: .
+      dockerfile: build/Dockerfile.kernel
+    volumes:
+      - ./vault:/var/lib/aios/vault  # Persistent Security Vault
+      - ./logs:/var/log/aios         # AI Training Data (JSONL)
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "50051:50051" # gRPC HMIService Port
+
+  aios-hmi:
+    image: aios/terminator-hud:latest
+    depends_on:
+      - aios-kernel
+    environment:
+      - KERNEL_ADDR=aios-kernel:50051
+    ports:
+      - "8080:8080" # Web-based HUD View

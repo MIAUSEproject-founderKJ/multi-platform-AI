@@ -3,20 +3,50 @@
 syntax = "proto3";
 package aios.hmi;
 
+import "google/protobuf/timestamp.proto";
+
 message ProgressUpdate {
-  string stage = 1;      // e.g., "PROBE", "ATTEST", "LOAD_MODELS"
+  string stage = 1;      // "PROBE", "ATTEST", "SIM_DREAM"
   float percentage = 2;  // 0.0 to 1.0
-  string message = 3;    // e.g., "Initializing Lidar..."
-  bool critical = 4;     // If true, UI should pulse red/alert
+  string message = 3;    // "Bayesian Trust: 98.4%"
+  bool critical = 4;     // HUD pulses red
+}
+
+// Real-time "Nerve" data for the HUD
+message SystemPulse {
+  float cpu_load = 1;
+  float vram_usage = 2;
+  float temperature = 3;
+  double trust_score = 4; // The Q16 result converted to float
+}
+
+// 3. 3D Spatial data for "Dream State" and SLAM
+message Voxel {
+  float x = 1; float y = 2; float z = 3;
+  float confidence = 4; 
+}
+
+message PerceptionFrame {
+  repeated Voxel voxels = 1; // The 3D wireframe mesh
+  string mode = 2;           // "REALITY" or "DREAM"
+}
+
+service HMIService {
+  // Kernel pushes state updates; UI pushes user preference changes
+  rpc StreamEvents(stream ProgressUpdate) returns (stream ModalityConfig);
+  
+  // High-frequency telemetry for the Reflective HUD
+  rpc StreamTelemetry(Empty) returns (stream SystemPulse);
+  
+  // Spatial stream for SLAM and Digital Twin visualization
+  rpc StreamSpatialMap(Empty) returns (stream PerceptionFrame);
 }
 
 message ModalityConfig {
   bool enable_gui = 1;
   bool enable_audio = 2;
   bool enable_haptics = 3;
+  string theme = 4; // "TERMINATOR_CYAN", "SAFETY_RED"
 }
 
-service HMIService {
-  // Bi-directional stream for real-time reflection of kernel state
-  rpc StreamEvents(stream ProgressUpdate) returns (stream ModalityConfig);
-}
+message Empty {}

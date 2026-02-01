@@ -4,41 +4,57 @@ package policy
 
 import (
 	"multi-platform-AI/configs/defaults"
-	"multi-platform-AI/internal/mathutil"
 	"multi-platform-AI/internal/logging"
+	"multi-platform-AI/internal/mathutil"
 )
 
-type TrustEvaluator struct {
-	MinThreshold mathutil.Q16EnvConfd
+type TrustDescriptor struct {
+	CurrentScore float64
+	IsVerified   bool
 }
 
-// EvaluateCalculate takes the current EnvConfig and determines the system's "Trust State"
-func (te *TrustEvaluator) Evaluate(env *defaults.EnvConfig) mathutil.Q16EnvConfd {
+type TrustEvaluator struct {
+	MinThreshold mathutil.Q16 // Fixed-point threshold (e.g., 0.9)
+}
+
+// Evaluate takes the current EnvConfig and determines the system's "Trust State"
+func (te *TrustEvaluator) Evaluate(env *defaults.EnvConfig) mathutil.Q16 {
 	logging.Info("[POLICY] Evaluating Bayesian Trust Matrix...")
 
-	// 1. Prior Probability: Start with Attestation
-	// If the code is tampered with, trust is immediately zero.
+	// 1. Prior: Attestation (The foundation of the chain)
+	// If the binary hash doesn't match the Vault, we drop trust to absolute zero.
 	if !env.Attestation.Valid {
-		return 0
+		logging.Error("[POLICY] ATTESTATION_FAILED: Trust collapsed to 0.0")
+		return mathutil.Q16(0)
 	}
 
-	// 2. Evidence Integration: Combine Bus Confidence and Identity Confidence
-	var combinedEvidence float64 = 1.0
+	// 2. Evidence Integration: Recursive Bayesian Update
+	// We start with the assumption of perfect hardware (1.0)
+posterior := mathutil.Q16FromFloat(1.0)
 
-	// Deduct trust based on Hardware Bus confidence (Q16)
-	for _, bus := range env.Hardware.Buses {
-		// We use a weighted average: lower confidence in critical buses drops the score faster
-		combinedEvidence *= bus.Confidence.Float64()
-	}
+for _, bus := range env.Hardware.Buses {
+    // Use the fixed-point multiply instead of float multiplication
+    posterior = posterior.Multiply(bus.Confidence)
+}
 
-	// 3. Platform Specific Penalties
-	// If the platform is "Portable" (USB/Stranger), we apply a logical penalty
+	// 3. Contextual Penalties (Source Integrity)
+	// If we are running on an unknown "Stranger" device or via a Probabilistic Match,
+	// we apply a safety tax on the trust score.
 	if env.Platform.Source == "probabilistic_match" {
-		combinedEvidence *= 0.8
+		logging.Warn("[POLICY] Platform identity is inferred, applying 20%% safety penalty.")
+		posterior *= 0.8
 	}
 
-	finalTrust := mathutil.Q16FromFloat(combinedEvidence)
-	logging.Info("[POLICY] Bayesian Trust Score: %.2f%%", finalTrust.Float64()*100)
+	finalTrust := mathutil.Q16FromFloat(posterior)
+	logging.Info("[POLICY] Final Trust Decision: %.2f%%", finalTrust.Float64()*100)
 
 	return finalTrust
+}
+
+// InitializeTrust sets the initial state for the Kernel
+func InitializeTrust(seq *platform.BootSequence) *TrustDescriptor {
+	return &TrustDescriptor{
+		CurrentScore: seq.TrustScore,
+		IsVerified:   seq.IsVerified,
+	}
 }

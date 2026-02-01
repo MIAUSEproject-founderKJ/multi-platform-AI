@@ -19,11 +19,13 @@ func RunBootSequence(v *security.IsolatedVault) (*BootSequence, error) {
 	isFirstBoot := v.IsMissingMarker("FirstBootMarker")
 	
 	logging.Info("Phase 1: Initializing Boot Manager (FirstBoot: %v)", isFirstBoot)
+
 id, _ := probe.PassiveScan()
 
-mgr := &platform.BootManager{
+mgr := &BootManager{ // Remove "platform." prefix
     Vault:    v,
-    Identity: id, // The Identity we just found
+    Identity: id,
+    HMIPipe:  make(chan hmi.ProgressUpdate, 10), // Initialize the channel!
 }
 
 return mgr.ManageBoot()

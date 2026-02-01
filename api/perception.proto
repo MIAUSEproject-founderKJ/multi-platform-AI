@@ -1,3 +1,5 @@
+//MIAUSEproject-founderKJ/multi-platform-AI/api/kernel.proto
+
 syntax = "proto3";
 package aios.perception;
 

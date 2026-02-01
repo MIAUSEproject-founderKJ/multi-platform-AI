@@ -39,8 +39,8 @@ func (bm *BootManager) runColdBoot() (*BootSequence, error) {
 	bm.updateProgress(0.5, "Verifying Security Integrity...")
 	// Perform actual attestation here
 	if err := security.VerifyEnvironment(bm.Identity); err != nil {
-		return nil, err
-	}
+    return nil, err
+}
 
 	// 6. User Onboarding (Progress: 80%)
 	bm.updateProgress(0.8, "Awaiting User Identification...")
@@ -86,8 +86,74 @@ func (bm *BootManager) linkVisionHUD(vision *perception.VisionStream, vitals *mo
 	// Feed spatial markers (SLAM) back to HUD
 	go func() {
 		for {
-			markers := nav.GetLatestMarkers()
-			vision.UpdateSpatialMarkers(markers)
-		}
+    markers := nav.GetLatestMarkers()
+    vision.UpdateSpatialMarkers(markers)
+    time.Sleep(33 * time.Millisecond) // ADD THIS: Prevent 100% CPU usage (approx 30fps)
+}
 	}()
+}
+
+// ManageBoot determines the boot path based on the presence of the FirstBootMarker.
+func (bm *BootManager) ManageBoot() (*BootSequence, error) {
+    logging.Info("[BOOT_MGR] Resolving boot strategy for platform: %s", bm.Identity.PlatformType)
+
+    // Check the vault for the FirstBootMarker
+    isFirstBoot := bm.Vault.IsMissingMarker("FirstBootMarker")
+
+    if isFirstBoot {
+        // Path A: The system has never seen this hardware before or was reset.
+        return bm.runColdBoot()
+    }
+
+    // Path B: The hardware is recognized. Attempt a high-speed resume.
+    return bm.runFastBoot()
+}
+
+
+func (bm *BootManager) runFastBoot() (*BootSequence, error) {
+    logging.Info("[BOOT] Stage 1 (Fast Boot): Resuming from Vault...")
+
+    // 1. Quick Attestation
+    // Even in fast boot, we must verify the binary hasn't been tampered with.
+    if err := security.VerifyEnvironment(bm.Identity); err != nil {
+        logging.Error("[BOOT] Security mismatch during resume. Redirecting to Cold Boot.")
+        return bm.runColdBoot() 
+    }
+
+    // 2. Load Last Known Environment
+    lastConfig, err := bm.Vault.LoadConfig("LastKnownEnv")
+    if err != nil {
+        return nil, fmt.Errorf("failed to load environment cache: %w", err)
+    }
+
+    // 3. Fast-track Bayesian Trust
+    evaluator := policy.TrustEvaluator{MinThreshold: mathutil.Q16FromFloat(0.9)}
+    finalTrust := evaluator.Evaluate(lastConfig)
+
+    logging.Info("[BOOT] Fast Resume Complete. Trust Score: %.2f", finalTrust.Float64())
+
+    return &BootSequence{
+        PlatformID: bm.Identity.PlatformType,
+        TrustScore: finalTrust.Float64(),
+        IsVerified: true,
+        Mode:       "Autonomous", // Assume autonomous on resume if trust is high
+        UserRole:   "Operator",   // Pull from cached session if applicable
+    }, nil
+}
+
+func (bm *BootManager) updateProgress(pct float32, msg string) {
+	if bm.HMIPipe != nil {
+		bm.HMIPipe <- hmi.ProgressUpdate{
+			Percentage: pct,
+			Message:    msg,
+			Stage:      "BOOT_SEQUENCE",
+		}
+	}
+}
+
+func determineLabel(trust mathutil.Q16) string {
+	val := trust.Float64()
+	if val >= 0.9 { return "NOMINAL (High Confidence)" }
+	if val >= 0.7 { return "DEGRADED (Caution)" }
+	return "UNTRUSTED (Halt Required)"
 }
