@@ -5,7 +5,7 @@
 package monitor
 
 import (
-	"multi-platform-AI/configs/configStruct"
+	"multi-platform-AI/configs/defaults"
 	"runtime"
 	"time"
 )
@@ -19,12 +19,12 @@ type SystemVitals struct {
 }
 
 type VitalsMonitor struct {
-	Env      *configStruct.EnvConfig
+	Env      *defaults.EnvConfig
 	Ticker   *time.Ticker
 	Stream   chan SystemVitals
 }
 
-func NewVitalsMonitor(env *configStruct.EnvConfig) *VitalsMonitor {
+func NewVitalsMonitor(env *defaults.EnvConfig) *VitalsMonitor {
 	return &VitalsMonitor{
 		Env:    env,
 		Ticker: time.NewTicker(500 * time.Millisecond), // 2Hz Refresh

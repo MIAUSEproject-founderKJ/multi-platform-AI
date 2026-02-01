@@ -3,58 +3,129 @@
 package policy
 
 import (
-	"multi-platform-AI/configs/defaults"
-	"multi-platform-AI/internal/logging"
-	"multi-platform-AI/internal/mathutil"
+	"fmt"
+	"math"
+	"multi-platform-AI/configs/configStruct"
 )
 
+// TrustDescriptor represents the final judgment of the system's integrity.
 type TrustDescriptor struct {
-	CurrentScore float64
-	IsVerified   bool
+	CurrentScore   float64       // 0.0 to 1.0 (Final Posterior Probability)
+	Label          string        // NOMINAL, DEGRADED, CRITICAL
+	OperationMode  string        // AUTONOMOUS, ASSISTED, MANUAL_ONLY
+	Factors        []TrustFactor // The "Why" behind the score (for HUD)
 }
 
+type TrustFactor struct {
+	Component   string
+	Probability float64 // The confidence contributed by this component
+	Weight      float64 // How critical this component is to the system
+	Reason      string
+}
+
+// TrustEvaluator holds the Bayesian priors and thresholds.
 type TrustEvaluator struct {
-	MinThreshold mathutil.Q16 // Fixed-point threshold (e.g., 0.9)
+	MinThreshold float64 // Below this, autonomy is forbidden
 }
 
-// Evaluate takes the current EnvConfig and determines the system's "Trust State"
-func (te *TrustEvaluator) Evaluate(env *defaults.EnvConfig) mathutil.Q16 {
-	logging.Info("[POLICY] Evaluating Bayesian Trust Matrix...")
+// Evaluate performs the Bayesian update cycle to determine system trust.
+func (te *TrustEvaluator) Evaluate(env *configStruct.EnvConfig) *TrustDescriptor {
+	factors := []TrustFactor{}
+	
+	// 1. PRIOR: Start with a neutral agnostic prior (0.5)
+	// We assume the system is trustworthy until proven otherwise, but cautious.
+	currentTrust := 0.5 
 
-	// 1. Prior: Attestation (The foundation of the chain)
-	// If the binary hash doesn't match the Vault, we drop trust to absolute zero.
-	if !env.Attestation.Valid {
-		logging.Error("[POLICY] ATTESTATION_FAILED: Trust collapsed to 0.0")
-		return mathutil.Q16(0)
+	// --- EVIDENCE 1: Security Attestation (The Strongest Signal) ---
+	// If the binary hash doesn't match, trust plummets.
+	attestScore := 0.1 // Default low
+	if env.Attestation.Valid {
+		if env.Attestation.Level == configStruct.AttestationStrong {
+			attestScore = 0.99
+		} else if env.Attestation.Level == configStruct.AttestationWeak {
+			attestScore = 0.75
+		}
+	}
+	factors = append(factors, TrustFactor{
+		Component:   "Security Vault",
+		Probability: attestScore,
+		Weight:      0.4, // High weight: Security is paramount
+		Reason:      fmt.Sprintf("Attestation Level: %s", env.Attestation.Level),
+	})
+
+	// --- EVIDENCE 2: Platform Identity Confidence ---
+	// How sure are we that this is actually a "Vehicle" or "Drone"?
+	platScore := 0.0
+	// We extract the confidence from the Q16 value in the config
+	if env.Platform.Locked {
+		// Find the score for the final selected platform
+		for _, candidate := range env.Platform.Candidates {
+			if candidate.Class == env.Platform.Final {
+				platScore = candidate.Confidence.Float64()
+				break
+			}
+		}
+	}
+	factors = append(factors, TrustFactor{
+		Component:   "Platform Identity",
+		Probability: platScore,
+		Weight:      0.3, 
+		Reason:      fmt.Sprintf("Identified as %s via %s", env.Platform.Final, env.Platform.Source),
+	})
+
+	// --- EVIDENCE 3: Hardware Bus Integrity ---
+	// Do we have the buses we expect? (e.g., CAN-bus for a car)
+	hwScore := 0.5
+	if len(env.Hardware.Buses) > 0 {
+		// Calculate average confidence of all detected buses
+		totalBusConf := 0.0
+		for _, b := range env.Hardware.Buses {
+			totalBusConf += b.Confidence.Float64()
+		}
+		hwScore = totalBusConf / float64(len(env.Hardware.Buses))
+	}
+	factors = append(factors, TrustFactor{
+		Component:   "Hardware I/O",
+		Probability: hwScore,
+		Weight:      0.3,
+		Reason:      fmt.Sprintf("%d Active Buses Detected", len(env.Hardware.Buses)),
+	})
+
+	// 2. POSTERIOR UPDATE: Recursive Bayesian Update
+	// New_Belief = (Likelihood * Prior) / Normalization
+	// Here we use a weighted fusion approach which is numerically stable for systems.
+	
+	numerator := 0.0
+	denominator := 0.0
+
+	for _, f := range factors {
+		numerator += f.Probability * f.Weight
+		denominator += f.Weight
 	}
 
-	// 2. Evidence Integration: Recursive Bayesian Update
-	// We start with the assumption of perfect hardware (1.0)
-posterior := mathutil.Q16FromFloat(1.0)
-
-for _, bus := range env.Hardware.Buses {
-    // Use the fixed-point multiply instead of float multiplication
-    posterior = posterior.Multiply(bus.Confidence)
-}
-
-	// 3. Contextual Penalties (Source Integrity)
-	// If we are running on an unknown "Stranger" device or via a Probabilistic Match,
-	// we apply a safety tax on the trust score.
-	if env.Platform.Source == "probabilistic_match" {
-		logging.Warn("[POLICY] Platform identity is inferred, applying 20%% safety penalty.")
-		posterior *= 0.8
+	if denominator > 0 {
+		currentTrust = numerator / denominator
+	} else {
+		currentTrust = 0.0
 	}
 
-	finalTrust := mathutil.Q16FromFloat(posterior)
-	logging.Info("[POLICY] Final Trust Decision: %.2f%%", finalTrust.Float64()*100)
-
-	return finalTrust
-}
-
-// InitializeTrust sets the initial state for the Kernel
-func InitializeTrust(seq *platform.BootSequence) *TrustDescriptor {
-	return &TrustDescriptor{
-		CurrentScore: seq.TrustScore,
-		IsVerified:   seq.IsVerified,
+	// 3. DECISION LOGIC: Determine Operational Mode
+	desc := &TrustDescriptor{
+		CurrentScore: currentTrust,
+		Factors:      factors,
 	}
+
+	// Enforce the User's Constraint: Confidence < 0.5 -> Mandatory Manual
+	if currentTrust < 0.5 {
+		desc.Label = "CRITICAL (UNTRUSTED)"
+		desc.OperationMode = "MANUAL_ONLY"
+	} else if currentTrust < te.MinThreshold {
+		desc.Label = "DEGRADED (CAUTION)"
+		desc.OperationMode = "ASSISTED"
+	} else {
+		desc.Label = "NOMINAL"
+		desc.OperationMode = "AUTONOMOUS"
+	}
+
+	return desc
 }
