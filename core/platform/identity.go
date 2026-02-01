@@ -104,3 +104,52 @@ func (h *HardwareProfile) HasBus(target string) bool {
     }
     return false
 }
+
+
+// DetectPlatformClass performs the initial "Discovery" phase
+func DetectPlatformClass(hw *platforms.HardwareProfile) platforms.PlatformClass {
+	// 1. Check for Vehicle Indicators (CAN-bus)
+	if _, err := os.Stat("/sys/class/net/can0"); err == nil {
+		hw.Buses = append(hw.Buses, platforms.BusCapability{
+			ID:         "can0",
+			Type:       "can",
+			Confidence: 65535, // 100% in Q16
+			Source:     "probed",
+		})
+		return platforms.PlatformVehicle
+	}
+
+	// 2. Check for Industrial Indicators
+	if os.Getenv("INDUSTRIAL_NODE_ID") != "" {
+		return platforms.PlatformIndustrial
+	}
+
+	// 3. Check for Robotics/Embedded Indicators (I2C/GPIO)
+	if _, err := os.Stat("/dev/i2c-1"); err == nil {
+		hw.Buses = append(hw.Buses, platforms.BusCapability{
+			ID:         "i2c_bus_1",
+			Type:       "i2c",
+			Confidence: 65535,
+			Source:     "probed",
+		})
+		return platforms.PlatformRobot
+	}
+
+	// Default to general computer
+	return platforms.PlatformComputer
+}
+
+// InitializeIdentity gathers the raw "Facts" from the OS.
+// This is the first step in the boot process.
+func InitializeIdentity() platforms.MachineIdentity {
+	hostname, err := os.Hostname()
+	if err != nil || hostname == "" {
+		hostname = "unknown-node"
+	}
+
+	return platforms.MachineIdentity{
+		MachineName: hostname,
+		OS:          runtime.GOOS,
+		Arch:        runtime.GOARCH,
+	}
+}

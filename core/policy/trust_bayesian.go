@@ -5,7 +5,7 @@ package policy
 import (
 	"fmt"
 	"math"
-	"multi-platform-AI/configs/configStruct"
+	"multi-platform-AI/configs/defaults"
 )
 
 // TrustDescriptor represents the final judgment of the system's integrity.
@@ -29,7 +29,7 @@ type TrustEvaluator struct {
 }
 
 // Evaluate performs the Bayesian update cycle to determine system trust.
-func (te *TrustEvaluator) Evaluate(env *configStruct.EnvConfig) *TrustDescriptor {
+func (te *TrustEvaluator) Evaluate(env *defaults.EnvConfig) *TrustDescriptor {
 	factors := []TrustFactor{}
 	
 	// 1. PRIOR: Start with a neutral agnostic prior (0.5)

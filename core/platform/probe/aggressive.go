@@ -3,65 +3,69 @@
 package probe
 
 import (
+	"multi-platform-AI/configs/platforms"
 	"multi-platform-AI/internal/logging"
 	"time"
 )
 
-// HardwareProfile represents the fully mapped physical environment
-type HardwareProfile struct {
-	ID             string
-	ActiveSensors  []string
-	BusTopography  map[string]string
-	LatencyProfile map[string]time.Duration
-}
-
-// AggressiveScan performs active discovery based on the machine type
-func AggressiveScan(id *HardwareIdentity) *HardwareProfile {
-	logging.Info("[PROBE] Stage 1 Aggressive Scan: Waking up %s", id.PlatformType)
-
-	profile := &HardwareProfile{
-		ID:            id.InstanceID,
-		ActiveSensors: make([]string, 0),
-		BusTopography: make(map[string]string),
-	}
+// AggressiveScan performs active discovery and populates the global EnvConfig.
+// It bridges raw hardware pings to the typed Platform architecture.
+func AggressiveScan(env *platforms.EnvConfig) error {
+	logging.Info("[PROBE] Stage 1 Aggressive Scan: Waking up %s", env.Platform.Final)
 
 	// 1. DYNAMIC DRIVER SELECTION
-	switch id.PlatformType {
-	case "Automotive":
-		scanCANBus(profile)
-		scanLidarArrays(profile)
-	case "Industrial":
-		scanModbusTCP(profile)
-		scanSafetyInterlocks(profile)
-	case "Workstation":
-		scanUSBBus(profile)
-		scanGPUDriver(profile)
+	// We map your switch logic to the typed PlatformClass constants
+	switch env.Platform.Final {
+	case platforms.PlatformVehicle:
+		scanCANBus(env)
+		scanLidarArrays(env)
+	case platforms.PlatformIndustrial:
+		scanModbusTCP(env)
+	case platforms.PlatformComputer, platforms.PlatformLaptop:
+		scanUSBBus(env)
+		scanGPUDriver(env)
 	}
 
 	// 2. STRESS TEST / LATENCY CHECK
-	// We send a 'ping' to the actuators to measure system response time
-	profile.LatencyProfile = measureBusLatencies(profile)
+	// We store latency data in the RuntimeProfile for the Trust Engine to evaluate
+	measureBusLatencies(env)
 
-	logging.Info("[PROBE] Aggressive scan complete. Found %d active nodes.", len(profile.ActiveSensors))
-	return profile
+	logging.Info("[PROBE] Aggressive scan complete. Found %d bus nodes.", len(env.Hardware.Buses))
+	return nil
 }
 
-func scanCANBus(p *HardwareProfile) {
+func scanCANBus(env *platforms.EnvConfig) {
 	logging.Info(" - Pinging CAN-bus nodes...")
-	// Logic to send a broadcast frame and wait for responses from ECU/Motors
-	p.ActiveSensors = append(p.ActiveSensors, "MainDrive_ECU", "Steering_Servo")
-	p.BusTopography["can0"] = "J1939_Protocol"
+	// We add a concrete BusCapability to the profile
+	env.Hardware.Buses = append(env.Hardware.Buses, platforms.BusCapability{
+		ID:         "can0",
+		Type:       "can",
+		Confidence: 65535, // Probed existence = 1.0 confidence
+		Source:     "probed",
+	})
+	
+	// Add processors if the ECU is detected as a co-processor
+	env.Hardware.Processors = append(env.Hardware.Processors, platforms.Processor{
+		Type: "ECU", 
+		Count: 1,
+	})
 }
 
-func scanLidarArrays(p *HardwareProfile) {
+func scanLidarArrays(env *platforms.EnvConfig) {
 	logging.Info(" - Initializing Lidar Spin-up...")
-	// Logic to verify Lidar point-cloud stream health
-	p.ActiveSensors = append(p.ActiveSensors, "Front_Lidar_V1")
+	// In your architecture, Sensors can be treated as bus nodes or I/O Nodes
+	env.Hardware.Buses = append(env.Hardware.Buses, platforms.BusCapability{
+		ID:     "lidar_front",
+		Type:   "ethernet_sensor",
+		Source: "probed",
+	})
 }
 
-func measureBusLatencies(p *HardwareProfile) map[string]time.Duration {
-	// Critical for real-time safety: if the bus is too slow, trust score drops
-	return map[string]time.Duration{
-		"primary_bus": 2 * time.Millisecond,
+func measureBusLatencies(env *platforms.EnvConfig) {
+	// We can store latency in the EnvConfig.Runtime.EnvVars or as a specialized signal
+	// for the Bayesian Evaluator to penalize trust if latency > threshold.
+	if env.Runtime.EnvVars == nil {
+		env.Runtime.EnvVars = make(map[string]string)
 	}
+	env.Runtime.EnvVars["primary_bus_latency_ms"] = "2.0"
 }

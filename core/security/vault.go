@@ -16,20 +16,24 @@ type IsolatedVault struct {
 	Key     []byte // Reserved for future AES-GCM encryption implementation
 }
 
+
 // OpenVault initializes the secure directory on the host system.
 func OpenVault() (*IsolatedVault, error) {
-	// Root-level path for the AIOS security context
-	path := "/var/lib/aios/vault" 
-	
-	// Ensure directory exists with 0700 (Owner read/write/execute only)
-	if err := os.MkdirAll(path, 0700); err != nil {
-		return nil, fmt.Errorf("failed to initialize vault directory: %w", err)
-	}
+    // 1. Resolve path based on platform/identity
+    path := apppath.GetVaultPath()
+    
+    // 2. Ensure directory exists with 0700 (Owner-only access)
+    // This is critical for preventing other OS users from peeking at the AI's identity
+    if err := os.MkdirAll(path, 0700); err != nil {
+        return nil, fmt.Errorf("failed to initialize vault directory: %w", err)
+    }
 
-	return &IsolatedVault{
-		BaseDir: path,
-		Key:     []byte("32-byte-long-auth-key-from-uuid"), 
-	}, nil
+    return &IsolatedVault{
+        BaseDir: path,
+        // In the next step, we should derive this key from the Hardware UUID 
+        // using a Key Derivation Function (KDF) like Argon2 or PBKDF2
+        Key:     []byte("32-byte-long-auth-key-from-uuid"), 
+    }, nil
 }
 
 // --- Marker Logic (State Persistence) ---

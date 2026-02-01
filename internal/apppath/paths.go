@@ -17,6 +17,7 @@ var (
 	cachedConfigDir string
 	cachedRuntimeDir string
 	cachedLogDir    string
+	cachedVaultDir   string
 )
 
 // Public Getters
@@ -24,6 +25,8 @@ func GetDataDir() string    { once.Do(initPaths); return cachedRuntimeDir }
 func GetConfigDir() string  { once.Do(initPaths); return cachedConfigDir }
 func GetLogDir() string     { once.Do(initPaths); return cachedLogDir }
 func IsPortable() bool      { once.Do(initPaths); return isPortable }
+func GetVaultPath() string { once.Do(initPaths); return cachedVaultDir }
+
 
 func initPaths() {
 	// 1. Allow Environment Overrides (DevOps/Docker Inclusivity)
@@ -62,15 +65,17 @@ func initPaths() {
 
 // setPaths helper to maintain structure consistency
 func setPaths(root string, isLocal bool) {
-	if isLocal {
-		cachedConfigDir = filepath.Join(root, "configs")
-		cachedRuntimeDir = filepath.Join(root, "runtime")
-		cachedLogDir = filepath.Join(root, "runtime", "logs")
-	} else {
-		cachedConfigDir = root
-		cachedRuntimeDir = filepath.Join(root, "runtime")
-		cachedLogDir = filepath.Join(root, "logs")
-	}
+    if isLocal {
+        cachedConfigDir = filepath.Join(root, "configs")
+        cachedRuntimeDir = filepath.Join(root, "runtime")
+        cachedLogDir = filepath.Join(root, "runtime", "logs")
+        cachedVaultDir = filepath.Join(root, "vault") 
+    } else {
+        cachedConfigDir = root
+        cachedRuntimeDir = filepath.Join(root, "runtime")
+        cachedLogDir = filepath.Join(root, "logs")
+        cachedVaultDir = filepath.Join(root, "vault") 
+    }
 }
 
 // isInstalled determines if the app is running from a protected system location

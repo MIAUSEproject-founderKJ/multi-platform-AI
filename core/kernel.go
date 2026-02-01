@@ -35,6 +35,11 @@ func Bootstrap(ctx context.Context) (*Kernel, error) {
 	logging.Info("Kernel: Starting Secure Bootstrap sequence...")
 
 	// 1. Initialize the Secure Vault first (Needed for markers)
+	/* OpenVault return
+	type IsolatedVault struct {
+	BaseDir string
+	Key     []byte // Reserved for future AES-GCM encryption implementation}
+	*/
 	v, err := security.OpenVault()
 	if err != nil {
 		return nil, fmt.Errorf("vault initialization failed: %w", err)
