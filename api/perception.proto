@@ -1,0 +1,24 @@
+syntax = "proto3";
+package aios.perception;
+
+message Voxel {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+  float occupancy = 4; // 0.0 to 1.0
+}
+
+message GhostPath {
+  repeated Voxel points = 1;
+  string intent = 2; // e.g., "Avoid Pothole", "Return to Base"
+}
+
+service SpatialStreamer {
+  // Streams the Voxel mesh during IDLE Dream State
+  rpc StreamVoxelGrid(Empty) returns (stream Voxel);
+  
+  // Streams the AI's "Neural Rehearsal" paths
+  rpc StreamGhostPaths(Empty) returns (stream GhostPath);
+}
+
+message Empty {}
