@@ -1,0 +1,22 @@
+//MIAUSEproject-founderKJ/multi-platform-AI/api/hmi.proto (human_user_interface.proto)
+
+syntax = "proto3";
+package aios.hmi;
+
+message ProgressUpdate {
+  string stage = 1;      // e.g., "PROBE", "ATTEST", "LOAD_MODELS"
+  float percentage = 2;  // 0.0 to 1.0
+  string message = 3;    // e.g., "Initializing Lidar..."
+  bool critical = 4;     // If true, UI should pulse red/alert
+}
+
+message ModalityConfig {
+  bool enable_gui = 1;
+  bool enable_audio = 2;
+  bool enable_haptics = 3;
+}
+
+service HMIService {
+  // Bi-directional stream for real-time reflection of kernel state
+  rpc StreamEvents(stream ProgressUpdate) returns (stream ModalityConfig);
+}

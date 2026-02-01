@@ -3,80 +3,104 @@
 package platform
 
 import (
+	"fmt"
+	"multi-platform-AI/api/hmi" // Assuming Protobuf generated path
 	"multi-platform-AI/core/platform/probe"
 	"multi-platform-AI/core/security"
 	"multi-platform-AI/internal/logging"
+	"multi-platform-AI/internal/monitor"
 )
 
 type BootManager struct {
-	Vault    *security.IsolatedVault
-	Identity *probe.HardwareIdentity // Passed from the passive scan in boot.go
+	Vault           *security.IsolatedVault
+	Identity        *probe.HardwareIdentity
+	HMIPipe         chan hmi.ProgressUpdate
+	currentProgress float32
 }
 
-// ManageBoot handles the logic transition based on the FirstBootMarker.
 func (bm *BootManager) ManageBoot() (*BootSequence, error) {
-	// 1. Instant check for marker
 	isFirstBoot := bm.Vault.IsMissingMarker("FirstBootMarker")
 
 	if isFirstBoot {
 		return bm.runColdBoot()
 	}
-
 	return bm.runFastBoot()
 }
 
-// runColdBoot (Stage 1): High-latency discovery for new installations.
+// runColdBoot: Full Discovery with Active HMI Feedback
 func (bm *BootManager) runColdBoot() (*BootSequence, error) {
 	logging.Info("[BOOT] Stage 1 (Cold Boot): Full Discovery & Registration")
-
-	// 1. Aggressive Probing: Activate Lidar, CAN-bus handshake, etc.
-	// We use the base identity to know which specific drivers to wake up.
+vision := perception.NewVisionStream()
+	// 1. Initialize Vitals & HMI Feedback Loop
+	vitals := monitor.NewVitalsMonitor(bm.Identity)
+	vitals.Start()
+	bm.attachVitalsToHMI(vitals.Stream)
+nav := navigation.SLAMContext{}
+nav.InitializeSLAM(bm.Config, vision)
+	// 2. Aggressive Probing (Progress: 10% - 50%)
+	bm.updateProgress(0.1, "Waking up sensors (Lidar/CAN)...")
 	fullProfile := probe.AggressiveScan(bm.Identity)
+	
+	bm.updateProgress(0.5, "Verifying Security Integrity...")
+	// Security attestation logic happens here...
 
-	// 2. User Onboarding: Mandatory registration for first-ever boot.
+	// 3. User Onboarding (Progress: 80%)
+	bm.updateProgress(0.8, "Awaiting User Identification...")
 	userSession := bm.IdentifyUser()
 
-	// 3. Vault Seal: Save the state so Stage 2 is available next time.
+	// 4. Persistence
 	bm.Vault.WriteMarker("FirstBootMarker")
 	bm.Vault.StoreToken("IdentityToken", userSession.Token)
 	bm.Vault.SaveConfig("LastKnownEnv", fullProfile)
 
+	bm.updateProgress(1.0, "Boot Complete. Welcome.")
 	return &BootSequence{
 		PlatformID: bm.Identity.PlatformType,
-		TrustScore: 0.1, // Initial discovery trust is low
+		TrustScore: 0.1,
 		IsVerified: true,
 		Mode:       "Discovery",
 		UserRole:   userSession.Role,
 	}, nil
 }
 
-// runFastBoot (Stage 2): Low-latency resumption for known environments.
-func (bm *BootManager) runFastBoot() (*BootSequence, error) {
-	logging.Info("[BOOT] Stage 2 (Fast Boot): Resuming Persisted State")
+// Internal helper to pipe monitor data to the HMI channel
+func (bm *BootManager) attachVitalsToHMI(vitalsStream <-chan monitor.SystemVitals) {
+	go func() {
+		for v := range vitalsStream {
+			bm.HMIPipe <- hmi.ProgressUpdate{
+				Message:    fmt.Sprintf("CPU: %.1f%% | VRAM: %dMB | Temp: %.1f°C", v.CPULoad, v.VRAMUsage/1024/1024, v.Temperature),
+				Percentage: bm.currentProgress,
+			}
+		}
+	}()
+}
 
-	// 1. Load context from Vault
-	config := bm.Vault.LoadConfig("LastKnownEnv")
-
-	// 2. Hardware Heartbeat: Delta-check against passive scan.
-	// Does the current passive scan match the persisted AggressiveScan profile?
-	if err := probe.Heartbeat(bm.Identity, config); err != nil {
-		logging.Warn("Hardware mismatch detected (Portable move?). Reverting to Cold Boot.")
-		return bm.runColdBoot()
+func (bm *BootManager) updateProgress(p float32, msg string) {
+	bm.currentProgress = p
+	bm.HMIPipe <- hmi.ProgressUpdate{
+		Percentage: p,
+		Message:    msg,
 	}
-
-	// 3. Silent Login & User Classification
-	userRole := bm.ClassifyUserMatrix()
-
-	return &BootSequence{
-		PlatformID: bm.Identity.PlatformType,
-		TrustScore: config.LastTrustScore,
-		IsVerified: true,
-		Mode:       DetermineExecutionMode(config.LastTrustScore),
-		UserRole:   userRole,
-	}, nil
 }
 
-func (bm *BootManager) ClassifyUserMatrix() string {
-	// Implementation of your Personal/Stranger/Tester logic
-	return "OWNER"
-}
+// Link Vitals to HUD
+go func() {
+    for v := range vitals.Stream {
+        vision.UpdateVitals(v)
+    }
+}()
+
+// Link Boot Progress to HUD
+go func() {
+    for p := range bm.HMIPipe {
+        vision.UpdateProgress(p)
+    }
+}()
+
+// Feed spatial markers back to HUD
+go func() {
+    for {
+        marker := nav.GetLatestMarkers()
+        vision.UpdateSpatialMarkers(marker)
+    }
+}()
