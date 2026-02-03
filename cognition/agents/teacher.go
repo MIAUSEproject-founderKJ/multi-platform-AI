@@ -3,16 +3,17 @@
 package agents
 
 import (
-	"multi-platform-AI/cognition/memory"
-	"multi-platform-AI/configs/defaults"
-	"multi-platform-AI/internal/logging"
-	"multi-platform-AI/plugins/navigation"
 	"time"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cognition/memory"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/plugins/navigation"
 )
 
 type TeacherAgent struct {
-	Vault       *memory.SemanticVault
-	ActiveMode  string // "Observing" | "Correcting"
+	Vault      *memory.SemanticVault
+	ActiveMode string // "Observing" | "Correcting"
 }
 
 // MonitorCorrection watches for human intervention (Manual Override)
@@ -20,7 +21,7 @@ func (t *TeacherAgent) MonitorCorrection(env *defaults.EnvConfig, nav *navigatio
 	if manualInput {
 		t.ActiveMode = "Correcting"
 		logging.Warn("[TEACHER] Manual Override Detected. Recording correction sequence...")
-		
+
 		// Capture the "World State" during the correction
 		experience := memory.SemanticMemory{
 			KnownLandmarks: extractLandmarks(nav),
@@ -32,7 +33,7 @@ func (t *TeacherAgent) MonitorCorrection(env *defaults.EnvConfig, nav *navigatio
 
 		// Store this as an "Episodic Memory" for future retraining
 		t.Vault.CommitExperience(experience)
-		
+
 		// Trigger HUD Reflection: "TEACHING_MODE: ACTIVE"
 	} else {
 		t.ActiveMode = "Observing"

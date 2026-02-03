@@ -7,8 +7,9 @@ import (
 	"log/slog"
 	"os"
 	"path/filepath"
-	"project/internal/apppath"
 	"sync"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/apppath"
 
 	"gopkg.in/natefinch/lumberjack.v2" // The industry standard for rotation
 )
@@ -23,7 +24,7 @@ type BloatGuard struct {
 // Initialize structured logging with Anti-Bloat guards
 func Init(guard BloatGuard) {
 	logDir := apppath.GetLogDir()
-	
+
 	// Ensure log directory exists
 	_ = os.MkdirAll(logDir, 0755)
 

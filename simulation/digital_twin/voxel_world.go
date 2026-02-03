@@ -3,9 +3,10 @@
 package digital_twin
 
 import (
-	"multi-platform-AI/cognition/memory"
-	"multi-platform-AI/internal/logging"
 	"time"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cognition/memory"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
 
 type VoxelCell struct {
@@ -38,6 +39,6 @@ func (vw *VoxelWorld) runTrainingSim() {
 	for vw.IsSimulating {
 		// The agent "practices" paths here.
 		// If it hits a voxel wall, the policy is penalized.
-		time.Sleep(100 * time.Millisecond) 
+		time.Sleep(100 * time.Millisecond)
 	}
 }

@@ -4,11 +4,12 @@ package memory
 
 import (
 	"encoding/json"
-	"multi-platform-AI/core/security"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 )
 
 type SemanticMemory struct {
-	KnownLandmarks map[string][]float64 `json:"landmarks"`
+	KnownLandmarks  map[string][]float64 `json:"landmarks"`
 	UserPreferences map[string]string    `json:"prefs"`
 }
 

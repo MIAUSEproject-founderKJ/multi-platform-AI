@@ -1,13 +1,12 @@
 //MIAUSEproject-founderKJ/multi-platform-AI/internal/monitor/vitals.go
 //To make the interface truly reflective, we need to monitor the "Biological" health of the hardware. The Vitals Monitor acts as the system's nervous system, gathering data on VRAM, CPU pressure, and thermal loads, then streaming them to your HMI (the "Face").
 
-
 package monitor
 
 import (
-	"multi-platform-AI/configs/defaults"
-	"runtime"
 	"time"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults"
 )
 
 type SystemVitals struct {

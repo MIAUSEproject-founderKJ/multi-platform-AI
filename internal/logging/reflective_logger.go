@@ -5,9 +5,10 @@ package logging
 import (
 	"encoding/json"
 	"fmt"
-	"multi-platform-AI/api/hmi"
 	"os"
 	"time"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/hmi"
 )
 
 type ReflectiveLogger struct {

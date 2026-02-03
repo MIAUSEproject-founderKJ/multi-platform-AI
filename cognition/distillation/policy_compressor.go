@@ -3,10 +3,11 @@
 package distillation
 
 import (
-	"multi-platform-AI/cognition/memory"
-	"multi-platform-AI/internal/logging"
-	"multi-platform-AI/internal/monitor"
 	"time"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cognition/memory"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/monitor"
 )
 
 type CompressionTarget struct {
@@ -32,8 +33,8 @@ func (pc *PolicyCompressor) Compress(mem *memory.SemanticMemory, target Compress
 	// 2. QUANTIZATION STRATEGY
 	// Map high-precision Teacher vectors to lower-precision Student tensors
 	logging.Info("[DISTILL] Quantizing semantic landmarks to %s...", target.TargetFP)
-	
-	// SIMULATION: In a real system, this calls a CGO wrapper for 
+
+	// SIMULATION: In a real system, this calls a CGO wrapper for
 	// GGML or TensorRT to perform weight quantization.
 	time.Sleep(500 * time.Millisecond) // Simulate heavy compute
 

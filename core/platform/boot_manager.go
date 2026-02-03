@@ -4,16 +4,14 @@ package platform
 
 import (
 	"fmt"
-	"time"
 
-	"multi-platform-AI/api/hmi"
-	"multi-platform-AI/core/policy"
-	"multi-platform-AI/core/security"
-	"multi-platform-AI/internal/logging"
-	"multi-platform-AI/internal/monitor"
-	"multi-platform-AI/plugins/navigation"
-	"multi-platform-AI/plugins/perception"
-	"multi-platform-AI/core/platform/probe" 
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform/probe"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/monitor"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/plugins/navigation"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/plugins/perception"
 )
 
 const CurrentSchemaVersion = 1
@@ -38,7 +36,7 @@ func (bm *BootManager) runColdBoot() (*BootSequence, error) {
 
 	// 5. Identity Finalization
 	bm.updateProgress(0.4, "Finalizing Platform Reality...")
-	bm.Identity.Finalize(fullProfile) 
+	bm.Identity.Finalize(fullProfile)
 
 	// 6. Security & User
 	bm.updateProgress(0.6, "Verifying Security Integrity...")
@@ -77,7 +75,7 @@ func (bm *BootManager) runFastBoot() (*BootSequence, error) {
 	// 1. Quick Attestation
 	if err := security.VerifyEnvironment(bm.Identity); err != nil {
 		logging.Error("[BOOT] Security mismatch. Redirecting to Cold Boot.")
-		return bm.runColdBoot() 
+		return bm.runColdBoot()
 	}
 
 	// 2. Load cached profile
@@ -97,17 +95,17 @@ func (bm *BootManager) runFastBoot() (*BootSequence, error) {
 		TrustScore: trustDesc.CurrentScore,
 		IsVerified: true,
 		Mode:       trustDesc.OperationMode,
-		UserRole:   "Operator", 
+		UserRole:   "Operator",
 	}, nil
 }
 
 // ManageBoot refined with Schema Version Check from Reference
 func (bm *BootManager) ManageBoot() (*BootSequence, error) {
 	isFirstBoot := bm.Vault.IsMissingMarker("FirstBootMarker")
-	
+
 	// Attempt to peek at existing config to check version
 	cachedEnv, err := bm.Vault.LoadConfig("LastKnownEnv")
-	
+
 	// Reference Logic: If version mismatch, force a Cold Boot (Re-probe)
 	isOutdated := err == nil && cachedEnv.SchemaVersion != CurrentSchemaVersion
 
@@ -119,10 +117,10 @@ func (bm *BootManager) ManageBoot() (*BootSequence, error) {
 	}
 
 	if err := security.VerifyEnvironment(bm.Identity); err != nil {
-    logging.Error("CRITICAL: Binary Integrity Compromised!")
-    // Force a recovery mode or halt execution
-    return bm.EnterRecoveryMode(err) 
-}
+		logging.Error("CRITICAL: Binary Integrity Compromised!")
+		// Force a recovery mode or halt execution
+		return bm.EnterRecoveryMode(err)
+	}
 
 	return bm.runFastBoot()
 }

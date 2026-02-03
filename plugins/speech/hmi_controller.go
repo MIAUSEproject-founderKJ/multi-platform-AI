@@ -3,16 +3,16 @@
 package speech
 
 import (
-	"multi-platform-AI/configs/configStruct"
-	"multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
 
 type HMIController struct {
-	Config *configStruct.EnvConfig
+	Config *defaults.EnvConfig
 	Mode   string // "Visual", "Auditory", "Headless"
 }
 
-func NewHMIController(env *configStruct.EnvConfig) *HMIController {
+func NewHMIController(env *defaults.EnvConfig) *HMIController {
 	hmi := &HMIController{Config: env}
 	hmi.determineModality()
 	return hmi
@@ -29,13 +29,13 @@ func (h *HMIController) determineModality() {
 	}
 
 	// 2. RESPONSIVE: Set mode
-	if hasScreen && h.Config.Platform.Final != configStruct.PlatformEmbedded {
+	if hasScreen && h.Config.Platform.Final != defaults.PlatformEmbedded {
 		h.Mode = "Visual"
 	} else if h.Config.Hardware.Battery.Present {
 		h.Mode = "Auditory" // Save power, use voice only
 	} else {
 		h.Mode = "Headless"
 	}
-	
+
 	logging.Info("[HMI] Selected Modality: %s", h.Mode)
 }

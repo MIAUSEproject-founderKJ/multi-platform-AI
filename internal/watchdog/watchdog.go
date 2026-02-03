@@ -3,10 +3,11 @@
 package watchdog
 
 import (
-	"multi-platform-AI/internal/logging"
 	"os"
 	"sync"
 	"time"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
 
 type Config struct {
@@ -15,10 +16,10 @@ type Config struct {
 }
 
 type Watchdog struct {
-	config    Config
-	lastKick  time.Time
-	mu        sync.Mutex
-	stopChan  chan struct{}
+	config   Config
+	lastKick time.Time
+	mu       sync.Mutex
+	stopChan chan struct{}
 }
 
 func New(cfg Config) *Watchdog {
@@ -32,7 +33,7 @@ func New(cfg Config) *Watchdog {
 // Start launches the monitoring loop
 func (w *Watchdog) Start() {
 	logging.Info("[WATCHDOG] Safety Interlock Active. Timeout: %ds", w.config.TimeoutSeconds)
-	
+
 	go func() {
 		ticker := time.NewTicker(1 * time.Second)
 		for {
@@ -62,7 +63,7 @@ func (w *Watchdog) Heartbeat() {
 
 func (w *Watchdog) handleFailure() {
 	logging.Error("[WATCHDOG] CRITICAL FAILURE: Heartbeat Timeout. Execution Halted.")
-	
+
 	switch w.config.OnFailure {
 	case "degrade_to_safe_mode":
 		// Trigger hardware-level safe state (e.g., neutral gears, zero lasers)
@@ -76,7 +77,7 @@ func (w *Watchdog) handleFailure() {
 }
 
 func (w *Watchdog) triggerSafeMode() {
-	// Implementation for physical safety: 
+	// Implementation for physical safety:
 	// 1. Cut power to non-essential buses
 	// 2. Lock the vault
 	// 3. Halt the node

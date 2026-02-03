@@ -1,5 +1,5 @@
 // core/kernel.go
-//cmd/aios-node/main.go->core/kernel.go
+// cmd/aios-node/main.go->core/kernel.go
 package core
 
 import (
@@ -7,11 +7,12 @@ import (
 	"fmt"
 	"time"
 
-	"multi-platform-AI/api/hmi"
-	"multi-platform-AI/core/platform"
-	"multi-platform-AI/core/policy"
-	"multi-platform-AI/core/security"
-	"multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/hmi"
 )
 
 // Kernel represents the operational heart of the system.
@@ -20,14 +21,14 @@ type Kernel struct {
 	Vault    *security.IsolatedVault
 	Trust    *policy.TrustDescriptor
 	Status   string
-	
+
 	// Channels and Sub-systems for Lifecycle
-	HMIPipe  chan hmi.ProgressUpdate
+	HMIPipe chan hmi.ProgressUpdate
 	// Internal components (Assuming these are initialized during Bootstrap)
-	Sim      SimulationEngine 
-	Bridge   PowerController
-	Vitals   HealthMonitor
-	Memory   CognitiveVault
+	Sim    SimulationEngine
+	Bridge PowerController
+	Vitals HealthMonitor
+	Memory CognitiveVault
 }
 
 // Bootstrap is the "Entry Gate" called by cmd/aios-node/main.go.
@@ -60,7 +61,7 @@ func Bootstrap(ctx context.Context) (*Kernel, error) {
 	// 4. Trust Initialization (Bayesian Prior)
 	trustDescriptor := policy.InitializeTrust(pSequence)
 
-	logging.Info("Kernel: Bootstrap complete. Identity: %s | Mode: %s", 
+	logging.Info("Kernel: Bootstrap complete. Identity: %s | Mode: %s",
 		pSequence.PlatformID, pSequence.Mode)
 
 	return &Kernel{
@@ -85,17 +86,17 @@ func (k *Kernel) RunLifecycle() {
 		if k.IsIdle() {
 			// 1. Lower power to non-essential HAL nodes
 			k.Bridge.SetPowerMode("PowerSave")
-			
+
 			// 2. Reflective HUD Update
 			k.HMIPipe <- hmi.ProgressUpdate{
-				Stage: "SIM_DREAM",
+				Stage:   "SIM_DREAM",
 				Message: "IDLE: Running Digital Twin Simulations...",
 			}
 
 			// 3. Trigger Dream State with Twist Injection
 			k.Sim.EnterDreamState(k.Memory.Recall())
 			// replay.InjectTwist(k.Sim.World) // Assuming replay package is imported
-			
+
 		} else {
 			// Wake up immediately on user input
 			k.Sim.Stop()
@@ -114,7 +115,7 @@ func (k *Kernel) Shutdown() {
 // IsIdle is a helper to determine if the system should enter Dream State
 func (k *Kernel) IsIdle() bool {
 	// Logic to check if user input is absent and CPU load is low
-	return true 
+	return true
 }
 
 func (k *Kernel) MonitorState() {
@@ -122,10 +123,10 @@ func (k *Kernel) MonitorState() {
 		if k.IsIdle() && k.Vitals.Temperature < 65.0 {
 			// Reflective HUD Update
 			k.HMIPipe <- hmi.ProgressUpdate{
-				Stage: "SIM_DREAM",
+				Stage:   "SIM_DREAM",
 				Message: "IDLE: Running Digital Twin Simulations...",
 			}
-			
+
 			k.Sim.EnterDreamState(k.Memory.Recall())
 		} else {
 			k.Sim.Stop()
@@ -135,33 +136,33 @@ func (k *Kernel) MonitorState() {
 }
 
 func (k *Kernel) ReflectToHUD() {
-    for {
-        // Send Vitals
-        k.HMIPipe.SendTelemetry(hmi.SystemPulse{
-            CpuLoad:     k.Vitals.CPU,
-            TrustScore:  k.Trust.CurrentScore,
-            Temperature: k.Vitals.Temp,
-        })
-        
-        // If IDLE, send the Voxel Map
-        if k.IsIdle() {
-             k.HMIPipe.SendSpatial(k.Sim.GetVoxelFrame())
-        }
-        time.Sleep(100 * time.Millisecond) // 10Hz Refresh
-    }
+	for {
+		// Send Vitals
+		k.HMIPipe.SendTelemetry(hmi.SystemPulse{
+			CpuLoad:     k.Vitals.CPU,
+			TrustScore:  k.Trust.CurrentScore,
+			Temperature: k.Vitals.Temp,
+		})
+
+		// If IDLE, send the Voxel Map
+		if k.IsIdle() {
+			k.HMIPipe.SendSpatial(k.Sim.GetVoxelFrame())
+		}
+		time.Sleep(100 * time.Millisecond) // 10Hz Refresh
+	}
 }
 
 // Start initiates the parallel background processes of the Kernel.
 func (k *Kernel) Start(ctx context.Context) {
-    logging.Info("[KERNEL] Activating background subsystems...")
+	logging.Info("[KERNEL] Activating background subsystems...")
 
-    // 1. Start the Reflective HUD stream (10Hz)
-    go k.ReflectToHUD()
+	// 1. Start the Reflective HUD stream (10Hz)
+	go k.ReflectToHUD()
 
-    // 2. Start the Lifecycle manager (Power & Dream State)
-    go k.RunLifecycle()
+	// 2. Start the Lifecycle manager (Power & Dream State)
+	go k.RunLifecycle()
 
-    // 3. Keep-alive or monitor for context cancellation
-    <-ctx.Done()
-    k.Shutdown()
+	// 3. Keep-alive or monitor for context cancellation
+	<-ctx.Done()
+	k.Shutdown()
 }

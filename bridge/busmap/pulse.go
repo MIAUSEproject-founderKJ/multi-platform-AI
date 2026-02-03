@@ -3,11 +3,11 @@
 package busmap
 
 import (
-	"fmt"
-	"multi-platform-AI/configs/platforms"
-	"multi-platform-AI/internal/mathutil"
-	"multi-platform-AI/internal/logging"
 	"time"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/platforms"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
 )
 
 type PulseTrain struct {
@@ -22,10 +22,10 @@ func VerifyPulse(bus platforms.BusCapability) mathutil.Q16EnvConfd {
 
 	// If the bus confidence is low in the config, we treat it with more scrutiny
 	configConfidence := bus.Confidence.Float64()
-	
+
 	// SIMULATION: Check signal timing
 	latency := measureLatency(bus.ID)
-	
+
 	var health float64
 	if latency < 5*time.Millisecond {
 		health = 1.0 * configConfidence
@@ -40,5 +40,5 @@ func VerifyPulse(bus platforms.BusCapability) mathutil.Q16EnvConfd {
 
 func measureLatency(busID string) time.Duration {
 	// Simulation of checking the last interrupt time for a specific bus
-	return 2 * time.Millisecond 
+	return 2 * time.Millisecond
 }

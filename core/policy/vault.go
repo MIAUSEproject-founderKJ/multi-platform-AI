@@ -5,8 +5,9 @@ package security
 import (
 	"os"
 	"path/filepath"
-	"multi-platform-AI/internal/apppath" 
-	"multi-platform-AI/internal/logging"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/apppath"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
 
 type IsolatedVault struct {

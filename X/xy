@@ -12,7 +12,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.BaseConfig",
+	"message": "undefined: defaults.BaseConfig",
 	"source": "compiler",
 	"startLineNumber": 11,
 	"startColumn": 62,
@@ -78,7 +78,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.PlatformRobotic",
+	"message": "undefined: defaults.PlatformRobotic",
 	"source": "compiler",
 	"startLineNumber": 19,
 	"startColumn": 53,
@@ -99,7 +99,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.PlatformRobotic",
+	"message": "undefined: defaults.PlatformRobotic",
 	"source": "compiler",
 	"startLineNumber": 21,
 	"startColumn": 86,
@@ -120,7 +120,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.PlatformRobotic",
+	"message": "undefined: defaults.PlatformRobotic",
 	"source": "compiler",
 	"startLineNumber": 22,
 	"startColumn": 86,
@@ -225,7 +225,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "envCfg.PlatformClass undefined (type *configStruct.EnvConfig has no field or method PlatformClass)",
+	"message": "envCfg.PlatformClass undefined (type *defaults.EnvConfig has no field or method PlatformClass)",
 	"source": "compiler",
 	"startLineNumber": 11,
 	"startColumn": 12,
@@ -246,7 +246,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "userCfg.Preferences undefined (type *configStruct.CustomizedConfig has no field or method Preferences)",
+	"message": "userCfg.Preferences undefined (type *defaults.CustomizedConfig has no field or method Preferences)",
 	"source": "compiler",
 	"startLineNumber": 11,
 	"startColumn": 50,
@@ -267,7 +267,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "envCfg.PlatformClass undefined (type *configStruct.EnvConfig has no field or method PlatformClass)",
+	"message": "envCfg.PlatformClass undefined (type *defaults.EnvConfig has no field or method PlatformClass)",
 	"source": "compiler",
 	"startLineNumber": 14,
 	"startColumn": 12,
@@ -288,7 +288,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "userCfg.Preferences undefined (type *configStruct.CustomizedConfig has no field or method Preferences)",
+	"message": "userCfg.Preferences undefined (type *defaults.CustomizedConfig has no field or method Preferences)",
 	"source": "compiler",
 	"startLineNumber": 14,
 	"startColumn": 49,
@@ -309,7 +309,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "userCfg.PlatformClass undefined (type *configStruct.CustomizedConfig has no field or method PlatformClass)",
+	"message": "userCfg.PlatformClass undefined (type *defaults.CustomizedConfig has no field or method PlatformClass)",
 	"source": "compiler",
 	"startLineNumber": 17,
 	"startColumn": 13,
@@ -330,7 +330,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "userCfg.Preferences undefined (type *configStruct.CustomizedConfig has no field or method Preferences)",
+	"message": "userCfg.Preferences undefined (type *defaults.CustomizedConfig has no field or method Preferences)",
 	"source": "compiler",
 	"startLineNumber": 17,
 	"startColumn": 51,
@@ -351,7 +351,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "userCfg.Platform undefined (type *configStruct.CustomizedConfig has no field or method Platform)",
+	"message": "userCfg.Platform undefined (type *defaults.CustomizedConfig has no field or method Platform)",
 	"source": "compiler",
 	"startLineNumber": 20,
 	"startColumn": 13,
@@ -372,7 +372,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "userCfg.Preferences undefined (type *configStruct.CustomizedConfig has no field or method Preferences)",
+	"message": "userCfg.Preferences undefined (type *defaults.CustomizedConfig has no field or method Preferences)",
 	"source": "compiler",
 	"startLineNumber": 20,
 	"startColumn": 48,
@@ -414,7 +414,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.IORadar",
+	"message": "undefined: defaults.IORadar",
 	"source": "compiler",
 	"startLineNumber": 88,
 	"startColumn": 49,
@@ -435,7 +435,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.IOBioSensor",
+	"message": "undefined: defaults.IOBioSensor",
 	"source": "compiler",
 	"startLineNumber": 92,
 	"startColumn": 27,
@@ -456,7 +456,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.IOPulseOximeter",
+	"message": "undefined: defaults.IOPulseOximeter",
 	"source": "compiler",
 	"startLineNumber": 92,
 	"startColumn": 53,
@@ -477,7 +477,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.IOMoisture",
+	"message": "undefined: defaults.IOMoisture",
 	"source": "compiler",
 	"startLineNumber": 101,
 	"startColumn": 27,
@@ -498,7 +498,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.IOSpectralCam",
+	"message": "undefined: defaults.IOSpectralCam",
 	"source": "compiler",
 	"startLineNumber": 101,
 	"startColumn": 52,
@@ -519,7 +519,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "node.Tags undefined (type *configStruct.IONode has no field or method Tags)",
+	"message": "node.Tags undefined (type *defaults.IONode has no field or method Tags)",
 	"source": "compiler",
 	"startLineNumber": 150,
 	"startColumn": 28,
@@ -540,7 +540,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cannot define new methods on non-local type configStruct.Q16PurpConfd",
+	"message": "cannot define new methods on non-local type defaults.Q16PurpConfd",
 	"source": "compiler",
 	"startLineNumber": 34,
 	"startColumn": 18,
@@ -562,7 +562,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cannot define new methods on non-local type configStruct.PurposeLog",
+	"message": "cannot define new methods on non-local type defaults.PurposeLog",
 	"source": "compiler",
 	"startLineNumber": 38,
 	"startColumn": 12,
@@ -958,7 +958,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cannot define new methods on non-local type configStruct.PurposeLog",
+	"message": "cannot define new methods on non-local type defaults.PurposeLog",
 	"source": "compiler",
 	"startLineNumber": 104,
 	"startColumn": 12,
@@ -1090,7 +1090,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cannot define new methods on non-local type configStruct.Snapshot",
+	"message": "cannot define new methods on non-local type defaults.Snapshot",
 	"source": "compiler",
 	"startLineNumber": 117,
 	"startColumn": 9,
@@ -1243,7 +1243,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.EmptyCustomizedConfig",
+	"message": "undefined: defaults.EmptyCustomizedConfig",
 	"source": "compiler",
 	"startLineNumber": 59,
 	"startColumn": 25,
@@ -1390,7 +1390,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.PhaseMerge",
+	"message": "undefined: defaults.PhaseMerge",
 	"source": "compiler",
 	"startLineNumber": 81,
 	"startColumn": 36,
@@ -1411,7 +1411,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.PhaseMerge",
+	"message": "undefined: defaults.PhaseMerge",
 	"source": "compiler",
 	"startLineNumber": 84,
 	"startColumn": 35,
@@ -1432,7 +1432,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cfg.Policy undefined (type *configStruct.BootConfig has no field or method Policy)",
+	"message": "cfg.Policy undefined (type *defaults.BootConfig has no field or method Policy)",
 	"source": "compiler",
 	"startLineNumber": 87,
 	"startColumn": 6,
@@ -1453,7 +1453,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cfg.Modules undefined (type *configStruct.BootConfig has no field or method Modules)",
+	"message": "cfg.Modules undefined (type *defaults.BootConfig has no field or method Modules)",
 	"source": "compiler",
 	"startLineNumber": 88,
 	"startColumn": 6,
@@ -1474,7 +1474,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cfg.Runtime undefined (type *configStruct.BootConfig has no field or method Runtime)",
+	"message": "cfg.Runtime undefined (type *defaults.BootConfig has no field or method Runtime)",
 	"source": "compiler",
 	"startLineNumber": 89,
 	"startColumn": 6,
@@ -1495,7 +1495,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cfg.Logging undefined (type *configStruct.BootConfig has no field or method Logging)",
+	"message": "cfg.Logging undefined (type *defaults.BootConfig has no field or method Logging)",
 	"source": "compiler",
 	"startLineNumber": 90,
 	"startColumn": 6,
@@ -1558,7 +1558,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cfg.Policy undefined (type *configStruct.BootConfig has no field or method Policy)",
+	"message": "cfg.Policy undefined (type *defaults.BootConfig has no field or method Policy)",
 	"source": "compiler",
 	"startLineNumber": 98,
 	"startColumn": 7,
@@ -1579,7 +1579,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cfg.Modules undefined (type *configStruct.BootConfig has no field or method Modules)",
+	"message": "cfg.Modules undefined (type *defaults.BootConfig has no field or method Modules)",
 	"source": "compiler",
 	"startLineNumber": 99,
 	"startColumn": 7,
@@ -1671,7 +1671,7 @@
 	"endColumn": 18,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/atomic_change.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/atomic_change.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "UndeclaredName",
@@ -1693,7 +1693,7 @@
 	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/atomic_change.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/atomic_change.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "UndeclaredName",
@@ -1715,7 +1715,7 @@
 	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/atomic_change.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/atomic_change.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "UndeclaredName",
@@ -1737,7 +1737,7 @@
 	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/atomic_change.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/atomic_change.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "UndeclaredName",
@@ -1759,7 +1759,7 @@
 	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/atomic_change.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/atomic_change.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "UndeclaredName",
@@ -1781,7 +1781,7 @@
 	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/atomic_change.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/atomic_change.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "UndeclaredName",
@@ -1803,7 +1803,7 @@
 	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/atomic_change.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/atomic_change.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "UndeclaredName",
@@ -1825,7 +1825,7 @@
 	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/atomic_change.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/atomic_change.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "UndeclaredName",
@@ -1847,7 +1847,7 @@
 	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/atomic_change.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/atomic_change.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "UndeclaredName",
@@ -1869,7 +1869,7 @@
 	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/atomic_change.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/atomic_change.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "MissingFieldOrMethod",
@@ -1891,7 +1891,7 @@
 	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/atomic_change.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/atomic_change.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "UndeclaredName",
@@ -1913,7 +1913,7 @@
 	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/boot_config.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/boot_config.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "NotAType",
@@ -1934,7 +1934,7 @@
 	"endColumn": 22,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/boot_config.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/boot_config.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "NotAType",
@@ -1955,7 +1955,7 @@
 	"endColumn": 23,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/customized_config.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/customized_config.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "MismatchedTypes",
@@ -1977,7 +1977,7 @@
 	"modelVersionId": 4,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/customized_config.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/customized_config.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "UndeclaredName",
@@ -1999,7 +1999,7 @@
 	"modelVersionId": 4,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/customized_config.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/customized_config.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "MismatchedTypes",
@@ -2021,7 +2021,7 @@
 	"modelVersionId": 4,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/customized_config.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/customized_config.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "UndeclaredName",
@@ -2043,7 +2043,7 @@
 	"modelVersionId": 4,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/customized_config.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/customized_config.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "MissingFieldOrMethod",
@@ -2065,7 +2065,7 @@
 	"modelVersionId": 4,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/customized_config.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/customized_config.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "MismatchedTypes",
@@ -2087,7 +2087,7 @@
 	"modelVersionId": 4,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/env_config.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/env_config.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "UndeclaredName",
@@ -2109,7 +2109,7 @@
 	"modelVersionId": 42,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/reflex_config.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/reflex_config.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "MissingFieldOrMethod",
@@ -2131,7 +2131,7 @@
 	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/configStruct/reflex_config.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/AIofSpeech/configs/defaults/reflex_config.go",
 	"owner": "_generated_diagnostic_collection_name_#3",
 	"code": {
 		"value": "MissingFieldOrMethod",
@@ -2166,7 +2166,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cannot define new methods on non-local type configStruct.Snapshot",
+	"message": "cannot define new methods on non-local type defaults.Snapshot",
 	"source": "compiler",
 	"startLineNumber": 13,
 	"startColumn": 9,
@@ -2187,7 +2187,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cfg.RuntimeNotes undefined (type *configStruct.EnvConfig has no field or method RuntimeNotes)",
+	"message": "cfg.RuntimeNotes undefined (type *defaults.EnvConfig has no field or method RuntimeNotes)",
 	"source": "compiler",
 	"startLineNumber": 61,
 	"startColumn": 9,
@@ -2229,7 +2229,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cfg.LastUpdateTime undefined (type *configStruct.EnvConfig has no field or method LastUpdateTime)",
+	"message": "cfg.LastUpdateTime undefined (type *defaults.EnvConfig has no field or method LastUpdateTime)",
 	"source": "compiler",
 	"startLineNumber": 96,
 	"startColumn": 6,
@@ -2250,7 +2250,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field InputTypes in struct literal of type configStruct.PossibleInputs",
+	"message": "unknown field InputTypes in struct literal of type defaults.PossibleInputs",
 	"source": "compiler",
 	"startLineNumber": 68,
 	"startColumn": 3,
@@ -2272,7 +2272,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field Node in struct literal of type configStruct.PossibleInputs",
+	"message": "unknown field Node in struct literal of type defaults.PossibleInputs",
 	"source": "compiler",
 	"startLineNumber": 69,
 	"startColumn": 3,
@@ -2294,7 +2294,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field AllowedLang in struct literal of type configStruct.PossibleInputs",
+	"message": "unknown field AllowedLang in struct literal of type defaults.PossibleInputs",
 	"source": "compiler",
 	"startLineNumber": 70,
 	"startColumn": 3,
@@ -2316,7 +2316,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "p.InputTypes undefined (type *configStruct.PossibleInputs has no field or method InputTypes)",
+	"message": "p.InputTypes undefined (type *defaults.PossibleInputs has no field or method InputTypes)",
 	"source": "compiler",
 	"startLineNumber": 76,
 	"startColumn": 4,
@@ -2338,7 +2338,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "p.InputTypes undefined (type *configStruct.PossibleInputs has no field or method InputTypes)",
+	"message": "p.InputTypes undefined (type *defaults.PossibleInputs has no field or method InputTypes)",
 	"source": "compiler",
 	"startLineNumber": 76,
 	"startColumn": 33,
@@ -2360,7 +2360,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "p.Node undefined (type *configStruct.PossibleInputs has no field or method Node)",
+	"message": "p.Node undefined (type *defaults.PossibleInputs has no field or method Node)",
 	"source": "compiler",
 	"startLineNumber": 77,
 	"startColumn": 4,
@@ -2382,7 +2382,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "p.Node undefined (type *configStruct.PossibleInputs has no field or method Node)",
+	"message": "p.Node undefined (type *defaults.PossibleInputs has no field or method Node)",
 	"source": "compiler",
 	"startLineNumber": 77,
 	"startColumn": 27,
@@ -2404,7 +2404,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "p.AllowedLang undefined (type *configStruct.PossibleInputs has no field or method AllowedLang)",
+	"message": "p.AllowedLang undefined (type *defaults.PossibleInputs has no field or method AllowedLang)",
 	"source": "compiler",
 	"startLineNumber": 78,
 	"startColumn": 4,
@@ -2426,7 +2426,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "p.AllowedLang undefined (type *configStruct.PossibleInputs has no field or method AllowedLang)",
+	"message": "p.AllowedLang undefined (type *defaults.PossibleInputs has no field or method AllowedLang)",
 	"source": "compiler",
 	"startLineNumber": 78,
 	"startColumn": 34,
@@ -2448,7 +2448,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "p.AllowedLang undefined (type *configStruct.PossibleInputs has no field or method AllowedLang)",
+	"message": "p.AllowedLang undefined (type *defaults.PossibleInputs has no field or method AllowedLang)",
 	"source": "compiler",
 	"startLineNumber": 80,
 	"startColumn": 11,
@@ -2470,7 +2470,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "p.AllowedLang undefined (type *configStruct.PossibleInputs has no field or method AllowedLang)",
+	"message": "p.AllowedLang undefined (type *defaults.PossibleInputs has no field or method AllowedLang)",
 	"source": "compiler",
 	"startLineNumber": 81,
 	"startColumn": 5,
@@ -2600,7 +2600,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "envCfg.LastUpdateTime undefined (type *configStruct.EnvConfig has no field or method LastUpdateTime)",
+	"message": "envCfg.LastUpdateTime undefined (type *defaults.EnvConfig has no field or method LastUpdateTime)",
 	"source": "compiler",
 	"startLineNumber": 54,
 	"startColumn": 9,
@@ -2747,7 +2747,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field PlatformClass in struct literal of type configStruct.CapabilityMetadata",
+	"message": "unknown field PlatformClass in struct literal of type defaults.CapabilityMetadata",
 	"source": "compiler",
 	"startLineNumber": 20,
 	"startColumn": 4,
@@ -2769,7 +2769,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field Buses in struct literal of type configStruct.CapabilityMetadata",
+	"message": "unknown field Buses in struct literal of type defaults.CapabilityMetadata",
 	"source": "compiler",
 	"startLineNumber": 21,
 	"startColumn": 4,
@@ -2791,7 +2791,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "env.Hardware.Buses.Flatten undefined (type []configStruct.BusCapability has no field or method Flatten)",
+	"message": "env.Hardware.Buses.Flatten undefined (type []defaults.BusCapability has no field or method Flatten)",
 	"source": "compiler",
 	"startLineNumber": 21,
 	"startColumn": 38,
@@ -2813,7 +2813,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field Tags in struct literal of type configStruct.IONode",
+	"message": "unknown field Tags in struct literal of type defaults.IONode",
 	"source": "compiler",
 	"startLineNumber": 42,
 	"startColumn": 5,
@@ -2835,7 +2835,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.PlatformExpectation",
+	"message": "undefined: defaults.PlatformExpectation",
 	"source": "compiler",
 	"startLineNumber": 70,
 	"startColumn": 35,
@@ -2879,7 +2879,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.PlatformExpectation",
+	"message": "undefined: defaults.PlatformExpectation",
 	"source": "compiler",
 	"startLineNumber": 89,
 	"startColumn": 33,
@@ -2901,7 +2901,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cannot define new methods on non-local type configStruct.IOCapabilities",
+	"message": "cannot define new methods on non-local type defaults.IOCapabilities",
 	"source": "compiler",
 	"startLineNumber": 65,
 	"startColumn": 13,
@@ -2922,7 +2922,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.PlatformRobotic",
+	"message": "undefined: defaults.PlatformRobotic",
 	"source": "compiler",
 	"startLineNumber": 55,
 	"startColumn": 28,
@@ -2943,7 +2943,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.PlatformRobotic",
+	"message": "undefined: defaults.PlatformRobotic",
 	"source": "compiler",
 	"startLineNumber": 60,
 	"startColumn": 28,
@@ -2964,7 +2964,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cannot use s.Score / s.MaxScore (value of type float64) as configStruct.Q16EnvConfd value in assignment",
+	"message": "cannot use s.Score / s.MaxScore (value of type float64) as defaults.Q16EnvConfd value in assignment",
 	"source": "compiler",
 	"startLineNumber": 72,
 	"startColumn": 19,
@@ -2985,7 +2985,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "invalid operation: s.Confidence >= threshold (mismatched types configStruct.Q16EnvConfd and float64)",
+	"message": "invalid operation: s.Confidence >= threshold (mismatched types defaults.Q16EnvConfd and float64)",
 	"source": "compiler",
 	"startLineNumber": 83,
 	"startColumn": 22,
@@ -3006,7 +3006,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "env.Identity.MachineID undefined (type configStruct.MachineIdentity has no field or method MachineID)",
+	"message": "env.Identity.MachineID undefined (type defaults.MachineIdentity has no field or method MachineID)",
 	"source": "compiler",
 	"startLineNumber": 117,
 	"startColumn": 16,
@@ -3132,7 +3132,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "purpose.DefaultModes undefined (type configStruct.PurposeProfile has no field or method DefaultModes)",
+	"message": "purpose.DefaultModes undefined (type defaults.PurposeProfile has no field or method DefaultModes)",
 	"source": "compiler",
 	"startLineNumber": 43,
 	"startColumn": 30,
@@ -3489,7 +3489,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.Buses",
+	"message": "undefined: defaults.Buses",
 	"source": "compiler",
 	"startLineNumber": 114,
 	"startColumn": 82,
@@ -3510,7 +3510,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.Buses",
+	"message": "undefined: defaults.Buses",
 	"source": "compiler",
 	"startLineNumber": 124,
 	"startColumn": 46,
@@ -3876,7 +3876,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.IOTouchscreen",
+	"message": "undefined: defaults.IOTouchscreen",
 	"source": "compiler",
 	"startLineNumber": 28,
 	"startColumn": 60,
@@ -3940,7 +3940,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cannot use profile (variable of string type configStruct.PlatformClass) as configStruct.PlatformProfile value in argument to InOut.InferIO",
+	"message": "cannot use profile (variable of string type defaults.PlatformClass) as defaults.PlatformProfile value in argument to InOut.InferIO",
 	"source": "compiler",
 	"startLineNumber": 187,
 	"startColumn": 38,
@@ -3962,7 +3962,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cannot use profile (variable of string type configStruct.PlatformClass) as configStruct.PlatformProfile value in argument to InOut.ProbeIO",
+	"message": "cannot use profile (variable of string type defaults.PlatformClass) as defaults.PlatformProfile value in argument to InOut.ProbeIO",
 	"source": "compiler",
 	"startLineNumber": 189,
 	"startColumn": 29,
@@ -3984,7 +3984,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cannot use profile (variable of string type configStruct.PlatformClass) as *configStruct.PlatformClass value in argument to boot.InferPurpose",
+	"message": "cannot use profile (variable of string type defaults.PlatformClass) as *defaults.PlatformClass value in argument to boot.InferPurpose",
 	"source": "compiler",
 	"startLineNumber": 201,
 	"startColumn": 49,
@@ -4006,7 +4006,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "snap.ToCSV undefined (type configStruct.AuditSnapshot has no field or method ToCSV)",
+	"message": "snap.ToCSV undefined (type defaults.AuditSnapshot has no field or method ToCSV)",
 	"source": "compiler",
 	"startLineNumber": 240,
 	"startColumn": 22,
@@ -4160,7 +4160,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "input.Type undefined (type *configStruct.DetectedInput has no field or method Type)",
+	"message": "input.Type undefined (type *defaults.DetectedInput has no field or method Type)",
 	"source": "compiler",
 	"startLineNumber": 35,
 	"startColumn": 75,
@@ -4181,7 +4181,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "input.Type undefined (type *configStruct.DetectedInput has no field or method Type)",
+	"message": "input.Type undefined (type *defaults.DetectedInput has no field or method Type)",
 	"source": "compiler",
 	"startLineNumber": 39,
 	"startColumn": 42,
@@ -4202,7 +4202,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "input.Type undefined (type *configStruct.DetectedInput has no field or method Type)",
+	"message": "input.Type undefined (type *defaults.DetectedInput has no field or method Type)",
 	"source": "compiler",
 	"startLineNumber": 42,
 	"startColumn": 72,
@@ -4310,7 +4310,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "input.Type undefined (type *configStruct.DetectedInput has no field or method Type)",
+	"message": "input.Type undefined (type *defaults.DetectedInput has no field or method Type)",
 	"source": "compiler",
 	"startLineNumber": 57,
 	"startColumn": 24,
@@ -4331,7 +4331,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "rules.InputTypes undefined (type *configStruct.PossibleInputs has no field or method InputTypes)",
+	"message": "rules.InputTypes undefined (type *defaults.PossibleInputs has no field or method InputTypes)",
 	"source": "compiler",
 	"startLineNumber": 57,
 	"startColumn": 36,
@@ -4352,7 +4352,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "input.Type undefined (type *configStruct.DetectedInput has no field or method Type)",
+	"message": "input.Type undefined (type *defaults.DetectedInput has no field or method Type)",
 	"source": "compiler",
 	"startLineNumber": 86,
 	"startColumn": 97,
@@ -4373,7 +4373,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "input.Type undefined (type *configStruct.DetectedInput has no field or method Type)",
+	"message": "input.Type undefined (type *defaults.DetectedInput has no field or method Type)",
 	"source": "compiler",
 	"startLineNumber": 182,
 	"startColumn": 11,
@@ -4394,7 +4394,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "rules.InputTypes undefined (type *configStruct.PossibleInputs has no field or method InputTypes)",
+	"message": "rules.InputTypes undefined (type *defaults.PossibleInputs has no field or method InputTypes)",
 	"source": "compiler",
 	"startLineNumber": 235,
 	"startColumn": 31,
@@ -4415,7 +4415,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "rules.InputTypes undefined (type *configStruct.PossibleInputs has no field or method InputTypes)",
+	"message": "rules.InputTypes undefined (type *defaults.PossibleInputs has no field or method InputTypes)",
 	"source": "compiler",
 	"startLineNumber": 239,
 	"startColumn": 17,
@@ -4457,7 +4457,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field InputTypes in struct literal of type configStruct.PossibleInputs",
+	"message": "unknown field InputTypes in struct literal of type defaults.PossibleInputs",
 	"source": "compiler",
 	"startLineNumber": 36,
 	"startColumn": 3,
@@ -4478,7 +4478,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field Node in struct literal of type configStruct.PossibleInputs",
+	"message": "unknown field Node in struct literal of type defaults.PossibleInputs",
 	"source": "compiler",
 	"startLineNumber": 41,
 	"startColumn": 3,
@@ -4499,7 +4499,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field Type in struct literal of type configStruct.DetectedInput",
+	"message": "unknown field Type in struct literal of type defaults.DetectedInput",
 	"source": "compiler",
 	"startLineNumber": 46,
 	"startColumn": 3,
@@ -4541,7 +4541,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field InputTypes in struct literal of type configStruct.PossibleInputs",
+	"message": "unknown field InputTypes in struct literal of type defaults.PossibleInputs",
 	"source": "compiler",
 	"startLineNumber": 60,
 	"startColumn": 3,
@@ -4562,7 +4562,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field Type in struct literal of type configStruct.DetectedInput",
+	"message": "unknown field Type in struct literal of type defaults.DetectedInput",
 	"source": "compiler",
 	"startLineNumber": 66,
 	"startColumn": 51,
@@ -4604,7 +4604,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cfg.AllowedLang undefined (type *configStruct.PossibleInputs has no field or method AllowedLang)",
+	"message": "cfg.AllowedLang undefined (type *defaults.PossibleInputs has no field or method AllowedLang)",
 	"source": "compiler",
 	"startLineNumber": 37,
 	"startColumn": 9,
@@ -4625,7 +4625,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cfg.AllowedLang undefined (type *configStruct.PossibleInputs has no field or method AllowedLang)",
+	"message": "cfg.AllowedLang undefined (type *defaults.PossibleInputs has no field or method AllowedLang)",
 	"source": "compiler",
 	"startLineNumber": 38,
 	"startColumn": 15,
@@ -4646,7 +4646,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cfg.AllowedLang undefined (type *configStruct.PossibleInputs has no field or method AllowedLang)",
+	"message": "cfg.AllowedLang undefined (type *defaults.PossibleInputs has no field or method AllowedLang)",
 	"source": "compiler",
 	"startLineNumber": 133,
 	"startColumn": 32,
@@ -4667,7 +4667,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cfg.AllowedLang undefined (type *configStruct.PossibleInputs has no field or method AllowedLang)",
+	"message": "cfg.AllowedLang undefined (type *defaults.PossibleInputs has no field or method AllowedLang)",
 	"source": "compiler",
 	"startLineNumber": 137,
 	"startColumn": 31,
@@ -4688,7 +4688,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cfg.AllowedLang undefined (type *configStruct.PossibleInputs has no field or method AllowedLang)",
+	"message": "cfg.AllowedLang undefined (type *defaults.PossibleInputs has no field or method AllowedLang)",
 	"source": "compiler",
 	"startLineNumber": 141,
 	"startColumn": 32,
@@ -4709,7 +4709,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field Type in struct literal of type configStruct.DetectedInput",
+	"message": "unknown field Type in struct literal of type defaults.DetectedInput",
 	"source": "compiler",
 	"startLineNumber": 174,
 	"startColumn": 6,
@@ -4730,7 +4730,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field Type in struct literal of type configStruct.DetectedInput",
+	"message": "unknown field Type in struct literal of type defaults.DetectedInput",
 	"source": "compiler",
 	"startLineNumber": 206,
 	"startColumn": 3,
@@ -4751,7 +4751,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field Type in struct literal of type configStruct.DetectedInput",
+	"message": "unknown field Type in struct literal of type defaults.DetectedInput",
 	"source": "compiler",
 	"startLineNumber": 217,
 	"startColumn": 3,
@@ -4772,7 +4772,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field Type in struct literal of type configStruct.DetectedInput",
+	"message": "unknown field Type in struct literal of type defaults.DetectedInput",
 	"source": "compiler",
 	"startLineNumber": 228,
 	"startColumn": 3,
@@ -4793,7 +4793,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field Type in struct literal of type configStruct.DetectedInput",
+	"message": "unknown field Type in struct literal of type defaults.DetectedInput",
 	"source": "compiler",
 	"startLineNumber": 239,
 	"startColumn": 3,
@@ -5255,7 +5255,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct.MergeCustomizedIntoFac",
+	"message": "undefined: defaults.MergeCustomizedIntoFac",
 	"source": "compiler",
 	"startLineNumber": 100,
 	"startColumn": 28,
@@ -5339,7 +5339,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field MachineID in struct literal of type configStruct.MachineIdentity",
+	"message": "unknown field MachineID in struct literal of type defaults.MachineIdentity",
 	"source": "compiler",
 	"startLineNumber": 28,
 	"startColumn": 4,
@@ -5360,7 +5360,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field SchemaVersion in struct literal of type configStruct.EnvAttestation",
+	"message": "unknown field SchemaVersion in struct literal of type defaults.EnvAttestation",
 	"source": "compiler",
 	"startLineNumber": 60,
 	"startColumn": 4,
@@ -5402,7 +5402,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field GeneratedAt in struct literal of type configStruct.EnvAttestation",
+	"message": "unknown field GeneratedAt in struct literal of type defaults.EnvAttestation",
 	"source": "compiler",
 	"startLineNumber": 61,
 	"startColumn": 4,
@@ -5423,7 +5423,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field MaxAgeSeconds in struct literal of type configStruct.EnvAttestation",
+	"message": "unknown field MaxAgeSeconds in struct literal of type defaults.EnvAttestation",
 	"source": "compiler",
 	"startLineNumber": 62,
 	"startColumn": 4,
@@ -5489,7 +5489,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "persisted.BatteryStatus undefined (type *configStruct.EnvConfig has no field or method BatteryStatus)",
+	"message": "persisted.BatteryStatus undefined (type *defaults.EnvConfig has no field or method BatteryStatus)",
 	"source": "compiler",
 	"startLineNumber": 19,
 	"startColumn": 35,
@@ -5510,7 +5510,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "persisted.LastUpdateTime undefined (type *configStruct.EnvConfig has no field or method LastUpdateTime)",
+	"message": "persisted.LastUpdateTime undefined (type *defaults.EnvConfig has no field or method LastUpdateTime)",
 	"source": "compiler",
 	"startLineNumber": 21,
 	"startColumn": 57,
@@ -5531,7 +5531,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "persisted.BatteryStatus undefined (type *configStruct.EnvConfig has no field or method BatteryStatus)",
+	"message": "persisted.BatteryStatus undefined (type *defaults.EnvConfig has no field or method BatteryStatus)",
 	"source": "compiler",
 	"startLineNumber": 25,
 	"startColumn": 21,
@@ -5552,7 +5552,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "unknown field Percentage in struct literal of type configStruct.BatteryStatus",
+	"message": "unknown field Percentage in struct literal of type defaults.BatteryStatus",
 	"source": "compiler",
 	"startLineNumber": 31,
 	"startColumn": 3,
@@ -5594,7 +5594,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "final.OS undefined (type *configStruct.EnvConfig has no field or method OS)",
+	"message": "final.OS undefined (type *defaults.EnvConfig has no field or method OS)",
 	"source": "compiler",
 	"startLineNumber": 47,
 	"startColumn": 8,
@@ -5615,7 +5615,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "detected.OS undefined (type *configStruct.EnvConfig has no field or method OS)",
+	"message": "detected.OS undefined (type *defaults.EnvConfig has no field or method OS)",
 	"source": "compiler",
 	"startLineNumber": 47,
 	"startColumn": 22,
@@ -5636,7 +5636,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "final.Arch undefined (type *configStruct.EnvConfig has no field or method Arch)",
+	"message": "final.Arch undefined (type *defaults.EnvConfig has no field or method Arch)",
 	"source": "compiler",
 	"startLineNumber": 48,
 	"startColumn": 8,
@@ -5657,7 +5657,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "detected.Arch undefined (type *configStruct.EnvConfig has no field or method Arch)",
+	"message": "detected.Arch undefined (type *defaults.EnvConfig has no field or method Arch)",
 	"source": "compiler",
 	"startLineNumber": 48,
 	"startColumn": 24,
@@ -5678,7 +5678,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "final.EnvVars undefined (type *configStruct.EnvConfig has no field or method EnvVars)",
+	"message": "final.EnvVars undefined (type *defaults.EnvConfig has no field or method EnvVars)",
 	"source": "compiler",
 	"startLineNumber": 49,
 	"startColumn": 8,
@@ -5699,7 +5699,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "detected.EnvVars undefined (type *configStruct.EnvConfig has no field or method EnvVars)",
+	"message": "detected.EnvVars undefined (type *defaults.EnvConfig has no field or method EnvVars)",
 	"source": "compiler",
 	"startLineNumber": 49,
 	"startColumn": 27,
@@ -5720,7 +5720,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "final.LastUpdateTime undefined (type *configStruct.EnvConfig has no field or method LastUpdateTime)",
+	"message": "final.LastUpdateTime undefined (type *defaults.EnvConfig has no field or method LastUpdateTime)",
 	"source": "compiler",
 	"startLineNumber": 50,
 	"startColumn": 8,
@@ -5741,7 +5741,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "detected.LastUpdateTime undefined (type *configStruct.EnvConfig has no field or method LastUpdateTime)",
+	"message": "detected.LastUpdateTime undefined (type *defaults.EnvConfig has no field or method LastUpdateTime)",
 	"source": "compiler",
 	"startLineNumber": 50,
 	"startColumn": 34,
@@ -5762,7 +5762,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "final.BatteryStatus undefined (type *configStruct.EnvConfig has no field or method BatteryStatus)",
+	"message": "final.BatteryStatus undefined (type *defaults.EnvConfig has no field or method BatteryStatus)",
 	"source": "compiler",
 	"startLineNumber": 51,
 	"startColumn": 8,
@@ -5783,7 +5783,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "detected.BatteryStatus undefined (type *configStruct.EnvConfig has no field or method BatteryStatus)",
+	"message": "detected.BatteryStatus undefined (type *defaults.EnvConfig has no field or method BatteryStatus)",
 	"source": "compiler",
 	"startLineNumber": 51,
 	"startColumn": 51,
@@ -5804,7 +5804,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "final.Processor undefined (type *configStruct.EnvConfig has no field or method Processor)",
+	"message": "final.Processor undefined (type *defaults.EnvConfig has no field or method Processor)",
 	"source": "compiler",
 	"startLineNumber": 54,
 	"startColumn": 8,
@@ -5825,7 +5825,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "detected.Processor undefined (type *configStruct.EnvConfig has no field or method Processor)",
+	"message": "detected.Processor undefined (type *defaults.EnvConfig has no field or method Processor)",
 	"source": "compiler",
 	"startLineNumber": 54,
 	"startColumn": 29,
@@ -5846,7 +5846,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "final.Processor undefined (type *configStruct.EnvConfig has no field or method Processor)",
+	"message": "final.Processor undefined (type *defaults.EnvConfig has no field or method Processor)",
 	"source": "compiler",
 	"startLineNumber": 55,
 	"startColumn": 15,
@@ -5867,7 +5867,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "final.Processor undefined (type *configStruct.EnvConfig has no field or method Processor)",
+	"message": "final.Processor undefined (type *defaults.EnvConfig has no field or method Processor)",
 	"source": "compiler",
 	"startLineNumber": 56,
 	"startColumn": 9,
@@ -5888,7 +5888,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "persisted.Processor undefined (type *configStruct.EnvConfig has no field or method Processor)",
+	"message": "persisted.Processor undefined (type *defaults.EnvConfig has no field or method Processor)",
 	"source": "compiler",
 	"startLineNumber": 56,
 	"startColumn": 31,
@@ -5909,7 +5909,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "final.Buses undefined (type *configStruct.EnvConfig has no field or method Buses)",
+	"message": "final.Buses undefined (type *defaults.EnvConfig has no field or method Buses)",
 	"source": "compiler",
 	"startLineNumber": 59,
 	"startColumn": 8,
@@ -5930,7 +5930,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "detected.Buses undefined (type *configStruct.EnvConfig has no field or method Buses)",
+	"message": "detected.Buses undefined (type *defaults.EnvConfig has no field or method Buses)",
 	"source": "compiler",
 	"startLineNumber": 59,
 	"startColumn": 25,
@@ -5951,7 +5951,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "final.Buses undefined (type *configStruct.EnvConfig has no field or method Buses)",
+	"message": "final.Buses undefined (type *defaults.EnvConfig has no field or method Buses)",
 	"source": "compiler",
 	"startLineNumber": 60,
 	"startColumn": 11,
@@ -5972,7 +5972,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "final.Buses undefined (type *configStruct.EnvConfig has no field or method Buses)",
+	"message": "final.Buses undefined (type *defaults.EnvConfig has no field or method Buses)",
 	"source": "compiler",
 	"startLineNumber": 61,
 	"startColumn": 9,
@@ -5993,7 +5993,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "persisted.Buses undefined (type *configStruct.EnvConfig has no field or method Buses)",
+	"message": "persisted.Buses undefined (type *defaults.EnvConfig has no field or method Buses)",
 	"source": "compiler",
 	"startLineNumber": 61,
 	"startColumn": 27,
@@ -6014,7 +6014,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "final.MachineID undefined (type *configStruct.EnvConfig has no field or method MachineID)",
+	"message": "final.MachineID undefined (type *defaults.EnvConfig has no field or method MachineID)",
 	"source": "compiler",
 	"startLineNumber": 65,
 	"startColumn": 8,
@@ -6056,7 +6056,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "detected.MachineID undefined (type *configStruct.EnvConfig has no field or method MachineID)",
+	"message": "detected.MachineID undefined (type *defaults.EnvConfig has no field or method MachineID)",
 	"source": "compiler",
 	"startLineNumber": 65,
 	"startColumn": 38,
@@ -6098,7 +6098,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "p.MachineID undefined (type *configStruct.EnvConfig has no field or method MachineID)",
+	"message": "p.MachineID undefined (type *defaults.EnvConfig has no field or method MachineID)",
 	"source": "compiler",
 	"startLineNumber": 66,
 	"startColumn": 12,
@@ -6119,7 +6119,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "final.MachineID undefined (type *configStruct.EnvConfig has no field or method MachineID)",
+	"message": "final.MachineID undefined (type *defaults.EnvConfig has no field or method MachineID)",
 	"source": "compiler",
 	"startLineNumber": 69,
 	"startColumn": 11,
@@ -6161,7 +6161,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "env.OS undefined (type *configStruct.EnvConfig has no field or method OS)",
+	"message": "env.OS undefined (type *defaults.EnvConfig has no field or method OS)",
 	"source": "compiler",
 	"startLineNumber": 87,
 	"startColumn": 9,
@@ -6182,7 +6182,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "env.Arch undefined (type *configStruct.EnvConfig has no field or method Arch)",
+	"message": "env.Arch undefined (type *defaults.EnvConfig has no field or method Arch)",
 	"source": "compiler",
 	"startLineNumber": 90,
 	"startColumn": 9,
@@ -6203,7 +6203,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "env.Processor undefined (type *configStruct.EnvConfig has no field or method Processor)",
+	"message": "env.Processor undefined (type *defaults.EnvConfig has no field or method Processor)",
 	"source": "compiler",
 	"startLineNumber": 93,
 	"startColumn": 13,
@@ -6224,7 +6224,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "env.MachineID undefined (type *configStruct.EnvConfig has no field or method MachineID)",
+	"message": "env.MachineID undefined (type *defaults.EnvConfig has no field or method MachineID)",
 	"source": "compiler",
 	"startLineNumber": 96,
 	"startColumn": 9,
@@ -6392,7 +6392,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: configStruct",
+	"message": "undefined: defaults",
 	"source": "compiler",
 	"startLineNumber": 7,
 	"startColumn": 17,
@@ -6518,7 +6518,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "input.Type undefined (type *configStruct.DetectedInput has no field or method Type)",
+	"message": "input.Type undefined (type *defaults.DetectedInput has no field or method Type)",
 	"source": "compiler",
 	"startLineNumber": 17,
 	"startColumn": 15,
@@ -7304,7 +7304,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "configStruct.UsualPurpose (constant \"usual\" of string type configStruct.PurposeType) is not a type",
+	"message": "defaults.UsualPurpose (constant \"usual\" of string type defaults.PurposeType) is not a type",
 	"source": "compiler",
 	"startLineNumber": 65,
 	"startColumn": 32,
@@ -7325,7 +7325,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "configStruct.UsualPurpose (constant \"usual\" of string type configStruct.PurposeType) is not a type",
+	"message": "defaults.UsualPurpose (constant \"usual\" of string type defaults.PurposeType) is not a type",
 	"source": "compiler",
 	"startLineNumber": 70,
 	"startColumn": 10,
@@ -7346,7 +7346,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "configStruct.UsualPurpose (constant \"usual\" of string type configStruct.PurposeType) is not a type",
+	"message": "defaults.UsualPurpose (constant \"usual\" of string type defaults.PurposeType) is not a type",
 	"source": "compiler",
 	"startLineNumber": 76,
 	"startColumn": 9,
@@ -7367,7 +7367,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "configStruct.UsualPurpose (constant \"usual\" of string type configStruct.PurposeType) is not a type",
+	"message": "defaults.UsualPurpose (constant \"usual\" of string type defaults.PurposeType) is not a type",
 	"source": "compiler",
 	"startLineNumber": 83,
 	"startColumn": 38,

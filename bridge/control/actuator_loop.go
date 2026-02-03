@@ -2,15 +2,14 @@
 
 //This file handles the high-frequency translation of AI "Intents" into hardware "Commands." It lives in the bridge/ layer because it spans the gap between the logic of the core and the wires of the hal.
 
-
 package control
 
 import (
 	"context"
-	"project/bridge/hal"
-	"project/internal/scheduler"
 	"sync/atomic"
-	"time"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bridge/hal"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/scheduler"
 )
 
 type ActuatorLoop struct {

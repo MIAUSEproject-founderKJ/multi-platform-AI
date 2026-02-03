@@ -3,12 +3,13 @@
 package main
 
 import (
-	"multi-platform-AI/core"
-	"multi-platform-AI/internal/logging"
-	"multi-platform-AI/runtime/monitor"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/monitor"
 )
 
 func main() {

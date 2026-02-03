@@ -5,11 +5,12 @@ package security
 import (
 	"crypto/sha256"
 	"encoding/hex"
-	"fmt"
 	"errors"
+	"fmt"
 	"os"
-	"multi-platform-AI/configs/platforms"
-	"multi-platform-AI/internal/logging"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/platforms"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
 
 // EnvAttestation defines the cryptographic seal of the environment
@@ -25,10 +26,10 @@ func PerformAttestation(id platforms.MachineIdentity, hw platforms.HardwareProfi
 	logging.Info("[SECURITY] Sealing Hardware Identity: %s", id.MachineName)
 
 	// Create a unique fingerprint based on Machine ID and CPU counts
-	rawFingerprint := fmt.Sprintf("%s-%s-%s-%d", 
-		id.MachineName, 
-		id.Arch, 
-		id.OS, 
+	rawFingerprint := fmt.Sprintf("%s-%s-%s-%d",
+		id.MachineName,
+		id.Arch,
+		id.OS,
 		len(hw.Processors),
 	)
 
@@ -67,7 +68,7 @@ func calculateSelfHash() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	
+
 	// Read the binary file to generate a checksum
 	data, err := os.ReadFile(exePath)
 	if err != nil {
@@ -81,15 +82,15 @@ func calculateSelfHash() ([]byte, error) {
 func verifyIntegrity(actualHash []byte, machineID string) error {
 	// In production, this would interface with a TPM (Trusted Platform Module)
 	// or a Secure Enclave to verify the PCR (Platform Configuration Register).
-	
+
 	// SIMULATION: Check against the expected manifest hash
 	expectedHash := simulateGetManifestHash(machineID)
-	
+
 	// Constant time comparison should be used in production to prevent side-channels
 	if string(actualHash) != string(expectedHash) {
 		return errors.New("BINARY_TAMPER_DETECTED: Checksum mismatch")
 	}
-	
+
 	return nil
 }
 

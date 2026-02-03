@@ -3,18 +3,20 @@
 package defaults
 
 import (
-    "multi-platform-AI/configs/platforms"
-    "multi-platform-AI/core/platform"
-    "multi-platform-AI/core/security"
-    "time"
+	"time"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/platforms"
 )
 
 type EnvConfig struct {
-    SchemaVersion int       `json:"schema_version"`
-    GeneratedAt   time.Time `json:"generated_at"`
+	SchemaVersion int       `json:"schema_version"`
+	GeneratedAt   time.Time `json:"generated_at"`
 
-    Identity    platforms.MachineIdentity   `json:"identity"`
-    Hardware    platforms.HardwareProfile   `json:"hardware"`
-    Platform    platform.PlatformResolution `json:"platform"`
-    Attestation security.EnvAttestation     `json:"attestation"`
+	Identity    platforms.MachineIdentity   `json:"identity"`
+	Hardware    platforms.HardwareProfile   `json:"hardware"`
+	Platform    platform.PlatformResolution `json:"platform"`
+	Attestation security.EnvAttestation     `json:"attestation"`
 }

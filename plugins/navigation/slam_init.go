@@ -1,11 +1,12 @@
-//MIAUSEproject-founderKJ/multi-platform-AI/plugins/navigation/slam_init.go
+// MIAUSEproject-founderKJ/multi-platform-AI/plugins/navigation/slam_init.go
 package navigation
 
 import (
-	"multi-platform-AI/configs/configStruct"
-	"multi-platform-AI/internal/logging"
-	"multi-platform-AI/plugins/perception"
 	"sync"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/plugins/perception"
 )
 
 type SpatialPoint struct {
@@ -21,14 +22,14 @@ type SLAMContext struct {
 }
 
 // InitializeSLAM begins the spatial mapping process
-func (sc *SLAMContext) InitializeSLAM(env *configStruct.EnvConfig, stream *perception.VisionStream) {
+func (sc *SLAMContext) InitializeSLAM(env *defaults.EnvConfig, stream *perception.VisionStream) {
 	logging.Info("[NAV] Initializing SLAM Engine...")
 
 	// 1. SELECT ALGORITHM based on PlatformClass
 	// Mobile/Tablet use ARCore-style Visual Odometry
 	// Vehicle/Robot use Lidar-fused SLAM
 	switch env.Platform.Final {
-	case configStruct.PlatformVehicle, configStruct.PlatformRobot:
+	case defaults.PlatformVehicle, defaults.PlatformRobot:
 		sc.startLidarFusedSLAM()
 	default:
 		sc.startVisualOnlySLAM(stream)

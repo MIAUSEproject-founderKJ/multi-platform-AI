@@ -9,9 +9,10 @@ import (
 	"strings"
 	"time"
 
-	"multi-platform-AI/configs/platforms"
-	"multi-platform-AI/configs/defaults"
-	"multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/platforms"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
 )
 
 // ResolveIdentity performs the full pipeline: Scoring -> Resolution -> Attestation
@@ -104,7 +105,7 @@ func performAttestation(env *defaults.EnvConfig) {
 	env.Attestation.EnvHash = hex.EncodeToString(hash[:])
 	env.Attestation.Valid = true
 	env.Attestation.Level = platforms.AttestationStrong
-	
+
 	logging.Info("[SECURITY] Attestation Hash: %s", env.Attestation.EnvHash[:12])
 }
 

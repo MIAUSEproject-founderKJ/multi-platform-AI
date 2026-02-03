@@ -1,6 +1,5 @@
-	
-	//core/platform/probe/passive.go
-	// PASSIVE PROBE: Minimal hardware identity check
+// core/platform/probe/passive.go
+// PASSIVE PROBE: Minimal hardware identity check
 package probe
 
 import (
@@ -8,7 +7,8 @@ import (
 	"os"
 	"runtime"
 	"strings"
-	"multi-platform-AI/internal/logging"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
 
 // HardwareIdentity is the "Passport" of the machine.
@@ -49,7 +49,7 @@ func classifyPlatform() string {
 	if _, err := os.Stat("/sys/class/net/can0"); err == nil {
 		return "Automotive"
 	}
-	
+
 	if os.Getenv("INDUSTRIAL_NODE_ID") != "" {
 		return "Industrial"
 	}
@@ -62,7 +62,7 @@ func getMachineUUID() (string, error) {
 	switch runtime.GOOS {
 	case "windows":
 		// Implementation for: wmic csproduct get uuid
-		return "WIN-UUID-1234-5678", nil 
+		return "WIN-UUID-1234-5678", nil
 	case "linux":
 		// Implementation for: /sys/class/dmi/id/product_uuid
 		data, err := os.ReadFile("/sys/class/dmi/id/product_uuid")

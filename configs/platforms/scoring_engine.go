@@ -3,8 +3,9 @@
 package platform
 
 import (
-	"multi-platform-AI/configs/platforms"
 	"time"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/platforms"
 )
 
 // RunResolution takes the gathered hardware profile and determines the Final PlatformClass.
@@ -27,7 +28,7 @@ func RunResolution(env *platforms.EnvConfig) {
 	// Final Selection Logic
 	// (Identify highest confidence candidate)
 	// ...
-	
+
 	env.Platform.ResolvedAt = time.Now()
 	env.Platform.Locked = true
 }

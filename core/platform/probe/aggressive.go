@@ -3,9 +3,9 @@
 package probe
 
 import (
-	"multi-platform-AI/configs/platforms"
-	"multi-platform-AI/internal/logging"
-	"time"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/platforms"
 )
 
 // AggressiveScan performs active discovery and populates the global EnvConfig.
@@ -43,10 +43,10 @@ func scanCANBus(env *platforms.EnvConfig) {
 		Confidence: 65535, // Probed existence = 1.0 confidence
 		Source:     "probed",
 	})
-	
+
 	// Add processors if the ECU is detected as a co-processor
 	env.Hardware.Processors = append(env.Hardware.Processors, platforms.Processor{
-		Type: "ECU", 
+		Type:  "ECU",
 		Count: 1,
 	})
 }

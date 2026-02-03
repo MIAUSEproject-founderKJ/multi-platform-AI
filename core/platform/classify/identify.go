@@ -3,16 +3,16 @@
 package classify
 
 import (
-	"multi-platform-AI/core/platform/probe"
-	"multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform/probe"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
 
 // SecurityProfile defines the "Gate Height" for the platform
 type SecurityProfile struct {
-	PlatformClass    string // Automotive | Workstation | Industrial
-	RequiresBiometry bool
+	PlatformClass        string // Automotive | Workstation | Industrial
+	RequiresBiometry     bool
 	RequiresKeyTelemetry bool
-	AuthTimeoutMinutes int
+	AuthTimeoutMinutes   int
 }
 
 // Identify maps hardware identity to a specific operational profile.
@@ -32,20 +32,20 @@ func Identify(id *probe.HardwareIdentity) (*SecurityProfile, error) {
 	case "Industrial":
 		// Scenario: Smart-House / Factory
 		profile.PlatformClass = "Industrial"
-		profile.RequiresBiometry = false    // Uses NFC / Physical Interlock instead
+		profile.RequiresBiometry = false // Uses NFC / Physical Interlock instead
 		profile.RequiresKeyTelemetry = false
-		profile.AuthTimeoutMinutes = 1440   // 24-hour persistent trust
+		profile.AuthTimeoutMinutes = 1440 // 24-hour persistent trust
 
 	case "Workstation":
 		// Scenario: Professional PC / Laptop
 		profile.PlatformClass = "Workstation"
-		profile.RequiresBiometry = true     // Windows Hello / TouchID
+		profile.RequiresBiometry = true // Windows Hello / TouchID
 		profile.RequiresKeyTelemetry = false
-		profile.AuthTimeoutMinutes = 480    // Standard work shift
+		profile.AuthTimeoutMinutes = 480 // Standard work shift
 	}
 
-	logging.Info("[CLASSIFY] Profile Locked: %s (Biometry: %v)", 
+	logging.Info("[CLASSIFY] Profile Locked: %s (Biometry: %v)",
 		profile.PlatformClass, profile.RequiresBiometry)
-		
+
 	return profile, nil
 }

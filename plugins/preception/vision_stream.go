@@ -6,16 +6,17 @@ import (
 	"fmt"
 	"image"
 	"image/color"
-	"multi-platform-AI/api/hmi"
-	"multi-platform-AI/internal/monitor"
 	"sync"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/hmi"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/monitor"
 )
 
 type VisionStream struct {
 	mu            sync.RWMutex
 	currentVitals monitor.SystemVitals
 	currentBoot   hmi.ProgressUpdate
-	
+
 	// HUD Colors (Terminator Red / Cyber Blue)
 	PrimaryColor color.RGBA
 }

@@ -4,15 +4,14 @@ package main
 
 import (
 	"context"
-	"log"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
-	"multi-platform-AI/core"
-	"multi-platform-AI/internal/logging"
-	"multi-platform-AI/internal/watchdog"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/watchdog"
 )
 
 func main() {
@@ -20,7 +19,7 @@ func main() {
 	logging.Info("[BOOT] Initializing StrataCore Node (AIOS-Node)...")
 
 	// 2. Setup Watchdog
-	// If the Bootstrap process hangs (e.g., waiting for a dead CAN-bus), 
+	// If the Bootstrap process hangs (e.g., waiting for a dead CAN-bus),
 	// the watchdog triggers the degradation protocol.
 	wdt := watchdog.New(watchdog.Config{
 		TimeoutSeconds: 5,
@@ -29,7 +28,7 @@ func main() {
 	wdt.Start()
 
 	// 3. Trigger the Nucleus Bootstrap
-	// This initiates the entire Layer I: 
+	// This initiates the entire Layer I:
 	// apppath -> probe -> classify -> attestation -> boot_manager
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -37,7 +36,7 @@ func main() {
 	kernel, err := core.Bootstrap(ctx)
 	if err != nil {
 		logging.Error("[FATAL] Kernel failed to bootstrap: %v", err)
-		// Hardware watchdog will likely handle the hardware side, 
+		// Hardware watchdog will likely handle the hardware side,
 		// but we exit cleanly from the software side.
 		os.Exit(1)
 	}

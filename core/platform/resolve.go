@@ -1,9 +1,10 @@
-//MIAUSEproject-founderKJ/multi-platform-AI/core/platform/resolve.go
+// MIAUSEproject-founderKJ/multi-platform-AI/core/platform/resolve.go
 package platform
 
 import (
-	"multi-platform-AI/configs/platforms"
 	"time"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/platforms"
 )
 
 // ResolvePlatform selects the final operational class based on scores and attestation locks.
@@ -30,6 +31,6 @@ func ResolvePlatform(env *platforms.EnvConfig) platforms.PlatformClass {
 	env.Platform.Final = bestClass
 	env.Platform.ResolvedAt = time.Now()
 	env.Platform.Source = "probabilistic_match"
-	
+
 	return bestClass
 }

@@ -4,16 +4,16 @@ package policy
 
 import (
 	"fmt"
-	"math"
-	"multi-platform-AI/configs/defaults"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults"
 )
 
 // TrustDescriptor represents the final judgment of the system's integrity.
 type TrustDescriptor struct {
-	CurrentScore   float64       // 0.0 to 1.0 (Final Posterior Probability)
-	Label          string        // NOMINAL, DEGRADED, CRITICAL
-	OperationMode  string        // AUTONOMOUS, ASSISTED, MANUAL_ONLY
-	Factors        []TrustFactor // The "Why" behind the score (for HUD)
+	CurrentScore  float64       // 0.0 to 1.0 (Final Posterior Probability)
+	Label         string        // NOMINAL, DEGRADED, CRITICAL
+	OperationMode string        // AUTONOMOUS, ASSISTED, MANUAL_ONLY
+	Factors       []TrustFactor // The "Why" behind the score (for HUD)
 }
 
 type TrustFactor struct {
@@ -31,18 +31,18 @@ type TrustEvaluator struct {
 // Evaluate performs the Bayesian update cycle to determine system trust.
 func (te *TrustEvaluator) Evaluate(env *defaults.EnvConfig) *TrustDescriptor {
 	factors := []TrustFactor{}
-	
+
 	// 1. PRIOR: Start with a neutral agnostic prior (0.5)
 	// We assume the system is trustworthy until proven otherwise, but cautious.
-	currentTrust := 0.5 
+	currentTrust := 0.5
 
 	// --- EVIDENCE 1: Security Attestation (The Strongest Signal) ---
 	// If the binary hash doesn't match, trust plummets.
 	attestScore := 0.1 // Default low
 	if env.Attestation.Valid {
-		if env.Attestation.Level == configStruct.AttestationStrong {
+		if env.Attestation.Level == defaults.AttestationStrong {
 			attestScore = 0.99
-		} else if env.Attestation.Level == configStruct.AttestationWeak {
+		} else if env.Attestation.Level == defaults.AttestationWeak {
 			attestScore = 0.75
 		}
 	}
@@ -69,7 +69,7 @@ func (te *TrustEvaluator) Evaluate(env *defaults.EnvConfig) *TrustDescriptor {
 	factors = append(factors, TrustFactor{
 		Component:   "Platform Identity",
 		Probability: platScore,
-		Weight:      0.3, 
+		Weight:      0.3,
 		Reason:      fmt.Sprintf("Identified as %s via %s", env.Platform.Final, env.Platform.Source),
 	})
 
@@ -94,7 +94,7 @@ func (te *TrustEvaluator) Evaluate(env *defaults.EnvConfig) *TrustDescriptor {
 	// 2. POSTERIOR UPDATE: Recursive Bayesian Update
 	// New_Belief = (Likelihood * Prior) / Normalization
 	// Here we use a weighted fusion approach which is numerically stable for systems.
-	
+
 	numerator := 0.0
 	denominator := 0.0
 
