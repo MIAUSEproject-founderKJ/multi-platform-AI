@@ -57,7 +57,7 @@ Project (aios-runtime)/
 │   │          └── vision_adapter.go    # normalizes camera → tensor
 │   │  
 │   ├── navigation/             # Path Planning & SLAM
-│   └── speech/                 # The "AiofSpeech" UI Layer
+│   └── speech/                 # The "Multi-Platform AI" UI Layer
 │
 ├── runtime/                    # Execution & Resource Management
 │   ├── loader/                 # On-demand Plugin Injection
@@ -85,12 +85,12 @@ If you were to deploy this today on a tractor:core/platform/probe would see a CA
 
 
 
-Below is a concise, technical review of the operating circumstances for AIofSpeech and a clear list of pitfalls to avoid, grounded in real-world production failures seen in autonomous systems, robotics platforms, and large modular AI stacks. The tone is deliberately corrective and implementation-focused.
+Below is a concise, technical review of the operating circumstances for Multi-Platform AI and a clear list of pitfalls to avoid, grounded in real-world production failures seen in autonomous systems, robotics platforms, and large modular AI stacks. The tone is deliberately corrective and implementation-focused.
 
 
 1. Operating Circumstances (Including First-Boot Reality)
 
-AIofSpeech operates under non-ideal, adversarial, and heterogeneous conditions. Design decisions must assume the following are always true:
+Multi-Platform AI operates under non-ideal, adversarial, and heterogeneous conditions. Design decisions must assume the following are always true:
 
 On first boot, the system does not yet know what it is allowed to be. It must determine which platform class it is installed on before any domain logic, intelligence, or plugins are activated. This determination is based on execution context, hardware capabilities, and attestation—not user intent or installation method.
 
@@ -167,7 +167,7 @@ All mappings—from bus ports to actuators, from words to actions, from pixels t
 
 4. Final Reality Check (Revised)
 
-The most common failure in systems like AIofSpeech is not model accuracy or feature completeness. It is allowing the system to decide what it is before proving where it is running.
+The most common failure in systems like Multi-Platform AI is not model accuracy or feature completeness. It is allowing the system to decide what it is before proving where it is running.
 
 If you maintain strict separation between:
 platform identity and AI behavior,

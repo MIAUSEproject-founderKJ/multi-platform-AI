@@ -118,7 +118,7 @@ A clean, technically accurate conclusion would be:
 
 The primary failure mode of multi-platform AI systems is not insufficient intelligence, but premature certainty. Any system that decides what it is allowed to do before proving where it is running will eventually violate safety, policy, or physical constraints.
 
-By enforcing platform identity as a first-class, attested, and immutable fact—and by subordinating intelligence, personalization, and learning to that fact—AIofSpeech avoids the most common real-world collapse modes observed in autonomous vehicles, industrial robotics, and modular AI stacks.
+By enforcing platform identity as a first-class, attested, and immutable fact—and by subordinating intelligence, personalization, and learning to that fact—Multi-Platform AI avoids the most common real-world collapse modes observed in autonomous vehicles, industrial robotics, and modular AI stacks.
 
 In this architecture, intelligence is powerful but never authoritative; adaptability is permitted but never trusted; and every action is constrained by verified reality rather than inferred belief.
 

@@ -1,6 +1,6 @@
-💻 AIofSpeech
-AIofSpeech: Adaptive Multilingual Speech Intelligence
-AIofSpeech is a cutting-edge, cross-platform application designed to revolutionize human-computer interaction by utilizing advanced AI for multilingual speech processing, command execution, and environmental adaptation, with a focus on comprehensive accessibility.
+💻 Multi-Platform AI
+Multi-Platform AI: Adaptive Multilingual Speech Intelligence
+Multi-Platform AI is a cutting-edge, cross-platform application designed to revolutionize human-computer interaction by utilizing advanced AI for multilingual speech processing, command execution, and environmental adaptation, with a focus on comprehensive accessibility.
 
 ✨ Core Features
 Multilingual Speech Processing: Seamless Speech-to-Text (STT) conversion and translation for command input in various languages.

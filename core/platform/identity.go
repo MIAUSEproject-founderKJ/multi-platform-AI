@@ -17,7 +17,7 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/platforms"
 )
 
-// Finalize implements the scoring logic from the AIofSpeech reference
+// Finalize implements the scoring logic from the Multi-Platform AI reference
 func (id *Identity) Finalize(env *defaults.EnvConfig) {
 	logging.Info("[IDENTITY] Calculating Heuristic Platform Scores...")
 

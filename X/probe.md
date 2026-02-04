@@ -4,7 +4,7 @@ To ensure the system remains stable during the critical "First-Boot" phase, prob
 If the system blindly sends signals to unknown ports, it risks triggering a "Deadly Embrace" (where two hardware components lock up) or causing an electrical fault.
 
 1. The Logic of core/platform/probe/probe.go
-In the AIofSpeech architecture, this file implements a "Safety-First" discovery sequence. It follows a three-step escalation path to identify the hardware environment without risking a kernel panic.
+In the Multi-Platform AI architecture, this file implements a "Safety-First" discovery sequence. It follows a three-step escalation path to identify the hardware environment without risking a kernel panic.
 
 Mechanism A: Passive Fingerprinting (The "Listen" Phase)
 Before touching any bus, the system reads immutable software descriptors provided by the OS kernel.
