@@ -12,7 +12,7 @@ probe, classify, degrade are clear and self-explanatory.
 types vs instances separates templates from deployments.
 Minimal bloat: No duplicated configs per platform; runtime changes handled in a dedicated folder.
 
-Project/
+Project (aios-runtime)/
 ├── api/                        # gRPC/Protobuf Definitions (The Contract)
 │   ├── kernel.proto            # Core message routing
 │   └── perception.proto        # Spatial data schemas
@@ -49,6 +49,13 @@ Project/
 │
 ├── plugins/                    # Layer III – Hot-Swappable Services
 │   ├── perception/             # Vision, Depth, Gaussian Splatting
+│   │     └──models/ 
+│   │       ├──manifest.yaml        # model ID, hash, input/output contract
+│   │       └── runtime_loader.go
+│   │  
+│   └── adapters/
+│   │          └── vision_adapter.go    # normalizes camera → tensor
+│   │  
 │   ├── navigation/             # Path Planning & SLAM
 │   └── speech/                 # The "AiofSpeech" UI Layer
 │
@@ -59,6 +66,11 @@ Project/
 └── simulation/                 # Replay & Discrepancy Injection
     ├── digital_twin/           # Voxel-based Virtual World
     └── replay/                 # Mutating real traces with "Twists"
+
+Audience: external users, integrators, OEMs
+Trust level: high, security-sensitive
+Stability: slow-changing, conservative
+
 
 Safety Inversion: The security and policy folders are moved inside core/. This ensures that Identity and Trust are part of the kernel's memory space, making it harder for a compromised plugin to bypass safety checks.
 

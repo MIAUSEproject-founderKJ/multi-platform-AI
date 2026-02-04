@@ -1,7 +1,7 @@
 /*
-    AIofSpeech Main Entry Point
+    Multi-Platform AI Main Entry Point
 
-    This is the core orchestrator for the AIofSpeech system. It manages the 
+    This is the core orchestrator for the Multi-Platform AI system. It manages the 
     multi-stage booting process, encompassing initial hardware discovery, 
     environment-specific security attestation, and runtime execution.
 
@@ -18,7 +18,7 @@
   to assist users with visual or auditory impairments.
 
 🚀 Booting Architecture
-AIofSpeech utilizes a prioritized two-stage boot sequence:
+Multi-Platform AI utilizes a prioritized two-stage boot sequence:
 1. Stage 1 (Cold Boot): Full hardware discovery, user registration, 
    and security policy attestation.
 2. Stage 2 (Fast Boot): Optimized startup using persisted environment 
@@ -36,7 +36,7 @@ Tier: [Funder | Non-Funder]
 */
 
 /*
-📂 AIofSpeech: System Verification & Boot Workflows
+📂 Multi-Platform AI: System Verification & Boot Workflows
 User Classification Matrix:
 Entity: [Personal | Organization | Stranger | Tester]
 Tier: [Funder (Premium Support/Features) | Non-Funder (Standard)]
@@ -90,7 +90,7 @@ Verification focus: Identity Synchronization & Productivity Continuity.
 
 A) First-Ever Boot (Setup & Customization)
 
-Trigger: User manually launches the AIofSpeech executable.
+Trigger: User manually launches the Multi-Platform AI executable.
 Environment Sync: App probes system specs (OS, Mic, Camera) and loads DefaultConfigs.
 
 Onboarding:
@@ -149,7 +149,7 @@ To address the architectural challenges multi-platform ecosystem—specifically 
 This approach focuses on Platform-Specific Segregation and Dynamic Dependency Injection, ensuring that a Tractor doesn't load Laptop drivers, and a Guest never touches Funder-level encryption modules.
 
 1. Executive Summary
-AIofSpeech is a high-performance, cross-platform AI orchestration framework designed to provide secure, identity-aware boot sequences and operational logic across diverse environments—from Autonomous Vehicles (AVs) and Industrial Control Systems to Professional Workstations.
+Multi-Platform AI is a high-performance, cross-platform AI orchestration framework designed to provide secure, identity-aware boot sequences and operational logic across diverse environments—from Autonomous Vehicles (AVs) and Industrial Control Systems to Professional Workstations.
 
 The project uses "Poly-Platform Microkernel" Architecture to avoid code bloating. Use of sidecars and plugins makes this a Microkernel where a minimal "Core" manages communication between isolated services.
 
