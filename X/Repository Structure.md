@@ -1,7 +1,7 @@
 //X/Repository Structure.md
 1. Top-Level Repository Structure (Anti-Bloat Oriented)
 Layered configs prevent redundancy:
-Defaults → Platform type → Platform instance → User → Runtime.
+schema → Platform type → Platform instance → User → Runtime.
 Only differences are written at each layer.
 Platform detection first: core/platform handles first boot detection and classification. The system then loads the correct platform type and instance configs.
 Scalability: Adding a new platform only requires a new type or instance YAML, no need to copy common configs.
@@ -32,7 +32,7 @@ Project (aios-runtime)/
 │   └── memory/                 # Episodic & Semantic Vaults
 │
 ├── configs/                    # Layered Configuration (No Redundancy)
-│   ├── defaults/               # Base system rules
+│   ├── schema/               # Base system rules
 │   ├── platforms/              # Types (Generic) vs Instances (Specific)
 │   └── users/                  # Trust-tier overrides
 │

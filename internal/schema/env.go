@@ -74,6 +74,7 @@ type PlatformResolution struct {
 	ResolvedAt time.Time       `json:"resolved_at"`
 }
 
+
 // PlatformScore tracks the heuristic weight for a specific platform type.
 type PlatformScore struct {
 	Class      PlatformClass `json:"class"`

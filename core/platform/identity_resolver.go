@@ -16,7 +16,7 @@ import (
 )
 
 // ResolveIdentity performs the full pipeline: Scoring -> Resolution -> Attestation
-func ResolveIdentity(env *defaults.EnvConfig) {
+func ResolveIdentity(env *schema.EnvConfig) {
 	logging.Info("[IDENTITY] Starting heuristic platform resolution...")
 
 	// 1. Run Inference (Reference: InferPlatformClass)
@@ -30,7 +30,7 @@ func ResolveIdentity(env *defaults.EnvConfig) {
 }
 
 // runPlatformInference calculates the probability of each platform class
-func runPlatformInference(env *defaults.EnvConfig) []platforms.PlatformScore {
+func runPlatformInference(env *schema.EnvConfig) []platforms.PlatformScore {
 	osName := strings.ToLower(env.Identity.OS)
 	buses := env.Hardware.Buses
 	scores := map[platforms.PlatformClass]*platforms.PlatformScore{}
@@ -73,7 +73,7 @@ func runPlatformInference(env *defaults.EnvConfig) []platforms.PlatformScore {
 }
 
 // finalizePlatform selects the "Best Fit" and locks the state
-func finalizePlatform(env *defaults.EnvConfig, scores []platforms.PlatformScore) {
+func finalizePlatform(env *schema.EnvConfig, scores []platforms.PlatformScore) {
 	if len(scores) == 0 {
 		env.Platform.Final = platforms.PlatformComputer
 		env.Platform.Source = "fallback_default"
@@ -93,7 +93,7 @@ func finalizePlatform(env *defaults.EnvConfig, scores []platforms.PlatformScore)
 }
 
 // performAttestation creates the crypto-link between code and hardware
-func performAttestation(env *defaults.EnvConfig) {
+func performAttestation(env *schema.EnvConfig) {
     rawState := fmt.Sprintf("%s-%s-%d", 
 	env.Identity.MachineName, 
 	env.Identity.OS, 

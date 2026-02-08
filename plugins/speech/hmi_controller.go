@@ -8,11 +8,11 @@ import (
 )
 
 type HMIController struct {
-	Config *defaults.EnvConfig
+	Config *schema.EnvConfig
 	Mode   string // "Visual", "Auditory", "Headless"
 }
 
-func NewHMIController(env *defaults.EnvConfig) *HMIController {
+func NewHMIController(env *schema.EnvConfig) *HMIController {
 	hmi := &HMIController{Config: env}
 	hmi.determineModality()
 	return hmi
@@ -29,7 +29,7 @@ func (h *HMIController) determineModality() {
 	}
 
 	// 2. RESPONSIVE: Set mode
-	if hasScreen && h.Config.Platform.Final != defaults.PlatformEmbedded {
+	if hasScreen && h.Config.Platform.Final != schema.PlatformEmbedded {
 		h.Mode = "Visual"
 	} else if h.Config.Hardware.Battery.Present {
 		h.Mode = "Auditory" // Save power, use voice only

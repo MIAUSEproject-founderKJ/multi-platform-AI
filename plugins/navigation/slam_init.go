@@ -22,14 +22,14 @@ type SLAMContext struct {
 }
 
 // InitializeSLAM begins the spatial mapping process
-func (sc *SLAMContext) InitializeSLAM(env *defaults.EnvConfig, stream *perception.VisionStream) {
+func (sc *SLAMContext) InitializeSLAM(env *schema.EnvConfig, stream *perception.VisionStream) {
 	logging.Info("[NAV] Initializing SLAM Engine...")
 
 	// 1. SELECT ALGORITHM based on PlatformClass
 	// Mobile/Tablet use ARCore-style Visual Odometry
 	// Vehicle/Robot use Lidar-fused SLAM
 	switch env.Platform.Final {
-	case defaults.PlatformVehicle, defaults.PlatformRobot:
+	case schema.PlatformVehicle, schema.PlatformRobot:
 		sc.startLidarFusedSLAM()
 	default:
 		sc.startVisualOnlySLAM(stream)

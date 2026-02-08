@@ -22,7 +22,7 @@ type Kernel struct {
 	Platform *platform.BootSequence
 	Vault    *security.IsolatedVault
 	Trust    *policy.TrustDescriptor
-	EnvConfig *defaults.EnvConfig
+	EnvConfig *schema.EnvConfig
 	
 	// Operational State
 	Status    string
@@ -35,7 +35,7 @@ type Kernel struct {
 
 // Define interfaces to satisfy the struct fields
 type SimulationEngine interface {
-	InjectFault(env *defaults.EnvConfig)
+	InjectFault(env *schema.EnvConfig)
 }
 
 type PowerController interface {
@@ -59,7 +59,7 @@ type Kernel struct {
 	Memory CognitiveVault
 
 	ctx       context.Context
-	EnvConfig *defaults.EnvConfig
+	EnvConfig *schema.EnvConfig
 	Evaluator *policy.TrustEvaluator
 	HMIPipe   chan interface{}
 }

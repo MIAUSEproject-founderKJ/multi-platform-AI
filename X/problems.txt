@@ -3035,7 +3035,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: defaults.PlatformEmbedded",
+	"message": "undefined: schema.PlatformEmbedded",
 	"source": "compiler",
 	"startLineNumber": 32,
 	"startColumn": 54,

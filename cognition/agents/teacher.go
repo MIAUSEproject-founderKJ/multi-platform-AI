@@ -17,7 +17,7 @@ type TeacherAgent struct {
 }
 
 // MonitorCorrection watches for human intervention (Manual Override)
-func (t *TeacherAgent) MonitorCorrection(env *defaults.EnvConfig, nav *navigation.SLAMContext, manualInput bool) {
+func (t *TeacherAgent) MonitorCorrection(env *schema.EnvConfig, nav *navigation.SLAMContext, manualInput bool) {
 	if manualInput {
 		t.ActiveMode = "Correcting"
 		logging.Warn("[TEACHER] Manual Override Detected. Recording correction sequence...")

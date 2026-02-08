@@ -55,7 +55,7 @@ func (v *IsolatedVault) WriteMarker(name string) error {
 // --- Config Logic (Structured Environment Data) ---
 
 // SaveConfig serializes the EnvConfig (Hardware profile) into the vault.
-func (v *IsolatedVault) SaveConfig(name string, config *defaults.EnvConfig) error {
+func (v *IsolatedVault) SaveConfig(name string, config *schema.EnvConfig) error {
 	path := filepath.Join(v.BaseDir, name+".json")
 
 	data, err := json.MarshalIndent(config, "", "  ")
@@ -67,7 +67,7 @@ func (v *IsolatedVault) SaveConfig(name string, config *defaults.EnvConfig) erro
 }
 
 // LoadConfig retrieves a stored environment profile from a previous boot.
-func (v *IsolatedVault) LoadConfig(name string) (*defaults.EnvConfig, error) {
+func (v *IsolatedVault) LoadConfig(name string) (*schema.EnvConfig, error) {
 	path := filepath.Join(v.BaseDir, name+".json")
 
 	data, err := os.ReadFile(path)
@@ -75,7 +75,7 @@ func (v *IsolatedVault) LoadConfig(name string) (*defaults.EnvConfig, error) {
 		return nil, fmt.Errorf("failed to read config %s: %w", name, err)
 	}
 
-	var config defaults.EnvConfig
+	var config schema.EnvConfig
 	if err := json.Unmarshal(data, &config); err != nil {
 		return nil, fmt.Errorf("failed to parse config %s: %w", name, err)
 	}

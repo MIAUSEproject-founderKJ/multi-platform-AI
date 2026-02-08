@@ -30,7 +30,7 @@ type TrustEvaluator struct {
 }
 
 // Evaluate performs the Bayesian update cycle to determine system trust.
-func (te *TrustEvaluator) Evaluate(env *defaults.EnvConfig) *TrustDescriptor {
+func (te *TrustEvaluator) Evaluate(env *schema.EnvConfig) *TrustDescriptor {
 	factors := []TrustFactor{}
 
 	// --- EVIDENCE 1: Security Attestation ---
@@ -68,7 +68,7 @@ func (te *TrustEvaluator) Evaluate(env *defaults.EnvConfig) *TrustDescriptor {
 
 // calculateSecurityWeight serves as a translation layer between 
 // Security Enums and Bayesian Probabilities.
-func (te *TrustEvaluator) calculateSecurityWeight(env *defaults.EnvConfig) uint16 {
+func (te *TrustEvaluator) calculateSecurityWeight(env *schema.EnvConfig) uint16 {
 	var floatScore float64 = 0.1 // Default: Untrusted/Initial state
 
 	if env.Attestation.Valid {
