@@ -27,7 +27,8 @@ func (pc *PolicyCompressor) Compress(mem *memory.SemanticMemory, target Compress
 	// 1. EVALUATE THERMAL HEADROOM
 	// If the system is too hot, we delay the compression to prevent a watchdog timeout.
 	if pc.Vitals.Temperature > 80.0 {
-		return logging.Error("[DISTILL] Thermal headroom insufficient. Postponing distillation.")
+		logging.Error("[DISTILL] Thermal headroom insufficient.")
+		return // Just return, don't try to return the result of the log call.
 	}
 
 	// 2. QUANTIZATION STRATEGY

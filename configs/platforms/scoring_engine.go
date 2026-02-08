@@ -1,15 +1,15 @@
-//MIAUSEproject-founderKJ/multi-platform-AI/configs/platforms/scoring_engine.go
+//MIAUSEproject-founderKJ/multi-platform-AI/internal/defaults/scoring_engine.go
 
 package platforms
 
 import (
 	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/platforms"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
 // RunResolution takes the gathered hardware profile and determines the Final PlatformClass.
-func RunResolution(env *platforms.EnvConfig) {
+func RunResolution(env *schema.EnvConfig) {
 	// If the platform is already locked, don't re-run logic (security requirement)
 	if env.Platform.Locked {
 		return

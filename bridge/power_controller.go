@@ -1,9 +1,7 @@
-//bridge/power_controller.go
+// bridge/power_controller.go
 package bridge
 
 import (
-	"fmt"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/hmi"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
@@ -11,8 +9,8 @@ import (
 type PowerState string
 
 const (
-	StateFullPower   PowerState = "ACTUATORS_ON"
-	StateLowPower    PowerState = "SENSORS_ONLY"
+	StateFullPower    PowerState = "ACTUATORS_ON"
+	StateLowPower     PowerState = "SENSORS_ONLY"
 	StateEmergencyOff PowerState = "ISOLATED"
 )
 
@@ -39,10 +37,10 @@ func (bc *BridgeController) TransitionTo(target PowerState) {
 	if bc.CurrentState == target {
 		return
 	}
-	
+
 	logging.Warn("[BRIDGE] Hardware Transition: %s -> %s", bc.CurrentState, target)
 	bc.CurrentState = target
-	
-	// Real-world logic here would involve writing to GPIO pins or 
+
+	// Real-world logic here would involve writing to GPIO pins or
 	// sending "Disable" frames to Motor Controllers via CAN-bus.
 }

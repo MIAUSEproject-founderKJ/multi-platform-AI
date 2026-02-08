@@ -1,4 +1,11 @@
 // bridge/actuators.go
+package bridge
+
+import (
+	"fmt"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+)
 
 func (bc *BridgeController) WriteActuator(busID string, signal float64) error {
 	// SAFETY CHECK: Never move if the trust gate is closed

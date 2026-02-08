@@ -22,7 +22,7 @@ func RunBootSequence(v *security.IsolatedVault) (*BootManager, error) {
 
 	// Perform initial probe
 	rawId, _ := probe.PassiveScan()
-	
+
 	// Convert raw schema profile to our logic-capable Identity struct
 	id := &Identity{IdentityProfile: rawId}
 

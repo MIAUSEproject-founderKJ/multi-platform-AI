@@ -6,32 +6,14 @@ import (
 	"context"
 	"fmt"
 	"time"
+
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/hmi"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/hmi"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
-
-
-// Kernel represents the operational heart of the system.
-type Kernel struct {
-	// Identity & Security
-	Platform *platform.BootSequence
-	Vault    *security.IsolatedVault
-	Trust    *policy.TrustDescriptor
-	EnvConfig *schema.EnvConfig
-	
-	// Operational State
-	Status    string
-	Evaluator *policy.TrustEvaluator
-	
-	// Channels for Telemetry (Unified interface)
-	HMIPipe   chan interface{} 
-	ctx       context.Context
-}
 
 // Define interfaces to satisfy the struct fields
 type SimulationEngine interface {
@@ -52,18 +34,17 @@ type Kernel struct {
 	Platform *platform.BootSequence
 	Vault    *security.IsolatedVault
 	Trust    *policy.TrustDescriptor
-	
-	// Interfaces
-	Sim    SimulationEngine
-	Bridge PowerController
-	Memory CognitiveVault
 
+	// Interfaces
+	Sim       SimulationEngine
+	Bridge    PowerController
+	Memory    CognitiveVault
+	Status    string
 	ctx       context.Context
 	EnvConfig *schema.EnvConfig
 	Evaluator *policy.TrustEvaluator
 	HMIPipe   chan interface{}
 }
-
 
 // Bootstrap is the "Entry Gate" called by cmd/aios-node/main.go.
 func Bootstrap(ctx context.Context) (*Kernel, error) {
@@ -117,10 +98,10 @@ func (k *Kernel) TrustLevel() float64 {
 }
 */
 
-//If the HMILoop hasn't refreshed the k.Trust pointer recently, this value might be "lying" about the current state of the hardware.
+// If the HMILoop hasn't refreshed the k.Trust pointer recently, this value might be "lying" about the current state of the hardware.
 func (k *Kernel) TrustLevel() float64 {
-    res := k.Evaluator.Evaluate(k.EnvConfig)
-    return res.CurrentScore
+	res := k.Evaluator.Evaluate(k.EnvConfig)
+	return res.CurrentScore
 }
 
 // RunLifecycle manages the "Dream State" and power modes.
@@ -209,7 +190,6 @@ func (k *Kernel) Start(ctx context.Context) {
 	<-ctx.Done()
 	k.Shutdown()
 }
-
 
 func (k *Kernel) OnPeerUpdate(pulse NodePulse) {
 	// 1. Verify Peer Attestation

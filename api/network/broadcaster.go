@@ -4,6 +4,8 @@ package network
 
 import (
 	"encoding/json"
+	"time"
+
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
 
@@ -24,9 +26,9 @@ func (sb *SwarmBroadcaster) Dispatch(action string, params map[string]interface{
 	// cmd.Header.Signature = signature
 
 	data, _ := json.Marshal(cmd)
-	
+
 	logging.Info("[SWARM] Dispatching Global Command: %s", action)
-	
+
 	// 2. Broadcast over UDP/TCP to all discovered peers in the SwarmMap
 	for id, peer := range sb.engine.Kernel.Swarm.Peers {
 		go sb.engine.sendToPeer(peer.Addr, data)

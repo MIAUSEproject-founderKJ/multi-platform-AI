@@ -6,7 +6,8 @@ package monitor
 import (
 	"runtime"
 	"time"
-	"multi-platform-AI/internal/schema" // Fixed: Use schema to break import cycle
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema" // Fixed: Use schema to break import cycle
 )
 
 type SystemVitals struct {
@@ -58,7 +59,7 @@ func (m *VitalsMonitor) Start() {
 
 func getCPULoad() float64 {
 	// In a real implementation, use gopsutil or read /proc/stat
-	return 0.0 
+	return 0.0
 }
 
 func getRAMUsage() uint64 {

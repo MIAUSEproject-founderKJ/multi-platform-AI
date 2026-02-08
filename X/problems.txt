@@ -1,90 +1,127 @@
-{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/busmap/pulse.go",
+[{
+	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/api/hmi/provider.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "UndeclaredImportedName",
+		"value": "DuplicateDecl",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
+			"fragment": "DuplicateDecl"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: logging.Info",
+	"message": "ProgressUpdate redeclared in this block (see details)",
 	"source": "compiler",
-	"startLineNumber": 21,
+	"startLineNumber": 16,
+	"startColumn": 6,
+	"endLineNumber": 16,
+	"endColumn": 20,
+	"relatedInformation": [
+		{
+			"startLineNumber": 31,
+			"startColumn": 6,
+			"endLineNumber": 31,
+			"endColumn": 20,
+			"message": "",
+			"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/api/hmi/state_update.go"
+		}
+	],
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/api/hmi/state_update.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "DuplicateDecl",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "DuplicateDecl"
+		}
+	},
+	"severity": 8,
+	"message": "ProgressUpdate redeclared in this block",
+	"source": "compiler",
+	"startLineNumber": 31,
+	"startColumn": 6,
+	"endLineNumber": 31,
+	"endColumn": 20,
+	"relatedInformation": [
+		{
+			"startLineNumber": 16,
+			"startColumn": 6,
+			"endLineNumber": 16,
+			"endColumn": 20,
+			"message": "other declaration of ProgressUpdate",
+			"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/api/hmi/provider.go"
+		}
+	],
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/api/network/broadcaster.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "sb.engine.Kernel undefined (type *NetworkEngine has no field or method Kernel)",
+	"source": "compiler",
+	"startLineNumber": 33,
+	"startColumn": 34,
+	"endLineNumber": 33,
+	"endColumn": 40,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/api/network/engine.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "IncompatibleAssign",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "IncompatibleAssign"
+		}
+	},
+	"severity": 8,
+	"message": "cannot use ne.Config.Platform.Candidates[0].Score (variable of type float64) as policy.TrustDescriptor value in struct literal",
+	"source": "compiler",
+	"startLineNumber": 32,
 	"startColumn": 10,
-	"endLineNumber": 21,
-	"endColumn": 14,
-	"modelVersionId": 8,
+	"endLineNumber": 32,
+	"endColumn": 48,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/busmap/pulse.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "MissingFieldOrMethod",
+		"value": "UndeclaredName",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "MissingFieldOrMethod"
+			"fragment": "UndeclaredName"
 		}
 	},
 	"severity": 8,
-	"message": "bus.Confidence.Float64 undefined (type uint16 has no field or method Float64)",
+	"message": "undefined: Monitor",
 	"source": "compiler",
-	"startLineNumber": 24,
-	"startColumn": 37,
-	"endLineNumber": 24,
-	"endColumn": 44,
-	"modelVersionId": 8,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/control/actuator_loop.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "BrokenImport",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
-		}
-	},
-	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/scheduler (no required module provides package \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/scheduler\")",
-	"source": "compiler",
-	"startLineNumber": 12,
-	"startColumn": 2,
-	"endLineNumber": 12,
-	"endColumn": 75,
-	"modelVersionId": 5,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/control/actuator_loop.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: hal.BusProvider",
-	"source": "compiler",
-	"startLineNumber": 17,
-	"startColumn": 17,
-	"endLineNumber": 17,
-	"endColumn": 28,
-	"modelVersionId": 5,
+	"startLineNumber": 20,
+	"startColumn": 10,
+	"endLineNumber": 20,
+	"endColumn": 17,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/control/actuator_loop.go",
@@ -100,13 +137,12 @@
 		}
 	},
 	"severity": 8,
-	"message": "al.interlock.CurrentState undefined (type *hal.SafetyInterlock has no field or method CurrentState, but does have unexported field currentState)",
+	"message": "al.interlock.currentState undefined (cannot refer to unexported field currentState)",
 	"source": "compiler",
-	"startLineNumber": 39,
-	"startColumn": 36,
-	"endLineNumber": 39,
-	"endColumn": 48,
-	"modelVersionId": 5,
+	"startLineNumber": 34,
+	"startColumn": 68,
+	"endLineNumber": 34,
+	"endColumn": 80,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/control/actuator_loop.go",
@@ -124,11 +160,10 @@
 	"severity": 8,
 	"message": "al.fetchLatestIntent undefined (type *ActuatorLoop has no field or method fetchLatestIntent)",
 	"source": "compiler",
-	"startLineNumber": 47,
+	"startLineNumber": 43,
 	"startColumn": 15,
-	"endLineNumber": 47,
+	"endLineNumber": 43,
 	"endColumn": 32,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/control/actuator_loop.go",
@@ -146,432 +181,45 @@
 	"severity": 8,
 	"message": "al.translateIntentToHardware undefined (type *ActuatorLoop has no field or method translateIntentToHardware)",
 	"source": "compiler",
-	"startLineNumber": 50,
-	"startColumn": 19,
-	"endLineNumber": 50,
-	"endColumn": 44,
-	"modelVersionId": 5,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/hal/safety_interlock.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: checkPhysicalEStopPin",
-	"source": "compiler",
-	"startLineNumber": 27,
-	"startColumn": 15,
-	"endLineNumber": 27,
-	"endColumn": 36,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/hal/safety_interlock.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logger.ProtectIncidentLog",
-	"source": "compiler",
 	"startLineNumber": 44,
-	"startColumn": 9,
+	"startColumn": 19,
 	"endLineNumber": 44,
-	"endColumn": 27,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios-kernel/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "BrokenImport",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
-		}
-	},
-	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/monitor (no required module provides package \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/monitor\")",
-	"source": "compiler",
-	"startLineNumber": 12,
-	"startColumn": 2,
-	"endLineNumber": 12,
-	"endColumn": 72,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios-kernel/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 16,
-	"startColumn": 10,
-	"endLineNumber": 16,
-	"endColumn": 14,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios-kernel/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: core.InitializeNucleus",
-	"source": "compiler",
-	"startLineNumber": 23,
-	"startColumn": 23,
-	"endLineNumber": 23,
-	"endColumn": 40,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios-kernel/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Error",
-	"source": "compiler",
-	"startLineNumber": 25,
-	"startColumn": 11,
-	"endLineNumber": 25,
-	"endColumn": 16,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios-kernel/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 37,
-	"startColumn": 10,
-	"endLineNumber": 37,
-	"endColumn": 14,
-	"modelVersionId": 7,
+	"endColumn": 44,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios-node/main.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
 	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 19,
-	"startColumn": 10,
-	"endLineNumber": 19,
-	"endColumn": 14,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios-node/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Error",
-	"source": "compiler",
-	"startLineNumber": 38,
-	"startColumn": 11,
-	"endLineNumber": 38,
-	"endColumn": 16,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios-node/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 46,
-	"startColumn": 10,
-	"endLineNumber": 46,
-	"endColumn": 14,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios-node/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "MissingFieldOrMethod",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "MissingFieldOrMethod"
-		}
-	},
-	"severity": 8,
-	"message": "kernel.RunHMILoop undefined (type *core.Kernel has no field or method RunHMILoop)",
-	"source": "compiler",
-	"startLineNumber": 50,
-	"startColumn": 12,
-	"endLineNumber": 50,
-	"endColumn": 22,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios-node/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 56,
-	"startColumn": 10,
-	"endLineNumber": 56,
-	"endColumn": 14,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios-node/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 61,
-	"startColumn": 10,
-	"endLineNumber": 61,
-	"endColumn": 14,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios-node/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 63,
-	"startColumn": 10,
-	"endLineNumber": 63,
-	"endColumn": 14,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cognition/agents/teacher.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Warn",
-	"source": "compiler",
-	"startLineNumber": 23,
-	"startColumn": 11,
-	"endLineNumber": 23,
-	"endColumn": 15,
-	"modelVersionId": 5,
+	"message": "expected declaration, found 'if'",
+	"source": "syntax",
+	"startLineNumber": 74,
+	"startColumn": 1,
+	"endLineNumber": 74,
+	"endColumn": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cognition/distillation/policy_compressor.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "UndeclaredImportedName",
+		"value": "WrongResultCount",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
+			"fragment": "WrongResultCount"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: logging.Info",
+	"message": "not enough return values\n\thave ()\n\twant (error)",
 	"source": "compiler",
-	"startLineNumber": 25,
-	"startColumn": 10,
-	"endLineNumber": 25,
-	"endColumn": 14,
-	"modelVersionId": 5,
+	"startLineNumber": 31,
+	"startColumn": 3,
+	"endLineNumber": 31,
+	"endColumn": 9,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cognition/distillation/policy_compressor.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Error",
-	"source": "compiler",
-	"startLineNumber": 30,
-	"startColumn": 18,
-	"endLineNumber": 30,
-	"endColumn": 23,
-	"modelVersionId": 5,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cognition/distillation/policy_compressor.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 35,
-	"startColumn": 10,
-	"endLineNumber": 35,
-	"endColumn": 14,
-	"modelVersionId": 5,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cognition/distillation/policy_compressor.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 41,
-	"startColumn": 10,
-	"endLineNumber": 41,
-	"endColumn": 14,
-	"modelVersionId": 5,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cognition/memory/semantic_vault.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cognition/memory/semantic_store.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
 		"value": "MissingFieldOrMethod",
@@ -590,10 +238,9 @@
 	"startColumn": 18,
 	"endLineNumber": 22,
 	"endColumn": 32,
-	"modelVersionId": 6,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cognition/memory/semantic_vault.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cognition/memory/semantic_store.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
 		"value": "MissingFieldOrMethod",
@@ -612,22 +259,9 @@
 	"startColumn": 24,
 	"endLineNumber": 26,
 	"endColumn": 37,
-	"modelVersionId": 6,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/env_config.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"severity": 8,
-	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios-kernel github.com/MIAUSEproject-founderKJ/multi-platform-AI/core github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]",
-	"source": "go list",
-	"startLineNumber": 1,
-	"startColumn": 1,
-	"endLineNumber": 1,
-	"endColumn": 1,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/env_config.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_commands.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
 		"value": "BrokenImport",
@@ -640,118 +274,15 @@
 		}
 	},
 	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security\")",
+	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/bridge (no required module provides package \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/bridge\")",
 	"source": "compiler",
-	"startLineNumber": 9,
+	"startLineNumber": 7,
 	"startColumn": 2,
-	"endLineNumber": 9,
-	"endColumn": 70,
-	"modelVersionId": 7,
+	"endLineNumber": 7,
+	"endColumn": 68,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/env_config.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: platform.PlatformResolution",
-	"source": "compiler",
-	"startLineNumber": 20,
-	"startColumn": 23,
-	"endLineNumber": 20,
-	"endColumn": 41,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/configs/platforms/resolution.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"severity": 8,
-	"message": "found packages platforms (resolution.go) and platform (scoring_engine.go) in C:\\Users\\MIAUSE\\Documents\\GitHub\\Programming\\multi-platform-AI\\configs\\platforms",
-	"source": "go list",
-	"startLineNumber": 1,
-	"startColumn": 1,
-	"endLineNumber": 1,
-	"endColumn": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/configs/platforms/scoring_engine.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"severity": 8,
-	"message": "found packages platforms (resolution.go) and platform (scoring_engine.go) in C:\\Users\\MIAUSE\\Documents\\GitHub\\Programming\\multi-platform-AI\\configs\\platforms",
-	"source": "go list",
-	"startLineNumber": 1,
-	"startColumn": 1,
-	"endLineNumber": 1,
-	"endColumn": 1,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/configs/platforms/scoring_engine.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "MismatchedPkgName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "MismatchedPkgName"
-		}
-	},
-	"severity": 8,
-	"message": "package platform; expected package platforms",
-	"source": "compiler",
-	"startLineNumber": 3,
-	"startColumn": 1,
-	"endLineNumber": 3,
-	"endColumn": 8,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/configs/platforms/types.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"severity": 8,
-	"message": "found packages platforms (resolution.go) and platform (scoring_engine.go) in C:\\Users\\MIAUSE\\Documents\\GitHub\\Programming\\multi-platform-AI\\configs\\platforms",
-	"source": "go list",
-	"startLineNumber": 1,
-	"startColumn": 1,
-	"endLineNumber": 1,
-	"endColumn": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/configs/platforms/types.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UnusedImport",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UnusedImport"
-		}
-	},
-	"severity": 8,
-	"message": "\"time\" imported and not used",
-	"source": "compiler",
-	"startLineNumber": 5,
-	"startColumn": 8,
-	"endLineNumber": 5,
-	"endColumn": 14,
-	"tags": [
-		1
-	],
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/configs/platforms/types.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_commands.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
 		"value": "UndeclaredName",
@@ -764,144 +295,265 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: BatteryStatus",
+	"message": "undefined: fmt",
+	"source": "compiler",
+	"startLineNumber": 18,
+	"startColumn": 10,
+	"endLineNumber": 18,
+	"endColumn": 13,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_commands.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.handlePerceptionScan undefined (type *Kernel has no field or method handlePerceptionScan)",
+	"source": "compiler",
+	"startLineNumber": 31,
+	"startColumn": 12,
+	"endLineNumber": 31,
+	"endColumn": 32,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_commands.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Bridge.WriteActuator undefined (type PowerController has no field or method WriteActuator)",
+	"source": "compiler",
+	"startLineNumber": 44,
+	"startColumn": 18,
+	"endLineNumber": 44,
+	"endColumn": 31,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_lifecycle.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "DuplicateMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "DuplicateMethod"
+		}
+	},
+	"severity": 8,
+	"message": "method Kernel.Shutdown already declared at C:\\Users\\MIAUSE\\Documents\\GitHub\\Programming\\multi-platform-AI\\core\\kernel.go:134:18",
+	"source": "compiler",
+	"startLineNumber": 9,
+	"startColumn": 18,
+	"endLineNumber": 9,
+	"endColumn": 26,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_network.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.requestIdentity undefined (type *Kernel has no field or method requestIdentity)",
+	"source": "compiler",
+	"startLineNumber": 17,
+	"startColumn": 25,
+	"endLineNumber": 17,
+	"endColumn": 40,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_network.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Swarm undefined (type *Kernel has no field or method Swarm)",
+	"source": "compiler",
+	"startLineNumber": 31,
+	"startColumn": 4,
+	"endLineNumber": 31,
+	"endColumn": 9,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_network.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Swarm undefined (type *Kernel has no field or method Swarm)",
 	"source": "compiler",
 	"startLineNumber": 32,
-	"startColumn": 16,
+	"startColumn": 4,
 	"endLineNumber": 32,
+	"endColumn": 9,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_network.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingLitField",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingLitField"
+		}
+	},
+	"severity": 8,
+	"message": "unknown field Addr in struct literal of type network.PeerState",
+	"source": "compiler",
+	"startLineNumber": 33,
+	"startColumn": 3,
+	"endLineNumber": 33,
+	"endColumn": 7,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_network.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingLitField",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingLitField"
+		}
+	},
+	"severity": 8,
+	"message": "unknown field LastPulse in struct literal of type network.PeerState",
+	"source": "compiler",
+	"startLineNumber": 34,
+	"startColumn": 3,
+	"endLineNumber": 34,
+	"endColumn": 12,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_network.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingLitField",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingLitField"
+		}
+	},
+	"severity": 8,
+	"message": "unknown field Status in struct literal of type network.PeerState",
+	"source": "compiler",
+	"startLineNumber": 35,
+	"startColumn": 3,
+	"endLineNumber": 35,
+	"endColumn": 9,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_network.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Swarm undefined (type *Kernel has no field or method Swarm)",
+	"source": "compiler",
+	"startLineNumber": 37,
+	"startColumn": 4,
+	"endLineNumber": 37,
+	"endColumn": 9,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_swarm.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Vault.VerifySignature undefined (type *security.IsolatedVault has no field or method VerifySignature)",
+	"source": "compiler",
+	"startLineNumber": 20,
+	"startColumn": 14,
+	"endLineNumber": 20,
 	"endColumn": 29,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "BrokenImport",
+		"value": "MissingFieldOrMethod",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
+			"fragment": "MissingFieldOrMethod"
 		}
 	},
 	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/hmi (no required module provides package \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/hmi\")",
+	"message": "pSequence.PlatformID undefined (type *platform.BootManager has no field or method PlatformID)",
 	"source": "compiler",
-	"startLineNumber": 15,
-	"startColumn": 2,
-	"endLineNumber": 15,
-	"endColumn": 64,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: SimulationEngine",
-	"source": "compiler",
-	"startLineNumber": 28,
-	"startColumn": 9,
-	"endLineNumber": 28,
-	"endColumn": 25,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: PowerController",
-	"source": "compiler",
-	"startLineNumber": 29,
-	"startColumn": 9,
-	"endLineNumber": 29,
-	"endColumn": 24,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: HealthMonitor",
-	"source": "compiler",
-	"startLineNumber": 30,
-	"startColumn": 9,
-	"endLineNumber": 30,
-	"endColumn": 22,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: CognitiveVault",
-	"source": "compiler",
-	"startLineNumber": 31,
-	"startColumn": 9,
-	"endLineNumber": 31,
-	"endColumn": 23,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 36,
-	"startColumn": 10,
-	"endLineNumber": 36,
-	"endColumn": 14,
-	"modelVersionId": 7,
+	"startLineNumber": 72,
+	"startColumn": 42,
+	"endLineNumber": 72,
+	"endColumn": 52,
+	"modelVersionId": 24,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
@@ -919,539 +571,58 @@
 	"severity": 8,
 	"message": "undefined: policy.InitializeTrust",
 	"source": "compiler",
-	"startLineNumber": 62,
-	"startColumn": 28,
-	"endLineNumber": 62,
-	"endColumn": 43,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 64,
-	"startColumn": 10,
-	"endLineNumber": 64,
-	"endColumn": 14,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 111,
-	"startColumn": 10,
-	"endLineNumber": 111,
-	"endColumn": 14,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 157,
-	"startColumn": 10,
-	"endLineNumber": 157,
-	"endColumn": 14,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "BrokenImport",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
-		}
-	},
-	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security\")",
-	"source": "compiler",
-	"startLineNumber": 10,
-	"startColumn": 2,
-	"endLineNumber": 10,
-	"endColumn": 70,
-	"modelVersionId": 6,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "BrokenImport",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
-		}
-	},
-	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/plugins/perception (no required module provides package \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/plugins/perception\")",
-	"source": "compiler",
-	"startLineNumber": 14,
-	"startColumn": 2,
-	"endLineNumber": 14,
-	"endColumn": 75,
-	"modelVersionId": 6,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: BootManager",
-	"source": "compiler",
-	"startLineNumber": 19,
-	"startColumn": 11,
-	"endLineNumber": 19,
-	"endColumn": 22,
-	"modelVersionId": 6,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 20,
-	"startColumn": 10,
-	"endLineNumber": 20,
-	"endColumn": 14,
-	"modelVersionId": 6,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "WrongAssignCount",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "WrongAssignCount"
-		}
-	},
-	"severity": 8,
-	"message": "assignment mismatch: 2 variables but probe.AggressiveScan returns 1 value",
-	"source": "compiler",
-	"startLineNumber": 31,
-	"startColumn": 22,
-	"endLineNumber": 31,
-	"endColumn": 55,
-	"modelVersionId": 6,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 52,
-	"startColumn": 10,
-	"endLineNumber": 52,
-	"endColumn": 14,
-	"modelVersionId": 6,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Warn",
-	"source": "compiler",
-	"startLineNumber": 58,
-	"startColumn": 11,
-	"endLineNumber": 58,
-	"endColumn": 15,
-	"modelVersionId": 6,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: BootManager",
-	"source": "compiler",
-	"startLineNumber": 72,
-	"startColumn": 11,
-	"endLineNumber": 72,
-	"endColumn": 22,
-	"modelVersionId": 6,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 73,
-	"startColumn": 10,
-	"endLineNumber": 73,
-	"endColumn": 14,
-	"modelVersionId": 6,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Error",
-	"source": "compiler",
 	"startLineNumber": 77,
-	"startColumn": 11,
+	"startColumn": 28,
 	"endLineNumber": 77,
-	"endColumn": 16,
-	"modelVersionId": 6,
+	"endColumn": 43,
+	"modelVersionId": 24,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "UndeclaredImportedName",
+		"value": "MissingFieldOrMethod",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
+			"fragment": "MissingFieldOrMethod"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: logging.Info",
+	"message": "pSequence.PlatformID undefined (type *platform.BootManager has no field or method PlatformID)",
 	"source": "compiler",
-	"startLineNumber": 91,
-	"startColumn": 10,
-	"endLineNumber": 91,
-	"endColumn": 14,
-	"modelVersionId": 6,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: BootManager",
-	"source": "compiler",
-	"startLineNumber": 103,
-	"startColumn": 11,
-	"endLineNumber": 103,
-	"endColumn": 22,
-	"modelVersionId": 6,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 114,
-	"startColumn": 12,
-	"endLineNumber": 114,
-	"endColumn": 16,
-	"modelVersionId": 6,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Error",
-	"source": "compiler",
-	"startLineNumber": 120,
-	"startColumn": 11,
-	"endLineNumber": 120,
-	"endColumn": 16,
-	"modelVersionId": 6,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_sequence.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "DuplicateDecl",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "DuplicateDecl"
-		}
-	},
-	"severity": 8,
-	"message": "BootSequence redeclared in this block (see details)",
-	"source": "compiler",
-	"startLineNumber": 12,
-	"startColumn": 6,
-	"endLineNumber": 12,
-	"endColumn": 18,
-	"relatedInformation": [
-		{
-			"startLineNumber": 8,
-			"startColumn": 6,
-			"endLineNumber": 8,
-			"endColumn": 18,
-			"message": "",
-			"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/types.go"
-		}
-	],
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_sequence.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: PlatformClass",
-	"source": "compiler",
-	"startLineNumber": 14,
+	"startLineNumber": 80,
 	"startColumn": 13,
-	"endLineNumber": 14,
-	"endColumn": 26,
+	"endLineNumber": 80,
+	"endColumn": 23,
+	"modelVersionId": 24,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"severity": 8,
-	"message": "package multi-platform-AI/internal/logging is not in std (C:\\Program Files\\Go\\src\\multi-platform-AI\\internal\\logging)",
-	"source": "go list",
-	"startLineNumber": 13,
-	"startColumn": 2,
-	"endLineNumber": 13,
-	"endColumn": 2,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"severity": 8,
-	"message": "expected ';', found 'EOF'",
-	"source": "syntax",
-	"startLineNumber": 33,
-	"startColumn": 1,
-	"endLineNumber": 33,
-	"endColumn": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/classify_platform.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"severity": 8,
-	"message": "expected ';', found 'EOF'",
-	"source": "syntax",
-	"startLineNumber": 1,
-	"startColumn": 1,
-	"endLineNumber": 1,
-	"endColumn": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/classify/identify.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "UndeclaredImportedName",
+		"value": "MissingFieldOrMethod",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
+			"fragment": "MissingFieldOrMethod"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: logging.Info",
+	"message": "pSequence.Mode undefined (type *platform.BootManager has no field or method Mode)",
 	"source": "compiler",
-	"startLineNumber": 20,
-	"startColumn": 10,
-	"endLineNumber": 20,
-	"endColumn": 14,
-	"modelVersionId": 4,
+	"startLineNumber": 80,
+	"startColumn": 35,
+	"endLineNumber": 80,
+	"endColumn": 39,
+	"modelVersionId": 24,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/classify/identify.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 47,
-	"startColumn": 10,
-	"endLineNumber": 47,
-	"endColumn": 14,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 20,
-	"startColumn": 10,
-	"endLineNumber": 20,
-	"endColumn": 14,
-	"modelVersionId": 5,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
 		"value": "IncompatibleAssign",
@@ -1464,16 +635,38 @@
 		}
 	},
 	"severity": 8,
-	"message": "cannot use mathutil.Q16FromFloat(s.Score / s.MaxScore) (value of uint16 type mathutil.Q16) as uint16 value in assignment",
+	"message": "cannot use pSequence (variable of type *platform.BootManager) as *platform.BootSequence value in struct literal",
 	"source": "compiler",
-	"startLineNumber": 68,
-	"startColumn": 19,
-	"endLineNumber": 68,
-	"endColumn": 62,
-	"modelVersionId": 5,
+	"startLineNumber": 83,
+	"startColumn": 13,
+	"endLineNumber": 83,
+	"endColumn": 22,
+	"modelVersionId": 24,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "IncompatibleAssign",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "IncompatibleAssign"
+		}
+	},
+	"severity": 8,
+	"message": "cannot use make(chan hmi.ProgressUpdate, 10) (value of type chan hmi.ProgressUpdate) as chan interface{} value in struct literal",
+	"source": "compiler",
+	"startLineNumber": 87,
+	"startColumn": 13,
+	"endLineNumber": 87,
+	"endColumn": 46,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
 		"value": "MissingFieldOrMethod",
@@ -1486,431 +679,901 @@
 		}
 	},
 	"severity": 8,
-	"message": "s.Confidence.Float64 undefined (type uint16 has no field or method Float64)",
+	"message": "k.Bridge.SetPowerMode undefined (type PowerController has no field or method SetPowerMode)",
 	"source": "compiler",
-	"startLineNumber": 83,
-	"startColumn": 20,
-	"endLineNumber": 83,
-	"endColumn": 27,
-	"modelVersionId": 5,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "MissingFieldOrMethod",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "MissingFieldOrMethod"
-		}
-	},
-	"severity": 8,
-	"message": "best.Confidence.Float64 undefined (type uint16 has no field or method Float64)",
-	"source": "compiler",
-	"startLineNumber": 83,
-	"startColumn": 48,
-	"endLineNumber": 83,
-	"endColumn": 55,
-	"modelVersionId": 5,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: platforms.AttestationStrong",
-	"source": "compiler",
-	"startLineNumber": 107,
-	"startColumn": 36,
-	"endLineNumber": 107,
-	"endColumn": 53,
-	"modelVersionId": 5,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 109,
-	"startColumn": 10,
-	"endLineNumber": 109,
-	"endColumn": 14,
-	"modelVersionId": 5,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "BrokenImport",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
-		}
-	},
-	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema\")",
-	"source": "compiler",
-	"startLineNumber": 16,
-	"startColumn": 2,
-	"endLineNumber": 16,
-	"endColumn": 73,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: Identity",
-	"source": "compiler",
-	"startLineNumber": 21,
-	"startColumn": 11,
-	"endLineNumber": 21,
-	"endColumn": 19,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: PlatformClass",
-	"source": "compiler",
-	"startLineNumber": 24,
-	"startColumn": 21,
-	"endLineNumber": 24,
-	"endColumn": 34,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: PlatformScore",
-	"source": "compiler",
-	"startLineNumber": 24,
-	"startColumn": 36,
-	"endLineNumber": 24,
-	"endColumn": 49,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: PlatformClass",
-	"source": "compiler",
-	"startLineNumber": 26,
-	"startColumn": 23,
-	"endLineNumber": 26,
-	"endColumn": 36,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: PlatformScore",
-	"source": "compiler",
-	"startLineNumber": 26,
-	"startColumn": 52,
-	"endLineNumber": 26,
-	"endColumn": 65,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: PlatformScore",
-	"source": "compiler",
-	"startLineNumber": 28,
-	"startColumn": 21,
-	"endLineNumber": 28,
-	"endColumn": 34,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: PlatformVehicle",
-	"source": "compiler",
-	"startLineNumber": 37,
-	"startColumn": 15,
-	"endLineNumber": 37,
-	"endColumn": 30,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: PlatformRobot",
-	"source": "compiler",
-	"startLineNumber": 44,
-	"startColumn": 15,
-	"endLineNumber": 44,
-	"endColumn": 28,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: PlatformLaptop",
-	"source": "compiler",
-	"startLineNumber": 51,
-	"startColumn": 15,
-	"endLineNumber": 51,
-	"endColumn": 29,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: PlatformClass",
-	"source": "compiler",
-	"startLineNumber": 58,
-	"startColumn": 16,
-	"endLineNumber": 58,
-	"endColumn": 29,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: PlatformComputer",
-	"source": "compiler",
-	"startLineNumber": 58,
-	"startColumn": 32,
-	"endLineNumber": 58,
-	"endColumn": 48,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: PlatformScore",
-	"source": "compiler",
-	"startLineNumber": 60,
-	"startColumn": 19,
-	"endLineNumber": 60,
-	"endColumn": 32,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: HardwareProfile",
-	"source": "compiler",
-	"startLineNumber": 103,
-	"startColumn": 10,
-	"endLineNumber": 103,
+	"startLineNumber": 112,
+	"startColumn": 13,
+	"endLineNumber": 112,
 	"endColumn": 25,
-	"modelVersionId": 4,
+	"modelVersionId": 24,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/aggressive.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "UndeclaredImportedName",
+		"value": "MissingLitField",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
+			"fragment": "MissingLitField"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: platforms.EnvConfig",
+	"message": "unknown field Stage in struct literal of type hmi.ProgressUpdate",
 	"source": "compiler",
-	"startLineNumber": 13,
-	"startColumn": 36,
-	"endLineNumber": 13,
-	"endColumn": 45,
-	"modelVersionId": 5,
+	"startLineNumber": 116,
+	"startColumn": 5,
+	"endLineNumber": 116,
+	"endColumn": 10,
+	"modelVersionId": 24,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/aggressive.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "UndeclaredImportedName",
+		"value": "MissingLitField",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
+			"fragment": "MissingLitField"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: logging.Info",
+	"message": "unknown field Message in struct literal of type hmi.ProgressUpdate",
 	"source": "compiler",
-	"startLineNumber": 14,
+	"startLineNumber": 117,
+	"startColumn": 5,
+	"endLineNumber": 117,
+	"endColumn": 12,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Sim.EnterDreamState undefined (type SimulationEngine has no field or method EnterDreamState)",
+	"source": "compiler",
+	"startLineNumber": 121,
 	"startColumn": 10,
-	"endLineNumber": 14,
+	"endLineNumber": 121,
+	"endColumn": 25,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "WrongArgCount",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "WrongArgCount"
+		}
+	},
+	"severity": 8,
+	"message": "not enough arguments in call to k.Memory.Recall\n\thave ()\n\twant (string)",
+	"source": "compiler",
+	"startLineNumber": 121,
+	"startColumn": 42,
+	"endLineNumber": 121,
+	"endColumn": 42,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Sim.Stop undefined (type SimulationEngine has no field or method Stop)",
+	"source": "compiler",
+	"startLineNumber": 126,
+	"startColumn": 10,
+	"endLineNumber": 126,
 	"endColumn": 14,
-	"modelVersionId": 5,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Bridge.SetPowerMode undefined (type PowerController has no field or method SetPowerMode)",
+	"source": "compiler",
+	"startLineNumber": 127,
+	"startColumn": 13,
+	"endLineNumber": 127,
+	"endColumn": 25,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Vitals undefined (type *Kernel has no field or method Vitals)",
+	"source": "compiler",
+	"startLineNumber": 147,
+	"startColumn": 22,
+	"endLineNumber": 147,
+	"endColumn": 28,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingLitField",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingLitField"
+		}
+	},
+	"severity": 8,
+	"message": "unknown field Stage in struct literal of type hmi.ProgressUpdate",
+	"source": "compiler",
+	"startLineNumber": 150,
+	"startColumn": 5,
+	"endLineNumber": 150,
+	"endColumn": 10,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingLitField",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingLitField"
+		}
+	},
+	"severity": 8,
+	"message": "unknown field Message in struct literal of type hmi.ProgressUpdate",
+	"source": "compiler",
+	"startLineNumber": 151,
+	"startColumn": 5,
+	"endLineNumber": 151,
+	"endColumn": 12,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Sim.EnterDreamState undefined (type SimulationEngine has no field or method EnterDreamState)",
+	"source": "compiler",
+	"startLineNumber": 154,
+	"startColumn": 10,
+	"endLineNumber": 154,
+	"endColumn": 25,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "WrongArgCount",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "WrongArgCount"
+		}
+	},
+	"severity": 8,
+	"message": "not enough arguments in call to k.Memory.Recall\n\thave ()\n\twant (string)",
+	"source": "compiler",
+	"startLineNumber": 154,
+	"startColumn": 42,
+	"endLineNumber": 154,
+	"endColumn": 42,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Sim.Stop undefined (type SimulationEngine has no field or method Stop)",
+	"source": "compiler",
+	"startLineNumber": 156,
+	"startColumn": 10,
+	"endLineNumber": 156,
+	"endColumn": 14,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.HMIPipe.SendTelemetry undefined (type chan interface{} has no field or method SendTelemetry)",
+	"source": "compiler",
+	"startLineNumber": 165,
+	"startColumn": 13,
+	"endLineNumber": 165,
+	"endColumn": 26,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingLitField",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingLitField"
+		}
+	},
+	"severity": 8,
+	"message": "unknown field CpuLoad in struct literal of type hmi.SystemPulse",
+	"source": "compiler",
+	"startLineNumber": 166,
+	"startColumn": 4,
+	"endLineNumber": 166,
+	"endColumn": 11,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Vitals undefined (type *Kernel has no field or method Vitals)",
+	"source": "compiler",
+	"startLineNumber": 166,
+	"startColumn": 19,
+	"endLineNumber": 166,
+	"endColumn": 25,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingLitField",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingLitField"
+		}
+	},
+	"severity": 8,
+	"message": "unknown field TrustScore in struct literal of type hmi.SystemPulse",
+	"source": "compiler",
+	"startLineNumber": 167,
+	"startColumn": 4,
+	"endLineNumber": 167,
+	"endColumn": 14,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingLitField",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingLitField"
+		}
+	},
+	"severity": 8,
+	"message": "unknown field Temperature in struct literal of type hmi.SystemPulse",
+	"source": "compiler",
+	"startLineNumber": 168,
+	"startColumn": 4,
+	"endLineNumber": 168,
+	"endColumn": 15,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Vitals undefined (type *Kernel has no field or method Vitals)",
+	"source": "compiler",
+	"startLineNumber": 168,
+	"startColumn": 19,
+	"endLineNumber": 168,
+	"endColumn": 25,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.HMIPipe.SendSpatial undefined (type chan interface{} has no field or method SendSpatial)",
+	"source": "compiler",
+	"startLineNumber": 173,
+	"startColumn": 14,
+	"endLineNumber": 173,
+	"endColumn": 25,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Sim.GetVoxelFrame undefined (type SimulationEngine has no field or method GetVoxelFrame)",
+	"source": "compiler",
+	"startLineNumber": 173,
+	"startColumn": 32,
+	"endLineNumber": 173,
+	"endColumn": 45,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: NodePulse",
+	"source": "compiler",
+	"startLineNumber": 194,
+	"startColumn": 37,
+	"endLineNumber": 194,
+	"endColumn": 46,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Vault.VerifyRemote undefined (type *security.IsolatedVault has no field or method VerifyRemote)",
+	"source": "compiler",
+	"startLineNumber": 196,
+	"startColumn": 14,
+	"endLineNumber": 196,
+	"endColumn": 26,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Vision undefined (type *Kernel has no field or method Vision)",
+	"source": "compiler",
+	"startLineNumber": 207,
+	"startColumn": 15,
+	"endLineNumber": 207,
+	"endColumn": 21,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Hardware undefined (type *Kernel has no field or method Hardware)",
+	"source": "compiler",
+	"startLineNumber": 207,
+	"startColumn": 37,
+	"endLineNumber": 207,
+	"endColumn": 45,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Hardware undefined (type *Kernel has no field or method Hardware)",
+	"source": "compiler",
+	"startLineNumber": 210,
+	"startColumn": 9,
+	"endLineNumber": 210,
+	"endColumn": 17,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "WrongArgCount",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "WrongArgCount"
+		}
+	},
+	"severity": 8,
+	"message": "too many arguments in call to k.Evaluator.Evaluate\n\thave (*schema.EnvConfig, unknown type, unknown type)\n\twant (*schema.EnvConfig)",
+	"source": "compiler",
+	"startLineNumber": 213,
+	"startColumn": 46,
+	"endLineNumber": 213,
+	"endColumn": 53,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "k.Swarm undefined (type *Kernel has no field or method Swarm)",
+	"source": "compiler",
+	"startLineNumber": 217,
+	"startColumn": 5,
+	"endLineNumber": 217,
+	"endColumn": 10,
+	"modelVersionId": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "IncompatibleAssign",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "IncompatibleAssign"
+		}
+	},
+	"severity": 8,
+	"message": "cannot use bm.Identity (variable of type *Identity) as *schema.EnvConfig value in argument to monitor.NewVitalsMonitor",
+	"source": "compiler",
+	"startLineNumber": 25,
+	"startColumn": 37,
+	"endLineNumber": 25,
+	"endColumn": 48,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "bm.linkVisionHUD undefined (type *BootManager has no field or method linkVisionHUD)",
+	"source": "compiler",
+	"startLineNumber": 27,
+	"startColumn": 5,
+	"endLineNumber": 27,
+	"endColumn": 18,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "bm.updateProgress undefined (type *BootManager has no field or method updateProgress)",
+	"source": "compiler",
+	"startLineNumber": 30,
+	"startColumn": 5,
+	"endLineNumber": 30,
+	"endColumn": 19,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "TooManyValues",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "TooManyValues"
+		}
+	},
+	"severity": 8,
+	"message": "probe.AggressiveScan(bm.Identity) (no value) used as value",
+	"source": "compiler",
+	"startLineNumber": 31,
+	"startColumn": 22,
+	"endLineNumber": 31,
+	"endColumn": 55,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "IncompatibleAssign",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "IncompatibleAssign"
+		}
+	},
+	"severity": 8,
+	"message": "cannot use bm.Identity (variable of type *Identity) as *schema.EnvConfig value in argument to probe.AggressiveScan",
+	"source": "compiler",
+	"startLineNumber": 31,
+	"startColumn": 43,
+	"endLineNumber": 31,
+	"endColumn": 54,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "bm.updateProgress undefined (type *BootManager has no field or method updateProgress)",
+	"source": "compiler",
+	"startLineNumber": 38,
+	"startColumn": 5,
+	"endLineNumber": 38,
+	"endColumn": 19,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "bm.updateProgress undefined (type *BootManager has no field or method updateProgress)",
+	"source": "compiler",
+	"startLineNumber": 42,
+	"startColumn": 5,
+	"endLineNumber": 42,
+	"endColumn": 19,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "bm.IdentifyUser undefined (type *BootManager has no field or method IdentifyUser)",
+	"source": "compiler",
+	"startLineNumber": 46,
+	"startColumn": 20,
+	"endLineNumber": 46,
+	"endColumn": 32,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "bm.updateProgress undefined (type *BootManager has no field or method updateProgress)",
+	"source": "compiler",
+	"startLineNumber": 61,
+	"startColumn": 5,
+	"endLineNumber": 61,
+	"endColumn": 19,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "bm.EnterRecoveryMode undefined (type *BootManager has no field or method EnterRecoveryMode)",
+	"source": "compiler",
+	"startLineNumber": 122,
+	"startColumn": 13,
+	"endLineNumber": 122,
+	"endColumn": 30,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingLitField",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingLitField"
+		}
+	},
+	"severity": 8,
+	"message": "unknown field IdentityProfile in struct literal of type Identity",
+	"source": "compiler",
+	"startLineNumber": 27,
+	"startColumn": 18,
+	"endLineNumber": 27,
+	"endColumn": 33,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"severity": 8,
+	"message": "missing ',' before newline in argument list",
+	"source": "syntax",
+	"startLineNumber": 100,
+	"startColumn": 25,
+	"endLineNumber": 100,
+	"endColumn": 25,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MismatchedTypes",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MismatchedTypes"
+		}
+	},
+	"severity": 8,
+	"message": "invalid operation: s.Confidence > highConf (mismatched types uint16 and float64)",
+	"source": "compiler",
+	"startLineNumber": 71,
+	"startColumn": 21,
+	"endLineNumber": 71,
+	"endColumn": 29,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "DuplicateDecl",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "DuplicateDecl"
+		}
+	},
+	"severity": 8,
+	"message": "hasBus redeclared in this block (see details)",
+	"source": "compiler",
+	"startLineNumber": 92,
+	"startColumn": 6,
+	"endLineNumber": 92,
+	"endColumn": 12,
+	"relatedInformation": [
+		{
+			"startLineNumber": 116,
+			"startColumn": 6,
+			"endLineNumber": 116,
+			"endColumn": 12,
+			"message": "",
+			"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go"
+		}
+	],
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/aggressive.go",
@@ -1932,7 +1595,6 @@
 	"startColumn": 3,
 	"endLineNumber": 23,
 	"endColumn": 16,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/aggressive.go",
@@ -1954,7 +1616,6 @@
 	"startColumn": 3,
 	"endLineNumber": 25,
 	"endColumn": 13,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/aggressive.go",
@@ -1976,216 +1637,174 @@
 	"startColumn": 3,
 	"endLineNumber": 26,
 	"endColumn": 16,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/aggressive.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "UndeclaredImportedName",
+		"value": "WrongResultCount",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
+			"fragment": "WrongResultCount"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: logging.Info",
+	"message": "too many return values\n\thave (nil)\n\twant ()",
 	"source": "compiler",
-	"startLineNumber": 33,
-	"startColumn": 10,
-	"endLineNumber": 33,
+	"startLineNumber": 34,
+	"startColumn": 9,
+	"endLineNumber": 34,
+	"endColumn": 12,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/aggressive.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "cfg.Runtime undefined (type *schema.EnvConfig has no field or method Runtime)",
+	"source": "compiler",
+	"startLineNumber": 67,
+	"startColumn": 9,
+	"endLineNumber": 67,
+	"endColumn": 16,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/aggressive.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "cfg.Runtime undefined (type *schema.EnvConfig has no field or method Runtime)",
+	"source": "compiler",
+	"startLineNumber": 68,
+	"startColumn": 7,
+	"endLineNumber": 68,
 	"endColumn": 14,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/aggressive.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "UndeclaredImportedName",
+		"value": "MissingFieldOrMethod",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
+			"fragment": "MissingFieldOrMethod"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: platforms.EnvConfig",
+	"message": "cfg.Runtime undefined (type *schema.EnvConfig has no field or method Runtime)",
 	"source": "compiler",
-	"startLineNumber": 37,
-	"startColumn": 32,
-	"endLineNumber": 37,
-	"endColumn": 41,
-	"modelVersionId": 5,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/aggressive.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 38,
-	"startColumn": 10,
-	"endLineNumber": 38,
-	"endColumn": 14,
-	"modelVersionId": 5,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/aggressive.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: platforms.EnvConfig",
-	"source": "compiler",
-	"startLineNumber": 54,
-	"startColumn": 37,
-	"endLineNumber": 54,
-	"endColumn": 46,
-	"modelVersionId": 5,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/aggressive.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 55,
-	"startColumn": 10,
-	"endLineNumber": 55,
-	"endColumn": 14,
-	"modelVersionId": 5,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/aggressive.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: platforms.EnvConfig",
-	"source": "compiler",
-	"startLineNumber": 64,
-	"startColumn": 41,
-	"endLineNumber": 64,
-	"endColumn": 50,
-	"modelVersionId": 5,
+	"startLineNumber": 70,
+	"startColumn": 6,
+	"endLineNumber": 70,
+	"endColumn": 13,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/heartbeat.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
-	"severity": 8,
-	"message": "expected 'package', found 'func'",
-	"source": "syntax",
-	"startLineNumber": 2,
-	"startColumn": 1,
-	"endLineNumber": 2,
-	"endColumn": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/passive.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "UndeclaredImportedName",
+		"value": "UndeclaredName",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
+			"fragment": "UndeclaredName"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: logging.Info",
+	"message": "undefined: HardwareProfile",
 	"source": "compiler",
-	"startLineNumber": 24,
-	"startColumn": 10,
-	"endLineNumber": 24,
-	"endColumn": 14,
-	"modelVersionId": 4,
+	"startLineNumber": 10,
+	"startColumn": 59,
+	"endLineNumber": 10,
+	"endColumn": 74,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/passive.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/heartbeat.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "UndeclaredImportedName",
+		"value": "UndeclaredName",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
+			"fragment": "UndeclaredName"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: logging.Info",
+	"message": "undefined: isSensorAlive",
 	"source": "compiler",
-	"startLineNumber": 41,
-	"startColumn": 10,
-	"endLineNumber": 41,
-	"endColumn": 14,
-	"modelVersionId": 4,
+	"startLineNumber": 18,
+	"startColumn": 7,
+	"endLineNumber": 18,
+	"endColumn": 20,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/resolve.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "UndeclaredImportedName",
+		"value": "MissingFieldOrMethod",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
+			"fragment": "MissingFieldOrMethod"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: platforms.EnvConfig",
+	"message": "env.Attestation.schema undefined (type schema.EnvAttestation has no field or method schema)",
 	"source": "compiler",
-	"startLineNumber": 11,
-	"startColumn": 37,
-	"endLineNumber": 11,
-	"endColumn": 46,
-	"modelVersionId": 4,
+	"startLineNumber": 13,
+	"startColumn": 21,
+	"endLineNumber": 13,
+	"endColumn": 27,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/resolve.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "env.Attestation.Platform undefined (type schema.EnvAttestation has no field or method Platform)",
+	"source": "compiler",
+	"startLineNumber": 14,
+	"startColumn": 40,
+	"endLineNumber": 14,
+	"endColumn": 48,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/scoring.go",
@@ -2230,91 +1849,46 @@
 	"endColumn": 28,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/types.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/policy/remote_verify.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "DuplicateDecl",
+		"value": "MissingFieldOrMethod",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "DuplicateDecl"
+			"fragment": "MissingFieldOrMethod"
 		}
 	},
 	"severity": 8,
-	"message": "BootSequence redeclared in this block",
+	"message": "e.AuthorizedBinaryHash undefined (type *TrustEvaluator has no field or method AuthorizedBinaryHash)",
 	"source": "compiler",
 	"startLineNumber": 8,
-	"startColumn": 6,
+	"startColumn": 28,
 	"endLineNumber": 8,
-	"endColumn": 18,
-	"relatedInformation": [
-		{
-			"startLineNumber": 12,
-			"startColumn": 6,
-			"endLineNumber": 12,
-			"endColumn": 18,
-			"message": "other declaration of BootSequence",
-			"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_sequence.go"
-		}
-	],
-	"modelVersionId": 4,
+	"endColumn": 48,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/policy/trust_bayesian.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/policy/scheduler.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "BrokenImport",
+		"value": "MissingFieldOrMethod",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
+			"fragment": "MissingFieldOrMethod"
 		}
 	},
 	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema\")",
+	"message": "e.LastScore undefined (type *TrustEvaluator has no field or method LastScore)",
 	"source": "compiler",
-	"startLineNumber": 8,
-	"startColumn": 2,
-	"endLineNumber": 8,
-	"endColumn": 73,
-	"modelVersionId": 6,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/policy/trust_evaluator.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"severity": 8,
-	"message": "expected ';', found 'EOF'",
-	"source": "syntax",
-	"startLineNumber": 1,
-	"startColumn": 1,
-	"endLineNumber": 1,
-	"endColumn": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/policy/vault.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "MismatchedPkgName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "MismatchedPkgName"
-		}
-	},
-	"severity": 8,
-	"message": "package security; expected package policy",
-	"source": "compiler",
-	"startLineNumber": 3,
-	"startColumn": 1,
-	"endLineNumber": 3,
-	"endColumn": 8,
-	"modelVersionId": 5,
+	"startLineNumber": 17,
+	"startColumn": 12,
+	"endLineNumber": 17,
+	"endColumn": 21,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/attestation.go",
@@ -2330,13 +1904,12 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: logging.Info",
+	"message": "undefined: platforms.MachineIdentity",
 	"source": "compiler",
-	"startLineNumber": 26,
-	"startColumn": 10,
-	"endLineNumber": 26,
-	"endColumn": 14,
-	"modelVersionId": 5,
+	"startLineNumber": 18,
+	"startColumn": 38,
+	"endLineNumber": 18,
+	"endColumn": 53,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/attestation.go",
@@ -2352,82 +1925,15 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: logging.Info",
+	"message": "undefined: platforms.HardwareProfile",
 	"source": "compiler",
-	"startLineNumber": 49,
-	"startColumn": 10,
-	"endLineNumber": 49,
-	"endColumn": 14,
-	"modelVersionId": 5,
+	"startLineNumber": 18,
+	"startColumn": 68,
+	"endLineNumber": 18,
+	"endColumn": 83,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/attestation.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 62,
-	"startColumn": 10,
-	"endLineNumber": 62,
-	"endColumn": 14,
-	"modelVersionId": 5,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/init.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 12,
-	"startColumn": 10,
-	"endLineNumber": 12,
-	"endColumn": 14,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/init.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 19,
-	"startColumn": 11,
-	"endLineNumber": 19,
-	"endColumn": 15,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/measured_boot.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
 		"value": "UndeclaredName",
@@ -2440,171 +1946,165 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: fmt",
+	"message": "undefined: EnvAttestation",
 	"source": "compiler",
-	"startLineNumber": 14,
-	"startColumn": 12,
-	"endLineNumber": 14,
-	"endColumn": 15,
+	"startLineNumber": 18,
+	"startColumn": 87,
+	"endLineNumber": 18,
+	"endColumn": 101,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/measured_boot.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/attestation.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "UnusedVar",
+		"value": "UndeclaredName",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UnusedVar"
+			"fragment": "UndeclaredName"
 		}
 	},
 	"severity": 8,
-	"message": "declared and not used: currentHash",
+	"message": "undefined: EnvAttestation",
 	"source": "compiler",
-	"startLineNumber": 25,
-	"startColumn": 5,
-	"endLineNumber": 25,
-	"endColumn": 16,
+	"startLineNumber": 32,
+	"startColumn": 10,
+	"endLineNumber": 32,
+	"endColumn": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/attestation.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: platforms.MachineIdentity",
+	"source": "compiler",
+	"startLineNumber": 41,
+	"startColumn": 37,
+	"endLineNumber": 41,
+	"endColumn": 52,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/init.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: platforms.PlatformClass",
+	"source": "compiler",
+	"startLineNumber": 11,
+	"startColumn": 38,
+	"endLineNumber": 11,
+	"endColumn": 51,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/init.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: platforms.PlatformLaptop",
+	"source": "compiler",
+	"startLineNumber": 18,
+	"startColumn": 29,
+	"endLineNumber": 18,
+	"endColumn": 43,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/vault.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "DuplicateMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "DuplicateMethod"
+		}
+	},
+	"severity": 8,
+	"message": "method IsolatedVault.IsMissingMarker already declared at C:\\Users\\MIAUSE\\Documents\\GitHub\\Programming\\multi-platform-AI\\core\\security\\vault.go:44:25",
+	"source": "compiler",
+	"startLineNumber": 111,
+	"startColumn": 25,
+	"endLineNumber": 111,
+	"endColumn": 40,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/vault.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "DuplicateMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "DuplicateMethod"
+		}
+	},
+	"severity": 8,
+	"message": "method IsolatedVault.WriteMarker already declared at C:\\Users\\MIAUSE\\Documents\\GitHub\\Programming\\multi-platform-AI\\core\\security\\vault.go:50:25",
+	"source": "compiler",
+	"startLineNumber": 118,
+	"startColumn": 25,
+	"endLineNumber": 118,
+	"endColumn": 36,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/sim/simulation_engine.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UnusedImport",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UnusedImport"
+		}
+	},
+	"severity": 8,
+	"message": "\"math/rand\" imported and not used",
+	"source": "compiler",
+	"startLineNumber": 6,
+	"startColumn": 2,
+	"endLineNumber": 6,
+	"endColumn": 13,
 	"tags": [
 		1
 	],
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/logging/reflective_logger.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "BrokenImport",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
-		}
-	},
-	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/hmi (no required module provides package \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/hmi\")",
-	"source": "compiler",
-	"startLineNumber": 11,
-	"startColumn": 2,
-	"endLineNumber": 11,
-	"endColumn": 64,
-	"modelVersionId": 6,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/monitor/vitals.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "BrokenImport",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
-		}
-	},
-	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema\")",
-	"source": "compiler",
-	"startLineNumber": 9,
-	"startColumn": 2,
-	"endLineNumber": 9,
-	"endColumn": 73,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/monitor/vitals.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: getCPULoad",
-	"source": "compiler",
-	"startLineNumber": 47,
-	"startColumn": 18,
-	"endLineNumber": 47,
-	"endColumn": 28,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/monitor/vitals.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: getRAMUsage",
-	"source": "compiler",
-	"startLineNumber": 48,
-	"startColumn": 18,
-	"endLineNumber": 48,
-	"endColumn": 29,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/monitor/vitals.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: getVRAMUsage",
-	"source": "compiler",
-	"startLineNumber": 49,
-	"startColumn": 18,
-	"endLineNumber": 49,
-	"endColumn": 30,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/monitor/vitals.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: getPackageTemp",
-	"source": "compiler",
-	"startLineNumber": 50,
-	"startColumn": 18,
-	"endLineNumber": 50,
-	"endColumn": 32,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/watchdog/watchdog.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/sim/simulation_engine.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
 		"value": "UndeclaredImportedName",
@@ -2617,123 +2117,99 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 35,
-	"startColumn": 10,
-	"endLineNumber": 35,
-	"endColumn": 14,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/watchdog/watchdog.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Error",
-	"source": "compiler",
-	"startLineNumber": 65,
-	"startColumn": 10,
-	"endLineNumber": 65,
-	"endColumn": 15,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/watchdog/watchdog.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Warn",
-	"source": "compiler",
-	"startLineNumber": 70,
-	"startColumn": 11,
-	"endLineNumber": 70,
-	"endColumn": 15,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/navigation/slam_init.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "BrokenImport",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
-		}
-	},
-	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema\")",
-	"source": "compiler",
-	"startLineNumber": 7,
-	"startColumn": 2,
-	"endLineNumber": 7,
-	"endColumn": 73,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/navigation/slam_init.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "BrokenImport",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
-		}
-	},
-	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/plugins/perception (no required module provides package \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/plugins/perception\")",
-	"source": "compiler",
-	"startLineNumber": 9,
-	"startColumn": 2,
-	"endLineNumber": 9,
-	"endColumn": 75,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/navigation/slam_init.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
+	"message": "undefined: platforms.EnvConfig",
 	"source": "compiler",
 	"startLineNumber": 26,
-	"startColumn": 10,
+	"startColumn": 56,
 	"endLineNumber": 26,
+	"endColumn": 65,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/vision/engine.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: VisionEngine",
+	"source": "compiler",
+	"startLineNumber": 13,
+	"startColumn": 11,
+	"endLineNumber": 13,
+	"endColumn": 23,
+	"origin": "extHost1"
+},{
+	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/logging/reflective_logger.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingLitField",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingLitField"
+		}
+	},
+	"severity": 8,
+	"message": "unknown field Stage in struct literal of type hmi.ProgressUpdate",
+	"source": "compiler",
+	"startLineNumber": 41,
+	"startColumn": 4,
+	"endLineNumber": 41,
+	"endColumn": 9,
+	"origin": "extHost1"
+},{
+	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/logging/reflective_logger.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingLitField",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingLitField"
+		}
+	},
+	"severity": 8,
+	"message": "unknown field Message in struct literal of type hmi.ProgressUpdate",
+	"source": "compiler",
+	"startLineNumber": 42,
+	"startColumn": 4,
+	"endLineNumber": 42,
+	"endColumn": 11,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/mathutil/q16.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UnusedImport",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UnusedImport"
+		}
+	},
+	"severity": 8,
+	"message": "\"math\" imported and not used",
+	"source": "compiler",
+	"startLineNumber": 5,
+	"startColumn": 8,
+	"endLineNumber": 5,
 	"endColumn": 14,
-	"modelVersionId": 7,
+	"tags": [
+		1
+	],
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/navigation/slam_init.go",
@@ -2755,54 +2231,9 @@
 	"startColumn": 6,
 	"endLineNumber": 33,
 	"endColumn": 25,
-	"modelVersionId": 7,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/navigation/slam_init.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 39,
-	"startColumn": 10,
-	"endLineNumber": 39,
-	"endColumn": 14,
-	"modelVersionId": 7,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/preception/vision_stream.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "BrokenImport",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
-		}
-	},
-	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/hmi (no required module provides package \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/hmi\")",
-	"source": "compiler",
-	"startLineNumber": 11,
-	"startColumn": 2,
-	"endLineNumber": 11,
-	"endColumn": 64,
-	"modelVersionId": 15,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/preception/vision_stream.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/perception/vision_stream.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
 		"value": "UndeclaredName",
@@ -2821,10 +2252,9 @@
 	"startColumn": 12,
 	"endLineNumber": 50,
 	"endColumn": 29,
-	"modelVersionId": 15,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/preception/vision_stream.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/perception/vision_stream.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
 		"value": "UndeclaredName",
@@ -2843,10 +2273,9 @@
 	"startColumn": 2,
 	"endLineNumber": 53,
 	"endColumn": 10,
-	"modelVersionId": 15,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/preception/vision_stream.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/perception/vision_stream.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
 		"value": "UndeclaredName",
@@ -2865,10 +2294,9 @@
 	"startColumn": 2,
 	"endLineNumber": 54,
 	"endColumn": 10,
-	"modelVersionId": 15,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/preception/vision_stream.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/perception/vision_stream.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
 		"value": "UndeclaredName",
@@ -2887,10 +2315,9 @@
 	"startColumn": 2,
 	"endLineNumber": 55,
 	"endColumn": 10,
-	"modelVersionId": 15,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/preception/vision_stream.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/perception/vision_stream.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
 		"value": "UndeclaredName",
@@ -2909,10 +2336,51 @@
 	"startColumn": 2,
 	"endLineNumber": 58,
 	"endColumn": 17,
-	"modelVersionId": 15,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/preception/vision_stream.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/perception/vision_stream.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "vs.currentBoot.Percentage undefined (type hmi.ProgressUpdate has no field or method Percentage)",
+	"source": "compiler",
+	"startLineNumber": 58,
+	"startColumn": 41,
+	"endLineNumber": 58,
+	"endColumn": 51,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/perception/vision_stream.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "vs.currentBoot.Message undefined (type hmi.ProgressUpdate has no field or method Message)",
+	"source": "compiler",
+	"startLineNumber": 58,
+	"startColumn": 68,
+	"endLineNumber": 58,
+	"endColumn": 75,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/perception/vision_stream.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
 		"value": "UndeclaredName",
@@ -2931,7 +2399,6 @@
 	"startColumn": 2,
 	"endLineNumber": 61,
 	"endColumn": 13,
-	"modelVersionId": 15,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/speech/gui/progress_view.go",
@@ -2953,7 +2420,6 @@
 	"startColumn": 10,
 	"endLineNumber": 6,
 	"endColumn": 22,
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/speech/gui/progress_view.go",
@@ -2975,7 +2441,6 @@
 	"startColumn": 38,
 	"endLineNumber": 6,
 	"endColumn": 41,
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/speech/gui/progress_view.go",
@@ -2997,7 +2462,6 @@
 	"startColumn": 40,
 	"endLineNumber": 15,
 	"endColumn": 46,
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/speech/gui/progress_view.go",
@@ -3019,115 +2483,26 @@
 	"startColumn": 40,
 	"endLineNumber": 17,
 	"endColumn": 46,
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/speech/hmi_controller.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "UndeclaredImportedName",
+		"value": "MissingFieldOrMethod",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
+			"fragment": "MissingFieldOrMethod"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: schema.PlatformEmbedded",
+	"message": "h.Config.Hardware.Battery undefined (type schema.HardwareProfile has no field or method Battery)",
 	"source": "compiler",
-	"startLineNumber": 32,
-	"startColumn": 54,
-	"endLineNumber": 32,
-	"endColumn": 70,
-	"modelVersionId": 19,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/speech/hmi_controller.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 40,
-	"startColumn": 10,
-	"endLineNumber": 40,
-	"endColumn": 14,
-	"modelVersionId": 19,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/simulation/digital_twin/voxel_world.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Info",
-	"source": "compiler",
-	"startLineNumber": 25,
-	"startColumn": 10,
-	"endLineNumber": 25,
-	"endColumn": 14,
-	"modelVersionId": 5,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/simulation/digital_twin/voxel_world.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: logging.Debug",
-	"source": "compiler",
-	"startLineNumber": 31,
-	"startColumn": 11,
-	"endLineNumber": 31,
-	"endColumn": 16,
-	"modelVersionId": 5,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/logger/bloat_guard.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "default",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/go/analysis/passes/copylock",
-			"scheme": "https",
-			"authority": "pkg.go.dev"
-		}
-	},
-	"severity": 4,
-	"message": "Init passes lock by value: github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logger.BloatGuard contains sync.Mutex",
-	"source": "copylocks",
-	"startLineNumber": 25,
-	"startColumn": 17,
-	"endLineNumber": 25,
-	"endColumn": 27,
-	"modelVersionId": 4,
+	"startLineNumber": 34,
+	"startColumn": 30,
+	"endLineNumber": 34,
+	"endColumn": 37,
 	"origin": "extHost1"
 }]

@@ -3,12 +3,10 @@
 package network
 
 import (
-	"context"
-	"fmt"
-	"time"
+	"os"
 
-	"github.com/hashicorp/mdns"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/hashicorp/mdns"
 )
 
 type DiscoveryService struct {
@@ -20,7 +18,7 @@ func StartBroadcasting(nodeID string, port int) (*DiscoveryService, error) {
 	// 1. Setup service metadata (including the Platform Class for quick filtering)
 	host, _ := os.Hostname()
 	info := []string{"version=1.0", "node_id=" + nodeID}
-	
+
 	service, err := mdns.NewMDNSService(host, "_strata-aios._tcp", "", "", port, nil, info)
 	if err != nil {
 		return nil, err

@@ -1,4 +1,12 @@
-//internal/network/listener.go
+// internal/network/listener.go
+package network
+
+import (
+	"context"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/hashicorp/mdns"
+)
 
 // ListenForPeers searches for other StrataCore nodes on the network.
 func ListenForPeers(ctx context.Context, peerFound func(entry *mdns.ServiceEntry)) {
@@ -20,6 +28,6 @@ func ListenForPeers(ctx context.Context, peerFound func(entry *mdns.ServiceEntry
 	params := mdns.DefaultParams("_strata-aios._tcp")
 	params.Entries = entriesCh
 	params.WantUnicastResponse = true
-	
+
 	mdns.Query(params)
 }

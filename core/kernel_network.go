@@ -3,7 +3,6 @@
 package core
 
 import (
-	"fmt"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/network"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 	"github.com/hashicorp/mdns"

@@ -15,30 +15,29 @@ func AggressiveScan(cfg *schema.EnvConfig) {
 
 	// 1. DYNAMIC DRIVER SELECTION
 	// We map your switch logic to the typed PlatformClass constants
-	switch env.Platform.Final {
-	case platforms.PlatformVehicle:
-		scanCANBus(env)
-		scanLidarArrays(env)
-	case platforms.PlatformIndustrial:
-		scanModbusTCP(env)
-	case platforms.PlatformComputer, platforms.PlatformLaptop:
-		scanUSBBus(env)
-		scanGPUDriver(env)
+	switch cfg.Platform.Final {
+	case schema.PlatformVehicle:
+		scanCANBus(cfg)
+		scanLidarArrays(cfg)
+	case schema.PlatformIndustrial:
+		scanModbusTCP(cfg)
+	case schema.PlatformComputer, schema.PlatformLaptop:
+		scanUSBBus(cfg)
+		scanGPUDriver(cfg)
 	}
 
 	// 2. STRESS TEST / LATENCY CHECK
 	// We store latency data in the RuntimeProfile for the Trust Engine to evaluate
-	measureBusLatencies(env)
+	measureBusLatencies(cfg)
 
-	logging.Info("[PROBE] Aggressive scan complete. Found %d bus nodes.", len(env.Hardware.Buses))
+	logging.Info("[PROBE] Aggressive scan complete. Found %d bus nodes.", len(cfg.Hardware.Buses))
 	return nil
 }
 
-
-func scanCANBus(env *platforms.EnvConfig) {
+func scanCANBus(env *schema.EnvConfig) {
 	logging.Info(" - Pinging CAN-bus nodes...")
 	// We add a concrete BusCapability to the profile
-	env.Hardware.Buses = append(env.Hardware.Buses, platforms.BusCapability{
+	env.Hardware.Buses = append(env.Hardware.Buses, schema.BusCapability{
 		ID:         "can0",
 		Type:       "can",
 		Confidence: 65535, // Probed existence = 1.0 confidence
@@ -46,27 +45,27 @@ func scanCANBus(env *platforms.EnvConfig) {
 	})
 
 	// Add processors if the ECU is detected as a co-processor
-	env.Hardware.Processors = append(env.Hardware.Processors, platforms.Processor{
+	env.Hardware.Processors = append(env.Hardware.Processors, schema.Processor{
 		Type:  "ECU",
 		Count: 1,
 	})
 }
 
-func scanLidarArrays(env *platforms.EnvConfig) {
+func scanLidarArrays(env *schema.EnvConfig) {
 	logging.Info(" - Initializing Lidar Spin-up...")
 	// In your architecture, Sensors can be treated as bus nodes or I/O Nodes
-	env.Hardware.Buses = append(env.Hardware.Buses, platforms.BusCapability{
+	env.Hardware.Buses = append(env.Hardware.Buses, schema.BusCapability{
 		ID:     "lidar_front",
 		Type:   "ethernet_sensor",
 		Source: "probed",
 	})
 }
 
-func measureBusLatencies(env *platforms.EnvConfig) {
+func measureBusLatencies(cfg *schema.EnvConfig) {
 	// We can store latency in the EnvConfig.Runtime.EnvVars or as a specialized signal
 	// for the Bayesian Evaluator to penalize trust if latency > threshold.
-	if env.Runtime.EnvVars == nil {
-		env.Runtime.EnvVars = make(map[string]string)
+	if cfg.Runtime.EnvVars == nil {
+		cfg.Runtime.EnvVars = make(map[string]string)
 	}
-	env.Runtime.EnvVars["primary_bus_latency_ms"] = "2.0"
+	cfg.Runtime.EnvVars["primary_bus_latency_ms"] = "2.0"
 }

@@ -4,8 +4,9 @@ package core
 
 import (
 	"time"
-	"multi-platform-AI/api/hmi"
-	"multi-platform-AI/internal/logging"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/hmi"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
 
 // RunHMILoop manages the lifecycle of the Perception Overlay and Telemetry HUD.

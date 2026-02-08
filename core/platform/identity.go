@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
-	"multi-platform-AI/internal/logging"
-	"multi-platform-AI/internal/schema"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
 type Identity struct {
@@ -39,7 +39,7 @@ func (id *Identity) Finalize(env *schema.EnvConfig) {
 	// VEHICLE Detection
 	if hasBus(env.Hardware, "can") {
 		s := ensure(schema.PlatformVehicle, 1.5)
-		s.Score += 0.8 
+		s.Score += 0.8
 		s.Signals = append(s.Signals, "Physical CAN-bus interface")
 	}
 
@@ -64,11 +64,12 @@ func (id *Identity) Finalize(env *schema.EnvConfig) {
 	var candidates []schema.PlatformScore
 
 	for _, s := range scores {
-		s.Confidence = s.Score / s.MaxScore
+		// Inside identity.go
+		s.Confidence = uint16((s.Score / s.MaxScore) * 65535)
 		candidates = append(candidates, *s)
 
 		if s.Confidence > highConf {
-			highConf = s.Confidence
+			highConf = float64(s.Confidence)
 			bestClass = s.Class
 		}
 	}
@@ -118,7 +119,7 @@ func DetectPlatformClass(hw *schema.HardwareProfile) schema.PlatformClass {
 		hw.Buses = append(hw.Buses, schema.BusCapability{
 			ID:         "can0",
 			Type:       "can",
-			Confidence: 65535, 
+			Confidence: 65535,
 			Source:     "probed",
 		})
 		return schema.PlatformVehicle

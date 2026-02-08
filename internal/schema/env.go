@@ -1,6 +1,10 @@
-//internal/schema/env.go
-//This is the "Source of Truth" that everyone can safely import.
+// internal/schema/env.go
+// This is the "Source of Truth" that everyone can safely import.
 package schema
+
+import (
+	"time"
+)
 
 // PlatformClass defines the type of hardware (Vehicle, Drone, etc.)
 type PlatformClass string
@@ -21,13 +25,12 @@ const (
 // BootSequence represents the finalized state of the system after
 // the Nucleus has completed its initialization.
 type BootSequence struct {
-	PlatformID platforms.PlatformClass `json:"platform_id"` // e.g., Vehicle, Laptop
-	TrustScore float64                 `json:"trust_score"` // 0.0 to 1.0 (Bayesian)
-	IsVerified bool                    `json:"is_verified"` // Attestation result
-	Mode       string                  `json:"mode"`        // Autonomous | Discovery | Safe
-	UserRole   string                  `json:"user_role"`   // Operator | Admin
+	PlatformID PlatformClass `json:"platform_id"` // e.g., Vehicle, Laptop
+	TrustScore float64       `json:"trust_score"` // 0.0 to 1.0 (Bayesian)
+	IsVerified bool          `json:"is_verified"` // Attestation result
+	Mode       string        `json:"mode"`        // Autonomous | Discovery | Safe
+	UserRole   string        `json:"user_role"`   // Operator | Admin
 }
-
 
 type EnvConfig struct {
 	SchemaVersion int                `json:"schema_version"`
@@ -49,7 +52,7 @@ type HardwareProfile struct {
 	Processors []Processor     `json:"processors"`
 	Buses      []BusCapability `json:"buses"`
 	// Simplified Battery for the check
-	HasBattery bool `json:"has_battery"` 
+	HasBattery bool `json:"has_battery"`
 }
 
 type BusCapability struct {
@@ -60,9 +63,9 @@ type BusCapability struct {
 }
 
 type Processor struct {
-    Type    string  `json:"type"`    // CPU, GPU, TPU
-    Count   int     `json:"count"`
-    Version float64 `json:"version"`
+	Type    string  `json:"type"` // CPU, GPU, TPU
+	Count   int     `json:"count"`
+	Version float64 `json:"version"`
 }
 
 // PlatformResolution is the finalized identity of the environment.
@@ -73,7 +76,6 @@ type PlatformResolution struct {
 	Source     string          `json:"source"` // e.g., "heuristic_v1" or "manual_override"
 	ResolvedAt time.Time       `json:"resolved_at"`
 }
-
 
 // PlatformScore tracks the heuristic weight for a specific platform type.
 type PlatformScore struct {
@@ -92,24 +94,14 @@ type EnvAttestation struct {
 	SessionToken string `json:"session_token,omitempty"`
 }
 
-
 type IdentityProfile struct {
 	MachineID   string
 	MachineName string
 	OS          string
 }
 
-
-
 type BusEntry struct {
 	ID         string
 	Type       string
 	Confidence uint16 // Q16 format
 }
-
-
-
-
-
-
-

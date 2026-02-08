@@ -15,22 +15,19 @@ import (
 func main() {
 	logging.Info("--- [STRATACORE KERNEL NUCLEUS ACTIVE] ---")
 
-	// 1. MONITOR: Initialize performance capping (VRAM/Thermal)
 	mon := monitor.NewPerformanceMonitor()
 	mon.Start()
+	defer mon.Stop() // Cleanup on exit
 
-	// 2. ORCHESTRATION: Load Policy & Trust Evaluators
 	nucleus, err := core.InitializeNucleus()
 	if err != nil {
 		logging.Error("[FATAL] Nucleus initialization failed: %v", err)
 		os.Exit(1)
 	}
 
-	// 3. DREAM STATE: Start Idle Simulation Logic
-	// This allows the kernel to retrain when the Node reports IDLE status
+	// Runs ManageLifecycle in a separate routine to allow the main thread to block on signals
 	go nucleus.ManageLifecycle()
 
-	// 4. PERSISTENCE: Block until manual stop
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM)
 
@@ -38,4 +35,5 @@ func main() {
 	<-stop
 
 	nucleus.SyncAndHalt()
+	logging.Info("[SYSTEM] Nucleus offline.")
 }
