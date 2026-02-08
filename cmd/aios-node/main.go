@@ -54,9 +54,6 @@ if os.Getenv("AIOS_DEBUG") == "true" {
 // 5. Start HMI Lifecycle
 go kernel.RunHMILoop()
 
-	// 5. Start HMI Lifecycle
-	// The kernel now owns the HMI pipe we built earlier.
-	go kernel.RunHMILoop()
 
 	// 6. Wait for Shutdown Signal
 	stop := make(chan os.Signal, 1)
