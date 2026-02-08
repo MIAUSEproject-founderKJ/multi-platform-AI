@@ -6,16 +6,57 @@ package control
 
 import (
 	"context"
+	"math"
 	"sync/atomic"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bridge/hal"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/scheduler"
 )
 
+// Intent represents the high-level movement request from the AI.
+// It is stored as a struct to allow for atomic swapping.
+type Intent struct {
+	Throttle float64 // 0.0 to 1.0
+	Steer    float64 // -1.0 to 1.0
+}
+
 type ActuatorLoop struct {
-	interlock *hal.SafetyInterlock
-	bus       *hal.BusProvider // Interface for CAN, USB, or GPIO
-	hz        int              // Target frequency (e.g., 100Hz)
+	interlock    *hal.SafetyInterlock
+	bus          *hal.BusProvider
+	hz           int
+	latestIntent atomic.Pointer[Intent] // Thread-safe storage for the latest AI command
+}
+
+// UpdateIntent is called by the Navigation/Kernel layer to feed new data to the bridge.
+func (al *ActuatorLoop) UpdateIntent(newIntent *Intent) {
+	al.latestIntent.Store(newIntent)
+}
+
+// fetchLatestIntent pulls the most recent command sent by the AI logic.
+func (al *ActuatorLoop) fetchLatestIntent() Intent {
+	ptr := al.latestIntent.Load()
+	if ptr == nil {
+		// Fallback to neutral if no intent has ever been sent
+		return Intent{Throttle: 0.0, Steer: 0.0}
+	}
+	return *ptr
+}
+
+// translateIntentToHardware converts the abstract AI floats into a hardware-ready packet.
+func (al *ActuatorLoop) translateIntentToHardware(intent Intent) hal.RawCommand {
+	// 1. Clamp inputs to ensure they stay within safety bounds
+	throttle := math.Max(0.0, math.Min(1.0, intent.Throttle))
+	steer := math.Max(-1.0, math.Min(1.0, intent.Steer))
+
+	// 2. Scale to hardware units (assuming 8-bit 0-255 range)
+	// For steering, we center -1.0..1.0 around the neutral point 127
+	return hal.RawCommand{
+		ID: 0x01, // Main Actuator ID
+		Data: []byte{
+			byte(throttle * 255),          // 0 = Off, 255 = Full Power
+			byte((steer + 1.0) * 127.5),   // 0 = Full Left, 127 = Center, 255 = Full Right
+		},
+	}
 }
 
 // Start initiates the deterministic control cycle

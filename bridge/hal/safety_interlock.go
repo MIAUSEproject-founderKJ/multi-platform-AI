@@ -50,3 +50,8 @@ func (si *SafetyInterlock) TriggerEmergencyStop(reason string) {
 func (si *SafetyInterlock) killAllActuators() {
 	// Send 0-voltage or Neutral-Gear signals to bridge/hal/can or bridge/hal/usb
 }
+
+
+func (si *SafetyInterlock) GetCurrentState() string {
+    return string(si.currentState)
+}

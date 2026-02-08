@@ -12,52 +12,56 @@ import (
 	"time"
 
 	"multi-platform-AI/internal/logging"
-
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/platforms"
+	"multi-platform-AI/internal/schema"
 )
 
-// Finalize implements the scoring logic from the Multi-Platform AI reference
-func (id *Identity) Finalize(env *defaults.EnvConfig) {
+type Identity struct {
+	PlatformType schema.PlatformClass
+	Source       string
+}
+
+// Finalize implements the scoring logic using the unified schema.
+func (id *Identity) Finalize(env *schema.EnvConfig) {
 	logging.Info("[IDENTITY] Calculating Heuristic Platform Scores...")
 
-	scores := make(map[PlatformClass]*PlatformScore)
+	// Use the types directly from schema
+	scores := make(map[schema.PlatformClass]*schema.PlatformScore)
 
-	ensure := func(class PlatformClass, max float64) *PlatformScore {
+	ensure := func(class schema.PlatformClass, max float64) *schema.PlatformScore {
 		if _, ok := scores[class]; !ok {
-			scores[class] = &PlatformScore{Class: class, MaxScore: max}
+			scores[class] = &schema.PlatformScore{Class: class, MaxScore: max}
 		}
 		return scores[class]
 	}
 
-	// --- 1. Scoring Logic (Reference: InferPlatformClass) ---
+	// --- 1. Scoring Logic ---
 
 	// VEHICLE Detection
-	if env.Hardware.HasBus("can") {
-		s := ensure(PlatformVehicle, 1.5)
-		s.Score += 0.8 // Higher weight for physical CAN
+	if hasBus(env.Hardware, "can") {
+		s := ensure(schema.PlatformVehicle, 1.5)
+		s.Score += 0.8 
 		s.Signals = append(s.Signals, "Physical CAN-bus interface")
 	}
 
 	// ROBOTIC Detection
-	if env.Hardware.HasBus("i2c") && env.Hardware.HasBus("spi") {
-		s := ensure(PlatformRobot, 1.2)
+	if hasBus(env.Hardware, "i2c") && hasBus(env.Hardware, "spi") {
+		s := ensure(schema.PlatformRobot, 1.2)
 		s.Score += 0.5
 		s.Signals = append(s.Signals, "Micro-controller telemetry (I2C/SPI)")
 	}
 
-	// LAPTOP/MOBILE Detection (Sensors)
-	if env.Hardware.HasSensor("battery") {
-		s := ensure(PlatformLaptop, 1.0)
+	// LAPTOP/MOBILE Detection
+	if env.Hardware.HasBattery {
+		s := ensure(schema.PlatformLaptop, 1.0)
 		s.Score += 0.6
 		s.Signals = append(s.Signals, "Battery subsystem present")
 	}
 
-	// --- 2. Resolution Logic (Reference: ResolvePlatform) ---
+	// --- 2. Resolution Logic ---
 
-	var bestClass PlatformClass = PlatformComputer
+	var bestClass schema.PlatformClass = schema.PlatformComputer
 	var highConf float64 = 0.0
-	var candidates []PlatformScore
+	var candidates []schema.PlatformScore
 
 	for _, s := range scores {
 		s.Confidence = s.Score / s.MaxScore
@@ -69,7 +73,6 @@ func (id *Identity) Finalize(env *defaults.EnvConfig) {
 		}
 	}
 
-	// Finalize Identity
 	id.PlatformType = bestClass
 	id.Source = "heuristic_scoring_v2"
 
@@ -81,12 +84,20 @@ func (id *Identity) Finalize(env *defaults.EnvConfig) {
 
 	logging.Info("[IDENTITY] Resolution: %s (Conf: %.2f)", bestClass, highConf)
 
-	// --- 3. Attestation (Reference: FinalizeAttestation) ---
 	generateHardwareHash(env)
 }
 
-func generateHardwareHash(env *defaults.EnvConfig) {
-	// Unique string representing hardware reality
+// hasBus is now a helper function because we can't add methods to schema.HardwareProfile
+func hasBus(h schema.HardwareProfile, target string) bool {
+	for _, b := range h.Buses {
+		if strings.EqualFold(b.Type, target) {
+			return true
+		}
+	}
+	return false
+}
+
+func generateHardwareHash(env *schema.EnvConfig) {
 	rawState := fmt.Sprintf("%s-%s-%d",
 		env.Identity.MachineID,
 		env.Identity.OS,
@@ -100,57 +111,45 @@ func generateHardwareHash(env *defaults.EnvConfig) {
 	logging.Info("[SECURITY] Environment Hash Generated: %s...", env.Attestation.EnvHash[:12])
 }
 
-func (h *HardwareProfile) HasBus(target string) bool {
-	for _, b := range h.Buses {
-		if strings.EqualFold(b.Type, target) {
-			return true
-		}
-	}
-	return false
-}
-
 // DetectPlatformClass performs the initial "Discovery" phase
-func DetectPlatformClass(hw *platforms.HardwareProfile) platforms.PlatformClass {
+func DetectPlatformClass(hw *schema.HardwareProfile) schema.PlatformClass {
 	// 1. Check for Vehicle Indicators (CAN-bus)
 	if _, err := os.Stat("/sys/class/net/can0"); err == nil {
-		hw.Buses = append(hw.Buses, platforms.BusCapability{
+		hw.Buses = append(hw.Buses, schema.BusCapability{
 			ID:         "can0",
 			Type:       "can",
-			Confidence: 65535, // 100% in Q16
+			Confidence: 65535, 
 			Source:     "probed",
 		})
-		return platforms.PlatformVehicle
+		return schema.PlatformVehicle
 	}
 
 	// 2. Check for Industrial Indicators
 	if os.Getenv("INDUSTRIAL_NODE_ID") != "" {
-		return platforms.PlatformIndustrial
+		return schema.PlatformIndustrial
 	}
 
-	// 3. Check for Robotics/Embedded Indicators (I2C/GPIO)
+	// 3. Check for Robotics/Embedded Indicators
 	if _, err := os.Stat("/dev/i2c-1"); err == nil {
-		hw.Buses = append(hw.Buses, platforms.BusCapability{
+		hw.Buses = append(hw.Buses, schema.BusCapability{
 			ID:         "i2c_bus_1",
 			Type:       "i2c",
 			Confidence: 65535,
 			Source:     "probed",
 		})
-		return platforms.PlatformRobot
+		return schema.PlatformRobot
 	}
 
-	// Default to general computer
-	return platforms.PlatformComputer
+	return schema.PlatformComputer
 }
 
-// InitializeIdentity gathers the raw "Facts" from the OS.
-// This is the first step in the boot process.
-func InitializeIdentity() platforms.MachineIdentity {
+func InitializeIdentity() schema.MachineIdentity {
 	hostname, err := os.Hostname()
 	if err != nil || hostname == "" {
 		hostname = "unknown-node"
 	}
 
-	return platforms.MachineIdentity{
+	return schema.MachineIdentity{
 		MachineName: hostname,
 		OS:          runtime.GOOS,
 		Arch:        runtime.GOARCH,

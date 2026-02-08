@@ -5,7 +5,7 @@ package busmap
 import (
 	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/platforms"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
 )
@@ -17,28 +17,13 @@ type PulseTrain struct {
 }
 
 // VerifyPulse ensures that hardware buses are responding within deterministic windows.
-func VerifyPulse(bus platforms.BusCapability) mathutil.Q16EnvConfd {
-	logging.Info("[BRIDGE] Monitoring Pulse Train for Bus: %s", bus.ID)
-
-	// If the bus confidence is low in the config, we treat it with more scrutiny
-	configConfidence := bus.Confidence.Float64()
-
-	// SIMULATION: Check signal timing
-	latency := measureLatency(bus.ID)
-
-	var health float64
-	if latency < 5*time.Millisecond {
-		health = 1.0 * configConfidence
-	} else if latency < 50*time.Millisecond {
-		health = 0.5 * configConfidence
-	} else {
-		health = 0.0
+func (m *Monitor) ProcessPulse(bus schema.BusEntry) {
+	// Use the helper to convert Q16 to float
+	conf := mathutil.ToFloat64(bus.Confidence)
+	
+	logging.Info("[PULSE] Bus %s online with confidence: %.2f", bus.ID, conf)
+	
+	if conf < 0.5 {
+		logging.Warn("[PULSE] Critical confidence drop on bus: %s", bus.ID)
 	}
-
-	return mathutil.Q16FromFloat(health)
-}
-
-func measureLatency(busID string) time.Duration {
-	// Simulation of checking the last interrupt time for a specific bus
-	return 2 * time.Millisecond
 }

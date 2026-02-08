@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cognition/memory"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/plugins/navigation"
 )

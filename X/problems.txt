@@ -1,26 +1,4 @@
-[{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/busmap/pulse.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: mathutil.Q16EnvConfd",
-	"source": "compiler",
-	"startLineNumber": 20,
-	"startColumn": 56,
-	"endLineNumber": 20,
-	"endColumn": 67,
-	"modelVersionId": 8,
-	"origin": "extHost1"
-},{
+{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/busmap/pulse.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
@@ -637,10 +615,10 @@
 	"modelVersionId": 6,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/configs/defaults/env_config.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/env_config.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"severity": 8,
-	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios-kernel github.com/MIAUSEproject-founderKJ/multi-platform-AI/core github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults]",
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios-kernel github.com/MIAUSEproject-founderKJ/multi-platform-AI/core github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]",
 	"source": "go list",
 	"startLineNumber": 1,
 	"startColumn": 1,
@@ -649,7 +627,7 @@
 	"modelVersionId": 7,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/configs/defaults/env_config.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/env_config.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
 		"value": "BrokenImport",
@@ -671,7 +649,7 @@
 	"modelVersionId": 7,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/configs/defaults/env_config.go",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/env_config.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
 		"value": "UndeclaredImportedName",
@@ -1596,7 +1574,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults\")",
+	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema\")",
 	"source": "compiler",
 	"startLineNumber": 16,
 	"startColumn": 2,
@@ -2297,7 +2275,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults\")",
+	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema\")",
 	"source": "compiler",
 	"startLineNumber": 8,
 	"startColumn": 2,
@@ -2529,7 +2507,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults\")",
+	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema\")",
 	"source": "compiler",
 	"startLineNumber": 9,
 	"startColumn": 2,
@@ -2705,7 +2683,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults\")",
+	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema\")",
 	"source": "compiler",
 	"startLineNumber": 7,
 	"startColumn": 2,

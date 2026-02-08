@@ -6,30 +6,64 @@ import (
 	"context"
 	"fmt"
 	"time"
-
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/hmi"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
-
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/hmi"
 )
 
+
 // Kernel represents the operational heart of the system.
+type Kernel struct {
+	// Identity & Security
+	Platform *platform.BootSequence
+	Vault    *security.IsolatedVault
+	Trust    *policy.TrustDescriptor
+	EnvConfig *defaults.EnvConfig
+	
+	// Operational State
+	Status    string
+	Evaluator *policy.TrustEvaluator
+	
+	// Channels for Telemetry (Unified interface)
+	HMIPipe   chan interface{} 
+	ctx       context.Context
+}
+
+// Define interfaces to satisfy the struct fields
+type SimulationEngine interface {
+	InjectFault(env *defaults.EnvConfig)
+}
+
+type PowerController interface {
+	TransitionTo(state string)
+	SyncWithTrust(trust *policy.TrustDescriptor)
+}
+
+type CognitiveVault interface {
+	Store(id string, entry interface{})
+	Recall(id string) (interface{}, bool)
+}
+
 type Kernel struct {
 	Platform *platform.BootSequence
 	Vault    *security.IsolatedVault
 	Trust    *policy.TrustDescriptor
-	Status   string
-
-	// Channels and Sub-systems for Lifecycle
-	HMIPipe chan hmi.ProgressUpdate
-	// Internal components (Assuming these are initialized during Bootstrap)
+	
+	// Interfaces
 	Sim    SimulationEngine
 	Bridge PowerController
-	Vitals HealthMonitor
 	Memory CognitiveVault
+
+	ctx       context.Context
+	EnvConfig *defaults.EnvConfig
+	Evaluator *policy.TrustEvaluator
+	HMIPipe   chan interface{}
 }
+
 
 // Bootstrap is the "Entry Gate" called by cmd/aios-node/main.go.
 func Bootstrap(ctx context.Context) (*Kernel, error) {
@@ -75,9 +109,18 @@ func Bootstrap(ctx context.Context) (*Kernel, error) {
 
 // --- Lifecycle Methods ---
 
-// TrustLevel returns the current autonomy capability for main.go to display.
+/*calculating the "Truth" every time the function is called. calling this in a high-frequency loop could stutter the CPU.
 func (k *Kernel) TrustLevel() float64 {
-	return k.Trust.CurrentScore
+	// Quick-access for the main.go logger
+	res := k.Evaluator.Evaluate(k.EnvConfig)
+	return res.CurrentScore
+}
+*/
+
+//If the HMILoop hasn't refreshed the k.Trust pointer recently, this value might be "lying" about the current state of the hardware.
+func (k *Kernel) TrustLevel() float64 {
+    res := k.Evaluator.Evaluate(k.EnvConfig)
+    return res.CurrentScore
 }
 
 // RunLifecycle manages the "Dream State" and power modes.
@@ -165,4 +208,32 @@ func (k *Kernel) Start(ctx context.Context) {
 	// 3. Keep-alive or monitor for context cancellation
 	<-ctx.Done()
 	k.Shutdown()
+}
+
+
+func (k *Kernel) OnPeerUpdate(pulse NodePulse) {
+	// 1. Verify Peer Attestation
+	if !k.Vault.VerifyRemote(pulse.SourceID, pulse.Trust.EnvHash) {
+		logging.Warn("[SECURITY] Rejected untrusted peer pulse from %s", pulse.SourceID)
+		return
+	}
+
+	// 2. Update Global Map
+	// This data can be recalled by the CognitiveVault for swarm-level learning
+}
+
+func (k *Kernel) Step() {
+	// 1. See: Vision processing
+	objects := k.Vision.ProcessFrame(k.Hardware.GetCameraFrame())
+
+	// 2. Feel: Energy check
+	p := k.Hardware.GetPowerProfile()
+
+	// 3. Think: Bayesian Update
+	k.Trust = k.Evaluator.Evaluate(k.EnvConfig, objects, p)
+
+	// 4. Socialize: Negotiate with Swarm
+	if k.Trust.CurrentScore < 0.5 || p.BatteryLevel < 0.1 {
+		k.Swarm.RequestHelp("REPLACEMENT_NEEDED")
+	}
 }

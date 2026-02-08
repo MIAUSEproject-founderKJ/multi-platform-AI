@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/defaults"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/platforms"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
@@ -94,19 +94,23 @@ func finalizePlatform(env *defaults.EnvConfig, scores []platforms.PlatformScore)
 
 // performAttestation creates the crypto-link between code and hardware
 func performAttestation(env *defaults.EnvConfig) {
-	// Refined rawState to use the unified MachineID
-	rawState := fmt.Sprintf("%s-%s-%d",
-		env.Identity.MachineName, // Mapping from MachineIdentity
-		env.Identity.OS,
-		len(env.Hardware.Buses),
-	)
-
-	hash := sha256.Sum256([]byte(rawState))
-	env.Attestation.EnvHash = hex.EncodeToString(hash[:])
-	env.Attestation.Valid = true
-	env.Attestation.Level = platforms.AttestationStrong
-
-	logging.Info("[SECURITY] Attestation Hash: %s", env.Attestation.EnvHash[:12])
+    rawState := fmt.Sprintf("%s-%s-%d", 
+	env.Identity.MachineName, 
+	env.Identity.OS, 
+	len(env.Hardware.Buses)
+)
+    hash := sha256.Sum256([]byte(rawState))
+    env.Attestation.EnvHash = hex.EncodeToString(hash[:])
+    
+    // Logic: If we are on a platform with a hardware TPM, it's Strong.
+    // If we are just hashing a string in software, it's actually Weak.
+    if hasSecureEnclave() {
+        env.Attestation.Level = platforms.AttestationStrong // Score will be 0.99
+    } else {
+        env.Attestation.Level = platforms.AttestationWeak   // Score will be 0.75
+    }
+    logging.Info("[SECURITY] Attestation Hash: %s", env.Attestation.EnvHash[:12])
+    env.Attestation.Valid = true
 }
 
 func hasBus(buses []platforms.BusCapability, busType string) bool {

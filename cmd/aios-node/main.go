@@ -45,6 +45,15 @@ func main() {
 	wdt.Heartbeat()
 	logging.Info("[BOOT] Kernel Active. Trust Level: %.2f", kernel.TrustLevel())
 
+	// 4.5 Start Developer Sandbox (if in debug mode)
+if os.Getenv("AIOS_DEBUG") == "true" {
+    console := terminal.New(kernel)
+    go console.Start()
+}
+
+// 5. Start HMI Lifecycle
+go kernel.RunHMILoop()
+
 	// 5. Start HMI Lifecycle
 	// The kernel now owns the HMI pipe we built earlier.
 	go kernel.RunHMILoop()
@@ -59,6 +68,28 @@ func main() {
 
 	// 7. Graceful Shutdown: The "Secure Lock"
 	logging.Info("[SHUTDOWN] Locking Vault and terminating Vision Streams...")
+	wdt.Stop() // <--- Disarm the watchdog here
 	kernel.Shutdown()
 	logging.Info("[SHUTDOWN] Node offline.")
 }
+
+// In main.go during Initialization
+if os.Getenv("AIOS_SIM_MODE") == "true" {
+    simulator := &sim.SimulationEngine{
+        ActiveScenario: sim.ScenarioBusFlood,
+        Intensity:      0.85,
+    }
+    // Inject before the Kernel starts its first evaluation
+    simulator.InjectFault(kernel.EnvConfig)
+}
+
+// Start Swarm Discovery
+netService, err := network.StartBroadcasting(kernel.EnvConfig.Identity.MachineName, 8080)
+if err != nil {
+    logging.Error("[MESH] Failed to start discovery: %v", err)
+}
+
+// Start Listening for others
+go network.ListenForPeers(ctx, func(peer *mdns.ServiceEntry) {
+    kernel.HandleNewPeer(peer) // Add to the Peer Map
+})

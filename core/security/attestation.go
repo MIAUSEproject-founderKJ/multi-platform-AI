@@ -13,13 +13,6 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
 
-// EnvAttestation defines the cryptographic seal of the environment
-type EnvAttestation struct {
-	Valid        bool   `json:"valid"`
-	Level        string `json:"level"` // "strong" | "weak" | "invalid"
-	EnvHash      string `json:"env_hash"`
-	SessionToken string `json:"session_token,omitempty"`
-}
 
 // PerformAttestation generates a hash of the hardware profile to seal the vault
 func PerformAttestation(id platforms.MachineIdentity, hw platforms.HardwareProfile) (*EnvAttestation, error) {

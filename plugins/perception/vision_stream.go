@@ -1,4 +1,4 @@
-//MIAUSEproject-founderKJ/multi-platform-AI/plugins/preception/vision_stream.go
+//MIAUSEproject-founderKJ/multi-platform-AI/plugins/perception/vision_stream.go
 
 package perception
 

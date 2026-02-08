@@ -5,13 +5,13 @@ package probe
 import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/platforms"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
 // AggressiveScan performs active discovery and populates the global EnvConfig.
 // It bridges raw hardware pings to the typed Platform architecture.
-func AggressiveScan(env *platforms.EnvConfig) error {
-	logging.Info("[PROBE] Stage 1 Aggressive Scan: Waking up %s", env.Platform.Final)
+func AggressiveScan(cfg *schema.EnvConfig) {
+	logging.Info("Aggressive probe initiated for platform: %s", cfg.Platform)
 
 	// 1. DYNAMIC DRIVER SELECTION
 	// We map your switch logic to the typed PlatformClass constants
@@ -33,6 +33,7 @@ func AggressiveScan(env *platforms.EnvConfig) error {
 	logging.Info("[PROBE] Aggressive scan complete. Found %d bus nodes.", len(env.Hardware.Buses))
 	return nil
 }
+
 
 func scanCANBus(env *platforms.EnvConfig) {
 	logging.Info(" - Pinging CAN-bus nodes...")

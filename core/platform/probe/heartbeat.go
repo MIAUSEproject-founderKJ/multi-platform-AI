@@ -1,4 +1,10 @@
 // core/platform/probe/heartbeat.go
+
+
+package probe 
+import "time"
+
+
 func Heartbeat(currentID *HardwareIdentity, savedProfile *HardwareProfile) error {
     // 1. Check if the physical machine changed
     if currentID.InstanceID != savedProfile.ID {

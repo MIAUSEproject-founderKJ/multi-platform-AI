@@ -1,6 +1,6 @@
-//MIAUSEproject-founderKJ/multi-platform-AI/internal/logger/bloat_guard.go
+//internal/logging/bloat_guard.go
 
-package logger
+package logging
 
 import (
 	"io"

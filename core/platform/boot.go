@@ -3,30 +3,34 @@
 package platform
 
 import (
-	"errors"
-	"fmt"
-	"multi-platform-AI/core/platform/classify"
-	"multi-platform-AI/core/platform/degrade"
-	"multi-platform-AI/core/platform/probe"
-	"multi-platform-AI/core/security"
-	"multi-platform-AI/core/security/attestation"
-	"multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/hmi"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform/probe"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
 
-func RunBootSequence(v *security.IsolatedVault) (*BootSequence, error) {
-	// 1. INITIAL CHECK: Is this the first time on this drive?
-	// We check the marker before doing any expensive hardware IO.
-	isFirstBoot := v.IsMissingMarker("FirstBootMarker")
-	
-	logging.Info("Phase 1: Initializing Boot Manager (FirstBoot: %v)", isFirstBoot)
-
-id, _ := probe.PassiveScan()
-
-mgr := &BootManager{ // Remove "platform." prefix
-    Vault:    v,
-    Identity: id,
-    HMIPipe:  make(chan hmi.ProgressUpdate, 10), // Initialize the channel!
+// BootManager handles the lifecycle of the AIOS startup
+type BootManager struct {
+	Vault    *security.IsolatedVault
+	Identity *Identity
+	HMIPipe  chan hmi.Update
 }
 
-return mgr.ManageBoot()
+func RunBootSequence(v *security.IsolatedVault) (*BootManager, error) {
+	isFirstBoot := v.IsMissingMarker("FirstBootMarker")
+	logging.Info("Phase 1: Initializing Boot Manager (FirstBoot: %v)", isFirstBoot)
 
+	// Perform initial probe
+	rawId, _ := probe.PassiveScan()
+	
+	// Convert raw schema profile to our logic-capable Identity struct
+	id := &Identity{IdentityProfile: rawId}
+
+	mgr := &BootManager{
+		Vault:    v,
+		Identity: id,
+		HMIPipe:  make(chan hmi.Update, 10),
+	}
+
+	return mgr, nil
+}

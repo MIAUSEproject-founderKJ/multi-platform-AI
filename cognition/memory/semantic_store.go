@@ -1,4 +1,4 @@
-//MIAUSEproject-founderKJ/multi-platform-AI/cognition/memory/semantic_vault.go
+//MIAUSEproject-founderKJ/multi-platform-AI/cognition/memory/semantic_store.go
 
 package memory
 

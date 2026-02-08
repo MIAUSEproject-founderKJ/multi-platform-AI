@@ -1,6 +1,6 @@
 //MIAUSEproject-founderKJ/multi-platform-AI/configs/platforms/scoring_engine.go
 
-package platform
+package platforms
 
 import (
 	"time"

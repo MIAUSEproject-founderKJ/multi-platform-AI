@@ -83,3 +83,9 @@ func (w *Watchdog) triggerSafeMode() {
 	// 3. Halt the node
 	os.Exit(1)
 }
+
+// Stop prevents the watchdog from triggering during a planned shutdown.
+func (w *Watchdog) Stop() {
+    logging.Info("[WATCHDOG] Disarming safety interlock.")
+    close(w.stopChan)
+}

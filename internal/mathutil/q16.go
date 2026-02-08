@@ -13,15 +13,16 @@ const (
 	Q16Half = 32768
 )
 
-// Q16FromFloat converts a float (0.0 to 1.0) to Q16
-func Q16FromFloat(f float64) Q16 {
-	f = math.Max(0, math.Min(1, f))
-	return Q16(f * Q16Max)
+// ToFloat64 converts a Q16 fixed-point (uint16) to a float64 (0.0 - 1.0)
+func ToFloat64(q uint16) float64 {
+	return float64(q) / Q16Max
 }
 
-// Float64 converts Q16 back to float for HMI/Logging
-func (q Q16) Float64() float64 {
-	return float64(q) / Q16Max
+// FromFloat64 converts a float64 (0.0 - 1.0) to a Q16 fixed-point (uint16)
+func FromFloat64(f float64) uint16 {
+	if f > 1.0 { f = 1.0 }
+	if f < 0.0 { f = 0.0 }
+	return uint16(f * Q16Max)
 }
 
 // Multiply performs a fixed-point multiplication: (a * b) / Q16Max
