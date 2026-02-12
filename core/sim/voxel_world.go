@@ -1,6 +1,6 @@
 //core/sim/voxel_world.go
 
-package digital_twin
+package sim
 
 import (
 	"time"
