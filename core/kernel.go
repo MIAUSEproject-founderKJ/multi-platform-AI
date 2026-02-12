@@ -15,14 +15,20 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
-// Define interfaces to satisfy the struct fields
+// --- Updated Interfaces to match usage ---
+
 type SimulationEngine interface {
 	InjectFault(env *schema.EnvConfig)
+	EnterDreamState(data interface{}) 
+	Stop()
+	GetVoxelFrame() interface{}
 }
 
 type PowerController interface {
 	TransitionTo(state string)
 	SyncWithTrust(trust *policy.TrustDescriptor)
+	SetPowerMode(mode string) // Added to fix "undefined" error
+	WriteActuator(name string, value float64) error
 }
 
 type CognitiveVault interface {
@@ -30,20 +36,47 @@ type CognitiveVault interface {
 	Recall(id string) (interface{}, bool)
 }
 
-type Kernel struct {
-	Platform *platform.BootSequence
-	Vault    *security.IsolatedVault
-	Trust    *policy.TrustDescriptor
+// Added missing types for Step() and ReflectToHUD
+type VisionSystem interface {
+	ProcessFrame(frame interface{}) interface{}
+}
 
-	// Interfaces
+type HardwareBridge interface {
+	GetCameraFrame() interface{}
+	GetPowerProfile() PowerProfile
+}
+
+type PowerProfile struct {
+	BatteryLevel float64
+}
+
+type Vitals struct {
+	CPU         float64
+	Temperature float64
+	Temp        float64 // Matching your inconsistent naming in ReflectToHUD
+}
+
+// --- The Kernel Struct ---
+
+type Kernel struct {
+	Platform  *platform.BootSequence
+	Vault     *security.IsolatedVault
+	Trust     *policy.TrustDescriptor
+	EnvConfig *schema.EnvConfig
+	Evaluator *policy.TrustEvaluator
+	
+	// Subsystems
 	Sim       SimulationEngine
 	Bridge    PowerController
 	Memory    CognitiveVault
+	Vision    VisionSystem
+	Hardware  HardwareBridge
+	Vitals    Vitals         // Fixed "k.Vitals undefined"
+	
+	// Communication
+	HMIPipe   hmi.HMIPipe    // Changed from chan to Interface
 	Status    string
 	ctx       context.Context
-	EnvConfig *schema.EnvConfig
-	Evaluator *policy.TrustEvaluator
-	HMIPipe   chan interface{}
 }
 
 // Bootstrap is the "Entry Gate" called by cmd/aios-node/main.go.
@@ -79,13 +112,14 @@ func Bootstrap(ctx context.Context) (*Kernel, error) {
 	logging.Info("Kernel: Bootstrap complete. Identity: %s | Mode: %s",
 		pSequence.PlatformID, pSequence.Mode)
 
-	return &Kernel{
-		Platform: pSequence,
-		Vault:    v,
-		Trust:    trustDescriptor,
-		Status:   "initialized",
-		HMIPipe:  make(chan hmi.ProgressUpdate, 10),
-	}, nil
+return &Kernel{
+        Platform:  pSequence,
+        Vault:     v,
+        Trust:     trustDescriptor,
+        Status:    "initialized",
+        // FIX: Use a constructor for the interface instead of make(chan)
+        HMIPipe:   hmi.NewBufferedPipe(10), 
+    }, nil
 }
 
 // --- Lifecycle Methods ---
@@ -108,21 +142,18 @@ func (k *Kernel) TrustLevel() float64 {
 func (k *Kernel) RunLifecycle() {
 	for {
 		if k.IsIdle() {
-			// 1. Lower power to non-essential HAL nodes
 			k.Bridge.SetPowerMode("PowerSave")
 
-			// 2. Reflective HUD Update
-			k.HMIPipe <- hmi.ProgressUpdate{
-				Stage:   "SIM_DREAM",
-				Message: "IDLE: Running Digital Twin Simulations...",
-			}
+			// Fix: Recall needs a key string
+			dreamData, _ := k.Memory.Recall("last_world_state")
+			k.Sim.EnterDreamState(dreamData)
 
-			// 3. Trigger Dream State with Twist Injection
-			k.Sim.EnterDreamState(k.Memory.Recall())
-			// replay.InjectTwist(k.Sim.World) // Assuming replay package is imported
-
+			// ProgressUpdate stages should match your hmi provider
+			k.HMIPipe.SendProgress(hmi.ProgressUpdate{
+				Task:     "SIM_DREAM",
+				Progress: 0.5,
+			})
 		} else {
-			// Wake up immediately on user input
 			k.Sim.Stop()
 			k.Bridge.SetPowerMode("Performance")
 		}
@@ -138,8 +169,13 @@ func (k *Kernel) Shutdown() {
 
 // IsIdle is a helper to determine if the system should enter Dream State
 func (k *Kernel) IsIdle() bool {
-	// Logic to check if user input is absent and CPU load is low
-	return true
+    // 1. Check if CPU load is below a "quiet" threshold (e.g., 15%)
+    isQuiet := k.Vitals.CPU < 0.15
+    
+    // 2. You could also check a "LastCommandTime" field (optional)
+    // isRecentlyActive := time.Since(k.LastCommandTime) < 5 * time.Second
+
+    return isQuiet
 }
 
 func (k *Kernel) MonitorState() {
@@ -160,19 +196,18 @@ func (k *Kernel) MonitorState() {
 }
 
 func (k *Kernel) ReflectToHUD() {
-	for {
-		// Send Vitals
+	ticker := time.NewTicker(100 * time.Millisecond)
+	for range ticker.C {
+		// Fix: SendTelemetry now exists on the interface
 		k.HMIPipe.SendTelemetry(hmi.SystemPulse{
-			CpuLoad:     k.Vitals.CPU,
-			TrustScore:  k.Trust.CurrentScore,
-			Temperature: k.Vitals.Temp,
+			CPUUsage:    k.Vitals.CPU,
+			Status:      k.Status,
+			Timestamp:   time.Now(),
 		})
 
-		// If IDLE, send the Voxel Map
 		if k.IsIdle() {
 			k.HMIPipe.SendSpatial(k.Sim.GetVoxelFrame())
 		}
-		time.Sleep(100 * time.Millisecond) // 10Hz Refresh
 	}
 }
 

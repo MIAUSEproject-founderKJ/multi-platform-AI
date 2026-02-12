@@ -13,27 +13,35 @@ import (
 )
 
 func main() {
-	logging.Info("--- [STRATACORE KERNEL NUCLEUS ACTIVE] ---")
+    logging.Info("--- [STRATACORE KERNEL NUCLEUS ACTIVE] ---")
 
-	mon := monitor.NewPerformanceMonitor()
-	mon.Start()
-	defer mon.Stop() // Cleanup on exit
+    // 1. Start Monitor
+    mon := monitor.NewPerformanceMonitor()
+    mon.Start()
+    defer mon.Stop()
 
-	nucleus, err := core.InitializeNucleus()
-	if err != nil {
-		logging.Error("[FATAL] Nucleus initialization failed: %v", err)
-		os.Exit(1)
-	}
+    // 2. Initialize Nucleus with Monitor Link
+    // Note: You'll need to update core.InitializeNucleus to accept *monitor.PerformanceMonitor
+    nucleus, err := core.InitializeNucleus(mon) 
+    if err != nil {
+        logging.Error("[FATAL] Nucleus initialization failed: %v", err)
+        os.Exit(1)
+    }
 
-	// Runs ManageLifecycle in a separate routine to allow the main thread to block on signals
-	go nucleus.ManageLifecycle()
+    // 3. Start Lifecycle
+    ctx, cancel := context.WithCancel(context.Background())
+    defer cancel()
+    go nucleus.RunLifecycle(ctx) // Use the standard naming from your kernel.go
 
-	stop := make(chan os.Signal, 1)
-	signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM)
+    // 4. Signal Catching
+    stop := make(chan os.Signal, 1)
+    signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM)
 
-	logging.Info("[SYSTEM] Nucleus operational. Managing distributed nodes.")
-	<-stop
+    logging.Info("[SYSTEM] Nucleus operational. Monitoring hardware...")
+    <-stop
 
-	nucleus.SyncAndHalt()
-	logging.Info("[SYSTEM] Nucleus offline.")
+    // 5. Cleanup
+    cancel() // Stop the lifecycle loop first
+    nucleus.Shutdown()
+    logging.Info("[SYSTEM] Nucleus offline.")
 }
