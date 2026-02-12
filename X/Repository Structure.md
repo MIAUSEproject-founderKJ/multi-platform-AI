@@ -12,60 +12,35 @@ probe, classify, degrade are clear and self-explanatory.
 types vs instances separates templates from deployments.
 Minimal bloat: No duplicated configs per platform; runtime changes handled in a dedicated folder.
 
-Project (aios-runtime)/
-├── api/                        # gRPC/Protobuf Definitions (The Contract)
-│   ├── kernel.proto            # Core message routing
-│   └── perception.proto        # Spatial data schemas
-│
-├── bridge/                     # Layer II – Cyber-Physical Middleware
-│   ├── hal/                    # Hardware Abstraction (USB, CAN, HID)
-│   ├── busmap/                 # Active System ID (The "Pulse Train" Logic)
-│   └── registry/               # Hardware-to-Intent Mappings
-│
-├── cmd/                        # Entry Points (Keep these < 100 lines)
-│   ├── aios-kernel/            # The Secure Nucleus
-│   └── aios-node/              # Domain-specific launchers (Vehicle/PC)
-│
-├── cognition/                  # Layer IV – Intelligence (High Latency)
-│   ├── agents/                 # Teacher/Student Orchestration
-│   ├── distillation/           # Policy Compression Tools
-│   └── memory/                 # Episodic & Semantic Vaults
-│
-├── configs/                    # Layered Configuration (No Redundancy)
-│   ├── schema/               # Base system rules
-│   ├── platforms/              # Types (Generic) vs Instances (Specific)
-│   └── users/                  # Trust-tier overrides
-│
-├── core/                       # Layer I – The Microkernel (Secure Nucleus)
-│   ├── platform/               # PROBE -> CLASSIFY -> DEGRADE
-│   ├── policy/                 # Bayesian Trust Evaluation & Gating
-│   ├── security/               # Vault, Attestation, TPM/TEE
-│   └── kernel.go               # The Deterministic Router
-│
-├── internal/                   # Private Logic (Safety & System Ops)
-│   ├── scheduler/              # Deterministic Task Timing
-│   ├── watchdog/               # Liveness & Safety Interlocks
-│   └── logging/                # Immutable Forensics
-│
-├── plugins/                    # Layer III – Hot-Swappable Services
-│   ├── perception/             # Vision, Depth, Gaussian Splatting
-│   │     └──models/ 
-│   │       ├──manifest.yaml        # model ID, hash, input/output contract
-│   │       └── runtime_loader.go
-│   │  
-│   └── adapters/
-│   │          └── vision_adapter.go    # normalizes camera → tensor
-│   │  
-│   ├── navigation/             # Path Planning & SLAM
-│   └── speech/                 # The "Multi-Platform AI" UI Layer
-│
-├── runtime/                    # Execution & Resource Management
-│   ├── loader/                 # On-demand Plugin Injection
-│   └── monitor/                # Performance & VRAM capping
-│
-└── simulation/                 # Replay & Discrepancy Injection
-    ├── digital_twin/           # Voxel-based Virtual World
-    └── replay/                 # Mutating real traces with "Twists"
+/multi-platform-AI
+├── /api                    # Protocols (gRPC/Protobuf)
+├── /bridge                 # Hardware Abstraction (HAL)
+│   ├── /busmap             # "Self-Discovery" Logic
+│   └── /hal                # Interfaces for Motor/Sensor
+├── /build                  # Dockerfiles
+├── /cmd                    # Entry Points
+│   ├── /aios-kernel        # The Nucleus Daemon
+│   └── /aios-node          # Client/Peer Node
+├── /configs                # YAML/JSON only! (No .go files)
+├── /core                   # The System Nucleus
+│   ├── /intent             # (Renamed from Cognition) Agents/Distillation
+│   ├── /platform           # Boot, Identity, Classify
+│   ├── /policy             # Trust, Scheduler
+│   ├── /security           # Vault, TPM
+│   ├── /storage            # (Renamed from core/memory) KV Store/Vault Access
+│   ├── /sim                # Simulation Engine & Interfaces
+│   └── /kernel.go          # Main Kernel Struct
+├── /internal               # Private Library Code (Helpers)
+│   ├── /mathutil           # Q16, Matrix math
+│   └── /logging            # Logger
+├── /pkg                    # Public Library Code (Safe imports)
+│   └── /schema             # Shared Types (EnvConfig, TrustScore)
+├── /plugins                # Hot-Swappable Capabilities
+│   ├── /perception         # Vision models (YOLO, etc.)
+│   ├── /navigation         # SLAM, Pathfinding
+│   └── /speech             # STT/TTS
+└── /runtime                # Active Runtime Processes
+    └── /monitor            # Performance & Vitals (Consolidated)
 
 
 

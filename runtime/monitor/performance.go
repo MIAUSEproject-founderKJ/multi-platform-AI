@@ -59,12 +59,11 @@ func (pm *PerformanceMonitor) pollVitals() {
 }
 
 func (pm *PerformanceMonitor) checkThresholds() {
-	// Simple thermal throttling logic
-	const criticalTemp = 85.0
-	if pm.Current.Temperature > criticalTemp {
-		logging.Warn("[CRITICAL] Thermal threshold exceeded! Current: %.1f°C", pm.Current.Temperature)
-		// Here you would trigger an event to k.Bridge.SetPowerMode("PowerSave")
-	}
+    // If jitter exceeds 100ms, the AI is losing real-time sync
+    if pm.Current.JitterMS > 100.0 {
+        logging.Warn("[CRITICAL] System Jitter High: %vms. Throttling non-essential tasks.", pm.Current.JitterMS)
+        // Action: Stop simulation/dream state to save CPU
+    }
 }
 
 func (pm *PerformanceMonitor) Stop() {
