@@ -1,4 +1,4 @@
-//MIAUSEproject-founderKJ/multi-platform-AI/simulation/digital_twin/voxel_world.go
+//core/sim/voxel_world.go
 
 package digital_twin
 
