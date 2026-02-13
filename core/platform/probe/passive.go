@@ -44,17 +44,18 @@ func PassiveScan() (*HardwareIdentity, error) {
 
 // classifyPlatform looks for specific "Tells" in the OS environment
 func classifyPlatform() string {
-	// Logic to detect if we are on an embedded vehicle computer vs. a PC
-	// Check for specific drivers or environment variables
-	if _, err := os.Stat("/sys/class/net/can0"); err == nil {
-		return "Automotive"
-	}
+    // Check for CAN-bus (Automotive)
+    if _, err := os.Stat("/sys/class/net/can0"); err == nil {
+        return "Automotive"
+    }
 
-	if os.Getenv("INDUSTRIAL_NODE_ID") != "" {
-		return "Industrial"
-	}
+    // Check for Robotics/Industrial indicators
+    if _, err := os.Stat("/dev/ttyUSB0"); err == nil {
+        // Potential industrial PLC or sensor node
+        return "Industrial"
+    }
 
-	return "Workstation"
+    return "Workstation"
 }
 
 // getMachineUUID fetches the motherboard UUID or equivalent

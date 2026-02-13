@@ -59,24 +59,24 @@ type Vitals struct {
 // --- The Kernel Struct ---
 
 type Kernel struct {
-	Platform  *platform.BootSequence
-	Vault     *security.IsolatedVault
-	Trust     *policy.TrustDescriptor
-	EnvConfig *schema.EnvConfig
-	Evaluator *policy.TrustEvaluator
+    Platform  *platform.BootSequence
+    Vault     *security.IsolatedVault
+    Trust     *policy.TrustDescriptor
+    EnvConfig *schema.EnvConfig
+    Evaluator *policy.TrustEvaluator
 
-	// Subsystems
-	Sim      SimulationEngine
-	Bridge   PowerController
-	Memory   CognitiveVault
-	Vision   VisionSystem
-	Hardware HardwareBridge
-	Vitals   Vitals // Fixed "k.Vitals undefined"
+    // Subsystems
+    Sim       SimulationEngine
+    Bridge    PowerController
+    Memory    CognitiveVault
+    Vision    VisionSystem
+    Hardware  HardwareBridge
+    Swarm     SwarmManager 
+    Vitals    Vitals 
 
-	// Communication
-	HMIPipe hmi.HMIPipe // Changed from chan to Interface
-	Status  string
-	ctx     context.Context
+    HMIPipe hmi.HMIPipe 
+    Status  string
+    ctx     context.Context
 }
 
 // Bootstrap is the "Entry Gate" called by cmd/aios-node/main.go.
@@ -94,7 +94,7 @@ func Bootstrap(ctx context.Context) (*Kernel, error) {
 		return nil, fmt.Errorf("vault initialization failed: %w", err)
 	}
 
-	// 2. Physical Verification (Path: core/platform/boot.go)
+	// 2. Physical Verification
 	// We pass the vault to RunBootSequence as established in our workflow
 	pSequence, err := platform.RunBootSequence(v)
 	if err != nil {
@@ -107,19 +107,21 @@ func Bootstrap(ctx context.Context) (*Kernel, error) {
 	}
 
 	// 4. Trust Initialization (Bayesian Prior)
-	trustDescriptor := policy.InitializeTrust(pSequence)
+trustDescriptor := policy.InitializeTrust(pSequence)
 
 	logging.Info("Kernel: Bootstrap complete. Identity: %s | Mode: %s",
 		pSequence.PlatformID, pSequence.Mode)
 
-	return &Kernel{
-		Platform: pSequence,
-		Vault:    v,
-		Trust:    trustDescriptor,
-		Status:   "initialized",
-		// FIX: Use a constructor for the interface instead of make(chan)
-		HMIPipe: hmi.NewBufferedPipe(10),
-	}, nil
+
+return &Kernel{
+	Platform:  pSequence,
+	Vault:     v,
+	Trust:     trustDescriptor,
+	EnvConfig: pSequence.EnvConfig, // <-- ensure BootSequence exposes this
+	Evaluator: &policy.TrustEvaluator{MinThreshold: 0.9},
+	Status:    "initialized",
+	HMIPipe:   hmi.NewBufferedPipe(10),
+}, nil
 }
 
 // --- Lifecycle Methods ---
@@ -238,17 +240,77 @@ func (k *Kernel) OnPeerUpdate(pulse NodePulse) {
 }
 
 func (k *Kernel) Step() {
-	// 1. See: Vision processing
-	objects := k.Vision.ProcessFrame(k.Hardware.GetCameraFrame())
 
-	// 2. Feel: Energy check
-	p := k.Hardware.GetPowerProfile()
+	frame := k.Hardware.GetCameraFrame()
+	objects := k.Vision.ProcessFrame(frame)
+	power := k.Hardware.GetPowerProfile()
 
-	// 3. Think: Bayesian Update
-	k.Trust = k.Evaluator.Evaluate(k.EnvConfig, objects, p)
+	// Layered trust evaluation
+	k.Trust = k.Evaluator.Evaluate(
+		k.EnvConfig,
+		objects,
+		power,
+	)
 
-	// 4. Socialize: Negotiate with Swarm
-	if k.Trust.CurrentScore < 0.5 || p.BatteryLevel < 0.1 {
-		k.Swarm.RequestHelp("REPLACEMENT_NEEDED")
+	// HARD GATING BASED ON CAPABILITIES
+	caps := k.EnvConfig.Discovery.Capabilities
+
+	if caps.SensorOnly {
+		return // No actuation allowed
 	}
+
+	if k.Trust.OperationMode != "AUTONOMOUS" {
+		return // Manual or restricted mode
+	}
+
+	if k.Trust.CurrentScore < 0.4 {
+		logging.Warn("[KERNEL] Trust dip detected (%.2f). Requesting swarm validation.",
+			k.Trust.CurrentScore)
+		k.Swarm.RequestHelp("REPLACEMENT_NEEDED")
+		return
+	}
+}
+
+func (t *TrustEvaluator) Evaluate(
+	env *schema.EnvConfig,
+	vision interface{},
+	power interface{},
+) *TrustDescriptor {
+
+	score := 1.0
+
+	if !env.Discovery.Physical.PowerPresent {
+		score -= 0.4
+	}
+
+	if env.Discovery.Signal.NoiseLevel > 0.3 {
+		score -= 0.2
+	}
+
+	if !env.Discovery.Protocol.SupportsWatchdog {
+		score -= 0.2
+	}
+
+	mode := "AUTONOMOUS"
+	if score < t.MinThreshold {
+		mode = "MANUAL_ONLY"
+	}
+
+	return &TrustDescriptor{
+		CurrentScore: score,
+		OperationMode: mode,
+	}
+}
+
+
+type GuardedPowerController struct {
+	Inner PowerController
+	Kernel *Kernel
+}
+
+func (g *GuardedPowerController) WriteActuator(name string, value float64) error {
+	if g.Kernel.Trust.OperationMode != "AUTONOMOUS" {
+		return fmt.Errorf("actuator write denied: not in autonomous mode")
+	}
+	return g.Inner.WriteActuator(name, value)
 }

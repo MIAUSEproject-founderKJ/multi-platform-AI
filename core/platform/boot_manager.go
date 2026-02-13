@@ -10,117 +10,102 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/monitor"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/plugins/navigation"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/plugins/perception"
 )
 
 const CurrentSchemaVersion = 1
 
-func (bm *BootManager) runColdBoot() (*BootSequence, error) {
+// ManageBoot handles the logic gate between Fast and Cold paths.
+func (bm *BootManager) ManageBoot() (*schema.BootSequence, error) {
+	// 1. Physical/Security Attestation
+	if err := security.VerifyEnvironment(bm.Identity); err != nil {
+		logging.Error("CRITICAL: Binary Integrity Compromised!")
+		return nil, bm.EnterRecoveryMode(err) // Force safe state
+	}
+
+	isFirstBoot := bm.Vault.IsMissingMarker("FirstBootMarker")
+	cachedEnv, err := bm.Vault.LoadConfig("LastKnownEnv")
+
+	// 2. State Decision: If version jump or missing, re-probe.
+	isOutdated := err == nil && cachedEnv.SchemaVersion != CurrentSchemaVersion
+	if isFirstBoot || err != nil || isOutdated {
+		if isOutdated {
+			logging.Info("[BOOT] Schema jump (%d -> %d). Re-probing...", 
+				cachedEnv.SchemaVersion, CurrentSchemaVersion)
+		}
+		return bm.runColdBoot()
+	}
+
+	return bm.runFastBoot()
+}
+
+func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
 	logging.Info("[BOOT] Stage 1 (Cold Boot): Full Discovery & Registration")
 
-	// 1-3. Standard Setup
+	// 1. Initial Subsystem Setup
 	vision := perception.NewVisionStream()
 	nav := navigation.SLAMContext{}
 	vitals := monitor.NewVitalsMonitor(bm.Identity)
 	vitals.Start()
 	bm.linkVisionHUD(vision, vitals, &nav)
 
-	// 4. Hardware Probe
+	// 2. Layered Hardware Probe
 	bm.updateProgress(0.1, "Waking up sensors (Lidar/CAN)...")
-	fullProfile, err := probe.AggressiveScan(bm.Identity)
+	fullProfile, err := probe.ActiveDiscovery(bm.Identity.RawPassport)
 	if err != nil {
 		return nil, fmt.Errorf("[FATAL] Hardware detection failed: %w", err)
 	}
 	fullProfile.SchemaVersion = CurrentSchemaVersion
 
-	// 5. Identity Finalization
-	bm.updateProgress(0.4, "Finalizing Platform Reality...")
+	// 3. Identity Finalization (The Scoring Engine)
+	RunResolution(fullProfile)
 	bm.Identity.Finalize(fullProfile)
 
-	// 6. Security & User
-	bm.updateProgress(0.6, "Verifying Security Integrity...")
-	if err := security.VerifyEnvironment(bm.Identity); err != nil {
-		return nil, err
-	}
-	userSession := bm.IdentifyUser()
-
-	// 7. Bayesian Trust Decision (Unified)
+	// 4. Bayesian Trust & Capability Gating
 	evaluator := policy.TrustEvaluator{MinThreshold: 0.9}
-	trustDesc := evaluator.Evaluate(fullProfile) // Use the fresh profile
+	trustDesc := evaluator.Evaluate(fullProfile)
 
-	logging.Info("[POLICY] Trust Score: %.2f | Mode: %s", trustDesc.CurrentScore, trustDesc.OperationMode)
+	// CAPABILITY GATING: Enforce hardware constraints on software modes
+	if !fullProfile.Discovery.Capabilities.SupportsGoalControl {
+		logging.Warn("[POLICY] Hardware lacks GoalControl. Restricting to MANUAL.")
+		trustDesc.OperationMode = "MANUAL_ONLY"
+	}
+	if fullProfile.Discovery.Capabilities.SensorOnly {
+		trustDesc.OperationMode = "READ_ONLY"
+	}
 
-	// 8. Persistence
+	// 5. Persistence
 	bm.Vault.WriteMarker("FirstBootMarker")
-	bm.Vault.StoreToken("IdentityToken", userSession.Token)
-	if err := bm.Vault.SaveConfig("LastKnownEnv", fullProfile); err != nil {
-		logging.Warn("[BOOT] Failed to persist environment: %v", err)
-	}
+	bm.Vault.SaveConfig("LastKnownEnv", fullProfile)
 
-	bm.updateProgress(1.0, fmt.Sprintf("Boot Complete. Trust: %s", trustDesc.Label))
-
-	return &BootSequence{
-		PlatformID: bm.Identity.PlatformType,
-		TrustScore: trustDesc.CurrentScore,
-		IsVerified: true,
-		Mode:       trustDesc.OperationMode, // Now returns "MANUAL_ONLY" or "AUTONOMOUS"
-		UserRole:   userSession.Role,
-	}, nil
-}
-
-func (bm *BootManager) runFastBoot() (*BootSequence, error) {
-	logging.Info("[BOOT] Stage 1 (Fast Boot): Resuming from Vault...")
-
-	// 1. Quick Attestation
-	if err := security.VerifyEnvironment(bm.Identity); err != nil {
-		logging.Error("[BOOT] Security mismatch. Redirecting to Cold Boot.")
-		return bm.runColdBoot()
-	}
-
-	// 2. Load cached profile
-	lastConfig, err := bm.Vault.LoadConfig("LastKnownEnv")
-	if err != nil {
-		return nil, fmt.Errorf("failed to load environment cache: %w", err)
-	}
-
-	// 3. Bayesian Evaluation
-	evaluator := policy.TrustEvaluator{MinThreshold: 0.9}
-	trustDesc := evaluator.Evaluate(lastConfig)
-
-	logging.Info("[BOOT] Fast Resume. Trust: %.2f | Mode: %s", trustDesc.CurrentScore, trustDesc.OperationMode)
-
-	return &BootSequence{
-		PlatformID: bm.Identity.PlatformType,
+	return &schema.BootSequence{
+		PlatformID: string(bm.Identity.Config.Platform.Final),
 		TrustScore: trustDesc.CurrentScore,
 		IsVerified: true,
 		Mode:       trustDesc.OperationMode,
-		UserRole:   "Operator",
+		EnvConfig:  fullProfile,
 	}, nil
 }
 
-// ManageBoot refined with Schema Version Check from Reference
-func (bm *BootManager) ManageBoot() (*BootSequence, error) {
-	isFirstBoot := bm.Vault.IsMissingMarker("FirstBootMarker")
+func (bm *BootManager) runFastBoot() (*schema.BootSequence, error) {
+	logging.Info("[BOOT] Stage 1 (Fast Boot): Resuming from Vault...")
 
-	// Attempt to peek at existing config to check version
-	cachedEnv, err := bm.Vault.LoadConfig("LastKnownEnv")
-
-	// Reference Logic: If version mismatch, force a Cold Boot (Re-probe)
-	isOutdated := err == nil && cachedEnv.SchemaVersion != CurrentSchemaVersion
-
-	if isFirstBoot || err != nil || isOutdated {
-		if isOutdated {
-			logging.Info("[BOOT] Schema mismatch. Triggering hardware re-probe...")
-		}
-		return bm.runColdBoot()
+	// Fast path skips hardware pings, relies on cached Attestation
+	lastConfig, err := bm.Vault.LoadConfig("LastKnownEnv")
+	if err != nil {
+		return bm.runColdBoot() // Fallback if cache is corrupted
 	}
 
-	if err := security.VerifyEnvironment(bm.Identity); err != nil {
-		logging.Error("CRITICAL: Binary Integrity Compromised!")
-		// Force a recovery mode or halt execution
-		return bm.EnterRecoveryMode(err)
-	}
+	evaluator := policy.TrustEvaluator{MinThreshold: 0.9}
+	trustDesc := evaluator.Evaluate(lastConfig)
 
-	return bm.runFastBoot()
+	return &schema.BootSequence{
+		PlatformID: string(bm.Identity.Config.Platform.Final),
+		TrustScore: trustDesc.CurrentScore,
+		IsVerified: true,
+		Mode:       trustDesc.OperationMode,
+		EnvConfig:  lastConfig,
+	}, nil
 }
