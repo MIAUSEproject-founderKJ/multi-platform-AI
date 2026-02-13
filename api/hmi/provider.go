@@ -12,8 +12,8 @@ type SystemPulse struct {
 	Timestamp   time.Time `json:"timestamp"`
 }
 
-// ProgressUpdate for long-running AI tasks (like distillation).
-type ProgressUpdate struct {
+// MonitorProgress for long-running AI tasks (like distillation).
+type MonitorProgress struct {
 	Task     string  `json:"task"`
 	Progress float64 `json:"progress"` // 0.0 to 1.0
 }
@@ -22,5 +22,5 @@ type ProgressUpdate struct {
 type HMIPipe interface {
 	SendTelemetry(pulse SystemPulse)
 	SendSpatial(frame interface{}) // For Voxel/Lidar data
-	SendProgress(update ProgressUpdate)
+	SendProgress(update MonitorProgress)
 }

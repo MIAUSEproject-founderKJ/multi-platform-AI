@@ -9,7 +9,7 @@ import (
 	"sync"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/api/hmi"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/monitor"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/monitor"
 )
 
 type VisionStream struct {

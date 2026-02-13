@@ -5,7 +5,7 @@ package policy
 type PowerProfile struct {
 	BatteryLevel float64 // 0.0 to 1.0
 	IsCharging   bool
-	EstimatedRun uint32  // Minutes remaining
+	EstimatedRun uint32 // Minutes remaining
 }
 
 func (e *TrustEvaluator) CalculateUtility(taskRequirement float64, p PowerProfile) float64 {

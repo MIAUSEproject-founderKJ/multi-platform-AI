@@ -2,8 +2,6 @@
 
 package mathutil
 
-import "math"
-
 // Q16 represents a fixed-point confidence value (0 to 65535)
 // where 0 is 0% and 65535 is 100%.
 type Q16 uint16
@@ -20,8 +18,12 @@ func ToFloat64(q uint16) float64 {
 
 // FromFloat64 converts a float64 (0.0 - 1.0) to a Q16 fixed-point (uint16)
 func FromFloat64(f float64) uint16 {
-	if f > 1.0 { f = 1.0 }
-	if f < 0.0 { f = 0.0 }
+	if f > 1.0 {
+		f = 1.0
+	}
+	if f < 0.0 {
+		f = 0.0
+	}
 	return uint16(f * Q16Max)
 }
 

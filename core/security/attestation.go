@@ -9,13 +9,12 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/platforms"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
-
 // PerformAttestation generates a hash of the hardware profile to seal the vault
-func PerformAttestation(id platforms.MachineIdentity, hw platforms.HardwareProfile) (*EnvAttestation, error) {
+func PerformAttestation(id schema.MachineIdentity, hw schema.HardwareProfile) (*EnvAttestation, error) {
 	logging.Info("[SECURITY] Sealing Hardware Identity: %s", id.MachineName)
 
 	// Create a unique fingerprint based on Machine ID and CPU counts
@@ -38,7 +37,7 @@ func PerformAttestation(id platforms.MachineIdentity, hw platforms.HardwareProfi
 
 // VerifyEnvironment performs the cryptographic "Measured Boot" check.
 // It ensures the binary hasn't been modified since the last trusted state.
-func VerifyEnvironment(id platforms.MachineIdentity) error {
+func VerifyEnvironment(id schema.MachineIdentity) error {
 	logging.Info("[SECURITY] Initiating Measured Boot Attestation for: %s", id.MachineName)
 
 	// 1. MEASURED BOOT: Hash the current running binary

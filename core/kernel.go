@@ -19,7 +19,7 @@ import (
 
 type SimulationEngine interface {
 	InjectFault(env *schema.EnvConfig)
-	EnterDreamState(data interface{}) 
+	EnterDreamState(data interface{})
 	Stop()
 	GetVoxelFrame() interface{}
 }
@@ -64,19 +64,19 @@ type Kernel struct {
 	Trust     *policy.TrustDescriptor
 	EnvConfig *schema.EnvConfig
 	Evaluator *policy.TrustEvaluator
-	
+
 	// Subsystems
-	Sim       SimulationEngine
-	Bridge    PowerController
-	Memory    CognitiveVault
-	Vision    VisionSystem
-	Hardware  HardwareBridge
-	Vitals    Vitals         // Fixed "k.Vitals undefined"
-	
+	Sim      SimulationEngine
+	Bridge   PowerController
+	Memory   CognitiveVault
+	Vision   VisionSystem
+	Hardware HardwareBridge
+	Vitals   Vitals // Fixed "k.Vitals undefined"
+
 	// Communication
-	HMIPipe   hmi.HMIPipe    // Changed from chan to Interface
-	Status    string
-	ctx       context.Context
+	HMIPipe hmi.HMIPipe // Changed from chan to Interface
+	Status  string
+	ctx     context.Context
 }
 
 // Bootstrap is the "Entry Gate" called by cmd/aios-node/main.go.
@@ -112,14 +112,14 @@ func Bootstrap(ctx context.Context) (*Kernel, error) {
 	logging.Info("Kernel: Bootstrap complete. Identity: %s | Mode: %s",
 		pSequence.PlatformID, pSequence.Mode)
 
-return &Kernel{
-        Platform:  pSequence,
-        Vault:     v,
-        Trust:     trustDescriptor,
-        Status:    "initialized",
-        // FIX: Use a constructor for the interface instead of make(chan)
-        HMIPipe:   hmi.NewBufferedPipe(10), 
-    }, nil
+	return &Kernel{
+		Platform: pSequence,
+		Vault:    v,
+		Trust:    trustDescriptor,
+		Status:   "initialized",
+		// FIX: Use a constructor for the interface instead of make(chan)
+		HMIPipe: hmi.NewBufferedPipe(10),
+	}, nil
 }
 
 // --- Lifecycle Methods ---
@@ -148,8 +148,8 @@ func (k *Kernel) RunLifecycle() {
 			dreamData, _ := k.Memory.Recall("last_world_state")
 			k.Sim.EnterDreamState(dreamData)
 
-			// ProgressUpdate stages should match your hmi provider
-			k.HMIPipe.SendProgress(hmi.ProgressUpdate{
+			// MonitorProgress stages should match your hmi provider
+			k.HMIPipe.SendProgress(hmi.MonitorProgress{
 				Task:     "SIM_DREAM",
 				Progress: 0.5,
 			})
@@ -169,20 +169,20 @@ func (k *Kernel) Shutdown() {
 
 // IsIdle is a helper to determine if the system should enter Dream State
 func (k *Kernel) IsIdle() bool {
-    // 1. Check if CPU load is below a "quiet" threshold (e.g., 15%)
-    isQuiet := k.Vitals.CPU < 0.15
-    
-    // 2. You could also check a "LastCommandTime" field (optional)
-    // isRecentlyActive := time.Since(k.LastCommandTime) < 5 * time.Second
+	// 1. Check if CPU load is below a "quiet" threshold (e.g., 15%)
+	isQuiet := k.Vitals.CPU < 0.15
 
-    return isQuiet
+	// 2. You could also check a "LastCommandTime" field (optional)
+	// isRecentlyActive := time.Since(k.LastCommandTime) < 5 * time.Second
+
+	return isQuiet
 }
 
 func (k *Kernel) MonitorState() {
 	for {
 		if k.IsIdle() && k.Vitals.Temperature < 65.0 {
 			// Reflective HUD Update
-			k.HMIPipe <- hmi.ProgressUpdate{
+			k.HMIPipe <- hmi.MonitorProgress{
 				Stage:   "SIM_DREAM",
 				Message: "IDLE: Running Digital Twin Simulations...",
 			}
@@ -200,9 +200,9 @@ func (k *Kernel) ReflectToHUD() {
 	for range ticker.C {
 		// Fix: SendTelemetry now exists on the interface
 		k.HMIPipe.SendTelemetry(hmi.SystemPulse{
-			CPUUsage:    k.Vitals.CPU,
-			Status:      k.Status,
-			Timestamp:   time.Now(),
+			CPUUsage:  k.Vitals.CPU,
+			Status:    k.Status,
+			Timestamp: time.Now(),
 		})
 
 		if k.IsIdle() {

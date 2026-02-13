@@ -3,17 +3,16 @@
 package sim
 
 import (
-	"math/rand"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/configs/platforms"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
 type Scenario string
 
 const (
-	ScenarioNormal     Scenario = "nominal_operations"
-	ScenarioLidarFail  Scenario = "sensor_blackout"
-	ScenarioBusFlood   Scenario = "can_bus_congestion"
+	ScenarioNormal         Scenario = "nominal_operations"
+	ScenarioLidarFail      Scenario = "sensor_blackout"
+	ScenarioBusFlood       Scenario = "can_bus_congestion"
 	ScenarioIdentityHijack Scenario = "platform_mismatch"
 )
 
@@ -23,7 +22,7 @@ type SimulationEngine struct {
 }
 
 // InjectFault modifies the EnvConfig to simulate real-world hardware issues.
-func (se *SimulationEngine) InjectFault(env *platforms.EnvConfig) {
+func (se *SimulationEngine) InjectFault(env *schema.EnvConfig) {
 	logging.Warn("[SIM] Injecting Scenario: %s (Intensity: %.2f)", se.ActiveScenario, se.Intensity)
 
 	switch se.ActiveScenario {
