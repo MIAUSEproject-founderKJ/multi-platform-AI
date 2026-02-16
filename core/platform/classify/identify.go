@@ -1,15 +1,15 @@
-//core/platform/classify/identify.go
-
+// core/platform/classify/identify.go
 package classify
 
 import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform/probe"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
 // SecurityProfile defines the "Gate Height" for the platform
 type SecurityProfile struct {
-	PlatformClass        string // Automotive | Workstation | Industrial
+	PlatformClass        string // Automotive | Workstation | Industrial | Embedded
 	RequiresBiometry     bool
 	RequiresKeyTelemetry bool
 	AuthTimeoutMinutes   int
@@ -22,30 +22,47 @@ func Identify(id *probe.HardwareIdentity) (*SecurityProfile, error) {
 	profile := &SecurityProfile{}
 
 	switch id.PlatformType {
-	case "Automotive":
-		// Scenario: FSD / Tractor / Harvester
+
+	// ------------------------------------------
+	// AUTOMOTIVE / VEHICLE
+	// ------------------------------------------
+	case schema.PlatformVehicle, "Automotive":
 		profile.PlatformClass = "Automotive"
 		profile.RequiresBiometry = true
-		profile.RequiresKeyTelemetry = true // Car-Key / Remote handshake
-		profile.AuthTimeoutMinutes = 0      // Always re-verify on ignition
+		profile.RequiresKeyTelemetry = true
+		profile.AuthTimeoutMinutes = 0 // always re-verify on ignition
 
-	case "Industrial":
-		// Scenario: Smart-House / Factory
-		profile.PlatformClass = "Industrial"
-		profile.RequiresBiometry = false // Uses NFC / Physical Interlock instead
+	// ------------------------------------------
+	// INDUSTRIAL / EMBEDDED / ROBOT / DRONE
+	// ------------------------------------------
+	case schema.PlatformIndustrial, schema.PlatformEmbedded, schema.PlatformRobot, schema.PlatformDrone, schema.PlatformGamePad:
+		profile.PlatformClass = "Industrial" // safe default for embedded
+		profile.RequiresBiometry = false
 		profile.RequiresKeyTelemetry = false
-		profile.AuthTimeoutMinutes = 1440 // 24-hour persistent trust
+		profile.AuthTimeoutMinutes = 1440 // 24h persistent trust
 
+	// ------------------------------------------
+	// HIGH-LEVEL COMPUTE DEVICES (PC / LAPTOP / MOBILE / TABLET)
+	// ------------------------------------------
 	case schema.PlatformComputer, schema.PlatformLaptop, schema.PlatformTablet, schema.PlatformMobile:
-		// Scenario: Professional PC / Laptop / Tablet / Mobile
-		profile.PlatformClass = "Workstation" // usage/security label
-		profile.RequiresBiometry = true       // Windows Hello / TouchID
+		profile.PlatformClass = "Workstation"
+		profile.RequiresBiometry = true
 		profile.RequiresKeyTelemetry = false
-		profile.AuthTimeoutMinutes = 480      // Standard work shift
+		profile.AuthTimeoutMinutes = 480 // standard work shift
+
+	// ------------------------------------------
+	// UNKNOWN / FALLBACK
+	// ------------------------------------------
+	default:
+		profile.PlatformClass = "Embedded" // minimal safe profile
+		profile.RequiresBiometry = false
+		profile.RequiresKeyTelemetry = false
+		profile.AuthTimeoutMinutes = 1440
+		logging.Warn("[CLASSIFY] Unknown platform type %s, applying default embedded profile", id.PlatformType)
 	}
 
-	logging.Info("[CLASSIFY] Profile Locked: %s (Biometry: %v)",
-		profile.PlatformClass, profile.RequiresBiometry)
+	logging.Info("[CLASSIFY] Profile Locked: %s (Biometry: %v, KeyTelemetry: %v)",
+		profile.PlatformClass, profile.RequiresBiometry, profile.RequiresKeyTelemetry)
 
 	return profile, nil
 }
