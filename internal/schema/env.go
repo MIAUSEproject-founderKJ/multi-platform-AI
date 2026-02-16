@@ -10,16 +10,16 @@ import (
 type PlatformClass string
 
 const (
-	PlatformComputer   PlatformClass = "computer"
-	PlatformLaptop     PlatformClass = "laptop"
-	PlatformMobile     PlatformClass = "mobile"
-	PlatformTablet     PlatformClass = "tablet"
-	PlatformRobot      PlatformClass = "robotic"
-	PlatformVehicle    PlatformClass = "vehicle"
-	PlatformDrone      PlatformClass = "drone"
-	PlatformIndustrial PlatformClass = "industrial"
-	PlatformEmbedded   PlatformClass = "embedded"
-	PlatformGamePad    PlatformClass = "gamepad"
+    PlatformComputer   PlatformClass = "computer"
+    PlatformLaptop     PlatformClass = "laptop"
+    PlatformMobile     PlatformClass = "mobile"
+    PlatformTablet     PlatformClass = "tablet"
+    PlatformRobot      PlatformClass = "robotic"
+    PlatformVehicle    PlatformClass = "vehicle"
+    PlatformDrone      PlatformClass = "drone"
+    PlatformIndustrial PlatformClass = "industrial"
+    PlatformEmbedded   PlatformClass = "embedded"
+    PlatformGamePad    PlatformClass = "gamepad"
 )
 
 type PlatformProfile struct {
@@ -109,6 +109,7 @@ type IdentityProfile struct {
 	MachineID   string
 	MachineName string
 	OS          string
+	Architecture	string
 }
 
 type BusEntry struct {
@@ -155,8 +156,9 @@ type ProtocolProfile struct {
 }
 
 type CapabilityDescriptor struct {
-	SupportsGoalControl     bool `json:"supports_goal_control"`     // AI says "Go 10m"
-	SupportsRegisterControl bool `json:"supports_register_control"` // AI says "Motor Voltage 5V"
-	SensorOnly              bool `json:"sensor_only"`
-	HasSafetyEnvelope       bool `json:"has_safety_envelope"`
+	SupportsGoalControl     bool
+	SupportsRegisterControl bool
+	SensorOnly              bool
+	HasSafetyEnvelope       bool
+	SupportsAcceleratedCompute bool
 }

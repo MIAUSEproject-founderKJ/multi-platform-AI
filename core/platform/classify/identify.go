@@ -36,12 +36,12 @@ func Identify(id *probe.HardwareIdentity) (*SecurityProfile, error) {
 		profile.RequiresKeyTelemetry = false
 		profile.AuthTimeoutMinutes = 1440 // 24-hour persistent trust
 
-	case "Workstation":
-		// Scenario: Professional PC / Laptop
-		profile.PlatformClass = "Workstation"
-		profile.RequiresBiometry = true // Windows Hello / TouchID
+	case schema.PlatformComputer, schema.PlatformLaptop, schema.PlatformTablet, schema.PlatformMobile:
+		// Scenario: Professional PC / Laptop / Tablet / Mobile
+		profile.PlatformClass = "Workstation" // usage/security label
+		profile.RequiresBiometry = true       // Windows Hello / TouchID
 		profile.RequiresKeyTelemetry = false
-		profile.AuthTimeoutMinutes = 480 // Standard work shift
+		profile.AuthTimeoutMinutes = 480      // Standard work shift
 	}
 
 	logging.Info("[CLASSIFY] Profile Locked: %s (Biometry: %v)",

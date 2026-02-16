@@ -252,6 +252,10 @@ func (k *Kernel) Step() {
 		power,
 	)
 
+		if !k.CanActuate() {
+		return
+	}
+
 	// HARD GATING BASED ON CAPABILITIES
 	caps := k.EnvConfig.Discovery.Capabilities
 
@@ -280,14 +284,18 @@ func (t *TrustEvaluator) Evaluate(
 	score := 1.0
 
 	if !env.Discovery.Physical.PowerPresent {
-		score -= 0.4
+		score -= 0.5
 	}
 
-	if env.Discovery.Signal.NoiseLevel > 0.3 {
+	if env.Discovery.Signal.NoiseLevel > 0.2 {
 		score -= 0.2
 	}
 
 	if !env.Discovery.Protocol.SupportsWatchdog {
+		score -= 0.2
+	}
+
+	if len(env.Discovery.Nodes) == 0 {
 		score -= 0.2
 	}
 
@@ -303,6 +311,7 @@ func (t *TrustEvaluator) Evaluate(
 }
 
 
+
 type GuardedPowerController struct {
 	Inner PowerController
 	Kernel *Kernel
@@ -313,4 +322,22 @@ func (g *GuardedPowerController) WriteActuator(name string, value float64) error
 		return fmt.Errorf("actuator write denied: not in autonomous mode")
 	}
 	return g.Inner.WriteActuator(name, value)
+}
+
+func (k *Kernel) CanActuate() bool {
+	if k.Platform == nil || k.EnvConfig == nil {
+		return false
+	}
+
+	mode := k.Platform.Mode
+
+	if mode != "AUTONOMOUS" {
+		return false
+	}
+
+	if k.Trust.CurrentScore < 0.6 {
+		return false
+	}
+
+	return true
 }

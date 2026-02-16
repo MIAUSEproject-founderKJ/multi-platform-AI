@@ -36,12 +36,19 @@ func (id *Identity) Finalize(env *schema.EnvConfig) {
 
 	// --- 1. Scoring Logic ---
 
-	// VEHICLE Detection
-	if hasBus(env.Hardware, "can") {
-		s := ensure(schema.PlatformVehicle, 1.5)
-		s.Score += 0.8
-		s.Signals = append(s.Signals, "Physical CAN-bus interface")
-	}
+	// Vehicle Detection
+if hasBus(env.Hardware, "can") {
+    s := ensure(schema.PlatformVehicle, 1.5)
+    s.Score += 0.8
+    s.Signals = append(s.Signals, "CAN bus detected")
+}
+
+// Robot/Industrial Detection
+if hasBus(env.Hardware, "i2c") && hasBus(env.Hardware, "spi") {
+    s := ensure(schema.PlatformRobot, 1.2)
+    s.Score += 0.5
+    s.Signals = append(s.Signals, "I2C/SPI detected")
+}
 
 	// ROBOTIC Detection
 	if hasBus(env.Hardware, "i2c") && hasBus(env.Hardware, "spi") {
@@ -51,11 +58,15 @@ func (id *Identity) Finalize(env *schema.EnvConfig) {
 	}
 
 	// LAPTOP/MOBILE Detection
-	if env.Hardware.HasBattery {
-		s := ensure(schema.PlatformLaptop, 1.0)
-		s.Score += 0.6
-		s.Signals = append(s.Signals, "Battery subsystem present")
-	}
+	// Laptop/Desktop Detection
+if env.Hardware.HasBattery {
+    s := ensure(schema.PlatformLaptop, 1.0)
+    s.Score += 0.6
+    s.Signals = append(s.Signals, "Battery present")
+} else {
+    s := ensure(schema.PlatformComputer, 1.0)
+    s.Score += 0.4
+}
 
 	// --- 2. Resolution Logic ---
 
