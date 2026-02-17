@@ -20,49 +20,52 @@ import (
 )
 
 func main() {
-    logging.Info("[BOOT] Initializing AIOS Nucleus...")
+	logging.Info("[BOOT] Initializing AIOS Nucleus...")
 
-    // 1. Hardware Watchdog (Safety Net)
-    wdt := watchdog.New(watchdog.Config{ TimeoutSeconds: 5, OnFailure: "safe_park" })
-    wdt.Start()
+	// 1. Hardware Watchdog
+	wdt := watchdog.New(watchdog.Config{TimeoutSeconds: 5, OnFailure: "safe_park"})
+	wdt.Start()
 
-    // 2. Bootstrap the Kernel
-    ctx, cancel := context.WithCancel(context.Background())
-    defer cancel()
+	// 2. Bootstrap Kernel (Machine Level)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 
-    kernel, err := core.Bootstrap(ctx)
-    if err != nil {
-        logging.Error("[FATAL] Bootstrap failed: %v", err)
-        os.Exit(1)
-    }
+	kernel, err := core.Bootstrap(ctx)
+	if err != nil {
+		logging.Error("[FATAL] Bootstrap failed: %v", err)
+		os.Exit(1)
+	}
 
-    // 3. Operational Loop
-    // The Kernel doesn't "run" a loop anymore. The MODULES run the loops.
-    // The Kernel just sits here holding the context.
-    logging.Info("[SYSTEM] System Operational. Context: %s", kernel.Runtime.Platform.Name)
-    
-    // 4. Feed Watchdog
-    go func() {
-        ticker := time.NewTicker(1 * time.Second)
-        for {
-            select {
-            case <-ctx.Done():
-                return
-            case <-ticker.C:
-                // Only feed if the EventBus is healthy (example logic)
-                wdt.Heartbeat()
-            }
-        }
-    }()
+	// 3. User Interface Initialization (Session Level)
+	ui := hmi.NewTerminal(kernel)
 
-    // 5. Wait for SIGTERM
-    stop := make(chan os.Signal, 1)
-    signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM)
-    <-stop
+	logging.Info("[SYSTEM] Kernel Ready. Handing control to User Interface.")
+	
+	// --- BLOCKING LOGIN FLOW ---
+	if err := ui.StartLoginFlow(); err != nil {
+		logging.Error("Login aborted: %v", err)
+		kernel.Shutdown()
+		os.Exit(0)
+	}
 
-    // 6. Graceful Exit
-    logging.Info("[SHUTDOWN] Signal received.")
-    wdt.Stop()
-    kernel.Shutdown() // Cascades Stop() to all loaded modules
-    logging.Info("[SHUTDOWN] Bye.")
+	// 4. Operational Command Loop
+	// Watchdog is fed here or via a separate ticker
+	go func() {
+		ticker := time.NewTicker(1 * time.Second)
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case <-ticker.C:
+				wdt.Heartbeat()
+			}
+		}
+	}()
+
+	ui.RunCommandLoop()
+
+	// 5. Shutdown
+	logging.Info("[SHUTDOWN] User initiated exit.")
+	wdt.Stop()
+	kernel.Shutdown()
 }
