@@ -7,105 +7,86 @@ import (
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform/probe"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/monitor"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/plugins/navigation"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/plugins/perception"
 )
 
-const CurrentSchemaVersion = 1
+type BootManager struct {
+	Vault    VaultStore
+	Identity *schema.Identity
+}
 
-// ManageBoot handles the logic gate between Fast and Cold paths.
-func (bm *BootManager) ManageBoot() (*schema.BootSequence, error) {
-	// 1. Physical/Security Attestation
-	if err := security.VerifyEnvironment(bm.Identity); err != nil {
-		logging.Error("CRITICAL: Binary Integrity Compromised!")
-		return nil, bm.EnterRecoveryMode(err) // Force safe state
-	}
+func (bm *BootManager) DecideBootPath() (*schema.BootSequence, error) {
 
-	isFirstBoot := bm.Vault.IsMissingMarker("FirstBootMarker")
-	cachedEnv, err := bm.Vault.LoadConfig("LastKnownEnv")
-
-	// 2. State Decision: If version jump or missing, re-probe.
-	isOutdated := err == nil && cachedEnv.SchemaVersion != CurrentSchemaVersion
-	if isFirstBoot || err != nil || isOutdated {
-		if isOutdated {
-			logging.Info("[BOOT] Schema jump (%d -> %d). Re-probing...", 
-				cachedEnv.SchemaVersion, CurrentSchemaVersion)
-		}
+	// STEP 1: Authoritative user-first-boot check
+	if bm.Vault.IsMissingMarker(firstBootMarker) {
+		logging.Info("[BOOT] First launch detected")
 		return bm.runColdBoot()
 	}
 
-	return bm.runFastBoot()
+	// STEP 2: Load cached config
+	cachedEnv, err := bm.Vault.LoadConfig(lastKnownEnvKey)
+	if err != nil {
+		logging.Warn("[BOOT] Cached config missing or corrupted. Re-provisioning.")
+		return bm.runColdBoot()
+	}
+
+	// STEP 3: Schema compatibility check
+	if cachedEnv.SchemaVersion != currentSchemaVersion {
+		logging.Info("[BOOT] Schema version mismatch. Re-provisioning.")
+		return bm.runColdBoot()
+	}
+
+	// STEP 4: Fast path (no active hardware scan)
+	return bm.runFastBoot(cachedEnv)
 }
 
 func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
-	logging.Info("[BOOT] Stage 1 (Cold Boot): Full Discovery & Registration")
 
-	// 1. Initial Subsystem Setup
-	vision := perception.NewVisionStream()
-	nav := navigation.SLAMContext{}
-	vitals := monitor.NewVitalsMonitor(bm.Identity)
-	vitals.Start()
-	bm.linkVisionHUD(vision, vitals, &nav)
+	logging.Info("[BOOT] Cold Boot: Full discovery + identity binding")
 
-	// 2. Layered Hardware Probe
-	bm.updateProgress(0.1, "Waking up sensors (Lidar/CAN)...")
 	fullProfile, err := probe.ActiveDiscovery(bm.Identity.RawPassport)
 	if err != nil {
-		return nil, fmt.Errorf("[FATAL] Hardware detection failed: %w", err)
+		return nil, fmt.Errorf("hardware discovery failed: %w", err)
 	}
-	fullProfile.SchemaVersion = CurrentSchemaVersion
 
-	// 3. Identity Finalization (The Scoring Engine)
-	RunResolution(fullProfile)
+	fullProfile.SchemaVersion = currentSchemaVersion
+
 	bm.Identity.Finalize(fullProfile)
 
-	// 4. Bayesian Trust & Capability Gating
 	evaluator := policy.TrustEvaluator{MinThreshold: 0.9}
 	trustDesc := evaluator.Evaluate(fullProfile)
 
-	// CAPABILITY GATING: Enforce hardware constraints on software modes
-	if !fullProfile.Discovery.Capabilities.SupportsGoalControl {
-		logging.Warn("[POLICY] Hardware lacks GoalControl. Restricting to MANUAL.")
-		trustDesc.OperationMode = "MANUAL_ONLY"
-	}
-	if fullProfile.Discovery.Capabilities.SensorOnly {
-		trustDesc.OperationMode = "READ_ONLY"
-	}
-
-	// 5. Persistence
-	bm.Vault.WriteMarker("FirstBootMarker")
-	bm.Vault.SaveConfig("LastKnownEnv", fullProfile)
+	bm.Vault.WriteMarker(firstBootMarker)
+	bm.Vault.SaveConfig(lastKnownEnvKey, fullProfile)
 
 	return &schema.BootSequence{
-		PlatformID: string(bm.Identity.Config.Platform.Final),
+		EnvConfig:  fullProfile,
+		Mode:       trustDesc.OperationMode,
+		Identity:   bm.Identity,
 		TrustScore: trustDesc.CurrentScore,
 		IsVerified: true,
-		Mode:       trustDesc.OperationMode,
-		EnvConfig:  fullProfile,
 	}, nil
 }
 
-func (bm *BootManager) runFastBoot() (*schema.BootSequence, error) {
-	logging.Info("[BOOT] Stage 1 (Fast Boot): Resuming from Vault...")
+func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence, error) {
 
-	// Fast path skips hardware pings, relies on cached Attestation
-	lastConfig, err := bm.Vault.LoadConfig("LastKnownEnv")
-	if err != nil {
-		return bm.runColdBoot() // Fallback if cache is corrupted
+	logging.Info("[BOOT] Fast Boot: Cached resume")
+
+	// Optional: lightweight integrity check only
+	if err := probe.SanityCheck(env); err != nil {
+		logging.Warn("[BOOT] Hardware drift detected. Re-provisioning.")
+		return bm.runColdBoot()
 	}
 
 	evaluator := policy.TrustEvaluator{MinThreshold: 0.9}
-	trustDesc := evaluator.Evaluate(lastConfig)
+	trustDesc := evaluator.Evaluate(env)
 
 	return &schema.BootSequence{
-		PlatformID: string(bm.Identity.Config.Platform.Final),
+		EnvConfig:  env,
+		Mode:       trustDesc.OperationMode,
+		Identity:   bm.Identity,
 		TrustScore: trustDesc.CurrentScore,
 		IsVerified: true,
-		Mode:       trustDesc.OperationMode,
-		EnvConfig:  lastConfig,
 	}, nil
 }

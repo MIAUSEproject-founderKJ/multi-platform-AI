@@ -69,3 +69,50 @@ func main() {
 	wdt.Stop()
 	kernel.Shutdown()
 }
+
+/*
+This binary:
+
+Starts watchdog (safety layer)
+
+Bootstraps kernel (machine level)
+
+Initializes HMI
+
+Forces login flow
+
+Runs command loop
+
+Feeds watchdog
+
+Handles shutdown
+
+This is:
+
+Application Mode
+User-Facing Node
+
+It assumes:
+
+A human or operator exists
+
+There is session state
+
+There is identity negotiation
+
+Commands are interactive
+
+Use cases:
+
+Workstation
+
+Maintenance terminal
+
+Robotaxi passenger HMI
+
+Developer console
+
+Simulation environment
+
+It is not a daemon. It is an agent.
+*/

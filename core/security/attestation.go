@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+"crypto/subtle"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
@@ -79,10 +80,9 @@ func verifyIntegrity(actualHash []byte, machineID string) error {
 	expectedHash := simulateGetManifestHash(machineID)
 
 	// Constant time comparison should be used in production to prevent side-channels
-	if string(actualHash) != string(expectedHash) {
-		return errors.New("BINARY_TAMPER_DETECTED: Checksum mismatch")
-	}
-
+if subtle.ConstantTimeCompare(actualHash, expectedHash) != 1 {
+	return errors.New("BINARY_TAMPER_DETECTED")
+}
 	return nil
 }
 

@@ -8,22 +8,15 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
 
-// HardwareIdentity is the "Passport" of the machine.
-type HardwareIdentity struct {
-	PlatformType string // Automotive, Industrial, Workstation
-	InstanceID   string // Unique Serial/UUID
-	OS           string
-	Architecture string
-}
-
 // PassiveScan gathers identity without energizing external hardware.
-func PassiveScan() (*HardwareIdentity, error) {
+func PassiveScan() (*MachineIdentity, error) {
 	logging.Info("[PROBE] Phase 1: Passive Identity Extraction...")
 
-	id := &HardwareIdentity{
+	id := &MachineIdentity{
 		OS:           runtime.GOOS,
 		Architecture: runtime.GOARCH,
 	}

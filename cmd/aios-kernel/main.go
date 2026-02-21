@@ -1,4 +1,4 @@
-//MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios-kernel/main.go
+//cmd/aios-kernel/main.go
 
 package main
 
@@ -45,3 +45,57 @@ func main() {
     nucleus.Shutdown()
     logging.Info("[SYSTEM] Nucleus offline.")
 }
+
+
+/*
+This entry point runs the system as infrastructure.
+
+Key properties:
+
+• No UI
+• No user login
+• No interactive flow
+• Pure lifecycle orchestration
+
+Its job:
+
+Start monitor (performance telemetry)
+
+Initialize nucleus
+
+Run lifecycle manager
+
+Catch signals
+
+Shutdown cleanly
+
+This binary is appropriate for:
+
+Industrial embedded systems
+
+Fleet-managed vehicle controllers
+
+Always-on factory nodes
+
+Edge compute deployments
+
+Robotaxi backend nodes
+
+It treats the kernel as an autonomous system component.
+
+The conceptual model is:
+
+System = Service
+Not = Application
+
+It is analogous to:
+
+systemd-managed service
+
+Windows service
+
+Daemon process
+
+This is infrastructure mode.
+
+*/

@@ -3,71 +3,61 @@
 package core
 
 import (
-    "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	"context"
+	"fmt"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
 
-// ResolveRuntimeContext bridges the Hardware Probe (schema.EnvConfig) 
-// to the Module Policy (core.RuntimeContext).
-func ResolveRuntimeContext(env *schema.EnvConfig, bootMode string) RuntimeContext {
-    
-    // 1. Map Physical Hardware to Abstract Capabilities
-    // This decouples modules from specific drivers.
-    caps := make(map[Capability]bool)
+func Bootstrap(ctx context.Context) (*Kernel, error) {
 
-    // Hardware-derived capabilities
-    if env.Discovery.Signal.BusType == "CAN" {
-        caps[CapCANBus] = true
-    }
-    if env.Discovery.Physical.PowerPresent {
-        caps[CapActuators] = true // Assume actuators if high-voltage rail exists
-    }
-    
-    // Schema-derived capabilities
-    if env.Discovery.Capabilities.HasSafetyEnvelope {
-        caps[CapSafetyCritical] = true
-    }
-    if env.Discovery.Capabilities.SupportsGoalControl {
-        caps[CapHighFreqSensor] = true
-    }
-    
-    // Platform-class derivatives (Legacy compatibility)
-    if env.Platform.Final == "Workstation" || env.Platform.Final == "Laptop" {
-        caps[CapFileSystem] = true
-        caps[CapMicrophone] = true
-        caps[CapGPU] = true // Simplified assumption, ideally probed
-    }
+	vault, err := security.NewIsolatedVault()
+	if err != nil {
+		return nil, fmt.Errorf("vault initialization failed: %w", err)
+	}
 
-    // 2. Resolve Entity & Policy (Who owns this?)
-    // This comes from the cryptographic passport, not the hardware.
-    entityType := "Stranger"
-    permissions := make(map[string]bool)
-    
-    if env.Attestation.Valid {
-        entityType = "VerifiedNode"
-        permissions["TRUSTED_BOOT"] = true
-        
-        // If we are fully verified, allow autonomous execution
-        if env.Platform.Mode == "AUTONOMOUS" {
-            permissions["AUTONOMOUS_EXECUTION"] = true
-        }
-    }
+	bootSeq, err := platform.RunBootSequence(vault)
+	if err != nil {
+		return nil, err
+	}
 
-    // 3. Construct the Immutable Context
-    return RuntimeContext{
-        Platform: PlatformProfile{
-            Name:         string(env.Platform.Final),
-            Capabilities: caps,
-        },
-        Identity: IdentityProfile{
-            Entity: entityType,
-        },
-        Policy: PolicyProfile{
-            Permissions: permissions,
-        },
-        Boot: BootProfile{
-            Type: bootMode,
-        },
-        // Service profile would typically be injected by the HMI or Cloud config
-        Service: ServiceProfile{ Name: "DefaultAgent" }, 
-    }
+	runtimeCtx := RuntimeContext{
+		PlatformClass: bootSeq.EnvConfig.PlatformClass,
+		Mode:          bootSeq.Mode,
+		Identity:      bootSeq.Identity,
+	}
+
+	registry := NewRegistry()
+	loader := NewLoader(registry)
+
+	if err := loader.ResolveAndLoad(runtimeCtx); err != nil {
+		return nil, fmt.Errorf("module resolution failed: %w", err)
+	}
+
+	kCtx, cancel := context.WithCancel(ctx)
+
+	k := &Kernel{
+		Ctx:      kCtx,
+		cancel:   cancel,
+		Runtime:  runtimeCtx,
+		Loader:   loader,
+		Vault:    vault,
+		EventBus: NewEventBus(),
+	}
+
+	if err := k.Loader.StartAll(); err != nil {
+		k.Shutdown()
+		return nil, fmt.Errorf("module ignition failed: %w", err)
+	}
+
+	return k, nil
+}
+
+func (k *Kernel) Shutdown() {
+    logging.Info("[KERNEL] Initiating shutdown sequence...")
+    k.Loader.StopAll()
+    k.Vault.Close()
+    k.cancel()
 }
