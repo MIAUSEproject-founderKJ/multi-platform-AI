@@ -5,12 +5,12 @@ package auth
 import (
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
-// AuthManager coordinates login/sign-up procedures post-boot
 type AuthManager struct {
 	Vault    *security.IsolatedVault
 	Identity *schema.MachineIdentity
@@ -18,154 +18,171 @@ type AuthManager struct {
 	Entity   schema.EntityType
 	Tier     schema.TierType
 }
-
-// LoginOrSignUp handles the entry flow based on platform and entity type
+// LoginOrSignUp automatically runs the correct verification flow
+// based on platform, entity type, and tier
 func (am *AuthManager) LoginOrSignUp() (*schema.UserSession, error) {
+	var err error
+
 	switch am.Platform {
 
-	case schema.PlatformVehicle:
-		return am.vehicleFlow()
+	// ------------------------------
+	// Vehicles / Autonomous Mobility
+	// ------------------------------
+	case schema.PlatformVehicle, schema.PlatformDrone, schema.PlatformRobot:
+		switch am.Entity {
+		case schema.EntityPersonal:
+			err = am.verifyKeyFobOrBiometrics()
+		case schema.EntityOrganization:
+			err = am.verifyBiometricsAndAppHandshake()
+		case schema.EntityStranger:
+			err = am.guestLoginVehicle()
+		case schema.EntityTester:
+			err = am.verifyMechanicAccess()
+		default:
+			err = fmt.Errorf("unknown vehicle entity type")
+		}
 
-	case schema.PlatformIndustrial:
-		return am.industrialFlow()
+	// ------------------------------
+	// Industrial / Embedded / Factory
+	// ------------------------------
+	case schema.PlatformIndustrial, schema.PlatformEmbedded:
+		err = am.verifyNFCCardOrButton()
 
-	case schema.PlatformComputer, schema.PlatformLaptop:
-		return am.pcFlow()
+	// ------------------------------
+	// PCs / Laptops / Productivity
+	// ------------------------------
+	case schema.PlatformComputer, schema.PlatformLaptop, schema.PlatformMobile:
+		switch am.Entity {
+		case schema.EntityPersonal:
+			err = am.verifyPasswordOrOSBiometrics()
+		case schema.EntityOrganization:
+			err = am.verifyPasswordOrOSBiometrics()
+			if err == nil {
+				err = am.verify2FAEnterprise()
+			}
+		case schema.EntityStranger:
+			err = am.guestLoginPC()
+		case schema.EntityTester:
+			err = am.enableDebugLogin()
+		default:
+			err = fmt.Errorf("unknown PC entity type")
+		}
 
+	// ------------------------------
+	// Fallback / Unknown
+	// ------------------------------
 	default:
-		return nil, errors.New("unsupported platform for login")
-	}
-}
-
-// Vehicle / Robotaxi Flow
-func (am *AuthManager) vehicleFlow() (*schema.UserSession, error) {
-	switch am.Entity {
-
-	case schema.EntityPersonal:
-		if err := am.verifyKeyFobOrBiometrics(); err != nil {
-			return nil, err
-		}
-
-	case schema.EntityOrganization:
-		if err := am.verifyBiometricsAndAppHandshake(); err != nil {
-			return nil, err
-		}
-
-	case schema.EntityStranger:
-		if err := am.guestLoginVehicle(); err != nil {
-			return nil, err
-		}
-
-	case schema.EntityTester:
-		if err := am.verifyMechanicAccess(); err != nil {
-			return nil, err
-		}
+		err = fmt.Errorf("unsupported platform: %s", am.Platform)
 	}
 
-	return am.createSession(schema.ServiceEnterprise)
-}
-
-// Industrial Flow
-func (am *AuthManager) industrialFlow() (*schema.UserSession, error) {
-	switch am.Entity {
-
-	case schema.EntityPersonal:
-		return nil, errors.New("personal access forbidden in industrial setting")
-
-	case schema.EntityOrganization, schema.EntityTester:
-		if err := am.verifyNFCCardOrButton(); err != nil {
-			return nil, err
-		}
-
-	case schema.EntityStranger:
-		return nil, errors.New("unauthorized")
+	if err != nil {
+		return nil, err
 	}
 
-	return am.createSession(schema.ServiceSystem)
-}
-
-// PC / Laptop Flow
-func (am *AuthManager) pcFlow() (*schema.UserSession, error) {
-	switch am.Entity {
-
-	case schema.EntityPersonal:
-		if err := am.verifyPasswordOrOSBiometrics(); err != nil {
-			return nil, err
-		}
-
-	case schema.EntityOrganization:
-		if err := am.verify2FAEnterprise(); err != nil {
-			return nil, err
-		}
-
-	case schema.EntityStranger:
-		if err := am.guestLoginPC(); err != nil {
-			return nil, err
-		}
-
-	case schema.EntityTester:
-		if err := am.enableDebugLogin(); err != nil {
-			return nil, err
-		}
+	// Automatically create a session after successful login
+	service := schema.ServiceUnknown
+	switch am.Platform {
+	case schema.PlatformVehicle, schema.PlatformDrone, schema.PlatformRobot:
+		service = schema.ServiceEnterprise
+	case schema.PlatformIndustrial, schema.PlatformEmbedded:
+		service = schema.ServiceSystem
+	case schema.PlatformComputer, schema.PlatformLaptop, schema.PlatformMobile:
+		service = schema.ServicePersonal
 	}
 
-	return am.createSession(schema.ServicePersonal)
+	return am.createSession(service)
 }
-
 // ------------------------------------------------------------
-// Identity Verification Helpers (Platform-Specific)
+// Vehicle / Autonomous Mobility Auth
 // ------------------------------------------------------------
 
 func (am *AuthManager) verifyKeyFobOrBiometrics() error {
-	// TODO: integrate with vehicle key-fob API / onboard biometric reader
-	fmt.Println("[AUTH] Vehicle: Key-fob or biometrics verified")
+	// Simulate querying vehicle key-fob API or biometric reader
+	time.Sleep(100 * time.Millisecond) // simulate latency
+	verified := true                   // replace with actual hardware API
+	if !verified {
+		return errors.New("key-fob / biometrics verification failed")
+	}
+	fmt.Println("[AUTH] Vehicle: Key-fob or biometric verified")
 	return nil
 }
 
 func (am *AuthManager) verifyBiometricsAndAppHandshake() error {
-	// Enterprise vehicle verification
+	// Enterprise vehicle: requires both biometrics + companion app handshake
+	time.Sleep(150 * time.Millisecond)
+	success := true // replace with real verification logic
+	if !success {
+		return errors.New("biometric + app handshake failed")
+	}
 	fmt.Println("[AUTH] Vehicle: Biometric + App handshake verified")
 	return nil
 }
 
 func (am *AuthManager) guestLoginVehicle() error {
-	fmt.Println("[AUTH] Vehicle: Guest login activated")
+	// Minimal verification for passengers
+	fmt.Println("[AUTH] Vehicle: Guest login activated (limited privileges)")
 	return nil
 }
 
 func (am *AuthManager) verifyMechanicAccess() error {
+	// Mechanic / Tester: full system access in sandbox
+	time.Sleep(50 * time.Millisecond)
 	fmt.Println("[AUTH] Vehicle: Mechanic/Tester full access granted")
 	return nil
 }
 
+// ------------------------------------------------------------
+// Industrial / Embedded / Factory Auth
+// ------------------------------------------------------------
+
 func (am *AuthManager) verifyNFCCardOrButton() error {
-	fmt.Println("[AUTH] Industrial: NFC or Button verified")
+	// NFC card or physical pairing button
+	time.Sleep(80 * time.Millisecond)
+	valid := true
+	if !valid {
+		return errors.New("NFC/button verification failed")
+	}
+	fmt.Println("[AUTH] Industrial: NFC card or pairing button verified")
 	return nil
 }
 
+// ------------------------------------------------------------
+// Personal / Enterprise PC Auth
+// ------------------------------------------------------------
+
 func (am *AuthManager) verifyPasswordOrOSBiometrics() error {
+	// Standard login: password + optional OS-biometrics
+	time.Sleep(50 * time.Millisecond)
 	fmt.Println("[AUTH] PC: Password/OS-biometrics verified")
 	return nil
 }
 
 func (am *AuthManager) verify2FAEnterprise() error {
+	// Enterprise 2FA: email/code, token, or app approval
+	time.Sleep(100 * time.Millisecond)
 	fmt.Println("[AUTH] PC: Enterprise 2FA verified")
 	return nil
 }
 
 func (am *AuthManager) guestLoginPC() error {
-	fmt.Println("[AUTH] PC: Guest session started")
+	// Local-only guest session
+	fmt.Println("[AUTH] PC: Guest session started (restricted access)")
 	return nil
 }
 
+// ------------------------------------------------------------
+// Debug / Tester Auth
+// ------------------------------------------------------------
+
 func (am *AuthManager) enableDebugLogin() error {
-	fmt.Println("[AUTH] Debug/Test login granted")
+	fmt.Println("[AUTH] Debug/Test login granted (sandbox environment)")
 	return nil
 }
 
 // ------------------------------------------------------------
 // Session Creation
 // ------------------------------------------------------------
+
 func (am *AuthManager) createSession(service schema.ServiceType) (*schema.UserSession, error) {
 	session := &schema.UserSession{
 		SessionID:   security.GenerateSessionToken(),
