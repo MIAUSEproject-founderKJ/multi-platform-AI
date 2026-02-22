@@ -22,13 +22,6 @@ const (
     PlatformGamePad    PlatformClass = "gamepad"
 )
 
-type PlatformProfile struct {
-	Final      PlatformClass   `json:"final_class"`
-	Candidates []PlatformScore `json:"candidates"`
-	Source     string          `json:"source"`
-	ResolvedAt time.Time       `json:"resolved_at"`
-	Locked     bool            `json:"locked"`
-}
 
 // PlatformScore tracks the heuristic weight for a specific platform type.
 type PlatformScore struct {
@@ -40,24 +33,24 @@ type PlatformScore struct {
 }
 
 type BootSequence struct {
-	PlatformID string
-	TrustScore float64
-	IsVerified bool
-	Mode       string
-	UserRole   string
-	EnvConfig  *schema.EnvConfig
+Env *EnvConfig
+Mode BootMode
 }
 
-type EnvConfig struct {
-	SchemaVersion int                `json:"schema_version"`
-	Discovery     DiscoveryProfile	 `json:"discovery_profile"`
-	GeneratedAt   time.Time          `json:"generated_at"`
-	Identity      MachineIdentity    `json:"identity"`
-	Hardware      HardwareProfile    `json:"hardware"`
-	Platform      PlatformResolution `json:"platform"`
-	Attestation   EnvAttestation     `json:"attestation"`
-}
+type TrustLevel uint8
+const (
+    TrustInvalid
+    TrustWeak
+    TrustStrong
+)
 
+type EntityType uint8
+const (
+    EntityPersonal EntityType = iota
+    EntityOrganization
+    EntityStranger
+    EntityTester
+)
 
 type MachineIdentity struct {
 	MachineID   string `json:"machine_id"`
@@ -95,6 +88,15 @@ type PlatformResolution struct {
 	ResolvedAt time.Time       `json:"resolved_at"`
 }
 
+type EnvConfig struct {
+	SchemaVersion int                `json:"schema_version"`
+	Discovery     DiscoveryProfile	 `json:"discovery_profile"`
+	GeneratedAt   time.Time          `json:"generated_at"`
+	Identity      MachineIdentity    `json:"identity"`
+	Hardware      HardwareProfile    `json:"hardware"`
+	Platform      PlatformResolution `json:"platform"`
+	Attestation   EnvAttestation     `json:"attestation"`
+}
 
 
 // EnvAttestation defines the cryptographic seal of the environment

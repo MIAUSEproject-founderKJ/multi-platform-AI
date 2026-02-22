@@ -3,20 +3,10 @@
 
 package core
 
-func hasCapabilities(ctx RuntimeContext, required []Capability) bool {
-	for _, cap := range required {
-		if !ctx.Platform.Capabilities[cap] {
-			return false
-		}
-	}
-	return true
+func HasCapabilities(ctx RuntimeContext, required CapabilitySet) bool {
+	return ctx.Capabilities&required == required
 }
 
-func hasPermissions(ctx RuntimeContext, required []string) bool {
-	for _, perm := range required {
-		if !ctx.Policy.Permissions[perm] {
-			return false
-		}
-	}
-	return true
+func HasPermissions(ctx RuntimeContext, required PermissionSet) bool {
+	return ctx.Permissions&required == required
 }

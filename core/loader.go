@@ -23,7 +23,7 @@ func NewLoader(registry *ModuleRegistry) *Loader {
 func (l *Loader) ResolveAndLoad(ctx RuntimeContext) error {
 	for _, m := range l.registry.All() {
 
-		if !hasCapabilities(ctx, m.RequiredCapabilities()) {
+		if !hasCapabilities(ctx, m.Allowed(ctx RuntimeContext) bool) {
 			continue
 		}
 
@@ -54,4 +54,9 @@ func (l *Loader) StopAll() {
 	for _, m := range l.active {
 		_ = m.Stop()
 	}
+}
+func (m *VehicleModule) Allowed(ctx core.RuntimeContext) bool {
+	return ctx.PlatformClass == schema.PlatformVehicle &&
+		core.HasCapabilities(ctx, core.CapCANBus) &&
+		core.HasPermissions(ctx, core.PermDeviceControl)
 }

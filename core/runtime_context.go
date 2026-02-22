@@ -16,36 +16,20 @@ const (
 	CapPersistentCloudLink Capability = "PERSISTENT_CLOUD"
 )
 
-type RuntimeContext struct {
-	Platform   PlatformProfile
-	Service    ServiceProfile
-	Identity   IdentityProfile
-	Tier       TierProfile
-	Boot       BootProfile
-	Policy     PolicyProfile
-}
 
-type PlatformProfile struct {
-	Name         string
-	Capabilities map[Capability]bool
-}
-
-type ServiceProfile struct {
-	Name string
-}
-
-type IdentityProfile struct {
-	Entity string // Personal | Organization | Stranger | Tester
-}
-
-type TierProfile struct {
-	Name string // Funder | Non-Funder
-}
 
 type BootProfile struct {
 	Type string // FirstBoot | FastBoot | RecoveryBoot
 }
 
-type PolicyProfile struct {
-	Permissions map[string]bool
+
+type RuntimeContext struct {
+    PlatformClass schema.PlatformClass
+    Capabilities  CapabilitySet
+    Service       ServiceType
+    Entity        EntityType
+    Tier          TierType
+    BootMode      BootMode
+    Permissions   PermissionSet
 }
+

@@ -16,13 +16,6 @@ func (a *AutonomousKernel) Name() string {
 	return "AutonomousKernel"
 }
 
-func (a *AutonomousKernel) RequiredCapabilities() []core.Capability {
-	return []core.Capability{
-		core.CapSafetyCritical,
-		core.CapCANBus,
-		core.CapHighFreqSensor,
-	}
-}
 
 func (a *AutonomousKernel) RequiredPermissions() []string {
 	return []string{"AUTONOMOUS_EXECUTION"}

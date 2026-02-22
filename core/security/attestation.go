@@ -4,91 +4,83 @@ package security
 
 import (
 	"crypto/sha256"
-	"encoding/hex"
+	"crypto/subtle"
 	"errors"
 	"fmt"
+	"io"
 	"os"
-"crypto/subtle"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
-// PerformAttestation generates a hash of the hardware profile to seal the vault
-func PerformAttestation(id schema.MachineIdentity, hw schema.HardwareProfile) (*EnvAttestation, error) {
-	logging.Info("[SECURITY] Sealing Hardware Identity: %s", id.MachineName)
-
-	// Create a unique fingerprint based on Machine ID and CPU counts
-	rawFingerprint := fmt.Sprintf("%s-%s-%s-%d",
-		id.MachineName,
-		id.Arch,
-		id.OS,
-		len(hw.Processors),
-	)
-
-	hash := sha256.Sum256([]byte(rawFingerprint))
-	encodedHash := hex.EncodeToString(hash[:])
-
-	return &EnvAttestation{
-		Valid:   true,
-		Level:   "strong",
-		EnvHash: encodedHash,
-	}, nil
+type VaultStore interface {
+	LoadGoldenHash(machineID string) ([]byte, error)
+	SealGoldenHash(machineID string, hash []byte) error
 }
 
-// VerifyEnvironment performs the cryptographic "Measured Boot" check.
-// It ensures the binary hasn't been modified since the last trusted state.
-func VerifyEnvironment(id schema.MachineIdentity) error {
-	logging.Info("[SECURITY] Initiating Measured Boot Attestation for: %s", id.MachineName)
-
-	// 1. MEASURED BOOT: Hash the current running binary
-	currentHash, err := calculateSelfHash()
-	if err != nil {
-		return fmt.Errorf("failed_to_measure_binary: %w", err)
-	}
-
-	// 2. INTEGRITY CHECK: Compare against the Golden Hash in the Vault
-	if err := verifyIntegrity(currentHash, id.MachineName); err != nil {
-		return fmt.Errorf("integrity_violation: %w", err)
-	}
-
-	logging.Info("[SECURITY] Attestation Successful. Binary Integrity Verified.")
-	return nil
-}
-
-func calculateSelfHash() ([]byte, error) {
+func MeasureSelf() ([]byte, error) {
 	exePath, err := os.Executable()
 	if err != nil {
 		return nil, err
 	}
 
-	// Read the binary file to generate a checksum
-	data, err := os.ReadFile(exePath)
+	f, err := os.Open(exePath)
 	if err != nil {
 		return nil, err
 	}
+	defer f.Close()
 
-	hash := sha256.Sum256(data)
-	return hash[:], nil
+	h := sha256.New()
+	if _, err := io.Copy(h, f); err != nil {
+		return nil, err
+	}
+
+	return h.Sum(nil), nil
 }
 
-func verifyIntegrity(actualHash []byte, machineID string) error {
-	// In production, this would interface with a TPM (Trusted Platform Module)
-	// or a Secure Enclave to verify the PCR (Platform Configuration Register).
+func VerifyEnvironment(v VaultStore, machineID string) error {
 
-	// SIMULATION: Check against the expected manifest hash
-	expectedHash := simulateGetManifestHash(machineID)
+	hash, err := MeasureSelf()
+	if err != nil {
+		return fmt.Errorf("binary_measurement_failed: %w", err)
+	}
 
-	// Constant time comparison should be used in production to prevent side-channels
-if subtle.ConstantTimeCompare(actualHash, expectedHash) != 1 {
-	return errors.New("BINARY_TAMPER_DETECTED")
-}
+	expected, err := v.LoadGoldenHash(machineID)
+	if err != nil {
+		return errors.New("baseline_missing")
+	}
+
+	if subtle.ConstantTimeCompare(hash, expected) != 1 {
+		return errors.New("binary_tamper_detected")
+	}
+
 	return nil
 }
 
-// simulateGetManifestHash mimics retrieving the signed state from the Vault
-func simulateGetManifestHash(machineID string) []byte {
-	// For simulation, we return a dummy hash
-	// In runColdBoot, this value is provisioned and saved.
-	return []byte("SIMULATED_GOLDEN_HASH_FOR_" + machineID)
+func VerifyAgainstGolden(v VaultStore, machineID string) error {
+	currentHash, err := MeasureSelf()
+	if err != nil {
+		return fmt.Errorf("failed_to_measure_binary: %w", err)
+	}
+
+	expectedHash, err := v.LoadGoldenHash(machineID)
+	if err != nil {
+		return errors.New("golden_hash_missing")
+	}
+
+	if subtle.ConstantTimeCompare(currentHash, expectedHash) != 1 {
+		return errors.New("BINARY_TAMPER_DETECTED")
+	}
+
+	logging.Info("[SECURITY] Binary integrity verified.")
+	return nil
+}
+
+func ProvisionGolden(v VaultStore, machineID string) error {
+	hash, err := MeasureSelf()
+	if err != nil {
+		return err
+	}
+
+	return v.SealGoldenHash(machineID, hash)
 }

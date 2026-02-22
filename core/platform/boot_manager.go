@@ -18,75 +18,86 @@ type BootManager struct {
 
 func (bm *BootManager) DecideBootPath() (*schema.BootSequence, error) {
 
-	// STEP 1: Authoritative user-first-boot check
-	if bm.Vault.IsMissingMarker(firstBootMarker) {
-		logging.Info("[BOOT] First launch detected")
-		return bm.runColdBoot()
-	}
-
-	// STEP 2: Load cached config
-	cachedEnv, err := bm.Vault.LoadConfig(lastKnownEnvKey)
+	firstBoot, err := bm.checkFirstBootMarker()
 	if err != nil {
-		logging.Warn("[BOOT] Cached config missing or corrupted. Re-provisioning.")
+		return nil, err
+	}
+
+	if firstBoot {
 		return bm.runColdBoot()
 	}
 
-	// STEP 3: Schema compatibility check
-	if cachedEnv.SchemaVersion != currentSchemaVersion {
-		logging.Info("[BOOT] Schema version mismatch. Re-provisioning.")
-		return bm.runColdBoot()
+	// Non-first boot → perform measured verification
+	err = security.VerifyEnvironment(bm.Vault, bm.Identity.MachineName)
+	if errors.Is(err, ErrBaselineMissing) {
+		// Marker exists but baseline missing = tamper state
+		return bm.runRecoveryBoot()
+	}
+	if err != nil {
+		return nil, fmt.Errorf("measured boot failure: %w", err)
 	}
 
-	// STEP 4: Fast path (no active hardware scan)
-	return bm.runFastBoot(cachedEnv)
+	return bm.runNormalBoot()
 }
+
+func (bm *BootManager) checkFirstBootMarker() (bool, error) {
+	marker, err := bm.Vault.LoadFirstBootMarker()
+	if errors.Is(err, security.ErrNotFound) {
+		return true, nil
+	}
+	if err != nil {
+		return false, err
+	}
+	return !marker.Initialized, nil
+}
+
 
 func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
 
-	logging.Info("[BOOT] Cold Boot: Full discovery + identity binding")
-
-	fullProfile, err := probe.ActiveDiscovery(bm.Identity.RawPassport)
-	if err != nil {
-		return nil, fmt.Errorf("hardware discovery failed: %w", err)
+	// Initialize baseline measurements
+	if err := security.EstablishBaseline(bm.Vault, bm.Identity); err != nil {
+		return nil, err
 	}
 
-	fullProfile.SchemaVersion = currentSchemaVersion
-
-	bm.Identity.Finalize(fullProfile)
-
-	evaluator := policy.TrustEvaluator{MinThreshold: 0.9}
-	trustDesc := evaluator.Evaluate(fullProfile)
-
-	bm.Vault.WriteMarker(firstBootMarker)
-	bm.Vault.SaveConfig(lastKnownEnvKey, fullProfile)
+	if err := bm.Vault.StoreFirstBootMarker(&schema.FirstBootMarker{
+		Initialized: true,
+	}); err != nil {
+		return nil, err
+	}
 
 	return &schema.BootSequence{
-		EnvConfig:  fullProfile,
-		Mode:       trustDesc.OperationMode,
-		Identity:   bm.Identity,
-		TrustScore: trustDesc.CurrentScore,
-		IsVerified: true,
+		Mode:     schema.ModeCold,
+		Identity: bm.Identity,
 	}, nil
 }
 
-func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence, error) {
+func (bm *BootManager) runNormalBoot() (*schema.BootSequence, error) {
+	return &schema.BootSequence{
+		Mode:     schema.ModeNormal,
+		Identity: bm.Identity,
+	}, nil
+}
 
-	logging.Info("[BOOT] Fast Boot: Cached resume")
-
-	// Optional: lightweight integrity check only
-	if err := probe.SanityCheck(env); err != nil {
-		logging.Warn("[BOOT] Hardware drift detected. Re-provisioning.")
-		return bm.runColdBoot()
+func (bm *BootManager) sanityCheck(env *schema.EnvConfig) error {
+	raw, err := probe.PassiveScan()
+	if err != nil {
+		return err
 	}
 
-	evaluator := policy.TrustEvaluator{MinThreshold: 0.9}
-	trustDesc := evaluator.Evaluate(env)
+	if raw.InstanceID != bm.Identity.MachineName {
+		return errors.New("machine_identity_changed")
+	}
 
+	if raw.PlatformType != env.PlatformClass {
+		return errors.New("platform_class_drift")
+	}
+
+	return nil
+}
+
+func (bm *BootManager) runRecoveryBoot() (*schema.BootSequence, error) {
 	return &schema.BootSequence{
-		EnvConfig:  env,
-		Mode:       trustDesc.OperationMode,
-		Identity:   bm.Identity,
-		TrustScore: trustDesc.CurrentScore,
-		IsVerified: true,
+		Mode:     schema.ModeRecovery,
+		Identity: bm.Identity,
 	}, nil
 }

@@ -170,35 +170,3 @@ Layer III: Domain-Specific Modules (Plugins)Refined Term: Hot-Swappable Domain S
 A) Agent Orchestration: Uses a Multi-Agent System (MAS) architecture.
 B) Ephemeral Sandboxing: "Stranger" sessions utilize Copy-on-Write (CoW) filesystems. Data is written to a virtual RAM layer that is "wiped" (zeroed out) the moment the session ends.
 C) Evaluation Mode: Implements Hardware-in-the-Loop (HiL) testing. This allows the AI to "practice" in a simulation while connected to real hardware.⚙️ Technical Implementation MechanismsHow do we actually build the "Bus Mapping" and "Anti-Bloat" features?1. The "Bus Mapping" Prototype: System IdentificationTo map unknown hardware, we use Closed-Loop System Identification.
-
-Step 1 (Signal Injection): The program sends a "Probe Signal" (e.g., a $5\%$ voltage spike) to an unknown bus port.
-Step 2 (Observational Feedback): The system monitors the Visual Odometry (cameras) or Inertial Measurement Unit (IMU).
-Step 3 (Vector Translation): If a signal to Port_A results in a yaw change of $\Delta\theta$, the system calculates the correlation:
-
-$$\vec{V}_{result} = \text{MatrixMapping}(\vec{S}_{input})$$
-
-Step 4 (Semantic Labeling): The AI interprets the textual telemetry: "Detected $2.5^{\circ}$ leftward rotation after Port_01 activation." It then labels Port_01 as Primary_Steer_Left.2. Anti-Bloat: Dynamic Loading & Tree-ShakingCompile-Time: Use C++ Preprocessor Directives or Go Build Tags.
-
-// +build industrial
-import "aios/plugins/plc_monitor"
-
-Run-Time: Use gRPC (Remote Procedure Calls). The Core Kernel acts as a server, and Sidecars (like Lidar Processing) act as clients that only connect when the hardware is detected.
-
-3. Caching: Motion Primitives & Inference CachingInstead of re-calculating a harvest path every time, the system uses Vector Embeddings.The environment is hashed into a "State Key."If CurrentState matches StoredState by $>95\%$, the system pulls the pre-computed Motion Primitive from the cache, reducing CPU load by up to $70\%$.
-
-
-4) Business Administration:
-Non-programming field. To ensure the services of the product is robust through administrative execution (non-programming related).
-A) Servicing: ticketing system to log the enquiries, faults, maintenance events. Team assigning to assign tasks to respective professional parties. 
-B) Vendoring: if involves hardware, there will be 3rd parties to handle the equipment & services such as servers, circuits, ip configuration and antivirus
-C) Execution setup: to set protocol to smooth up the workflows
-
-
-BUS MAPPING CONCEPT PROTOTYPE (Cyber-Physical Closed-Loop Discovery)
-To enable the program to recognize and map unknown hardware parts to respective responses, such as steering and vehicle vector.
-Assuming that the program not knowing the bus is to steer left, the program should able to test the functions of the bus port.
-For example, send a signal to the bus port, then the program senses the view changes accordingly, 3d model structuring/mapping can assist accordingly. 
-To further verify the change, the result is translated to textual conclusion and prompt the AI. Then the program understand the functions.
-Then the program should recognize that if signal is sent to the bus, the vehicle will steer to left.
-
-Besides, cache mechanism for usual tasks is used to reduce computing. For example, assume the user wants to harvest the crops, the program does not compute thoroughly, but use the stored dataset to execute the task. 

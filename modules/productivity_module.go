@@ -16,12 +16,6 @@ func (p *ProductivityModule) Name() string {
 	return "ProductivityModule"
 }
 
-func (p *ProductivityModule) RequiredCapabilities() []core.Capability {
-	return []core.Capability{
-		core.CapFileSystem,
-		core.CapMicrophone,
-	}
-}
 
 func (p *ProductivityModule) RequiredPermissions() []string {
 	return []string{"STANDARD_USE"}

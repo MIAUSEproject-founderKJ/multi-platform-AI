@@ -25,7 +25,7 @@ func ResolveIdentity(env *schema.EnvConfig) {
 	finalizePlatform(env, scores)
 
 	// 3. Generate Hardware Fingerprint (Reference: FinalizeAttestation)
-	performAttestation(env)
+	ComputeHardwareFingerprint(env)
 }
 
 // runPlatformInference calculates the probability of each platform class
@@ -92,24 +92,18 @@ func finalizePlatform(env *schema.EnvConfig, scores []schema.PlatformScore) {
 }
 
 // performAttestation creates the crypto-link between code and hardware
-func performAttestation(env *schema.EnvConfig) {
-	rawState := fmt.Sprintf("%s-%s-%d",
-		env.Identity.MachineName,
-		env.Identity.OS,
-		len(env.Hardware.Buses),
+func ComputeHardwareFingerprint(id schema.MachineIdentity, hw schema.HardwareProfile) []byte {
+	payload := fmt.Sprintf(
+		"%s|%s|%s|%d|%d",
+		id.MachineName,
+		id.OS,
+		id.Arch,
+		len(hw.Processors),
+		len(hw.Buses),
 	)
-	hash := sha256.Sum256([]byte(rawState))
-	env.Attestation.EnvHash = hex.EncodeToString(hash[:])
 
-	// Logic: If we are on a platform with a hardware TPM, it's Strong.
-	// If we are just hashing a string in software, it's actually Weak.
-	if hasSecureEnclave() {
-		env.Attestation.Level = schema.AttestationStrong // Score will be 0.99
-	} else {
-		env.Attestation.Level = schema.AttestationWeak // Score will be 0.75
-	}
-	logging.Info("[SECURITY] Attestation Hash: %s", env.Attestation.EnvHash[:12])
-	env.Attestation.Valid = true
+	sum := sha256.Sum256([]byte(payload))
+	return sum[:]
 }
 
 func hasBus(buses []schema.BusCapability, busType string) bool {
