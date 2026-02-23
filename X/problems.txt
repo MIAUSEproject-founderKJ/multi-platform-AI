@@ -18,7 +18,6 @@
 	"startColumn": 34,
 	"endLineNumber": 33,
 	"endColumn": 40,
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/api/network/engine.go",
@@ -51,7 +50,6 @@
 	"startColumn": 1,
 	"endLineNumber": 1,
 	"endColumn": 1,
-	"modelVersionId": 13,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/boot.go",
@@ -73,7 +71,6 @@
 	"startColumn": 3,
 	"endLineNumber": 26,
 	"endColumn": 11,
-	"modelVersionId": 13,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/boot.go",
@@ -95,7 +92,6 @@
 	"startColumn": 9,
 	"endLineNumber": 32,
 	"endColumn": 20,
-	"modelVersionId": 13,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/boot.go",
@@ -117,7 +113,6 @@
 	"startColumn": 23,
 	"endLineNumber": 44,
 	"endColumn": 31,
-	"modelVersionId": 13,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/boot.go",
@@ -139,7 +134,6 @@
 	"startColumn": 15,
 	"endLineNumber": 45,
 	"endColumn": 28,
-	"modelVersionId": 13,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/bootstrap.go",
@@ -151,7 +145,6 @@
 	"startColumn": 1,
 	"endLineNumber": 1,
 	"endColumn": 1,
-	"modelVersionId": 9,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/bootstrap.go",
@@ -173,7 +166,6 @@
 	"startColumn": 1,
 	"endLineNumber": 3,
 	"endColumn": 8,
-	"modelVersionId": 9,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/actuators.go",
@@ -195,7 +187,6 @@
 	"startColumn": 9,
 	"endLineNumber": 9,
 	"endColumn": 24,
-	"modelVersionId": 3,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/actuators.go",
@@ -217,7 +208,6 @@
 	"startColumn": 10,
 	"endLineNumber": 10,
 	"endColumn": 16,
-	"modelVersionId": 3,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/busmap/pulse.go",
@@ -323,7 +313,6 @@
 	"startColumn": 25,
 	"endLineNumber": 13,
 	"endColumn": 42,
-	"modelVersionId": 8,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/main.go",
@@ -345,7 +334,6 @@
 	"startColumn": 18,
 	"endLineNumber": 18,
 	"endColumn": 22,
-	"modelVersionId": 8,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/main.go",
@@ -367,7 +355,6 @@
 	"startColumn": 14,
 	"endLineNumber": 28,
 	"endColumn": 20,
-	"modelVersionId": 8,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/main.go",
@@ -389,7 +376,6 @@
 	"startColumn": 14,
 	"endLineNumber": 29,
 	"endColumn": 20,
-	"modelVersionId": 8,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/main.go",
@@ -411,7 +397,6 @@
 	"startColumn": 21,
 	"endLineNumber": 49,
 	"endColumn": 31,
-	"modelVersionId": 8,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/main.go",
@@ -433,7 +418,6 @@
 	"startColumn": 5,
 	"endLineNumber": 54,
 	"endColumn": 20,
-	"modelVersionId": 8,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/main.go",
@@ -455,7 +439,6 @@
 	"startColumn": 2,
 	"endLineNumber": 56,
 	"endColumn": 17,
-	"modelVersionId": 8,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/runtime/ResolveExecutionContext.go",
@@ -477,7 +460,6 @@
 	"startColumn": 21,
 	"endLineNumber": 50,
 	"endColumn": 37,
-	"modelVersionId": 17,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cognition/distillation/policy_compressor.go",
@@ -761,7 +743,6 @@
 			"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/runtime_context.go"
 		}
 	],
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/capabilities.go",
@@ -793,7 +774,6 @@
 			"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/runtime_context.go"
 		}
 	],
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/context.go",
@@ -848,6 +828,28 @@
 	],
 	"origin": "extHost1"
 },{
+	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/provider.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: core.IdentityProfile",
+	"source": "compiler",
+	"startLineNumber": 18,
+	"startColumn": 47,
+	"endLineNumber": 18,
+	"endColumn": 62,
+	"modelVersionId": 8,
+	"origin": "extHost1"
+},{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
@@ -864,9 +866,9 @@
 	"message": "undefined: IdentityProfile",
 	"source": "compiler",
 	"startLineNumber": 6,
-	"startColumn": 18,
+	"startColumn": 15,
 	"endLineNumber": 6,
-	"endColumn": 33,
+	"endColumn": 30,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
@@ -885,9 +887,9 @@
 	"message": "undefined: core",
 	"source": "compiler",
 	"startLineNumber": 7,
-	"startColumn": 26,
+	"startColumn": 23,
 	"endLineNumber": 7,
-	"endColumn": 30,
+	"endColumn": 27,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
@@ -948,9 +950,9 @@
 	"message": "undefined: core",
 	"source": "compiler",
 	"startLineNumber": 12,
-	"startColumn": 34,
+	"startColumn": 31,
 	"endLineNumber": 12,
-	"endColumn": 38,
+	"endColumn": 35,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
@@ -969,9 +971,9 @@
 	"message": "undefined: UIProvider",
 	"source": "compiler",
 	"startLineNumber": 13,
-	"startColumn": 16,
+	"startColumn": 10,
 	"endLineNumber": 13,
-	"endColumn": 26,
+	"endColumn": 20,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
@@ -990,9 +992,9 @@
 	"message": "undefined: core",
 	"source": "compiler",
 	"startLineNumber": 17,
-	"startColumn": 34,
+	"startColumn": 31,
 	"endLineNumber": 17,
-	"endColumn": 38,
+	"endColumn": 35,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
@@ -1011,9 +1013,9 @@
 	"message": "undefined: core",
 	"source": "compiler",
 	"startLineNumber": 17,
-	"startColumn": 79,
+	"startColumn": 76,
 	"endLineNumber": 17,
-	"endColumn": 83,
+	"endColumn": 80,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
@@ -1032,9 +1034,9 @@
 	"message": "undefined: BiometricProvider",
 	"source": "compiler",
 	"startLineNumber": 18,
-	"startColumn": 16,
+	"startColumn": 10,
 	"endLineNumber": 18,
-	"endColumn": 33,
+	"endColumn": 27,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
@@ -1053,9 +1055,9 @@
 	"message": "undefined: RemoteProvider",
 	"source": "compiler",
 	"startLineNumber": 22,
-	"startColumn": 12,
+	"startColumn": 9,
 	"endLineNumber": 22,
-	"endColumn": 26,
+	"endColumn": 23,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_commands.go",
@@ -1403,7 +1405,6 @@
 	"startColumn": 11,
 	"endLineNumber": 15,
 	"endColumn": 21,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1425,7 +1426,6 @@
 	"startColumn": 19,
 	"endLineNumber": 16,
 	"endColumn": 27,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1447,7 +1447,6 @@
 	"startColumn": 34,
 	"endLineNumber": 22,
 	"endColumn": 49,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1469,7 +1468,6 @@
 	"startColumn": 40,
 	"endLineNumber": 23,
 	"endColumn": 60,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1491,7 +1489,6 @@
 	"startColumn": 30,
 	"endLineNumber": 45,
 	"endColumn": 50,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1513,7 +1510,6 @@
 	"startColumn": 12,
 	"endLineNumber": 49,
 	"endColumn": 20,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1535,7 +1531,6 @@
 	"startColumn": 32,
 	"endLineNumber": 54,
 	"endColumn": 47,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1557,7 +1552,6 @@
 	"startColumn": 11,
 	"endLineNumber": 59,
 	"endColumn": 22,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1579,7 +1573,6 @@
 	"startColumn": 2,
 	"endLineNumber": 74,
 	"endColumn": 8,
-	"modelVersionId": 5,
 	"tags": [
 		1
 	],
@@ -1604,7 +1597,6 @@
 	"startColumn": 12,
 	"endLineNumber": 74,
 	"endColumn": 22,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1626,7 +1618,6 @@
 	"startColumn": 32,
 	"endLineNumber": 80,
 	"endColumn": 50,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1648,7 +1639,6 @@
 	"startColumn": 20,
 	"endLineNumber": 87,
 	"endColumn": 28,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1670,7 +1660,6 @@
 	"startColumn": 3,
 	"endLineNumber": 88,
 	"endColumn": 11,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1692,7 +1681,6 @@
 	"startColumn": 12,
 	"endLineNumber": 95,
 	"endColumn": 20,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1714,7 +1702,6 @@
 	"startColumn": 11,
 	"endLineNumber": 104,
 	"endColumn": 22,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1736,7 +1723,6 @@
 	"startColumn": 2,
 	"endLineNumber": 119,
 	"endColumn": 8,
-	"modelVersionId": 5,
 	"tags": [
 		1
 	],
@@ -1761,7 +1747,6 @@
 	"startColumn": 12,
 	"endLineNumber": 119,
 	"endColumn": 22,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1783,7 +1768,6 @@
 	"startColumn": 24,
 	"endLineNumber": 122,
 	"endColumn": 32,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1805,7 +1789,6 @@
 	"startColumn": 20,
 	"endLineNumber": 127,
 	"endColumn": 28,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1827,7 +1810,6 @@
 	"startColumn": 3,
 	"endLineNumber": 128,
 	"endColumn": 11,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1849,7 +1831,6 @@
 	"startColumn": 29,
 	"endLineNumber": 142,
 	"endColumn": 42,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1871,7 +1852,6 @@
 	"startColumn": 20,
 	"endLineNumber": 151,
 	"endColumn": 28,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1893,7 +1873,6 @@
 	"startColumn": 50,
 	"endLineNumber": 160,
 	"endColumn": 61,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1915,7 +1894,6 @@
 	"startColumn": 16,
 	"endLineNumber": 163,
 	"endColumn": 27,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1937,7 +1915,6 @@
 	"startColumn": 16,
 	"endLineNumber": 165,
 	"endColumn": 27,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1959,7 +1936,6 @@
 	"startColumn": 65,
 	"endLineNumber": 169,
 	"endColumn": 79,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -1981,7 +1957,6 @@
 	"startColumn": 16,
 	"endLineNumber": 172,
 	"endColumn": 30,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -2003,7 +1978,6 @@
 	"startColumn": 16,
 	"endLineNumber": 174,
 	"endColumn": 30,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -2025,7 +1999,6 @@
 	"startColumn": 16,
 	"endLineNumber": 176,
 	"endColumn": 30,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -2047,7 +2020,6 @@
 	"startColumn": 16,
 	"endLineNumber": 178,
 	"endColumn": 30,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -2069,7 +2041,6 @@
 	"startColumn": 3,
 	"endLineNumber": 197,
 	"endColumn": 7,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
@@ -2091,7 +2062,6 @@
 	"startColumn": 3,
 	"endLineNumber": 202,
 	"endColumn": 7,
-	"modelVersionId": 5,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_sequence.go",
@@ -2229,31 +2199,6 @@
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "UnusedImport",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UnusedImport"
-		}
-	},
-	"severity": 8,
-	"message": "\"encoding/hex\" imported and not used",
-	"source": "compiler",
-	"startLineNumber": 7,
-	"startColumn": 2,
-	"endLineNumber": 7,
-	"endColumn": 16,
-	"modelVersionId": 1,
-	"tags": [
-		1
-	],
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
 		"value": "WrongArgCount",
 		"target": {
 			"$mid": 1,
@@ -2266,11 +2211,10 @@
 	"severity": 8,
 	"message": "not enough arguments in call to ComputeHardwareFingerprint\n\thave (*schema.EnvConfig)\n\twant (schema.MachineIdentity, schema.HardwareProfile)",
 	"source": "compiler",
-	"startLineNumber": 28,
+	"startLineNumber": 27,
 	"startColumn": 32,
-	"endLineNumber": 28,
+	"endLineNumber": 27,
 	"endColumn": 32,
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
@@ -2288,11 +2232,10 @@
 	"severity": 8,
 	"message": "unknown field Class in struct literal of type schema.PlatformScore",
 	"source": "compiler",
-	"startLineNumber": 39,
+	"startLineNumber": 38,
 	"startColumn": 42,
-	"endLineNumber": 39,
+	"endLineNumber": 38,
 	"endColumn": 47,
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
@@ -2310,11 +2253,10 @@
 	"severity": 8,
 	"message": "cannot use buses (variable of type []schema.BusCapability) as schema.HardwareProfile value in argument to hasBus",
 	"source": "compiler",
-	"startLineNumber": 45,
+	"startLineNumber": 44,
 	"startColumn": 12,
-	"endLineNumber": 45,
+	"endLineNumber": 44,
 	"endColumn": 17,
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
@@ -2332,11 +2274,10 @@
 	"severity": 8,
 	"message": "cannot use buses (variable of type []schema.BusCapability) as schema.HardwareProfile value in argument to hasBus",
 	"source": "compiler",
-	"startLineNumber": 57,
+	"startLineNumber": 56,
 	"startColumn": 12,
-	"endLineNumber": 57,
+	"endLineNumber": 56,
 	"endColumn": 17,
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
@@ -2354,11 +2295,10 @@
 	"severity": 8,
 	"message": "cannot use buses (variable of type []schema.BusCapability) as schema.HardwareProfile value in argument to hasBus",
 	"source": "compiler",
-	"startLineNumber": 57,
+	"startLineNumber": 56,
 	"startColumn": 36,
-	"endLineNumber": 57,
+	"endLineNumber": 56,
 	"endColumn": 41,
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
@@ -2376,11 +2316,10 @@
 	"severity": 8,
 	"message": "s.Confidence.ToFloat64 undefined (type uint16 has no field or method ToFloat64)",
 	"source": "compiler",
-	"startLineNumber": 82,
+	"startLineNumber": 81,
 	"startColumn": 20,
-	"endLineNumber": 82,
+	"endLineNumber": 81,
 	"endColumn": 29,
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
@@ -2398,11 +2337,10 @@
 	"severity": 8,
 	"message": "best.Confidence.ToFloat64 undefined (type uint16 has no field or method ToFloat64)",
 	"source": "compiler",
-	"startLineNumber": 82,
+	"startLineNumber": 81,
 	"startColumn": 50,
-	"endLineNumber": 82,
+	"endLineNumber": 81,
 	"endColumn": 59,
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
@@ -2420,11 +2358,10 @@
 	"severity": 8,
 	"message": "best.Class undefined (type schema.PlatformScore has no field or method Class)",
 	"source": "compiler",
-	"startLineNumber": 87,
+	"startLineNumber": 86,
 	"startColumn": 29,
-	"endLineNumber": 87,
+	"endLineNumber": 86,
 	"endColumn": 34,
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
@@ -2442,9 +2379,9 @@
 	"severity": 8,
 	"message": "hasBus redeclared in this block",
 	"source": "compiler",
-	"startLineNumber": 109,
+	"startLineNumber": 108,
 	"startColumn": 6,
-	"endLineNumber": 109,
+	"endLineNumber": 108,
 	"endColumn": 12,
 	"relatedInformation": [
 		{
@@ -2456,7 +2393,6 @@
 			"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go"
 		}
 	],
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
@@ -2543,9 +2479,9 @@
 	"endColumn": 12,
 	"relatedInformation": [
 		{
-			"startLineNumber": 109,
+			"startLineNumber": 108,
 			"startColumn": 6,
-			"endLineNumber": 109,
+			"endLineNumber": 108,
 			"endColumn": 12,
 			"message": "",
 			"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go"
@@ -2942,7 +2878,6 @@
 			"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/capabilities.go"
 		}
 	],
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/runtime_context.go",
@@ -2974,7 +2909,6 @@
 			"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/capabilities.go"
 		}
 	],
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/runtime_context.go",
@@ -3006,7 +2940,6 @@
 			"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/context.go"
 		}
 	],
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/runtime_context.go",
@@ -3028,7 +2961,6 @@
 	"startColumn": 19,
 	"endLineNumber": 27,
 	"endColumn": 25,
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/runtime_context.go",
@@ -3050,7 +2982,6 @@
 	"startColumn": 19,
 	"endLineNumber": 32,
 	"endColumn": 27,
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/init.go",

@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/runtime"
+	boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 )
 
