@@ -3,8 +3,6 @@ package bridge
 
 import (
 	"fmt"
-
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
 
 type SafeBridge struct {

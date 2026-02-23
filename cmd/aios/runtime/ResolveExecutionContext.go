@@ -6,8 +6,8 @@ import (
 	"fmt"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/schema"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/security"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
 func ResolveExecutionContext(
