@@ -1,6 +1,6 @@
 [{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/api/network/broadcaster.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -18,10 +18,11 @@
 	"startColumn": 34,
 	"endLineNumber": 33,
 	"endColumn": 40,
+	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/api/network/engine.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "IncompatibleAssign",
 		"target": {
@@ -42,7 +43,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/boot.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"severity": 8,
 	"message": "found packages platform (boot.go) and boot (bootstrap.go) in C:\\Users\\MIAUSE\\Documents\\GitHub\\Programming\\multi-platform-AI\\boot",
 	"source": "go list",
@@ -53,7 +54,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/boot.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -74,7 +75,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/boot.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -95,7 +96,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/boot.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -116,7 +117,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/boot.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -137,7 +138,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/bootstrap.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"severity": 8,
 	"message": "found packages platform (boot.go) and boot (bootstrap.go) in C:\\Users\\MIAUSE\\Documents\\GitHub\\Programming\\multi-platform-AI\\boot",
 	"source": "go list",
@@ -148,7 +149,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/bootstrap.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MismatchedPkgName",
 		"target": {
@@ -169,7 +170,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/actuators.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -190,7 +191,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/actuators.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -211,7 +212,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/busmap/pulse.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -232,7 +233,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/control/actuator_loop.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -253,7 +254,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/control/actuator_loop.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -274,7 +275,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bridge/control/actuator_loop.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -295,7 +296,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -309,56 +310,37 @@
 	"severity": 8,
 	"message": "undefined: security.OpenIsolatedVault",
 	"source": "compiler",
-	"startLineNumber": 13,
+	"startLineNumber": 14,
 	"startColumn": 25,
-	"endLineNumber": 13,
+	"endLineNumber": 14,
 	"endColumn": 42,
+	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
-		"value": "UndeclaredName",
+		"value": "UndeclaredImportedName",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
+			"fragment": "UndeclaredImportedName"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: boot",
+	"message": "undefined: boot.RunBootSequence",
 	"source": "compiler",
-	"startLineNumber": 18,
-	"startColumn": 18,
-	"endLineNumber": 18,
-	"endColumn": 22,
+	"startLineNumber": 19,
+	"startColumn": 23,
+	"endLineNumber": 19,
+	"endColumn": 38,
+	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: module",
-	"source": "compiler",
-	"startLineNumber": 28,
-	"startColumn": 14,
-	"endLineNumber": 28,
-	"endColumn": 20,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -376,10 +358,33 @@
 	"startColumn": 14,
 	"endLineNumber": 29,
 	"endColumn": 20,
+	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: module",
+	"source": "compiler",
+	"startLineNumber": 30,
+	"startColumn": 14,
+	"endLineNumber": 30,
+	"endColumn": 20,
+	"modelVersionId": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/main.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -393,14 +398,15 @@
 	"severity": 8,
 	"message": "undefined: runtime.NewSession",
 	"source": "compiler",
-	"startLineNumber": 49,
+	"startLineNumber": 50,
 	"startColumn": 21,
-	"endLineNumber": 49,
+	"endLineNumber": 50,
 	"endColumn": 31,
+	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -414,14 +420,15 @@
 	"severity": 8,
 	"message": "undefined: operationalLoop",
 	"source": "compiler",
-	"startLineNumber": 54,
+	"startLineNumber": 55,
 	"startColumn": 5,
-	"endLineNumber": 54,
+	"endLineNumber": 55,
 	"endColumn": 20,
+	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/main.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -435,14 +442,15 @@
 	"severity": 8,
 	"message": "undefined: waitForShutdown",
 	"source": "compiler",
-	"startLineNumber": 56,
+	"startLineNumber": 57,
 	"startColumn": 2,
-	"endLineNumber": 56,
+	"endLineNumber": 57,
 	"endColumn": 17,
+	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/runtime/ResolveExecutionContext.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -463,7 +471,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cognition/distillation/policy_compressor.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "BrokenImport",
 		"target": {
@@ -484,7 +492,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cognition/distillation/policy_compressor.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "WrongResultCount",
 		"target": {
@@ -505,7 +513,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cognition/memory/semantic_store.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -526,7 +534,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cognition/memory/semantic_store.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -547,7 +555,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -568,7 +576,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -589,7 +597,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -610,7 +618,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -631,7 +639,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -652,7 +660,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -673,7 +681,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -694,7 +702,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -715,7 +723,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/capabilities.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "DuplicateDecl",
 		"target": {
@@ -746,7 +754,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/capabilities.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "DuplicateDecl",
 		"target": {
@@ -777,7 +785,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/context.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "BrokenImport",
 		"target": {
@@ -798,7 +806,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/context.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "DuplicateDecl",
 		"target": {
@@ -829,7 +837,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/provider.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -847,11 +855,10 @@
 	"startColumn": 47,
 	"endLineNumber": 18,
 	"endColumn": 62,
-	"modelVersionId": 8,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -872,7 +879,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -893,7 +900,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -914,7 +921,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -935,7 +942,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -956,7 +963,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -977,7 +984,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -998,7 +1005,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1019,7 +1026,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1040,7 +1047,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/identity/resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1061,7 +1068,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_commands.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1082,7 +1089,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_commands.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1103,7 +1110,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_commands.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1124,7 +1131,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_hmi.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1145,7 +1152,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_lifecycle.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1166,7 +1173,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_network.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1187,7 +1194,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_network.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1208,7 +1215,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_network.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1229,7 +1236,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_network.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1250,7 +1257,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_swarm.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "BrokenImport",
 		"target": {
@@ -1271,7 +1278,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/kernel_swarm.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1292,7 +1299,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/loader.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"severity": 8,
 	"message": "missing ',' in argument list",
 	"source": "syntax",
@@ -1303,7 +1310,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/nucleus.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1324,7 +1331,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/nucleus.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1345,7 +1352,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/nucleus.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1366,7 +1373,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/nucleus.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1387,7 +1394,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1408,7 +1415,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -1429,7 +1436,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1450,7 +1457,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1471,7 +1478,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1492,7 +1499,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1513,7 +1520,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1534,7 +1541,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1555,7 +1562,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UnusedVar",
 		"target": {
@@ -1579,7 +1586,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1600,7 +1607,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1621,7 +1628,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -1642,7 +1649,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1663,7 +1670,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1684,7 +1691,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1705,7 +1712,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UnusedVar",
 		"target": {
@@ -1729,7 +1736,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1750,7 +1757,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1771,7 +1778,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -1792,7 +1799,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1813,7 +1820,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -1834,7 +1841,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1855,7 +1862,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -1876,7 +1883,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -1897,7 +1904,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -1918,7 +1925,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -1939,7 +1946,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -1960,7 +1967,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -1981,7 +1988,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -2002,7 +2009,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -2023,7 +2030,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MismatchedTypes",
 		"target": {
@@ -2044,7 +2051,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MismatchedTypes",
 		"target": {
@@ -2065,7 +2072,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_sequence.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UnusedImport",
 		"target": {
@@ -2089,7 +2096,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_sequence.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UnusedImport",
 		"target": {
@@ -2113,7 +2120,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_sequence.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2134,7 +2141,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_sequence.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2155,7 +2162,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/boot_sequence.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2176,7 +2183,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/classify/identify.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -2197,7 +2204,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "WrongArgCount",
 		"target": {
@@ -2218,7 +2225,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -2239,7 +2246,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "IncompatibleAssign",
 		"target": {
@@ -2260,7 +2267,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "IncompatibleAssign",
 		"target": {
@@ -2281,7 +2288,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "IncompatibleAssign",
 		"target": {
@@ -2302,7 +2309,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -2323,7 +2330,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -2344,7 +2351,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -2365,7 +2372,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "DuplicateDecl",
 		"target": {
@@ -2396,7 +2403,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -2417,7 +2424,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MismatchedTypes",
 		"target": {
@@ -2438,7 +2445,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -2459,7 +2466,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "DuplicateDecl",
 		"target": {
@@ -2490,7 +2497,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/active.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2511,7 +2518,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/active.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -2532,7 +2539,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/heartbeat.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2553,7 +2560,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/heartbeat.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2574,7 +2581,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/heartbeat.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2595,7 +2602,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/passive.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UnusedImport",
 		"target": {
@@ -2619,7 +2626,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/passive.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2640,7 +2647,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/probe/passive.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2661,7 +2668,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/resolve.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -2682,7 +2689,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/resolve.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -2703,7 +2710,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/platform/resolve.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -2724,7 +2731,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/policy/remote_verify.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -2745,7 +2752,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/policy/scheduler.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -2766,7 +2773,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/registry.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2787,7 +2794,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/registry.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2808,7 +2815,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/registry.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2829,7 +2836,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/registry.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2850,7 +2857,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/runtime_context.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "DuplicateDecl",
 		"target": {
@@ -2881,7 +2888,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/runtime_context.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "DuplicateDecl",
 		"target": {
@@ -2912,7 +2919,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/runtime_context.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "DuplicateDecl",
 		"target": {
@@ -2943,7 +2950,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/runtime_context.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2964,7 +2971,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/runtime_context.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2985,7 +2992,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/init.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "BrokenImport",
 		"target": {
@@ -3006,7 +3013,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/sim/simulation_engine.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -3027,7 +3034,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/sim/simulation_engine.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -3048,7 +3055,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/sim/simulation_engine.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -3069,7 +3076,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/vision/engine.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -3090,7 +3097,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/env.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -3111,7 +3118,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/env.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "WrongAssignCount",
 		"target": {
@@ -3132,7 +3139,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/env.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "WrongAssignCount",
 		"target": {
@@ -3153,7 +3160,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/env.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "WrongAssignCount",
 		"target": {
@@ -3174,7 +3181,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/session.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -3195,7 +3202,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/session.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -3216,7 +3223,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/terminal/console.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -3237,7 +3244,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/terminal/console.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -3258,7 +3265,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/auth/passive_auth.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -3279,7 +3286,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/auth/passive_auth.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -3300,7 +3307,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/auth/passive_auth.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -3321,7 +3328,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/auth/passive_auth.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -3342,7 +3349,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/auth/passive_auth.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -3363,7 +3370,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/auth/session.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UnusedImport",
 		"target": {
@@ -3387,7 +3394,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/auth/session.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -3408,7 +3415,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/auth/session.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -3429,7 +3436,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/auth/session.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -3450,7 +3457,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/hmi/terminal.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -3471,7 +3478,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/hmi/terminal.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -3492,7 +3499,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/hmi/terminal.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -3513,7 +3520,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/hmi/terminal.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -3534,7 +3541,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/hmi/terminal.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -3555,7 +3562,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/navigation/slam_init.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -3576,7 +3583,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/perception/vision_stream.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -3597,7 +3604,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/perception/vision_stream.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -3618,7 +3625,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/perception/vision_stream.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -3639,7 +3646,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/perception/vision_stream.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -3660,7 +3667,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/perception/vision_stream.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -3681,7 +3688,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/perception/vision_stream.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -3702,7 +3709,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/speech/gui/progress_view.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "BrokenImport",
 		"target": {
@@ -3723,7 +3730,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/speech/gui/progress_view.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -3744,7 +3751,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/speech/gui/progress_view.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -3765,7 +3772,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/speech/gui/progress_view.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -3786,7 +3793,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/speech/gui/progress_view.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -3807,7 +3814,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/plugins/speech/hmi_controller.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -3828,7 +3835,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/runtime/monitor/performance.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -3849,7 +3856,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/runtime/monitor/performance.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
