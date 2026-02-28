@@ -1,6 +1,6 @@
 //boot/boot.go
 
-package platform
+package boot
 
 import (
 	"fmt"
