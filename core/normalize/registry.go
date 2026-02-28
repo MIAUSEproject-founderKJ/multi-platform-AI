@@ -1,0 +1,2 @@
+//core/normalize/registry.go
+

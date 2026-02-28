@@ -6,64 +6,51 @@ import (
 	"fmt"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
 func ResolveExecutionContext(
 	bs *schema.BootSequence,
-	vault *security.IsolatedVault,
 ) (*core.RuntimeContext, error) {
 
-	if bs.Env.Attestation.Valid == false {
+	// ------------------------------------------------------------
+	// 1. Validate Machine Attestation
+	// ------------------------------------------------------------
+
+	if bs == nil || bs.Env == nil {
+		return nil, fmt.Errorf("invalid boot sequence")
+	}
+
+	if !bs.Attested || !bs.Env.Attestation.Valid {
 		return nil, fmt.Errorf("environment attestation invalid")
 	}
 
-	var caps core.CapabilitySet
+	if bs.UserSession == nil {
+		return nil, fmt.Errorf("missing authenticated session")
+	}
+
+	// ------------------------------------------------------------
+	// 2. Trust Boot-Derived Values (Single Source of Truth)
+	// ------------------------------------------------------------
+
+	caps := bs.Capabilities
+	entity := bs.Entity
+	tier := bs.Tier
+	service := bs.Service
+
+	// ------------------------------------------------------------
+	// 3. Derive Permissions (Policy Layer)
+	// ------------------------------------------------------------
+
 	var perms core.PermissionSet
 
-	// ------------------------------------------------------------------
-	// 1. Derive Capabilities from Hardware
-	// ------------------------------------------------------------------
-
-	for _, bus := range bs.Env.Hardware.Buses {
-		if bus.Type == "can" && bus.Confidence > 40000 {
-			caps |= core.CapCANBus
-		}
-	}
-
-	if bs.Env.Discovery.Capabilities.SupportsAcceleratedCompute {
-		caps |= core.CapSecureEnclave
-	}
-
-	if bs.Env.Hardware.HasBattery {
-		caps |= core.CapLocalStorage
-	}
-
-	// ------------------------------------------------------------------
-	// 2. Resolve Entity (from vault/session token)
-	// ------------------------------------------------------------------
-
-	entity := core.EntityUser
-	tier := core.TierFree
-
-	meta, err := vault.LoadUserMetadata()
-	if err == nil {
-		entity = meta.Entity
-		tier = meta.Tier
-	}
-
-	// ------------------------------------------------------------------
-	// 3. Derive Permissions
-	// ------------------------------------------------------------------
-
+	// Base permission
 	perms |= core.PermUser
 
-	if entity == core.EntityAdmin {
+	switch entity {
+	case core.EntityAdmin:
 		perms |= core.PermAdmin
-	}
-
-	if entity == core.EntityDevice {
+	case core.EntityDevice:
 		perms |= core.PermDeviceControl
 	}
 
@@ -71,22 +58,12 @@ func ResolveExecutionContext(
 		perms |= core.PermFleetControl
 	}
 
-	// ------------------------------------------------------------------
-	// 4. Derive Service From Platform
-	// ------------------------------------------------------------------
+	// Optionally merge session-derived permissions
+	perms |= bs.UserSession.Permissions
 
-	service := core.ServicePersonal
-
-	switch bs.Env.Platform.Final {
-	case schema.PlatformVehicle,
-		schema.PlatformDrone,
-		schema.PlatformRobot:
-
-		service = core.ServiceSystem
-
-	case schema.PlatformIndustrial:
-		service = core.ServiceEnterprise
-	}
+	// ------------------------------------------------------------
+	// 4. Construct RuntimeContext
+	// ------------------------------------------------------------
 
 	return &core.RuntimeContext{
 		PlatformClass: bs.Env.Platform.Final,

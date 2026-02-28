@@ -14,8 +14,12 @@ import (
 )
 
 type VaultStore interface {
-	LoadGoldenHash(machineID string) ([]byte, error)
-	SealGoldenHash(machineID string, hash []byte) error
+	LoadConfig(key string) (*schema.EnvConfig, error)
+	SaveConfig(key string, cfg *schema.EnvConfig) error
+
+	LoadGoldenHash(machine string) (string, error)
+	LoadFirstBootMarker() (*schema.FirstBootMarker, error)
+	SaveFirstBootMarker(*schema.FirstBootMarker) error
 }
 
 func MeasureSelf() ([]byte, error) {

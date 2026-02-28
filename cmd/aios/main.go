@@ -2,14 +2,32 @@
 package main
 
 import (
+	"context"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/runtime"
 	boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
 )
 
 func main() {
+
+	// ------------------------------------------------------------
+	// 1. Root Context (graceful shutdown control)
+	// ------------------------------------------------------------
+
+	rootCtx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	go listenForShutdown(cancel)
+
+	// ------------------------------------------------------------
+	// 2. Vault + Boot
+	// ------------------------------------------------------------
 
 	vault, err := security.OpenIsolatedVault()
 	if err != nil {
@@ -21,44 +39,94 @@ func main() {
 		log.Fatalf("boot failed: %v", err)
 	}
 
-	ctx, err := runtime.ResolveExecutionContext(bootSeq, vault)
+	ctx, err := runtime.ResolveExecutionContext(bootSeq)
 	if err != nil {
 		log.Fatalf("context resolution failed: %v", err)
 	}
 
-	registry := module.DefaultRegistry()
-	active := []module.DomainModule{}
+	// ------------------------------------------------------------
+	// 3. Module Registry + Dependency Resolution
+	// ------------------------------------------------------------
+ctx.Optimizer = optimization.NewDefaultOptimizer(ctx.PlatformClass)
+/*Example behavior:
+• Vehicle → aggressive pruning
+• Industrial → deterministic inference mode
+• PC → full precision*/
 
-	for _, m := range registry {
+registry := module.DefaultRegistry()
 
-		if !m.Allowed(ctx) {
-			continue
-		}
+filtered := module.FilterModules(registry, ctx)
 
-		if err := m.Init(ctx); err != nil {
-			log.Fatalf("module %s init failed: %v", m.Name(), err)
-		}
+ordered, err := module.ResolveDependencies(filtered)
+if err != nil {
+    log.Fatalf("dependency resolution failed: %v", err)
+}
 
-		if err := m.Start(); err != nil {
-			log.Fatalf("module %s start failed: %v", m.Name(), err)
-		}
+active := []module.DomainModule{}
 
-		active = append(active, m)
+for _, m := range ordered {
+
+    if err := m.Init(ctx); err != nil {
+        rollbackModules(active)
+        log.Fatalf("init failed: %v", err)
+    }
+
+    if err := m.Start(); err != nil {
+        rollbackModules(active)
+        log.Fatalf("start failed: %v", err)
+    }
+
+    active = append(active, m)
+
 		log.Printf("[MODULE] Activated: %s", m.Name())
 	}
 
-	session := runtime.NewSession(ctx)
+	// ------------------------------------------------------------
+	// 5. Session
+	// ------------------------------------------------------------
+
+	router := NewDefaultRouter(ctx)
+agent := NewAgentRuntime(router)
+
+session := runtime.NewSession(ctx, agent)
+
 	if err := session.Start(); err != nil {
+		rollbackModules(active)
 		log.Fatalf("session start failed: %v", err)
 	}
 
-	go operationalLoop(session)
+	go operationalLoop(rootCtx, session)
 
-	waitForShutdown()
+	// ------------------------------------------------------------
+	// 6. Block Until Shutdown
+	// ------------------------------------------------------------
 
-	for _, m := range active {
-		_ = m.Stop()
+	<-rootCtx.Done()
+
+	// ------------------------------------------------------------
+	// 7. Graceful Shutdown (Reverse Order)
+	// ------------------------------------------------------------
+
+	if err := session.Stop(); err != nil {
+		log.Printf("session stop error: %v", err)
 	}
 
-	_ = session.Stop()
+	for i := len(active) - 1; i >= 0; i-- {
+		if err := active[i].Stop(); err != nil {
+			log.Printf("module %s stop error: %v", active[i].Name(), err)
+		}
+	}
+}
+
+func rollbackModules(active []modules.DomainModule) {
+	for i := len(active) - 1; i >= 0; i-- {
+		_ = active[i].Stop()
+	}
+}
+
+func listenForShutdown(cancel context.CancelFunc) {
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, os.Interrupt, syscall.SIGTERM)
+	<-sigCh
+	cancel()
 }

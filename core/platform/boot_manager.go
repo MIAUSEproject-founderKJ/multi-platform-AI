@@ -46,9 +46,23 @@ func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
 	bm.Identity.BindHardware(fullProfile)
 
 	// 2. Provision golden baseline
-	if err := security.ProvisionGolden(bm.Vault, bm.Identity.MachineName); err != nil {
-		return nil, err
-	}
+	goldenHash, err := security.ProvisionGolden(bm.Vault, bm.Identity.MachineName)
+if err != nil {
+	return nil, err
+}
+
+marker := &schema.FirstBootMarker{
+	MachineName:   bm.Identity.MachineName,
+	SchemaVersion: currentSchemaVersion,
+	GoldenHash:    goldenHash,
+	Initialized:   true,
+	CreatedAt:     time.Now(),
+	TrustLevel:    schema.TrustStrong,
+}
+
+if err := bm.Vault.SaveFirstBootMarker(marker); err != nil {
+	return nil, err
+}
 
 	// 3. Save discovered environment
 	if err := bm.Vault.SaveConfig(lastKnownEnvKey, fullProfile); err != nil {
@@ -81,20 +95,34 @@ func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
 		return nil, fmt.Errorf("failed to save first boot marker: %w", err)
 	}
 
-	// 8. Construct BootSequence with all runtime context
-	return &schema.BootSequence{
-		Env:      fullProfile,
-		Mode:     schema.BootCold,
-		Attested: true,
-	}, nil
+capSet := BuildCapabilitySet(fullProfile.Platform.Final, tierProfile.Name, serviceProfile.Name)
+
+return &schema.BootSequence{
+	Env:          fullProfile,
+	Mode:         schema.BootCold,
+	Attested:     true,
+	Capabilities: capSet,
+	Service:      serviceProfile.CoreService,
+	Entity:       auth.Entity,
+	Tier:         tierProfile.CoreTier,
+}, nil
 }
 
 func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence, error) {
 
 	// Verify environment against golden baseline
-	if err := security.VerifyAgainstGolden(bm.Vault, bm.Identity.MachineName); err != nil {
-		return bm.runColdBoot()
-	}
+	marker, err := bm.Vault.LoadFirstBootMarker()
+if err != nil {
+	return bm.runColdBoot()
+}
+
+if marker.SchemaVersion != currentSchemaVersion {
+	return bm.runColdBoot()
+}
+
+if err := security.VerifyAgainstGolden(bm.Vault, marker.MachineName); err != nil {
+	return bm.runColdBoot()
+}
 
 	if err := bm.sanityCheck(env); err != nil {
 		return bm.runColdBoot()
@@ -122,11 +150,17 @@ func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence,
 	session.Permissions = security.DerivePermissions(env.Platform.Final, auth.Entity, tierProfile.Name)
 	env.Attestation.SessionToken = session.SessionID
 
-	return &schema.BootSequence{
-		Env:      env,
-		Mode:     schema.BootFast,
-		Attested: true,
-	}, nil
+	capSet := BuildCapabilitySet(fullProfile.Platform.Final, tierProfile.Name, serviceProfile.Name)
+
+return &schema.BootSequence{
+	Env:          fullProfile,
+	Mode:         schema.BootCold,
+	Attested:     true,
+	Capabilities: capSet,
+	Service:      serviceProfile.CoreService,
+	Entity:       auth.Entity,
+	Tier:         tierProfile.CoreTier,
+}, nil
 }
 
 func (bm *BootManager) sanityCheck(env *schema.EnvConfig) error {

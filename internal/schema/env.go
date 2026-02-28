@@ -33,10 +33,15 @@ type PlatformScore struct {
 }
 
 type BootSequence struct {
-Env *EnvConfig
-Mode BootMode
+	Env          *EnvConfig
+	Mode         BootMode
+	Attested     bool
+	Capabilities core.CapabilitySet
+	Service      core.ServiceType
+	Entity       core.EntityType
+	Tier         core.TierType
+	UserSession  *schema.UserSession
 }
-
 type TrustLevel uint8
 const (
     TrustInvalid
