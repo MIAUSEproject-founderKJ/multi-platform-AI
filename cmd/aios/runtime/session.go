@@ -1,121 +1,191 @@
 //cmd/aios/runtime/session.go
 
-/*The session handles:
-• External IO
-• Lifecycle binding
-• Controlled shutdown
-• Backpressure*/
+/*Deterministic startup/shutdown
+Clear ownership of resources
+Cancellation propagation
+Concurrency safety
+Observability hooks
+Backpressure + error isolation
+No hidden goroutines*/
 
 package runtime
 
 import (
 	"context"
-	"io"
-	"net"
+	"errors"
 	"sync"
 	"time"
-
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/agent"
 )
 
-type Session interface {
-	Start(context.Context) error
-	Stop()
-}
+type SessionState int
 
-type session struct {
-	ctx        *ExecutionContext
-	agent      *agent.AgentRuntime
-	listener   net.Listener
-	cancelFunc context.CancelFunc
+const (
+	SessionCreated SessionState = iota
+	SessionStarting
+	SessionRunning
+	SessionStopping
+	SessionStopped
+)
+
+type Session struct {
+	execCtx *ExecCtx
+	agent   *AgentRuntime
+
+	stateMu sync.RWMutex
+	state   SessionState
+
+	rootCtx    context.Context
+	cancel     context.CancelFunc
 	wg         sync.WaitGroup
-}
+	errCh      chan error
+	shutdownCh chan struct{}
 
-func NewSession(ctx *ExecutionContext, agent *agent.AgentRuntime) Session {
-	return &session{
-		ctx:   ctx,
-		agent: agent,
-	}
-}
-
-func (s *session) Start(parent context.Context) error {
-
-	ctx, cancel := context.WithCancel(parent)
-	s.cancelFunc = cancel
-
-	ln, err := net.Listen("tcp", ":9090")
-	if err != nil {
-		return err
-	}
-
-	s.listener = ln
-
-	s.wg.Add(1)
-	go s.acceptLoop(ctx)
-
-	return nil
-}
-
-func (s *session) acceptLoop(ctx context.Context) {
-	defer s.wg.Done()
-
-	for {
-		conn, err := s.listener.Accept()
-		if err != nil {
-			if ctx.Err() != nil {
-				return
-			}
-			continue
-		}
-
-		s.wg.Add(1)
-		go s.handleConnection(ctx, conn)
-	}
-}
-
-func (s *session) handleConnection(ctx context.Context, conn net.Conn) {
-	defer s.wg.Done()
-	defer conn.Close()
-
-	buffer := make([]byte, 8192)
-
-	for {
-		select {
-		case <-ctx.Done():
-			return
-		default:
-		}
-
-		conn.SetReadDeadline(time.Now().Add(30 * time.Second))
-		n, err := conn.Read(buffer)
-		if err != nil {
-			if err == io.EOF {
-				return
-			}
-			continue
-		}
-
-		payload := buffer[:n]
-
-		_ = s.agent.Process(ctx, s.ctx.Optimizer, payload)
-	}
-}
-
-func (s *session) Stop() {
-	if s.cancelFunc != nil {
-		s.cancelFunc()
-	}
-
-	if s.listener != nil {
-		s.listener.Close()
-	}
-
-	s.wg.Wait()
+	startOnce sync.Once
+	stopOnce  sync.Once
 }
 
 /*Key Properties:
+State machine with explicit transitions
+Dedicated root context
+WaitGroup to track goroutines
+Error channel for async failures
+Idempotent Start/Stop*/
+func NewSession(execCtx *ExecCtx, agent *AgentRuntime) *Session {
+	return &Session{
+		execCtx:    execCtx,
+		agent:      agent,
+		state:      SessionCreated,
+		errCh:      make(chan error, 8),
+		shutdownCh: make(chan struct{}),
+	}
+}
 
-• Each connection handled in its own goroutine
-• Context cancellation respected
-• Read deadline prevents stuck connections
-• Controlled shutdown with WaitGroup*/
+
+
+
+func (s *Session) Start(parent context.Context) error {
+	var startErr error
+
+	s.startOnce.Do(func() {
+
+		if !s.transition(SessionCreated, SessionStarting) {
+			startErr = errors.New("invalid session state transition")
+			return
+		}
+
+		s.rootCtx, s.cancel = context.WithCancel(parent)
+
+		// Start agent runtime first
+		if err := s.agent.Start(s.rootCtx); err != nil {
+			startErr = err
+			return
+		}
+
+		// Launch supervision loop
+		s.wg.Add(1)
+		go s.runSupervisor()
+
+		s.transition(SessionStarting, SessionRunning)
+	})
+
+	return startErr
+}
+
+/*Agent starts before supervision loop
+Goroutines are tracked
+Safe idempotency*/
+
+
+/*Supervisor Loop
+Handles:
+Async errors
+Context cancellation
+Panic recovery*/
+
+func (s *Session) runSupervisor() {
+	defer s.wg.Done()
+
+	defer func() {
+		if r := recover(); r != nil {
+			s.execCtx.Logger.Error("session panic", r)
+			s.errCh <- errors.New("session panic")
+		}
+	}()
+
+	for {
+		select {
+
+		case <-s.rootCtx.Done():
+			s.execCtx.Logger.Info("session context canceled")
+			return
+
+		case err := <-s.errCh:
+			if err != nil {
+				s.execCtx.Logger.Error("session async error", err)
+				s.Stop(context.Background())
+				return
+			}
+		}
+	}
+}
+
+
+/*Cancels context first
+Stops dependencies explicitly
+Waits for all goroutines
+Supports timeout via passed context*/
+
+func (s *Session) Stop(ctx context.Context) error {
+	var stopErr error
+
+	s.stopOnce.Do(func() {
+
+		if !s.transition(SessionRunning, SessionStopping) {
+			stopErr = errors.New("invalid session state for stop")
+			return
+		}
+
+		// Cancel root context
+		if s.cancel != nil {
+			s.cancel()
+		}
+
+		// Stop agent runtime
+		if err := s.agent.Stop(ctx); err != nil {
+			stopErr = err
+		}
+
+		// Wait for all goroutines
+		done := make(chan struct{})
+		go func() {
+			s.wg.Wait()
+			close(done)
+		}()
+
+		select {
+		case <-done:
+		case <-ctx.Done():
+			stopErr = ctx.Err()
+		}
+
+		s.transition(SessionStopping, SessionStopped)
+		close(s.shutdownCh)
+	})
+
+	return stopErr
+}
+
+//Ensures valid lifecycle flow.
+func (s *Session) transition(from, to SessionState) bool {
+	s.stateMu.Lock()
+	defer s.stateMu.Unlock()
+
+	if s.state != from {
+		return false
+	}
+
+	s.state = to
+	return true
+}
+
+

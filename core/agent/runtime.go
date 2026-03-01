@@ -18,12 +18,15 @@ import (
 )
 
 type AgentRuntime struct {
-	router *router.Router
+	router Router
+	ctx    context.Context
+	cancel context.CancelFunc
+	wg sync.WaitGroup
 }
 
-func NewAgentRuntime(r *router.Router) *AgentRuntime {
+func NewAgentRuntime(router Router) *AgentRuntime {
 	return &AgentRuntime{
-		router: r,
+		router: router,
 	}
 }
 
@@ -57,4 +60,61 @@ func (a *AgentRuntime) Process(ctx context.Context, opt optimization.Optimizer, 
 	}
 
 	return a.router.Dispatch(ctx, env)
+}
+
+func (a *AgentRuntime) Start(parent context.Context) error {
+	a.ctx, a.cancel = context.WithCancel(parent)
+
+	if err := a.router.Start(a.ctx); err != nil {
+		return err
+	}
+
+	a.wg.Add(1)
+	go a.eventLoop()
+
+	return nil
+}
+
+func (a *AgentRuntime) Stop(ctx context.Context) error {
+	if a.cancel != nil {
+		a.cancel()
+	}
+
+	done := make(chan struct{})
+	go func() {
+		a.wg.Wait()
+		close(done)
+	}()
+
+	select {
+	case <-done:
+	case <-ctx.Done():
+		return ctx.Err()
+	}
+
+	return a.router.Stop(ctx)
+}
+
+func (a *AgentRuntime) eventLoop() {
+	defer a.wg.Done()
+
+	for {
+		select {
+		case <-a.ctx.Done():
+			return
+		default:
+			// Pull event from router
+			event, err := a.router.Next(a.ctx)
+			if err != nil {
+				continue
+			}
+
+			// Process event
+			a.handle(event)
+		}
+	}
+}
+
+func (a *AgentRuntime) handle(event interface{}) {
+	// Domain-specific processing
 }

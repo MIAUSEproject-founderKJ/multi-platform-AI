@@ -127,11 +127,21 @@ func (a *App) Start(ctx context.Context) error {
 • Error reduction
 • Message normalization
 • Dispatching to domain modules*/
-	router := NewDefaultRouter(a.ExecCtx)
+	router := router.NewDefaultRouter(a.ExecCtx)
 
-	
-	agent := NewAgentRuntime(router)
+/*• Algorithm distillation
+• Optimization
+• Confidence filtering
+• Data shaping before dispatch
+*/
+	agent := agent.NewAgentRuntime(router)
 
+
+	/*The session handles:
+• External IO
+• Lifecycle binding
+• Controlled shutdown
+• Backpressure*/
 	a.Session = runtime.NewSession(a.ExecCtx, agent)
 
 	if err := a.Session.Start(ctx); err != nil {

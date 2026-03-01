@@ -31,39 +31,36 @@ type Envelope struct {
 	Source  string
 }
 
-type Router struct {
-	ctx      *runtime.ExecutionContext
-	handlers map[MessageType]modules.DomainModule
+type Router interface {
+	Start(ctx context.Context) error
+	Stop(ctx context.Context) error
+	Next(ctx context.Context) (interface{}, error)
 }
 
-func NewDefaultRouter(execCtx *runtime.ExecutionContext) *Router {
-	r := &Router{
-		ctx:      execCtx,
-		handlers: make(map[MessageType]modules.DomainModule),
-	}
-
-	for _, m := range execCtx.ActiveModules {
-		switch m.Name() {
-		case "TelemetryModule":
-			r.handlers[MessageTelemetry] = m
-		case "InferenceModule":
-			r.handlers[MessageInference] = m
-		}
-	}
-
-	return r
+type DefaultRouter struct {
+	queue chan interface{}
 }
 
-func (r *Router) Dispatch(ctx context.Context, msg Envelope) error {
-
-	if len(msg.Payload) == 0 {
-		return errors.New("empty payload")
+func NewDefaultRouter(execCtx *ExecCtx) *DefaultRouter {
+	return &DefaultRouter{
+		queue: make(chan interface{}, 1024),
 	}
+}
 
-	handler, ok := r.handlers[msg.Type]
-	if !ok {
-		return fmt.Errorf("no handler for message type %s", msg.Type)
+func (r *DefaultRouter) Start(ctx context.Context) error {
+	return nil
+}
+
+func (r *DefaultRouter) Stop(ctx context.Context) error {
+	close(r.queue)
+	return nil
+}
+
+func (r *DefaultRouter) Next(ctx context.Context) (interface{}, error) {
+	select {
+	case evt := <-r.queue:
+		return evt, nil
+	case <-ctx.Done():
+		return nil, ctx.Err()
 	}
-
-	return handler.Handle(ctx, msg.Payload)
 }
