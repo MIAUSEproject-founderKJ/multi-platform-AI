@@ -111,6 +111,7 @@ func (a *App) Start(ctx context.Context) error {
 
 	a.Logger.Info("initializing modules")
 
+	//iterates over already dependency-sorted modules
 	if err := a.Supervisor.InitAll(a.ExecCtx); err != nil {
 		return err
 	}
@@ -121,7 +122,14 @@ func (a *App) Start(ctx context.Context) error {
 		return err
 	}
 
+	/*The router is responsible for:
+• Input validation
+• Error reduction
+• Message normalization
+• Dispatching to domain modules*/
 	router := NewDefaultRouter(a.ExecCtx)
+
+	
 	agent := NewAgentRuntime(router)
 
 	a.Session = runtime.NewSession(a.ExecCtx, agent)
