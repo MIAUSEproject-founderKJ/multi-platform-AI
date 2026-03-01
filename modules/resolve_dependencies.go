@@ -1,4 +1,12 @@
 //modules/resolve_dependencies.go
+/*Validate module dependency declarations.
+Detect missing or circular dependencies.
+Produce a safe startup order where every module is initialized only after its dependencies.*/
+
+/*TelemetryModule depends on NetworkModule
+InferenceModule depends on StorageModule
+ResolveDependencies enforces deterministic startup ordering.
+*/
 
 package modules
 

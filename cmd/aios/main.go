@@ -1,10 +1,15 @@
-// cmd/aios/main.go
+//cmd/aios/main.go
 package main
 
 import (
 	"context"
+	"errors"
+	"fmt"
+	"log/slog"
+	"net/http"
 	"os"
 	"os/signal"
+	"sync"
 	"syscall"
 	"time"
 
@@ -15,8 +20,12 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
 )
 
+//////////////////////////////////////////////////////////////////
+// ENTRYPOINT
+//////////////////////////////////////////////////////////////////
+
 func main() {
-	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	rootCtx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
 	app, err := NewApp()
@@ -24,34 +33,42 @@ func main() {
 		panic(err)
 	}
 
-	if err := app.Start(ctx); err != nil {
-		app.Logger.Fatal("app start failed", "error", err)
+	if err := app.Start(rootCtx); err != nil {
+		app.Logger.Error("app failed to start", "error", err)
+		os.Exit(1)
 	}
 
-	<-ctx.Done()
+	<-rootCtx.Done()
 
-	shutdownCtx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 
 	if err := app.Stop(shutdownCtx); err != nil {
-		app.Logger.Error("graceful shutdown incomplete", "error", err)
+		app.Logger.Error("shutdown incomplete", "error", err)
 	}
 }
 
+//////////////////////////////////////////////////////////////////
+// APP STRUCT
+//////////////////////////////////////////////////////////////////
+
 type App struct {
-	Ctx        *runtime.ExecutionContext
-	Session    runtime.Session
-	Modules    []modules.DomainModule
-	Supervisor *Supervisor
-	Watchdog   *Watchdog
 	Logger     *slog.Logger
+	ExecCtx    *runtime.ExecutionContext
+	Session    runtime.Session
+	Supervisor *Supervisor
+	Server     *http.Server
 }
+
+//////////////////////////////////////////////////////////////////
+// CONSTRUCTOR (BOOTSTRAP ONLY)
+//////////////////////////////////////////////////////////////////
 
 func NewApp() (*App, error) {
 
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 
-	vault, err := security.OpenIsolatedVault()
+	vault, err := security.OpenVault()
 	if err != nil {
 		return nil, err
 	}
@@ -61,186 +78,214 @@ func NewApp() (*App, error) {
 		return nil, err
 	}
 
-	ctx, err := runtime.ResolveExecutionContext(bootSeq)
+	execCtx, err := runtime.ResolveExecutionContext(bootSeq)
 	if err != nil {
 		return nil, err
 	}
 
-	ctx.Optimizer = optimization.NewDefaultOptimizer(ctx.PlatformClass)
+	execCtx.Optimizer = optimization.NewDefaultOptimizer(execCtx.PlatformClass)
 
 	registry := modules.DefaultRegistry()
-	filtered := modules.FilterModules(registry, ctx)
-
+	filtered := modules.FilterModules(registry, execCtx)
 	ordered, err := modules.ResolveDependencies(filtered)
 	if err != nil {
 		return nil, err
 	}
 
-	app := &App{
-		Ctx:     ctx,
-		Modules: ordered,
-		Logger:  logger,
-	}
+	supervisor := NewSupervisor(logger, ordered)
 
-	app.Supervisor = NewSupervisor(logger)
-	app.Watchdog = NewWatchdog(logger)
+	app := &App{
+		Logger:     logger,
+		ExecCtx:    execCtx,
+		Supervisor: supervisor,
+	}
 
 	return app, nil
 }
 
+//////////////////////////////////////////////////////////////////
+// START LIFECYCLE
+//////////////////////////////////////////////////////////////////
 
 func (a *App) Start(ctx context.Context) error {
 
-	for _, m := range a.Modules {
+	a.Logger.Info("initializing modules")
 
-		if err := m.Init(a.Ctx); err != nil {
-			return err
-		}
-
-		a.Supervisor.Register(m)
-	}
-
-	if err := a.Supervisor.StartAll(ctx); err != nil {
+	if err := a.Supervisor.InitAll(a.ExecCtx); err != nil {
 		return err
 	}
 
-	router := NewDefaultRouter(a.Ctx)
+	a.Logger.Info("starting supervision tree")
+
+	if err := a.Supervisor.Start(ctx); err != nil {
+		return err
+	}
+
+	router := NewDefaultRouter(a.ExecCtx)
 	agent := NewAgentRuntime(router)
 
-	a.Session = runtime.NewSession(a.Ctx, agent)
+	a.Session = runtime.NewSession(a.ExecCtx, agent)
 
-	if err := a.Session.Start(); err != nil {
+	if err := a.Session.Start(ctx); err != nil {
 		return err
 	}
 
-	a.Watchdog.Monitor(a.Modules)
+	a.startHTTPServer()
 
 	return nil
 }
 
+//////////////////////////////////////////////////////////////////
+// STOP LIFECYCLE
+//////////////////////////////////////////////////////////////////
 
 func (a *App) Stop(ctx context.Context) error {
 
-	stopDone := make(chan struct{})
+	a.Logger.Info("stopping application")
+
+	errCh := make(chan error, 1)
 
 	go func() {
 		a.Session.Stop()
-		a.Supervisor.StopAll()
-		close(stopDone)
+		a.Supervisor.Stop()
+		if a.Server != nil {
+			_ = a.Server.Shutdown(ctx)
+		}
+		close(errCh)
 	}()
 
 	select {
 	case <-ctx.Done():
 		return ctx.Err()
-	case <-stopDone:
+	case <-errCh:
 		return nil
 	}
 }
 
+//////////////////////////////////////////////////////////////////
+// HTTP HEALTH ENDPOINTS
+//////////////////////////////////////////////////////////////////
 
-type Supervisor struct {
-	modules map[string]modules.DomainModule
-	logger  *slog.Logger
-	retries int
+func (a *App) startHTTPServer() {
+
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
+
+	mux.HandleFunc("/readyz", func(w http.ResponseWriter, r *http.Request) {
+		if !a.Supervisor.AllHealthy() {
+			w.WriteHeader(http.StatusServiceUnavailable)
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+	})
+
+	server := &http.Server{
+		Addr:    ":8080",
+		Handler: mux,
+	}
+
+	a.Server = server
+
+	go func() {
+		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			a.Logger.Error("http server error", "error", err)
+		}
+	}()
 }
 
-func NewSupervisor(logger *slog.Logger) *Supervisor {
+//////////////////////////////////////////////////////////////////
+// SUPERVISOR
+//////////////////////////////////////////////////////////////////
+
+type Supervisor struct {
+	logger  *slog.Logger
+	modules []modules.DomainModule
+
+	states map[string]*moduleState
+	wg     sync.WaitGroup
+	mu     sync.RWMutex
+}
+
+type moduleState struct {
+	module   modules.DomainModule
+	healthy  bool
+	restarts int
+}
+
+func NewSupervisor(logger *slog.Logger, mods []modules.DomainModule) *Supervisor {
+	states := make(map[string]*moduleState)
+	for _, m := range mods {
+		states[m.Name()] = &moduleState{
+			module:  m,
+			healthy: false,
+		}
+	}
 	return &Supervisor{
-		modules: make(map[string]modules.DomainModule),
 		logger:  logger,
-		retries: 3,
+		modules: mods,
+		states:  states,
 	}
 }
 
-func (s *Supervisor) Register(m modules.DomainModule) {
-	s.modules[m.Name()] = m
-}
-
-func (s *Supervisor) StartAll(ctx context.Context) error {
+func (s *Supervisor) InitAll(ctx *runtime.ExecutionContext) error {
 	for _, m := range s.modules {
-		go s.runWithRecovery(ctx, m)
+		if err := m.Init(ctx); err != nil {
+			return fmt.Errorf("module %s init failed: %w", m.Name(), err)
+		}
 	}
 	return nil
 }
 
-func (s *Supervisor) runWithRecovery(ctx context.Context, m modules.DomainModule) {
-	attempt := 0
+func (s *Supervisor) Start(ctx context.Context) error {
+	for _, m := range s.modules {
+		s.wg.Add(1)
+		go s.run(ctx, m)
+	}
+	return nil
+}
+
+func (s *Supervisor) run(ctx context.Context, m modules.DomainModule) {
+	defer s.wg.Done()
+
+	name := m.Name()
+	backoff := time.Second
 
 	for {
-		err := safeStart(m)
+		err := m.Run(ctx)
 
-		if err == nil {
+		if ctx.Err() != nil {
 			return
 		}
 
-		s.logger.Error("module crashed",
-			"module", m.Name(),
-			"error", err,
-			"attempt", attempt,
-		)
+		s.logger.Error("module crashed", "module", name, "error", err)
 
-		attempt++
+		s.mu.Lock()
+		s.states[name].restarts++
+		s.mu.Unlock()
 
-		if attempt > s.retries {
-			s.logger.Error("module permanently disabled", "module", m.Name())
-			return
+		time.Sleep(backoff)
+
+		if backoff < 30*time.Second {
+			backoff *= 2
 		}
-
-		time.Sleep(time.Second * 2)
 	}
 }
 
-type HealthAware interface {
-	Health() error
+func (s *Supervisor) Stop() {
+	s.wg.Wait()
 }
 
-type Watchdog struct {
-	logger *slog.Logger
-}
+func (s *Supervisor) AllHealthy() bool {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
 
-func NewWatchdog(logger *slog.Logger) *Watchdog {
-	return &Watchdog{logger: logger}
-}
-
-func (w *Watchdog) Monitor(mods []modules.DomainModule) {
-	go func() {
-		ticker := time.NewTicker(5 * time.Second)
-		defer ticker.Stop()
-
-		for range ticker.C {
-			for _, m := range mods {
-				if h, ok := m.(HealthAware); ok {
-					if err := h.Health(); err != nil {
-						w.logger.Warn("module unhealthy",
-							"module", m.Name(),
-							"error", err,
-						)
-					}
-				}
-			}
+	for _, st := range s.states {
+		if !st.healthy {
+			return false
 		}
-	}()
-}
-
-func safeStart(m modules.DomainModule) (err error) {
-	defer func() {
-		if r := recover(); r != nil {
-			err = fmt.Errorf("panic in %s: %v", m.Name(), r)
-		}
-	}()
-	return m.Start()
-}
-
-logger := slog.New(handler).With("trace_id", traceID)
-
-http.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-})
-
-http.HandleFunc("/readyz", func(w http.ResponseWriter, r *http.Request) {
-	if !app.Supervisor.AllHealthy() {
-		w.WriteHeader(http.StatusServiceUnavailable)
-		return
 	}
-	w.WriteHeader(http.StatusOK)
-})
+	return true
+}
