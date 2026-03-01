@@ -1,14 +1,24 @@
 //modules/domain_module.go
 
+/*This allows:
+• platform filtering
+• hardware capability filtering
+• policy enforcement
+• optimizer-based gating*/
+
 type DomainModule interface {
     Name() string
     Category() ModuleCategory
     DependsOn() []string
-    RequiredCapabilities() core.CapabilitySet
     Allowed(*core.RuntimeContext) bool
     Init(*core.RuntimeContext) error
     Start() error
     Stop() error
+
+    // Capability introspection
+	SupportedPlatforms() []runtime.PlatformClass
+	RequiredCapabilities() []string
+	Optional() bool
 }
 
 type ModuleCategory int

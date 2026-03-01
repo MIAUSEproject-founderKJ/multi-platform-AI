@@ -56,7 +56,7 @@ func NewApp() (*App, error) {
 		return nil, err
 	}
 
-	bootSeq, err := platform.RunBootSequence(vault)
+	bootSeq, err := boot.RunBootSequence(vault)
 	if err != nil {
 		return nil, err
 	}
