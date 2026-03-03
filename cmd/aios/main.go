@@ -1,4 +1,4 @@
-//cmd/aios/main.go
+// cmd/aios/main.go
 package main
 
 import (
@@ -13,9 +13,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/optimization"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/runtime"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/agent"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/optimization"
 	boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/router"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
 )
@@ -123,25 +125,24 @@ func (a *App) Start(ctx context.Context) error {
 	}
 
 	/*The router is responsible for:
-• Input validation
-• Error reduction
-• Message normalization
-• Dispatching to domain modules*/
+	• Input validation
+	• Error reduction
+	• Message normalization
+	• Dispatching to domain modules*/
 	router := router.NewDefaultRouter(a.ExecCtx)
 
-/*• Algorithm distillation
-• Optimization
-• Confidence filtering
-• Data shaping before dispatch
-*/
+	/*• Algorithm distillation
+	  • Optimization
+	  • Confidence filtering
+	  • Data shaping before dispatch
+	*/
 	agent := agent.NewAgentRuntime(router)
 
-
 	/*The session handles:
-• External IO
-• Lifecycle binding
-• Controlled shutdown
-• Backpressure*/
+	• External IO
+	• Lifecycle binding
+	• Controlled shutdown
+	• Backpressure*/
 	a.Session = runtime.NewSession(a.ExecCtx, agent)
 
 	if err := a.Session.Start(ctx); err != nil {
