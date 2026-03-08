@@ -9,7 +9,7 @@ import (
 	"sync/atomic"
 
 	"go.uber.org/zap"
-
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/modules/inference"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/runtime"
 )
 
@@ -18,9 +18,6 @@ const (
 	InferenceWorkers   = 4
 )
 
-type Model interface {
-	Predict(input []byte) ([]byte, error)
-}
 
 type TelemetryEvent struct {
 	DeviceID  string  `json:"device_id"`
@@ -63,6 +60,8 @@ func NewInferenceModule() DomainModule {
 func (m *InferenceModule) Init(ctx *runtime.ExecutionContext) error {
 
 	m.InitBase(ctx)
+
+	m.model = inference.NewHTTPModel("http://localhost:9000")
 
 	m.logger.Info("InferenceModule initialized")
 
@@ -119,30 +118,57 @@ func (m *InferenceModule) worker(ctx context.Context, id int) {
 	}
 }
 
-func (m *InferenceModule) processEvent(ctx context.Context, payload []byte, logger *zap.Logger) {
+func (m *InferenceModule) processEvent(
+	ctx context.Context,
+	payload []byte,
+	logger *zap.Logger,
+) {
 
 	var event TelemetryEvent
 
 	if err := json.Unmarshal(payload, &event); err != nil {
-
 		m.totalErrors.Add(1)
-
 		logger.Warn("invalid telemetry input", zap.Error(err))
-
 		return
 	}
 
 	if m.model == nil {
-
 		m.totalErrors.Add(1)
-
 		logger.Warn("no inference model loaded")
-
 		return
 	}
 
-	//The module then calls the AI model. Module then calls the AI model.
-	output, err := m.model.Predict(payload)
+	req := inference.PredictionRequest{
+		DeviceID:  event.DeviceID,
+		Timestamp: time.Unix(event.Timestamp, 0),
+		Features: map[string]float64{
+			"value": event.Value,
+		},
+	}
+
+	result, err := m.model.Predict(ctx, req)
+
+	if err != nil {
+		m.totalErrors.Add(1)
+		logger.Error("model prediction failed", zap.Error(err))
+		return
+	}
+
+	infResult := InferenceResult{
+		DeviceID:   result.DeviceID,
+		Timestamp:  result.Timestamp.Unix(),
+		Prediction: result.Confidence,
+	}
+
+	m.totalPredictions.Add(1)
+
+	resultBytes, _ := json.Marshal(infResult)
+
+	_ = m.ctx.Router.Publish("vehicle_control", resultBytes)
+	_ = m.ctx.Router.Publish("database", resultBytes)
+	_ = m.ctx.Router.Publish("audit", resultBytes)
+}
+result, err := m.model.Predict(ctx, req)
 
 	if err != nil {
 
@@ -153,16 +179,11 @@ func (m *InferenceModule) processEvent(ctx context.Context, payload []byte, logg
 		return
 	}
 
-	var result InferenceResult
-
-	if err := json.Unmarshal(output, &result); err != nil {
-
-		m.totalErrors.Add(1)
-
-		logger.Error("invalid prediction output", zap.Error(err))
-
-		return
-	}
+infResult := InferenceResult{
+	DeviceID:   result.DeviceID,
+	Timestamp:  result.Timestamp.Unix(),
+	Prediction: result.Confidence,
+}
 
 	m.totalPredictions.Add(1)
 
