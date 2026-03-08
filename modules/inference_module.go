@@ -1,98 +1,192 @@
 //modules/inference_module.go performs AI inference and writes results to storage.
+package modules
+
+import (
+	"context"
+	"encoding/json"
+	"errors"
+	"sync"
+	"sync/atomic"
+
+	"go.uber.org/zap"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/runtime"
+)
+
+const (
+	InferenceQueueSize = 5000
+	InferenceWorkers   = 4
+)
+
+type Model interface {
+	Predict(input []byte) ([]byte, error)
+}
+
+type TelemetryEvent struct {
+	DeviceID  string  `json:"device_id"`
+	Timestamp int64   `json:"timestamp"`
+	Value     float64 `json:"value"`
+}
+
+type InferenceResult struct {
+	DeviceID   string  `json:"device_id"`
+	Timestamp  int64   `json:"timestamp"`
+	Prediction float64 `json:"prediction"`
+}
+
 type InferenceModule struct {
 	BaseModule
-	model   ModelEngine
-	running atomic.Bool
+
+	model Model
+
+	queue chan []byte
+
+	workers sync.WaitGroup
+
+	totalPredictions atomic.Uint64
+	totalErrors      atomic.Uint64
 }
 
-//constructor
-func NewInferenceModule() *InferenceModule {
-	return &InferenceModule{
-		BaseModule: BaseModule{name: "inference"},
+func NewInferenceModule() DomainModule {
+
+	m := &InferenceModule{
+		BaseModule: BaseModule{
+			name: "InferenceModule",
+			deps: []string{"TelemetryModule"},
+		},
+		queue: make(chan []byte, InferenceQueueSize),
 	}
+
+	return m
 }
 
-//dependency declaration
-func (m *InferenceModule) DependsOn() []string {
-	return []string{"ingestion", "database_sink"}
-}
-
-//platform restriction, This prevents inference from running in cloud-only telemetry nodes.
-func (m *InferenceModule) SupportedPlatforms() []runtime.PlatformClass {
-	return []runtime.PlatformClass{
-		runtime.PlatformVehicle,
-		runtime.PlatformIndustrial,
-		runtime.PlatformPC,
-	}
-}
-
-
-
-func (m *InferenceModule) RequiredCapabilities() []string {
-	return []string{"persistent_storage"}
-}
-
-
-//This ensures FilterModules panics if storage is missing.
-func (m *InferenceModule) Optional() bool {
-	return false
-}
-
-//Init Method (Where Optimizer Is Used)
-/*This is algorithm distillation:
-precision mode changes quantization
-inference mode changes scheduling
-batch size changes throughput vs latency*/
 func (m *InferenceModule) Init(ctx *runtime.ExecutionContext) error {
-	m.ctx = ctx
 
-	precision := ctx.Optimizer.PrecisionMode()
-	mode := ctx.Optimizer.InferenceMode()
-	batch := ctx.Optimizer.BatchSize()
+	m.InitBase(ctx)
 
-	engine, err := LoadModelEngine(precision, mode, batch)
-	if err != nil {
-		return err
-	}
+	m.logger.Info("InferenceModule initialized")
 
-	m.model = engine
 	return nil
 }
 
-/*This integrates:
-performance review
-error reduction
-retry dampening
-adaptive tuning hooks*/
+func (m *InferenceModule) Run(ctx context.Context) error {
 
-func (m *InferenceModule) Start() error {
-	m.running.Store(true)
+	m.setRunning(true)
 
-	go func() {
-		for m.running.Load() {
+	m.logger.Info("Inference workers starting")
 
-			start := time.Now()
+	for i := 0; i < InferenceWorkers; i++ {
 
-			err := m.model.Run()
+		m.workers.Add(1)
 
-			m.ctx.Optimizer.RecordLatency(time.Since(start))
-			m.ctx.Optimizer.RecordError(err)
+		go m.worker(ctx, i)
+	}
 
-			if err != nil && m.ctx.Optimizer.ShouldRetry(err) {
-				time.Sleep(m.ctx.Optimizer.Backoff(1))
-				continue
-			}
+	<-ctx.Done()
 
-			if err != nil {
+	close(m.queue)
+
+	m.workers.Wait()
+
+	m.setRunning(false)
+
+	m.logger.Info("InferenceModule stopped")
+
+	return nil
+}
+
+func (m *InferenceModule) worker(ctx context.Context, id int) {
+
+	defer m.workers.Done()
+
+	logger := m.logger.With(zap.Int("worker", id))
+
+	for {
+
+		select {
+
+		case payload, ok := <-m.queue:
+
+			if !ok {
 				return
 			}
-		}
-	}()
 
-	return nil
+			m.processEvent(ctx, payload, logger)
+
+		case <-ctx.Done():
+			return
+		}
+	}
 }
 
-func (m *InferenceModule) Stop() error {
-	m.running.Store(false)
-	return m.model.Close()
+func (m *InferenceModule) processEvent(ctx context.Context, payload []byte, logger *zap.Logger) {
+
+	var event TelemetryEvent
+
+	if err := json.Unmarshal(payload, &event); err != nil {
+
+		m.totalErrors.Add(1)
+
+		logger.Warn("invalid telemetry input", zap.Error(err))
+
+		return
+	}
+
+	if m.model == nil {
+
+		m.totalErrors.Add(1)
+
+		logger.Warn("no inference model loaded")
+
+		return
+	}
+
+	//The module then calls the AI model. Module then calls the AI model.
+	output, err := m.model.Predict(payload)
+
+	if err != nil {
+
+		m.totalErrors.Add(1)
+
+		logger.Error("model prediction failed", zap.Error(err))
+
+		return
+	}
+
+	var result InferenceResult
+
+	if err := json.Unmarshal(output, &result); err != nil {
+
+		m.totalErrors.Add(1)
+
+		logger.Error("invalid prediction output", zap.Error(err))
+
+		return
+	}
+
+	m.totalPredictions.Add(1)
+
+	resultBytes, _ := json.Marshal(result)
+
+	// publish results
+	_ = m.ctx.Router.Publish("vehicle_control", resultBytes)
+	_ = m.ctx.Router.Publish("database", resultBytes)
+	_ = m.ctx.Router.Publish("audit", resultBytes)
+}
+
+func (m *InferenceModule) Handle(ctx context.Context, payload []byte) error {
+
+	if len(payload) == 0 {
+		return errors.New("empty inference payload")
+	}
+
+	select {
+
+	case m.queue <- payload:
+		return nil
+
+	default:
+		m.totalErrors.Add(1)
+		return errors.New("inference queue full")
+	}
 }

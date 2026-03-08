@@ -1,74 +1,107 @@
 //modules/telemetry_module.go exports metrics to network.
+package modules
+
+import (
+	"context"
+	"sync/atomic"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/runtime"
+)
+
+type TelemetryClient interface {
+	Send([]byte) error
+}
 
 type TelemetryModule struct {
 	BaseModule
+
+	ctx *runtime.ExecutionContext
+
 	client  TelemetryClient
 	running atomic.Bool
 }
 
-//contructor
-func NewTelemetryModule() *TelemtryModule{
-	return &TelemetryModule{
-		BaseModule: BaseModule{name: "telemetry"},
+func NewTelemetryModule() DomainModule {
+
+	m := &TelemetryModule{
+		BaseModule: BaseModule{
+			name: "TelemetryModule",
+			deps: []string{"IngestionModule"},
+		},
 	}
+
+	return m
 }
 
-//Dependencies
-func (m *TelemetryModule) DependsOn() []string {
-	return []string{"inference"}
+package modules
+
+import (
+	"context"
+	"sync/atomic"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/runtime"
+)
+
+type TelemetryClient interface {
+	Send([]byte) error
 }
 
-//Platform restriction
-func (m *TelemetryModule) SupportedPlatforms() []runtime.PlatformClass {
-	return []runtime.PlatformClass{
-		runtime.PlatformPC,
-		runtime.PlatformCloud,
+type TelemetryModule struct {
+	BaseModule
+
+	ctx *runtime.ExecutionContext
+
+	client  TelemetryClient
+	running atomic.Bool
+}
+
+func NewTelemetryModule() DomainModule {
+
+	m := &TelemetryModule{
+		BaseModule: BaseModule{
+			name: "TelemetryModule",
+			deps: []string{"IngestionModule"},
+		},
 	}
+
+	return m
 }
 
-//required capabilities
-func (m *TelemetryModule) RequiredCapabilities() []string{
-	return []string{"network"}
-}
-
-//If network capability is missing, FilterModules silently removes it.
-func (m *TelemetryModule) Optional() bool {
-	return true
-}
-
-
-//telemetry init
 func (m *TelemetryModule) Init(ctx *runtime.ExecutionContext) error {
+
 	m.ctx = ctx
 
-	client, err := NewTelemetryClient()
-	if err != nil {
-		return err
-	}
+	m.setHealthy(true)
 
-	m.client = client
+	ctx.Logger.Info("TelemetryModule initialized")
+
 	return nil
 }
 
-//telemetry start. This module exports the optimizer's performance review.
-func (m *TelemetryModule) Start() error {
+func (m *TelemetryModule) Run(ctx context.Context) error {
+
 	m.running.Store(true)
 
-	go func() {
-		ticker := time.NewTicker(10 * time.Second)
-		defer ticker.Stop()
+	m.ctx.Logger.Info("TelemetryModule started")
 
-		for m.running.Load() {
-			<-ticker.C
+	<-ctx.Done()
 
-			report := m.ctx.Optimizer.Evaluate()
+	m.running.Store(false)
 
-			err := m.client.Send(report)
-			if err != nil {
-				m.ctx.Optimizer.RecordError(err)
-			}
-		}
-	}()
+	m.ctx.Logger.Info("TelemetryModule stopped")
+
+	return nil
+}
+
+func (m *TelemetryModule) Handle(ctx context.Context, payload []byte) error {
+
+	if len(payload) == 0 {
+		return nil
+	}
+
+	if m.client != nil {
+		return m.client.Send(payload)
+	}
 
 	return nil
 }

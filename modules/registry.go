@@ -2,15 +2,14 @@
 package modules
 
 func DefaultRegistry() []DomainModule {
-
 	return []DomainModule{
 		NewIngestionModule(),
+		NewTelemetryModule(),
 		NewInferenceModule(),
 		NewDatabaseSinkModule(),
-		NewTelemetryModule(),
 		NewIndustrialProtocolModule(),
-		NewVehicleControlModule(), //control
-		NewAuditModule(), //audit the module status
+		NewVehicleControlModule(),
+		NewAuditModule(),
 	}
 }
 

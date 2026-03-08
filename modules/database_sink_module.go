@@ -8,53 +8,142 @@ package modules
 import (
 	"context"
 	"database/sql"
+	"errors"
+	"sync"
 	"sync/atomic"
+
+	"go.uber.org/zap"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/runtime"
 )
 
+const (
+	DBQueueSize = 5000
+	DBWorkers   = 2
+)
+
 type DatabaseSinkModule struct {
-	ctx     *runtime.ExecutionContext
-	db      *sql.DB
-	healthy atomic.Bool
+	BaseModule
+
+	db *sql.DB
+
+	queue chan []byte
+
+	workers sync.WaitGroup
+
+	totalWrites atomic.Uint64
+	totalErrors atomic.Uint64
 }
 
 func NewDatabaseSinkModule() DomainModule {
-	return &DatabaseSinkModule{}
-}
 
-func (m *DatabaseSinkModule) Name() string {
-	return "DatabaseSinkModule"
-}
+	m := &DatabaseSinkModule{
+		BaseModule: BaseModule{
+			name: "DatabaseSinkModule",
+			deps: []string{"TelemetryModule"},
+		},
+		queue: make(chan []byte, DBQueueSize),
+	}
 
-func (m *DatabaseSinkModule) DependsOn() []string {
-	return []string{"TelemetryModule"}
+	return m
 }
 
 func (m *DatabaseSinkModule) Init(ctx *runtime.ExecutionContext) error {
 
-	m.ctx = ctx
+	m.InitBase(ctx)
+
 	m.db = ctx.DB
-	m.healthy.Store(true)
+
+	if m.db == nil {
+		return errors.New("database not configured")
+	}
+
+	m.logger.Info("database sink initialized")
 
 	return nil
 }
 
 func (m *DatabaseSinkModule) Run(ctx context.Context) error {
+
+	m.setRunning(true)
+
+	m.logger.Info("database sink workers starting")
+
+	for i := 0; i < DBWorkers; i++ {
+
+		m.workers.Add(1)
+
+		go m.worker(ctx, i)
+	}
+
 	<-ctx.Done()
+
+	close(m.queue)
+
+	m.workers.Wait()
+
+	m.logger.Info("database sink stopped")
+
+	m.setRunning(false)
+
 	return nil
+}
+
+func (m *DatabaseSinkModule) worker(ctx context.Context, id int) {
+
+	defer m.workers.Done()
+
+	logger := m.logger.With(zap.Int("worker", id))
+
+	for {
+
+		select {
+
+		case payload, ok := <-m.queue:
+
+			if !ok {
+				return
+			}
+
+			_, err := m.db.ExecContext(ctx,
+				"INSERT INTO telemetry(data) VALUES(?)",
+				string(payload),
+			)
+
+			if err != nil {
+
+				m.totalErrors.Add(1)
+
+				logger.Error("database insert failed",
+					zap.Error(err),
+				)
+
+				continue
+			}
+
+			m.totalWrites.Add(1)
+
+		case <-ctx.Done():
+			return
+		}
+	}
 }
 
 func (m *DatabaseSinkModule) Handle(ctx context.Context, payload []byte) error {
 
-	_, err := m.db.ExecContext(ctx,
-		"INSERT INTO telemetry(data) VALUES(?)",
-		string(payload),
-	)
+	if len(payload) == 0 {
+		return errors.New("empty payload")
+	}
 
-	return err
-}
+	select {
 
-func (m *DatabaseSinkModule) Healthy() bool {
-	return m.healthy.Load()
+	case m.queue <- payload:
+		return nil
+
+	default:
+
+		m.totalErrors.Add(1)
+
+		return errors.New("database queue full")
+	}
 }
