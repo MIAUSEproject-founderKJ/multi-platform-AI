@@ -95,7 +95,8 @@ func (m *DatabaseSinkModule) worker(ctx context.Context, id int) {
 
 	defer m.workers.Done()
 
-	logger := m.logger.With(zap.Int("worker", id))
+	logger := m.logger.Named("inference_worker").
+	With(zap.Int("worker", id))
 
 	for {
 

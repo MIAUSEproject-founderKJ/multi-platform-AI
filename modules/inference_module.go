@@ -35,7 +35,7 @@ type InferenceResult struct {
 type InferenceModule struct {
 	BaseModule
 
-	model Model
+	model inference.Model
 
 	queue chan TelemetryEvent
 
@@ -52,7 +52,7 @@ func NewInferenceModule() DomainModule {
 			name: "InferenceModule",
 			deps: []string{"TelemetryModule"},
 		},
-		queue: make(chan []byte, InferenceQueueSize),
+		queue: make(chan TelemetryEvent, InferenceQueueSize),
 	}
 
 	return m
@@ -62,7 +62,16 @@ func (m *InferenceModule) Init(ctx *runtime.ExecutionContext) error {
 
 	m.InitBase(ctx)
 
-	m.model = inference.NewHTTPModel("http://localhost:9000")
+	engine := engines.NewONNXEngine()
+
+err := engine.Load("models/model.onnx")
+if err != nil {
+	return err
+}
+
+adapter := inference.NewModelAdapter(engine)
+
+m.model = adapter
 
 	m.logger.Info("InferenceModule initialized")
 
@@ -99,6 +108,11 @@ for i := 0; i < InferenceWorkers; i++ {
 	return nil
 }
 
+
+
+/*waits for 1 event
+tries to fill the batch without blocking
+runs PredictBatch()*/
 func (m *InferenceModule) worker(ctx context.Context, id int) {
 
 	defer m.workers.Done()
@@ -109,17 +123,46 @@ func (m *InferenceModule) worker(ctx context.Context, id int) {
 
 		select {
 
-		case payload, ok := <-m.queue:
+		case event, ok := <-m.queue:
 
 			if !ok {
 				return
 			}
 
-			m.processEvent(ctx, payload, logger)
+			batch := []inference.PredictionRequest{}
+
+			req := m.convert(event)
+			batch = append(batch, req)
+
+			// collect additional events without blocking
+			for i := 1; i < BatchSize; i++ {
+
+				select {
+
+				case e := <-m.queue:
+					batch = append(batch, m.convert(e))
+
+				default:
+					break
+				}
+			}
+
+			m.processBatch(ctx, batch, logger)
 
 		case <-ctx.Done():
 			return
 		}
+	}
+}
+
+func (m *InferenceModule) convert(event TelemetryEvent) inference.PredictionRequest {
+
+	return inference.PredictionRequest{
+		DeviceID:  event.DeviceID,
+		Timestamp: time.Unix(event.Timestamp, 0),
+		Features: map[string]float64{
+			"value": event.Value,
+		},
 	}
 }
 
@@ -133,22 +176,9 @@ func (b *BaseModule) LogError(msg string, err error) {
 
 func (m *InferenceModule) processEvent(
 	ctx context.Context,
-	payload []byte,
+	event TelemetryEvent,
 	logger *zap.Logger,
 ) {
-
-	var event TelemetryEvent
-
-	if err := json.Unmarshal(payload, &event); err != nil {
-
-		m.totalErrors.Add(1)
-
-		logger.Warn("invalid telemetry input",
-			zap.Error(err),
-		)
-
-		return
-	}
 
 	req := inference.PredictionRequest{
 		DeviceID:  event.DeviceID,
@@ -203,17 +233,24 @@ func (m *InferenceModule) Handle(ctx context.Context, payload []byte) error {
 		return errors.New("empty inference payload")
 	}
 
-select {
+	var event TelemetryEvent
 
-case m.queue <- payload:
+	if err := json.Unmarshal(payload, &event); err != nil {
+		return err
+	}
 
-default:
+	select {
 
-	<-m.queue
+	case m.queue <- event:
+		return nil
 
-	m.queue <- payload
+	default:
 
-	m.totalErrors.Add(1)
+		<-m.queue
+		m.queue <- event
+
+		m.totalErrors.Add(1)
+
 		return errors.New("inference queue full")
 	}
 }
@@ -274,3 +311,50 @@ func (b *BaseModule) Stats() map[string]interface{} {
 	}
 }
 
+func (m *InferenceModule) processBatch(
+	ctx context.Context,
+	batch []inference.PredictionRequest,
+	logger *zap.Logger,
+) {
+
+	results, err := m.model.PredictBatch(ctx, batch)
+
+	if err != nil {
+
+		m.totalErrors.Add(1)
+
+		logger.Error("batch prediction failed", zap.Error(err))
+
+		return
+	}
+
+	for _, result := range results {
+
+		infResult := InferenceResult{
+			DeviceID:   result.DeviceID,
+			Timestamp:  result.Timestamp.Unix(),
+			Prediction: result.Confidence,
+		}
+
+		resultBytes, err := json.Marshal(infResult)
+
+		if err != nil {
+
+			m.totalErrors.Add(1)
+
+			logger.Error("result serialization failed",
+				zap.Error(err),
+			)
+
+			continue
+		}
+
+		m.totalPredictions.Add(1)
+
+		_ = m.ctx.Router.Publish("vehicle_control", resultBytes)
+		_ = m.ctx.Router.Publish("database", resultBytes)
+		_ = m.ctx.Router.Publish("audit", resultBytes)
+	}
+}
+
+batchTimeout := time.After(5 * time.Millisecond)
