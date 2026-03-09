@@ -3,9 +3,13 @@
 package modules
 
 import (
+	"context"
+	"sync"
 	"sync/atomic"
+	"time"
 
 	"go.uber.org/zap"
+
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/runtime"
 )
 
@@ -18,6 +22,13 @@ type BaseModule struct {
 
 	healthy atomic.Bool
 	running atomic.Bool
+
+	startTime time.Time
+
+	wg sync.WaitGroup
+
+	eventsProcessed atomic.Uint64
+	errorsTotal     atomic.Uint64
 }
 
 func (b *BaseModule) Name() string {
@@ -36,7 +47,11 @@ func (b *BaseModule) InitBase(ctx *runtime.ExecutionContext) {
 		zap.String("module", b.name),
 	)
 
+	b.startTime = time.Now()
+
 	b.healthy.Store(true)
+
+	b.logger.Info("module initialized")
 }
 
 func (b *BaseModule) Healthy() bool {

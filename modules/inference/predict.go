@@ -11,71 +11,70 @@ import (
 	"time"
 )
 
-httpClient: &http.Client{
-    Timeout: 5 * time.Second,
-    Transport: &http.Transport{
-        MaxIdleConns:       100,
-        IdleConnTimeout:    90 * time.Second,
-        DisableCompression: false,
-    },
-}
 
-type HTTPModel struct {
-	endpoint   string
-	httpClient *http.Client
-	timeout    time.Duration
-}
 
-func NewHTTPModel(endpoint string) *HTTPModel {
-	return &HTTPModel{
-		endpoint: endpoint,
-		timeout:  3 * time.Second,
-		httpClient: &http.Client{
-			Timeout: 5 * time.Second,
-		},
-	}
-}
-
-func (m *HTTPModel) Predict(
+func (m *ModelAdapter) Predict(
 	ctx context.Context,
-	payload PredictionRequest,
+	req PredictionRequest,
 ) (*PredictionResult, error) {
 
-	ctx, cancel := context.WithTimeout(ctx, m.timeout)
-	defer cancel()
+	features := buildFeatures(req)
 
-	body, err := json.Marshal(payload)
+	output, err := m.engine.Predict(ctx, features)
+
 	if err != nil {
-		return nil, fmt.Errorf("serialize payload: %w", err)
+		return nil, err
 	}
 
-	req, err := http.NewRequestWithContext(
-		ctx,
-		http.MethodPost,
-		m.endpoint+"/predict",
-		bytes.NewBuffer(body),
-	)
-	if err != nil {
-		return nil, fmt.Errorf("create request: %w", err)
+	result := &PredictionResult{
+		DeviceID:   req.DeviceID,
+		Timestamp:  req.Timestamp,
+		Prediction: "value",
+		Confidence: float64(output[0]),
 	}
 
-	req.Header.Set("Content-Type", "application/json")
-
-	resp, err := m.httpClient.Do(req)
-	if err != nil {
-		return nil, fmt.Errorf("prediction request failed: %w", err)
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("prediction service returned %d", resp.StatusCode)
-	}
-
-	var result PredictionResult
-
-	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
-		return nil, fmt.Errorf("decode prediction: %w", err)
-	}
-
-	return &result, nil
+	return result, nil
 }
+
+func (m *ModelAdapter) PredictBatch(
+	ctx context.Context,
+	req []PredictionRequest,
+) ([]PredictionResult, error) {
+
+	results := make([]PredictionResult, 0, len(req))
+
+	for _, r := range req {
+
+		pred, err := m.Predict(ctx, r)
+
+		if err != nil {
+			return nil, err
+		}
+
+		results = append(results, *pred)
+	}
+
+	return results, nil
+}
+
+func (m *ModelAdapter) Health(ctx context.Context) error {
+
+	_, err := m.engine.Predict(ctx, []float32{0, 0})
+
+	return err
+}
+
+func (m *ModelAdapter) Warmup(ctx context.Context) error {
+
+	for i := 0; i < 10; i++ {
+
+		_, err := m.engine.Predict(ctx, []float32{0, 0})
+
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+

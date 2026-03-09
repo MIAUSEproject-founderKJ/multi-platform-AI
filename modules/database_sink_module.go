@@ -27,7 +27,7 @@ type DatabaseSinkModule struct {
 
 	db *sql.DB
 
-	queue chan []byte
+	queue chan TelemetryEvent
 
 	workers sync.WaitGroup
 
@@ -73,7 +73,9 @@ func (m *DatabaseSinkModule) Run(ctx context.Context) error {
 
 		m.workers.Add(1)
 
-		go m.worker(ctx, i)
+		m.Go(ctx, "inference-worker", func() {
+	m.worker(ctx, i)
+})
 	}
 
 	<-ctx.Done()
@@ -135,15 +137,17 @@ func (m *DatabaseSinkModule) Handle(ctx context.Context, payload []byte) error {
 		return errors.New("empty payload")
 	}
 
-	select {
+select {
 
-	case m.queue <- payload:
-		return nil
+case m.queue <- payload:
 
-	default:
+default:
 
-		m.totalErrors.Add(1)
+	<-m.queue
 
+	m.queue <- payload
+
+	m.totalErrors.Add(1)
 		return errors.New("database queue full")
 	}
 }

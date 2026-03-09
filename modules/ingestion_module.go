@@ -20,7 +20,6 @@ import (
 const (
 	MaxPayloadSize = 1024 * 1024 // 1MB
 	QueueSize      = 5000
-	WorkerCount    = 4
 )
 
 type TelemetryPayload struct {
@@ -32,7 +31,7 @@ type TelemetryPayload struct {
 type IngestionModule struct {
 	ctx *runtime.ExecutionContext
 
-	queue chan []byte
+	queue chan TelemetryEvent
 
 	workers sync.WaitGroup
 
@@ -75,12 +74,20 @@ func (m *IngestionModule) Run(ctx context.Context) error {
 
 	m.ctx.Logger.Info("IngestionModule starting workers")
 
-	for i := 0; i < WorkerCount; i++ {
+workerCount := runtime.NumCPU()
 
-		m.workers.Add(1)
+for i := 0; i < workerCount; i++ {
 
-		go m.worker(ctx, i)
-	}
+	id := i
+
+	m.workers.Add(1)
+
+	m.Go(ctx, "inference-worker", func() {
+
+		m.worker(ctx, id)
+
+	})
+}
 
 	<-ctx.Done()
 
@@ -200,15 +207,17 @@ func (m *IngestionModule) Handle(ctx context.Context, payload []byte) error {
 		return errors.New("rate limit exceeded")
 	}
 
-	select {
+select {
 
-	case m.queue <- payload:
+case m.queue <- payload:
 
-		return nil
+default:
 
-	default:
+	<-m.queue
 
-		m.totalErrors.Add(1)
+	m.queue <- payload
+
+	m.totalErrors.Add(1)
 
 		return errors.New("ingestion queue full")
 	}

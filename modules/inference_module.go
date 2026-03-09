@@ -7,6 +7,7 @@ import (
 	"errors"
 	"sync"
 	"sync/atomic"
+	"time"
 
 	"go.uber.org/zap"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/modules/inference"
@@ -36,7 +37,7 @@ type InferenceModule struct {
 
 	model Model
 
-	queue chan []byte
+	queue chan TelemetryEvent
 
 	workers sync.WaitGroup
 
@@ -74,12 +75,16 @@ func (m *InferenceModule) Run(ctx context.Context) error {
 
 	m.logger.Info("Inference workers starting")
 
-	for i := 0; i < InferenceWorkers; i++ {
+for i := 0; i < InferenceWorkers; i++ {
 
-		m.workers.Add(1)
+	id := i
 
-		go m.worker(ctx, i)
-	}
+	m.workers.Add(1)
+
+	m.Go(ctx, "inference-worker", func() {
+		m.worker(ctx, id)
+	})
+}
 
 	<-ctx.Done()
 
@@ -118,6 +123,14 @@ func (m *InferenceModule) worker(ctx context.Context, id int) {
 	}
 }
 
+func (b *BaseModule) LogInfo(msg string, fields ...zap.Field) {
+	b.logger.Info(msg, fields...)
+}
+
+func (b *BaseModule) LogError(msg string, err error) {
+	b.logger.Error(msg, zap.Error(err))
+}
+
 func (m *InferenceModule) processEvent(
 	ctx context.Context,
 	payload []byte,
@@ -127,14 +140,13 @@ func (m *InferenceModule) processEvent(
 	var event TelemetryEvent
 
 	if err := json.Unmarshal(payload, &event); err != nil {
-		m.totalErrors.Add(1)
-		logger.Warn("invalid telemetry input", zap.Error(err))
-		return
-	}
 
-	if m.model == nil {
 		m.totalErrors.Add(1)
-		logger.Warn("no inference model loaded")
+
+		logger.Warn("invalid telemetry input",
+			zap.Error(err),
+		)
+
 		return
 	}
 
@@ -149,8 +161,13 @@ func (m *InferenceModule) processEvent(
 	result, err := m.model.Predict(ctx, req)
 
 	if err != nil {
+
 		m.totalErrors.Add(1)
-		logger.Error("model prediction failed", zap.Error(err))
+
+		logger.Error("model prediction failed",
+			zap.Error(err),
+		)
+
 		return
 	}
 
@@ -162,34 +179,19 @@ func (m *InferenceModule) processEvent(
 
 	m.totalPredictions.Add(1)
 
-	resultBytes, _ := json.Marshal(infResult)
-
-	_ = m.ctx.Router.Publish("vehicle_control", resultBytes)
-	_ = m.ctx.Router.Publish("database", resultBytes)
-	_ = m.ctx.Router.Publish("audit", resultBytes)
-}
-result, err := m.model.Predict(ctx, req)
+	resultBytes, err := json.Marshal(infResult)
 
 	if err != nil {
 
 		m.totalErrors.Add(1)
 
-		logger.Error("model prediction failed", zap.Error(err))
+		logger.Error("result serialization failed",
+			zap.Error(err),
+		)
 
 		return
 	}
 
-infResult := InferenceResult{
-	DeviceID:   result.DeviceID,
-	Timestamp:  result.Timestamp.Unix(),
-	Prediction: result.Confidence,
-}
-
-	m.totalPredictions.Add(1)
-
-	resultBytes, _ := json.Marshal(result)
-
-	// publish results
 	_ = m.ctx.Router.Publish("vehicle_control", resultBytes)
 	_ = m.ctx.Router.Publish("database", resultBytes)
 	_ = m.ctx.Router.Publish("audit", resultBytes)
@@ -201,13 +203,74 @@ func (m *InferenceModule) Handle(ctx context.Context, payload []byte) error {
 		return errors.New("empty inference payload")
 	}
 
-	select {
+select {
 
-	case m.queue <- payload:
-		return nil
+case m.queue <- payload:
 
-	default:
-		m.totalErrors.Add(1)
+default:
+
+	<-m.queue
+
+	m.queue <- payload
+
+	m.totalErrors.Add(1)
 		return errors.New("inference queue full")
 	}
 }
+
+//Now workers are supervised automatically.
+func (b *BaseModule) Go(ctx context.Context, name string, fn func()) {
+
+	b.wg.Add(1)
+
+	go func() {
+
+		defer b.wg.Done()
+
+		defer func() {
+			if r := recover(); r != nil {
+
+				b.errorsTotal.Add(1)
+
+				b.logger.Error("worker panic recovered",
+					zap.String("worker", name),
+					zap.Any("panic", r),
+				)
+			}
+		}()
+
+		fn()
+	}()
+}
+
+func (b *BaseModule) Shutdown() {
+
+	b.logger.Info("shutting down module")
+
+	b.wg.Wait()
+
+	b.running.Store(false)
+
+	b.logger.Info("module stopped")
+}
+
+func (b *BaseModule) IncEvents() {
+	b.eventsProcessed.Add(1)
+}
+
+func (b *BaseModule) IncErrors() {
+	b.errorsTotal.Add(1)
+}
+
+func (b *BaseModule) Stats() map[string]interface{} {
+
+	return map[string]interface{}{
+		"name":             b.name,
+		"running":          b.running.Load(),
+		"healthy":          b.healthy.Load(),
+		"events_processed": b.eventsProcessed.Load(),
+		"errors":           b.errorsTotal.Load(),
+		"uptime":           time.Since(b.startTime).Seconds(),
+	}
+}
+
