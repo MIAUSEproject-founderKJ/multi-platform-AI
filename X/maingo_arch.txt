@@ -1,0 +1,15 @@
+Boot System
+   ↓
+Runtime Context
+   ↓
+Module Registry
+   ↓
+Dependency Resolver
+   ↓
+Supervisor
+   ↓
+Router
+   ↓
+Agent Runtime
+   ↓
+Session IO
