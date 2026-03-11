@@ -29,7 +29,7 @@ type TelemetryPayload struct {
 }
 
 type IngestionModule struct {
-	ctx *runtime.ExecutionContext
+	ctx *runtime.RuntimeContext
 
 	queue chan TelemetryEvent
 
@@ -59,7 +59,7 @@ func (m *IngestionModule) DependsOn() []string {
 	return nil
 }
 
-func (m *IngestionModule) Init(ctx *runtime.ExecutionContext) error {
+func (m *IngestionModule) Init(ctx *runtime.RuntimeContext) error {
 
 	m.ctx = ctx
 

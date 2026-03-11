@@ -8,7 +8,7 @@ import (
 )
 
 
-func FilterModules(registry []DomainModule, ctx *runtime.ExecutionContext) []DomainModule {
+func FilterModules(registry []DomainModule, ctx *runtime.RuntimeContext) []DomainModule {
 
 	var filtered []DomainModule
 
@@ -64,7 +64,7 @@ func capabilitiesSatisfied(m DomainModule, caps map[string]bool) bool {
 	return true
 }
 
-func optimizerAllows(m DomainModule, ctx *runtime.ExecutionContext) bool {
+func optimizerAllows(m DomainModule, ctx *runtime.RuntimeContext) bool {
 
 	switch ctx.Optimizer.PrecisionMode() {
 

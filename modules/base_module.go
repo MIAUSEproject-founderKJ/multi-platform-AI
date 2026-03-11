@@ -17,7 +17,7 @@ type BaseModule struct {
 	name string
 	deps []string
 
-	ctx    *runtime.ExecutionContext
+	ctx    *runtime.RuntimeContext
 	logger *zap.Logger
 
 	healthy atomic.Bool
@@ -39,7 +39,7 @@ func (b *BaseModule) DependsOn() []string {
 	return b.deps
 }
 
-func (b *BaseModule) InitBase(ctx *runtime.ExecutionContext) {
+func (b *BaseModule) InitBase(ctx *runtime.RuntimeContext) {
 
 	b.ctx = ctx
 

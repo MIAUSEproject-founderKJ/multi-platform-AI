@@ -21,10 +21,11 @@ type DomainModule interface {
 	Name() string
 	Category() ModuleCategory
 	DependsOn() []string
-	Allowed(*core.RuntimeContext) bool
-	Init(*core.RuntimeContext) error
+	Allowed(*runtime.RuntimeContext) bool
+	Init(*runtime.RuntimeContext) error
 	Start() error
 	Stop() error
+	Run(context.Context) error
 
 	// Capability introspection
 	SupportedPlatforms() []runtime.PlatformClass

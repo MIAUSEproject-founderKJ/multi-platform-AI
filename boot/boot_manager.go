@@ -1,6 +1,6 @@
-//core/platform/boot_manager.go
+//boot/boot_manager.go
 
-package platform
+package boot
 
 import (
 	"errors"

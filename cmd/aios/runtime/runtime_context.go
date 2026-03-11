@@ -1,4 +1,4 @@
-//core/runtime_context.go
+//cmd/aios/runtime/runtime_context.go
 //RuntimeContext must be constructed once and treated as immutable.
 
 
@@ -31,5 +31,7 @@ type RuntimeContext struct {
     Tier          TierType
     BootMode      BootMode
     Permissions   PermissionSet
+    Router        *router.Router
+    Optimizer     optimization.Optimizer
 }
 

@@ -1,6 +1,6 @@
-//MIAUSEproject-founderKJ/multi-platform-AI/core/platform/boot_sequence.go
+//boot/boot_sequence.go
 
-package platform
+package boot
 
 import (
 	"fmt"

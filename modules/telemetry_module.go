@@ -15,7 +15,7 @@ type TelemetryClient interface {
 type TelemetryModule struct {
 	BaseModule
 
-	ctx *runtime.ExecutionContext
+	ctx *runtime.RuntimeContext
 
 	client  TelemetryClient
 	running atomic.Bool
@@ -49,7 +49,7 @@ type TelemetryClient interface {
 type TelemetryModule struct {
 	BaseModule
 
-	ctx *runtime.ExecutionContext
+	ctx *runtime.RuntimeContext
 
 	client  TelemetryClient
 	running atomic.Bool
@@ -67,7 +67,7 @@ func NewTelemetryModule() DomainModule {
 	return m
 }
 
-func (m *TelemetryModule) Init(ctx *runtime.ExecutionContext) error {
+func (m *TelemetryModule) Init(ctx *runtime.RuntimeContext) error {
 
 	m.ctx = ctx
 

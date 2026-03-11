@@ -14,7 +14,7 @@ func (m *AudioModule) DependsOn() []string {
     return []string{"StorageModule"}
 }
 
-func (m *AudioModule) Init(ctx *runtime.ExecutionContext) error {
+func (m *AudioModule) Init(ctx *runtime.RuntimeContext) error {
     m.writer = NewWAVWriter("/var/data/audio/")
     m.extractor = NewFeatureExtractor(16000)
     m.repo = NewAudioRepository(ctx.DB)

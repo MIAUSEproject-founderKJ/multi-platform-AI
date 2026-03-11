@@ -58,7 +58,7 @@ func NewInferenceModule() DomainModule {
 	return m
 }
 
-func (m *InferenceModule) Init(ctx *runtime.ExecutionContext) error {
+func (m *InferenceModule) Init(ctx *runtime.RuntimeContext) error {
 
 	m.InitBase(ctx)
 

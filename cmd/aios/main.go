@@ -13,10 +13,11 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/runtime"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/agent"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/optimization"
-	boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/platform"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/router"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
@@ -55,11 +56,11 @@ func main() {
 //////////////////////////////////////////////////////////////////
 
 type App struct {
-	Logger     *slog.Logger
-	ExecCtx    *runtime.ExecutionContext
-	Session    runtime.Session
-	Supervisor *Supervisor
-	Server     *http.Server
+    Logger     *slog.Logger
+    ExecCtx    *runtime.RuntimeContext
+    Session    *runtime.Session
+    Supervisor *Supervisor
+    Server     *http.Server
 }
 
 //////////////////////////////////////////////////////////////////
@@ -75,7 +76,7 @@ func NewApp() (*App, error) {
 		return nil, err
 	}
 
-	bootSeq, err := boot.RunBootSequence(vault)
+	bootSeq, session, err := boot.RunBootSequence(vault)
 	if err != nil {
 		return nil, err
 	}
@@ -99,6 +100,7 @@ func NewApp() (*App, error) {
 	app := &App{
 		Logger:     logger,
 		ExecCtx:    execCtx,
+		Session: session,
 		Supervisor: supervisor,
 	}
 
@@ -129,14 +131,14 @@ func (a *App) Start(ctx context.Context) error {
 	• Error reduction
 	• Message normalization
 	• Dispatching to domain modules*/
-	router := router.NewDefaultRouter(a.ExecCtx)
+	rtr := router.NewDefaultRouter(a.ExecCtx)
 
 	/*• Algorithm distillation
 	  • Optimization
 	  • Confidence filtering
 	  • Data shaping before dispatch
 	*/
-	agent := agent.NewAgentRuntime(router)
+	agent := agent.NewAgentRuntime(rtr)
 
 	/*The session handles:
 	• External IO
@@ -160,25 +162,19 @@ func (a *App) Start(ctx context.Context) error {
 
 func (a *App) Stop(ctx context.Context) error {
 
-	a.Logger.Info("stopping application")
+    a.Logger.Info("stopping application")
 
-	errCh := make(chan error, 1)
+    if a.Server != nil {
+        _ = a.Server.Shutdown(ctx)
+    }
 
-	go func() {
-		a.Session.Stop()
-		a.Supervisor.Stop()
-		if a.Server != nil {
-			_ = a.Server.Shutdown(ctx)
-		}
-		close(errCh)
-	}()
+    if a.Session != nil {
+        a.Session.Stop(ctx)
+    }
 
-	select {
-	case <-ctx.Done():
-		return ctx.Err()
-	case <-errCh:
-		return nil
-	}
+    a.Supervisor.Stop()
+
+    return nil
 }
 
 //////////////////////////////////////////////////////////////////
@@ -231,6 +227,7 @@ type Supervisor struct {
 type moduleState struct {
 	module   modules.DomainModule
 	healthy  bool
+	started bool
 	restarts int
 }
 
@@ -249,7 +246,7 @@ func NewSupervisor(logger *slog.Logger, mods []modules.DomainModule) *Supervisor
 	}
 }
 
-func (s *Supervisor) InitAll(ctx *runtime.ExecutionContext) error {
+func (s *Supervisor) InitAll(ctx *runtime.RuntimeContext) error {
 	for _, m := range s.modules {
 		if err := m.Init(ctx); err != nil {
 			return fmt.Errorf("module %s init failed: %w", m.Name(), err)
@@ -267,42 +264,61 @@ func (s *Supervisor) Start(ctx context.Context) error {
 }
 
 func (s *Supervisor) run(ctx context.Context, m modules.DomainModule) {
-	defer s.wg.Done()
+    defer s.wg.Done()
 
-	name := m.Name()
-	backoff := time.Second
+    name := m.Name()
+    backoff := time.Second
 
-	for {
-		err := m.Run(ctx)
+    for {
 
-		if ctx.Err() != nil {
-			return
-		}
+        func() {
 
-		s.logger.Error("module crashed", "module", name, "error", err)
+            defer func() {
+                if r := recover(); r != nil {
+                    s.logger.Error("module panic", "module", name, "panic", r)
+                }
+            }()
 
-		s.mu.Lock()
-		s.states[name].restarts++
-		s.mu.Unlock()
+            s.mu.Lock()
+            st := s.states[name]
+            st.started = true
+            st.healthy = true
+            s.mu.Unlock()
 
-		time.Sleep(backoff)
+            err := m.Run(ctx)
 
-		if backoff < 30*time.Second {
-			backoff *= 2
-		}
-	}
+            if err != nil {
+                s.logger.Error("module error", "module", name, "error", err)
+            }
+
+        }()
+
+        if ctx.Err() != nil {
+            return
+        }
+
+        s.mu.Lock()
+        st := s.states[name]
+        st.healthy = false
+        st.restarts++
+        s.mu.Unlock()
+
+        time.Sleep(backoff)
+
+        if backoff < 30*time.Second {
+            backoff *= 2
+        }
+    }
 }
 
-func (s *Supervisor) Stop() {
-	s.wg.Wait()
-}
+
 
 func (s *Supervisor) AllHealthy() bool {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 
 	for _, st := range s.states {
-		if !st.healthy {
+		if !st.started || !st.healthy {
 			return false
 		}
 	}
