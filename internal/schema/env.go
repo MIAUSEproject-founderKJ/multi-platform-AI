@@ -4,24 +4,26 @@ package schema
 
 import (
 	"time"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
 // PlatformClass defines the type of hardware (Vehicle, Drone, etc.)
 type PlatformClass string
 
 const (
-    PlatformComputer   PlatformClass = "computer"
-    PlatformLaptop     PlatformClass = "laptop"
-    PlatformMobile     PlatformClass = "mobile"
-    PlatformTablet     PlatformClass = "tablet"
-    PlatformRobot      PlatformClass = "robotic"
-    PlatformVehicle    PlatformClass = "vehicle"
-    PlatformDrone      PlatformClass = "drone"
-    PlatformIndustrial PlatformClass = "industrial"
-    PlatformEmbedded   PlatformClass = "embedded"
-    PlatformGamePad    PlatformClass = "gamepad"
+	PlatformComputer   PlatformClass = "computer"
+	PlatformLaptop     PlatformClass = "laptop"
+	PlatformMobile     PlatformClass = "mobile"
+	PlatformTablet     PlatformClass = "tablet"
+	PlatformRobot      PlatformClass = "robotic"
+	PlatformVehicle    PlatformClass = "vehicle"
+	PlatformDrone      PlatformClass = "drone"
+	PlatformIndustrial PlatformClass = "industrial"
+	PlatformEmbedded   PlatformClass = "embedded"
+	PlatformGamePad    PlatformClass = "gamepad"
 )
-
 
 // PlatformScore tracks the heuristic weight for a specific platform type.
 type PlatformScore struct {
@@ -43,18 +45,20 @@ type BootSequence struct {
 	UserSession  *schema.UserSession
 }
 type TrustLevel uint8
+
 const (
-    TrustInvalid
-    TrustWeak
-    TrustStrong
+	TrustInvalid
+	TrustWeak
+	TrustStrong
 )
 
 type EntityType uint8
+
 const (
-    EntityPersonal EntityType = iota
-    EntityOrganization
-    EntityStranger
-    EntityTester
+	EntityPersonal EntityType = iota
+	EntityOrganization
+	EntityStranger
+	EntityTester
 )
 
 type MachineIdentity struct {
@@ -95,14 +99,13 @@ type PlatformResolution struct {
 
 type EnvConfig struct {
 	SchemaVersion int                `json:"schema_version"`
-	Discovery     DiscoveryProfile	 `json:"discovery_profile"`
+	Discovery     DiscoveryProfile   `json:"discovery_profile"`
 	GeneratedAt   time.Time          `json:"generated_at"`
 	Identity      MachineIdentity    `json:"identity"`
 	Hardware      HardwareProfile    `json:"hardware"`
 	Platform      PlatformResolution `json:"platform"`
 	Attestation   EnvAttestation     `json:"attestation"`
 }
-
 
 // EnvAttestation defines the cryptographic seal of the environment
 type EnvAttestation struct {
@@ -113,10 +116,10 @@ type EnvAttestation struct {
 }
 
 type IdentityProfile struct {
-	MachineID   string
-	MachineName string
-	OS          string
-	Architecture	string
+	MachineID    string
+	MachineName  string
+	OS           string
+	Architecture string
 }
 
 type BusEntry struct {
@@ -124,8 +127,6 @@ type BusEntry struct {
 	Type       string
 	Confidence uint16 // Q16 format
 }
-
-
 
 type DiscoveryProfile struct {
 	Physical     PhysicalProfile      `json:"physical"`
@@ -163,9 +164,9 @@ type ProtocolProfile struct {
 }
 
 type CapabilityDescriptor struct {
-	SupportsGoalControl     bool
-	SupportsRegisterControl bool
-	SensorOnly              bool
-	HasSafetyEnvelope       bool
+	SupportsGoalControl        bool
+	SupportsRegisterControl    bool
+	SensorOnly                 bool
+	HasSafetyEnvelope          bool
 	SupportsAcceleratedCompute bool
 }

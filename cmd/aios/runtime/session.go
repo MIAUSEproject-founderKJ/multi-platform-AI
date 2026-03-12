@@ -14,7 +14,6 @@ import (
 	"context"
 	"errors"
 	"sync"
-	"time"
 )
 
 type SessionState int
@@ -44,12 +43,14 @@ type Session struct {
 	stopOnce  sync.Once
 }
 
-/*Key Properties:
+/*
+Key Properties:
 State machine with explicit transitions
 Dedicated root context
 WaitGroup to track goroutines
 Error channel for async failures
-Idempotent Start/Stop*/
+Idempotent Start/Stop
+*/
 func NewSession(execCtx *ExecCtx, agent *AgentRuntime) *Session {
 	return &Session{
 		execCtx:    execCtx,
@@ -59,9 +60,6 @@ func NewSession(execCtx *ExecCtx, agent *AgentRuntime) *Session {
 		shutdownCh: make(chan struct{}),
 	}
 }
-
-
-
 
 func (s *Session) Start(parent context.Context) error {
 	var startErr error
@@ -95,7 +93,6 @@ func (s *Session) Start(parent context.Context) error {
 Goroutines are tracked
 Safe idempotency*/
 
-
 /*Supervisor Loop
 Handles:
 Async errors
@@ -128,7 +125,6 @@ func (s *Session) runSupervisor() {
 		}
 	}
 }
-
 
 /*Cancels context first
 Stops dependencies explicitly
@@ -175,7 +171,7 @@ func (s *Session) Stop(ctx context.Context) error {
 	return stopErr
 }
 
-//Ensures valid lifecycle flow.
+// Ensures valid lifecycle flow.
 func (s *Session) transition(from, to SessionState) bool {
 	s.stateMu.Lock()
 	defer s.stateMu.Unlock()
@@ -187,5 +183,3 @@ func (s *Session) transition(from, to SessionState) bool {
 	s.state = to
 	return true
 }
-
-
