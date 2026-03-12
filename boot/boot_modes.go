@@ -35,11 +35,11 @@ func (bm *BootManager) DecideBootPath() (*schema.BootSequence, error) {
 func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
 	// 1. Active hardware discovery
 	fullProfile, err := probe.ActiveDiscovery(&bm.Identity.Hardware)
-	if err != nil {
-		return nil, fmt.Errorf("hardware discovery failed: %w", err)
-	}
-	fullProfile.SchemaVersion = schema.CurrentVersion
-	bm.Identity.BindHardware(fullProfile)
+if err != nil {
+	return nil, fmt.Errorf("hardware discovery failed: %w", err)
+}
+
+bm.Identity.BindHardware(fullProfile)
 
 	// 2. Provision golden baseline
 	goldenHash, err := security.ProvisionGolden(bm.Vault, bm.Identity.MachineName)
@@ -95,6 +95,8 @@ func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
 		Tier:         core.TierType(tierProfile.Name),
 		Entity:       authMgr.Entity,
 	}, nil
+
+	err := bm.Vault.SaveConfig(lastKnownEnvKey(bm.Identity.MachineID),fullProfile,)
 }
 
 // ------------------------------------------------------------
@@ -111,7 +113,7 @@ func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence,
 	}
 
 	// 2. Passive sanity scan
-	raw, err := probe.PassiveDiscovery(env)
+	raw, err := probe.PassiveDiscovery()
 	if err != nil || raw.MachineID != bm.Identity.MachineName || raw.OS != env.Identity.OS {
 		return bm.runColdBoot()
 	}

@@ -1,6 +1,6 @@
-//boot/platform/classify/identity_resolver.go
-package classify
-
+//boot/platform/identity_resolver.go
+package boot
+r
 import (
 	"crypto/sha256"
 	"encoding/hex"

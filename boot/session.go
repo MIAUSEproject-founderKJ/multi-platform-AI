@@ -1,4 +1,4 @@
-//cmd/aios/runtime/session.go
+//boot/session.go
 
 /*Deterministic startup/shutdown
 Clear ownership of resources

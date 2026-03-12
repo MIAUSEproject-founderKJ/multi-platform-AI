@@ -9,8 +9,11 @@ import (
 	"os"
 	"runtime"
 	"time"
+	"net"
+	"os/exec"
+	"strings"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/platform/classify"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/platform"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
@@ -19,16 +22,18 @@ func PassiveDiscovery() (*schema.EnvConfig, error) {
 
 	logging.Info("[PROBE] Phase 1: Passive Identity Extraction")
 
-	id := buildMachineIdentity()
+	MachineID := buildRobustMachineID()
+
+	hardware := collectHardwareProfile()
 
 	env := &schema.EnvConfig{
 		SchemaVersion: schema.CurrentVersion,
 		GeneratedAt:   time.Now(),
-		Identity:      id,
+		Identity:      MachineID,
+		Hardware:      hardware,
 	}
 
-	// run platform inference
-	classify.RunPlatformInference(env)
+	platform.RunPlatformInference(env)
 
 	logging.Info(
 		"[PROBE] Identity confirmed: %s (%s)",
@@ -39,20 +44,114 @@ func PassiveDiscovery() (*schema.EnvConfig, error) {
 	return env, nil
 }
 
-func buildMachineIdentity() schema.MachineIdentity {
 
-	hostname, err := os.Hostname()
-	if err != nil || hostname == "" {
-		hostname = "unknown-node"
+func resolveHardwareRoot() string {
+
+	if runtime.GOOS == "windows" {
+		if v := readWindowsUUID(); v != "" {
+			return vreadWindowsUUID
+		}
 	}
 
-	raw := fmt.Sprintf("%s-%s-%s", hostname, runtime.GOOS, runtime.GOARCH)
-	hash := sha256.Sum256([]byte(raw))
-
-	return schema.MachineIdentity{
-		MachineID:   hex.EncodeToString(hash[:]),
-		MachineName: hostname,
-		OS:          runtime.GOOS,
-		Arch:        runtime.GOARCH,
+	if v := readTPMIdentity(); v != "" {
+		return v
 	}
+
+	if v := readDMIUUID(); v != "" {
+		return v
+	}
+
+	if v := readSystemSerial(); v != "" {
+		return v
+	}
+
+	if v := readMACFingerprint(); v != "" {
+		return v
+	}
+
+	return "soft-identity"
+}
+func readTPMIdentity() string {
+
+	if runtime.GOOS != "linux" {
+		return ""
+	}
+
+	data, err := os.ReadFile("/sys/class/tpm/tpm0/device/description")
+	if err != nil {
+		return ""
+	}
+
+	return strings.TrimSpace(string(data))
+}
+
+func readDMIUUID() string {
+
+	if runtime.GOOS != "linux" {
+		return ""
+	}
+
+	data, err := os.ReadFile("/sys/class/dmi/id/product_uuid")
+	if err != nil {
+		return ""
+	}
+
+	return strings.TrimSpace(string(data))
+}
+
+func readSystemSerial() string {
+
+	if runtime.GOOS != "linux" {
+		return ""
+	}
+
+	data, err := os.ReadFile("/sys/class/dmi/id/product_serial")
+	if err != nil {
+		return ""
+	}
+
+	return strings.TrimSpace(string(data))
+}
+
+func readMACFingerprint() string {
+
+	ifaces, err := net.Interfaces()
+	if err != nil {
+		return ""
+	}
+
+	var macs []string
+
+	for _, i := range ifaces {
+		if i.HardwareAddr != nil {
+			macs = append(macs, i.HardwareAddr.String())
+		}
+	}
+
+	if len(macs) == 0 {
+		return ""
+	}
+
+	return strings.Join(macs, "-")
+}
+
+func readWindowsUUID() string {
+
+	out, err := exec.Command(
+		"wmic",
+		"csproduct",
+		"get",
+		"uuid",
+	).Output()
+
+	if err != nil {
+		return ""
+	}
+
+	lines := strings.Split(string(out), "\n")
+	if len(lines) < 2 {
+		return ""
+	}
+
+	return strings.TrimSpace(lines[1])
 }

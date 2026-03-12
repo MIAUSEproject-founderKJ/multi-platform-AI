@@ -1,6 +1,6 @@
 //boot/identity/resolver.go
 
-package identity
+package boot
 
 type CredentialProvider interface {
 	Identify() (*IdentityProfile, error)

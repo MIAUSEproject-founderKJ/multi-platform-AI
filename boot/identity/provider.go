@@ -1,5 +1,5 @@
 //boot/identity/provider.go
-package identity
+package boot
 
 import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core"
 
