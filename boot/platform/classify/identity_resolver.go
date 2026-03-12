@@ -130,33 +130,3 @@ type SecurityProfile struct {
 	AuthTimeoutMinutes   int
 }
 
-// -----------------------------
-// Initial Discovery
-// -----------------------------
-
-func DetectPlatformClass(hw *schema.HardwareProfile) schema.PlatformClass {
-	if _, err := os.Stat("/sys/class/net/can0"); err == nil {
-		hw.Buses = append(hw.Buses, schema.BusCapability{
-			ID:         "can0",
-			Type:       "can",
-			Confidence: 65535,
-			Source:     "probed",
-		})
-		return schema.PlatformVehicle
-	}
-
-	if os.Getenv("INDUSTRIAL_NODE_ID") != "" {
-		return schema.PlatformIndustrial
-	}
-
-	if _, err := os.Stat("/dev/i2c-1"); err == nil {
-		hw.Buses = append(hw.Buses, schema.BusCapability{
-			ID:         "i2c_bus_1",
-			Type:       "i2c",
-			Confidence: 65535,
-			Source:     "probed",
-		})
-		return schema.PlatformRobot
-	}
-	return schema.PlatformComputer
-}

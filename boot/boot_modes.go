@@ -3,196 +3,157 @@ package boot
 
 import (
 	"fmt"
-    "errors"
-    "time"
+	"errors"
+	"time"
+
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe"
 )
 
+// DecideBootPath determines whether to run fast or cold boot
 func (bm *BootManager) DecideBootPath() (*schema.BootSequence, error) {
-
-	// Attempt to load previous environment (fast boot)
+	// Load last known environment
 	env, err := bm.Vault.LoadConfig(lastKnownEnvKey)
-	if err != nil || env.SchemaVersion != currentSchemaVersion {
+	if err != nil || env.SchemaVersion != schema.CurrentVersion {
 		return bm.runColdBoot()
 	}
 
-	// Golden baseline check
+	// Verify golden baseline
 	if _, err := bm.Vault.LoadGoldenHash(bm.Identity.MachineName); err != nil {
 		return bm.runColdBoot()
 	}
 
+	// Perform fast boot
 	return bm.runFastBoot(env)
 }
 
 // ------------------------------------------------------------
-// Cold Boot: full discovery, first-time setup, registration
+// Cold Boot: full hardware discovery and provisioning
 // ------------------------------------------------------------
 func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
-
 	// 1. Active hardware discovery
-	fullProfile, err := probe.ActiveDiscovery(bm.Identity.MachineName)
+	fullProfile, err := probe.ActiveDiscovery(&bm.Identity.Hardware)
 	if err != nil {
 		return nil, fmt.Errorf("hardware discovery failed: %w", err)
 	}
-	fullProfile.SchemaVersion = currentSchemaVersion
+	fullProfile.SchemaVersion = schema.CurrentVersion
 	bm.Identity.BindHardware(fullProfile)
 
 	// 2. Provision golden baseline
 	goldenHash, err := security.ProvisionGolden(bm.Vault, bm.Identity.MachineName)
-if err != nil {
-	return nil, err
-}
-
-marker := &schema.FirstBootMarker{
-	MachineName:   bm.Identity.MachineName,
-	SchemaVersion: currentSchemaVersion,
-	GoldenHash:    goldenHash,
-	Initialized:   true,
-	CreatedAt:     time.Now(),
-	TrustLevel:    schema.TrustStrong,
-}
-
-if err := bm.Vault.SaveFirstBootMarker(marker); err != nil {
-	return nil, err
-}
-
-	// 3. Save discovered environment
-	if err := bm.Vault.SaveConfig(lastKnownEnvKey, fullProfile); err != nil {
+	if err != nil {
 		return nil, err
 	}
 
-	// 4. Platform-specific login/sign-up
-	auth := &AuthManager{
+	// 3. Create first-boot marker
+	marker := &schema.FirstBootMarker{
+		MachineName:   bm.Identity.MachineName,
+		SchemaVersion: schema.CurrentVersion,
+		GoldenHash:    goldenHash,
+		Initialized:   true,
+		CreatedAt:     time.Now(),
+		TrustLevel:    schema.TrustStrong,
+	}
+	if err := bm.Vault.SaveFirstBootMarker(marker); err != nil {
+		return nil, err
+	}
+
+	// 4. Platform-specific auth
+	authMgr := &auth.AuthManager{
 		Platform: fullProfile.Platform.Final,
 		Entity:   bm.Identity.EntityType,
 		Tier:     bm.Identity.TierType,
 	}
-	session, err := auth.LoginOrSignUp()
+	session, err := authMgr.LoginOrSignUp()
 	if err != nil {
 		return nil, fmt.Errorf("auth failed during cold boot: %w", err)
 	}
 
-	// 5. Assign dynamic service & tier profiles
+	// 5. Assign dynamic service & tier
 	serviceProfile := resolveServiceProfile(fullProfile.Platform.Final)
-	tierProfile := resolveTier(auth.Entity)
+	tierProfile := resolveTier(authMgr.Entity)
 
-
-
-	// 6. Formalize first-boot marker
+	// 6. Attach session token
 	fullProfile.Attestation.SessionToken = session.SessionID
 	fullProfile.Attestation.Valid = true
 	fullProfile.Attestation.Level = string(schema.TrustStrong)
 	if err := bm.Vault.SaveConfig(firstBootMarkerKey, fullProfile); err != nil {
 		return nil, fmt.Errorf("failed to save first boot marker: %w", err)
 	}
-	// 7. Build capability graph based on platform + tier + service
-capSet := BuildCapabilitySet(fullProfile.Platform.Final, tierProfile.Name, serviceProfile.Name)
 
-return &schema.BootSequence{
-	Env:          fullProfile,
-	Mode:         schema.BootCold,
-	Attested:     true,
-	Capabilities: capSet,
-	Service: core.ServiceType(serviceProfile.Name),
-	Tier:    core.TierType(tierProfile.Name),
-	Entity:       auth.Entity,
+	// 7. Build capabilities
+	capSet := BuildCapabilitySet(fullProfile.Platform.Final, tierProfile.Name, serviceProfile.Name)
 
-}, nil
+	return &schema.BootSequence{
+		Env:          fullProfile,
+		Mode:         schema.BootCold,
+		Attested:     true,
+		Capabilities: capSet,
+		Service:      core.ServiceType(serviceProfile.Name),
+		Tier:         core.TierType(tierProfile.Name),
+		Entity:       authMgr.Entity,
+	}, nil
 }
 
+// ------------------------------------------------------------
+// Fast Boot: use cached environment
+// ------------------------------------------------------------
 func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence, error) {
-
-	// Verify environment against golden baseline
+	// 1. Verify against golden
 	marker, err := bm.Vault.LoadFirstBootMarker()
-if err != nil {
-	return bm.runColdBoot()
-}
-
-if marker.SchemaVersion != currentSchemaVersion {
-	return bm.runColdBoot()
-}
-
-if err := security.VerifyAgainstGolden(bm.Vault, marker.MachineName); err != nil {
-	return bm.runColdBoot()
-}
-
-	if err := bm.sanityCheck(env); err != nil {
+	if err != nil || marker.SchemaVersion != schema.CurrentVersion {
+		return bm.runColdBoot()
+	}
+	if err := security.VerifyAgainstGolden(bm.Vault, marker.MachineName); err != nil {
 		return bm.runColdBoot()
 	}
 
-	// Silent login / auto-login
-	auth := &AuthManager{
+	// 2. Passive sanity scan
+	raw, err := probe.PassiveDiscovery(env)
+	if err != nil || raw.MachineID != bm.Identity.MachineName || raw.OS != env.Identity.OS {
+		return bm.runColdBoot()
+	}
+
+	// 3. Silent login
+	authMgr := &auth.AuthManager{
 		Platform: env.Platform.Final,
 		Entity:   bm.Identity.EntityType,
 		Tier:     bm.Identity.TierType,
 	}
-	session, err := auth.LoginOrSignUp()
+	session, err := authMgr.LoginOrSignUp()
 	if err != nil {
 		return nil, fmt.Errorf("auth failed during fast boot: %w", err)
 	}
 
-	// Dynamic service and tier assignment
+	// 4. Assign dynamic service & tier
 	serviceProfile := resolveServiceProfile(env.Platform.Final)
-	tierProfile := resolveTier(auth.Entity)
+	tierProfile := resolveTier(authMgr.Entity)
 
-	// Build capability graph
+	// 5. Build capabilities
 	capSet := BuildCapabilitySet(env.Platform.Final, tierProfile.Name, serviceProfile.Name)
-
-	// Update session and env with assigned capabilities
-	session.Permissions = security.DerivePermissions(env.Platform.Final, auth.Entity, tierProfile.Name)
+	session.Permissions = security.DerivePermissions(env.Platform.Final, authMgr.Entity, tierProfile.Name)
 	env.Attestation.SessionToken = session.SessionID
 
-	capSet := BuildCapabilitySet(fullProfile.Platform.Final, tierProfile.Name, serviceProfile.Name)
-
-return &schema.BootSequence{
-    Env:          env,
-    Mode:         schema.BootFast,
-    Attested:     true,
-    Capabilities: capSet,
-    Service:      core.ServiceType(serviceProfile.Name),
-    Entity:       auth.Entity,
-    Tier:         core.TierType(tierProfile.Name),
-}, nil
+	return &schema.BootSequence{
+		Env:          env,
+		Mode:         schema.BootFast,
+		Attested:     true,
+		Capabilities: capSet,
+		Service:      core.ServiceType(serviceProfile.Name),
+		Tier:         core.TierType(tierProfile.Name),
+		Entity:       authMgr.Entity,
+	}, nil
 }
 
-func (bm *BootManager) sanityCheck(env *schema.EnvConfig) error {
-	raw, err := probe.PassiveScan()
-	if err != nil {
-		return err
-	}
-
-	if raw.InstanceID != bm.Identity.MachineName {
-		return errors.New("machine_identity_changed")
-	}
-
-	if raw.PlatformType != env.PlatformClass {
-		return errors.New("platform_class_drift")
-	}
-
-	return nil
-}
-
-func (bm *BootManager) checkFirstBootMarker() (bool, error) {
-	marker, err := bm.Vault.LoadFirstBootMarker()
-	if errors.Is(err, security.ErrNotFound) {
-		return true, nil
-	}
-	if err != nil {
-		return false, err
-	}
-	return !marker.Initialized, nil
-}
+// ------------------ Helpers ------------------
 
 func resolveTier(entity schema.EntityType) *core.TierProfile {
-	switch entity {
-	case schema.EntityOrganization, schema.EntityTester:
+	if entity == schema.EntityOrganization || entity == schema.EntityTester {
 		return &core.TierProfile{Name: "Funder"}
-	default:
-		return &core.TierProfile{Name: "Non-Funder"}
 	}
+	return &core.TierProfile{Name: "Non-Funder"}
 }
 
 func resolveServiceProfile(platform schema.PlatformClass) *core.ServiceProfile {
@@ -208,10 +169,11 @@ func resolveServiceProfile(platform schema.PlatformClass) *core.ServiceProfile {
 	}
 }
 
+// BuildCapabilitySet computes platform + tier + service capabilities
 func BuildCapabilitySet(platform schema.PlatformClass, tierName, serviceName string) core.CapabilitySet {
 	var caps core.CapabilitySet
 
-	// Base platform capabilities
+	// Platform capabilities
 	switch platform {
 	case schema.PlatformVehicle:
 		caps |= core.CapCANBus | core.CapSecureEnclave
@@ -221,12 +183,12 @@ func BuildCapabilitySet(platform schema.PlatformClass, tierName, serviceName str
 		caps |= core.CapLocalStorage | core.CapNetwork | core.CapBiometric
 	}
 
-	// Tier-based capabilities
+	// Tier capabilities
 	if tierName == "Funder" {
 		caps |= core.CapPersistentCloudLink
 	}
 
-	// Service-specific (example)
+	// Service capabilities
 	if serviceName == "AutonomousMobility" {
 		caps |= core.CapSafetyCritical
 	}
