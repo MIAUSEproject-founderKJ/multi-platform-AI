@@ -19,6 +19,7 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/optimization"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/router"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
 )
 
@@ -57,6 +58,7 @@ func main() {
 type App struct {
 	Logger     *slog.Logger
 	ExecCtx    *runtime.RuntimeContext
+	User       *schema.UserSession
 	Session    *runtime.Session
 	Supervisor *Supervisor
 	Server     *http.Server
@@ -75,7 +77,7 @@ func NewApp() (*App, error) {
 		return nil, err
 	}
 
-	bootSeq, session, err := boot.RunBootSequence(vault)
+	bootSeq, userSession, err := boot.RunBootSequence(vault)
 	if err != nil {
 		return nil, err
 	}
@@ -99,7 +101,7 @@ func NewApp() (*App, error) {
 	app := &App{
 		Logger:     logger,
 		ExecCtx:    execCtx,
-		Session:    session,
+		User:       userSession,
 		Supervisor: supervisor,
 	}
 

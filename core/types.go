@@ -1,7 +1,5 @@
-//core/types.go
+// core/types.go
 package core
-
-import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/schema"
 
 type CapabilitySet uint64
 type PermissionSet uint64

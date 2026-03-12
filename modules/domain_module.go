@@ -10,9 +10,9 @@ This allows:
 package modules
 
 import (
+	"aios/core"
+	"context"
 	"fmt"
-
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/core"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/runtime"
 )
