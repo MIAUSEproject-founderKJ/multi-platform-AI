@@ -11,7 +11,7 @@ import (
 )
 
 type VehicleControlModule struct {
-	ctx     *runtime.RuntimeContext
+	ctx     *boot.RuntimeContext
 	healthy atomic.Bool
 }
 
@@ -27,7 +27,7 @@ func (m *VehicleControlModule) DependsOn() []string {
 	return []string{"InferenceModule"}
 }
 
-func (m *VehicleControlModule) Init(ctx *runtime.RuntimeContext) error {
+func (m *VehicleControlModule) Init(ctx *boot.RuntimeContext) error {
 	m.ctx = ctx
 	m.healthy.Store(true)
 	return nil

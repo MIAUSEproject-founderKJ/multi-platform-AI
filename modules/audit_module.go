@@ -11,7 +11,7 @@ import (
 )
 
 type AuditModule struct {
-	ctx     *runtime.RuntimeContext
+	ctx     *boot.RuntimeContext
 	healthy atomic.Bool
 }
 
@@ -27,7 +27,7 @@ func (m *AuditModule) DependsOn() []string {
 	return nil
 }
 
-func (m *AuditModule) Init(ctx *runtime.RuntimeContext) error {
+func (m *AuditModule) Init(ctx *boot.RuntimeContext) error {
 	m.ctx = ctx
 	m.healthy.Store(true)
 	return nil

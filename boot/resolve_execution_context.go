@@ -5,13 +5,13 @@ package runtime
 import (
 	"fmt"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
 )
 
 func ResolveExecutionContext(
 	bs *schema.BootSequence,
-) (*runtime.RuntimeContext, error) {
+) (*boot.RuntimeContext, error) {
 
 	// ------------------------------------------------------------
 	// 1. Validate Machine Attestation
@@ -42,14 +42,14 @@ func ResolveExecutionContext(
 	// 3. Derive Permissions (Policy Layer)
 	// ------------------------------------------------------------
 
-	var perms core.PermissionSet
+	var perms boot.PermissionSet
 
 	// Base permission
-	perms |= core.PermUser
+	perms |= type.PermUser
 
 	switch entity {
 	case core.EntityAdmin:
-		perms |= core.PermAdmin
+		perms |= type.PermAdmin
 	case core.EntityDevice:
 		perms |= core.PermDeviceControl
 	}
@@ -65,7 +65,7 @@ func ResolveExecutionContext(
 	// 4. Construct RuntimeContext
 	// ------------------------------------------------------------
 
-	return &runtime.RuntimeContext{
+	return &boot.RuntimeContext{
 		PlatformClass: bs.Env.Platform.Final,
 		Capabilities:  caps,
 		Service:       service,

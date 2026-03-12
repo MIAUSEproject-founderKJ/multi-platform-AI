@@ -13,5 +13,5 @@ type UserSession struct {
 	Permissions map[string]bool
 	CreatedAt   time.Time
 	ExpiresAt   time.Time
-	Permissions core.PermissionSet
+	Permissions boot.PermissionSet
 }

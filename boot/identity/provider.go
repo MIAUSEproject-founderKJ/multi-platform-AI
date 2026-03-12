@@ -14,5 +14,5 @@ const (
 type IdentityProvider interface {
 	Type() ProviderType
 	// Authenticate returns a valid IdentityProfile or an error
-	Authenticate(ctx runtime.RuntimeContext) (*core.IdentityProfile, error)
+	Authenticate(ctx boot.RuntimeContext) (*core.IdentityProfile, error)
 }

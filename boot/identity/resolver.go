@@ -7,7 +7,7 @@ type CredentialProvider interface {
 	IsAvailable(caps map[core.Capability]bool) bool
 }
 
-func ResolveUser(ctx runtime.RuntimeContext) (*IdentityProfile, error) {
+func ResolveUser(ctx boot.RuntimeContext) (*IdentityProfile, error) {
 	// 1. If we have a Screen/Keyboard (Mobile/PC) -> Use UI Provider
 	if ctx.Platform.Capabilities[core.CapKeyboard] {
 		return UIProvider.Login()

@@ -55,7 +55,7 @@ func (l *Loader) StopAll() {
 		_ = m.Stop()
 	}
 }
-func (m *VehicleModule) Allowed(ctx runtime.RuntimeContext) bool {
+func (m *VehicleModule) Allowed(ctx boot.RuntimeContext) bool {
 	return ctx.PlatformClass == schema.PlatformVehicle &&
 		core.HasCapabilities(ctx, core.CapCANBus) &&
 		core.HasPermissions(ctx, core.PermDeviceControl)

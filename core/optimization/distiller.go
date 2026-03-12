@@ -6,7 +6,7 @@ type ModelOptimizer interface {
     Prune(model Model, threshold float64) (Model, error)
 }
 
-func (m *NLUModule) Init(ctx *runtime.RuntimeContext) error {
+func (m *NLUModule) Init(ctx *boot.RuntimeContext) error {
 
     rawModel := LoadModelForPlatform(ctx.PlatformClass)
 

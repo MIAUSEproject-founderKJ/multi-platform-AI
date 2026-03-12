@@ -57,7 +57,7 @@ func main() {
 
 type App struct {
 	Logger     *slog.Logger
-	ExecCtx    *runtime.RuntimeContext
+	ExecCtx    *boot.RuntimeContext
 	User       *schema.UserSession
 	Session    *runtime.Session
 	Supervisor *Supervisor
@@ -251,7 +251,7 @@ func NewSupervisor(logger *slog.Logger, mods []modules.DomainModule) *Supervisor
 	}
 }
 
-func (s *Supervisor) InitAll(ctx *runtime.RuntimeContext) error {
+func (s *Supervisor) InitAll(ctx *boot.RuntimeContext) error {
 	for _, m := range s.modules {
 		if err := m.Init(ctx); err != nil {
 			return fmt.Errorf("module %s init failed: %w", m.Name(), err)

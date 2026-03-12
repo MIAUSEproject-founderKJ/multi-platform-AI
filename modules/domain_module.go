@@ -21,8 +21,8 @@ type DomainModule interface {
 	Name() string
 	Category() ModuleCategory
 	DependsOn() []string
-	Allowed(*runtime.RuntimeContext) bool
-	Init(*runtime.RuntimeContext) error
+	Allowed(*boot.RuntimeContext) bool
+	Init(*boot.RuntimeContext) error
 	Start() error
 	Stop() error
 	Run(context.Context) error
@@ -83,7 +83,7 @@ func (a *AgentRuntime) HandleInput(input string) error {
 }
 
 type DefaultRouter struct {
-	ctx      *runtime.RuntimeContext
+	ctx      *boot.RuntimeContext
 	handlers map[string]IntentHandler
 }
 

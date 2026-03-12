@@ -1247,7 +1247,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: runtime.RuntimeContext",
+	"message": "undefined: boot.RuntimeContext",
 	"source": "compiler",
 	"startLineNumber": 59,
 	"startColumn": 22,
@@ -1335,7 +1335,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: runtime.RuntimeContext",
+	"message": "undefined: boot.RuntimeContext",
 	"source": "compiler",
 	"startLineNumber": 248,
 	"startColumn": 43,
@@ -4440,7 +4440,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: runtime.RuntimeContext",
+	"message": "undefined: boot.RuntimeContext",
 	"source": "compiler",
 	"startLineNumber": 14,
 	"startColumn": 19,
@@ -4482,7 +4482,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: runtime.RuntimeContext",
+	"message": "undefined: boot.RuntimeContext",
 	"source": "compiler",
 	"startLineNumber": 30,
 	"startColumn": 41,
@@ -4719,7 +4719,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: runtime.RuntimeContext",
+	"message": "undefined: boot.RuntimeContext",
 	"source": "compiler",
 	"startLineNumber": 20,
 	"startColumn": 18,
@@ -4740,7 +4740,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: runtime.RuntimeContext",
+	"message": "undefined: boot.RuntimeContext",
 	"source": "compiler",
 	"startLineNumber": 42,
 	"startColumn": 44,
@@ -4803,7 +4803,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: runtime.RuntimeContext",
+	"message": "undefined: boot.RuntimeContext",
 	"source": "compiler",
 	"startLineNumber": 51,
 	"startColumn": 48,
@@ -5291,7 +5291,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: runtime.RuntimeContext",
+	"message": "undefined: boot.RuntimeContext",
 	"source": "compiler",
 	"startLineNumber": 13,
 	"startColumn": 19,
@@ -5333,7 +5333,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: runtime.RuntimeContext",
+	"message": "undefined: boot.RuntimeContext",
 	"source": "compiler",
 	"startLineNumber": 29,
 	"startColumn": 54,
@@ -5647,7 +5647,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: runtime.RuntimeContext",
+	"message": "undefined: boot.RuntimeContext",
 	"source": "compiler",
 	"startLineNumber": 32,
 	"startColumn": 15,
@@ -5710,7 +5710,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: runtime.RuntimeContext",
+	"message": "undefined: boot.RuntimeContext",
 	"source": "compiler",
 	"startLineNumber": 62,
 	"startColumn": 45,
@@ -5868,7 +5868,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: runtime.RuntimeContext",
+	"message": "undefined: boot.RuntimeContext",
 	"source": "compiler",
 	"startLineNumber": 14,
 	"startColumn": 19,
@@ -5910,7 +5910,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: runtime.RuntimeContext",
+	"message": "undefined: boot.RuntimeContext",
 	"source": "compiler",
 	"startLineNumber": 30,
 	"startColumn": 50,

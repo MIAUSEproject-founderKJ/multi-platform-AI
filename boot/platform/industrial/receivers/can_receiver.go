@@ -1,0 +1,1 @@
+//boot/platform/industrial/receivers/can_receiver.go

@@ -48,7 +48,7 @@ func NewDatabaseSinkModule() DomainModule {
 	return m
 }
 
-func (m *DatabaseSinkModule) Init(ctx *runtime.RuntimeContext) error {
+func (m *DatabaseSinkModule) Init(ctx *boot.RuntimeContext) error {
 
 	m.InitBase(ctx)
 

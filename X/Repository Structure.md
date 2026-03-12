@@ -31,7 +31,7 @@ Minimal bloat: No duplicated configs per platform; runtime changes handled in a 
 │   ├── /sim                # Simulation Engine & Interfaces
 │   └── /kernel.go          # Main Kernel Struct
 ├── /internal               # Private Library Code (Helpers)
-│   ├── /mathutil           # Q16, Matrix math
+│   
 │   └── /logging            # Logger
 ├── /pkg                    # Public Library Code (Safe imports)
 │   └── /schema             # Shared Types (EnvConfig, TrustScore)

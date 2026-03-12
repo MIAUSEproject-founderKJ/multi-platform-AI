@@ -9,7 +9,7 @@ package modules
 import "aios/core"
 
 type ProductivityModule struct {
-	ctx runtime.RuntimeContext
+	ctx boot.RuntimeContext
 }
 
 func (p *ProductivityModule) Name() string {
@@ -21,7 +21,7 @@ func (p *ProductivityModule) RequiredPermissions() []string {
 	return []string{"STANDARD_USE"}
 }
 
-func (p *ProductivityModule) Init(ctx runtime.RuntimeContext) error {
+func (p *ProductivityModule) Init(ctx boot.RuntimeContext) error {
 	p.ctx = ctx
 	return nil
 }

@@ -10,7 +10,7 @@ import (
 )
 
 type IndustrialProtocolModule struct {
-	ctx     *runtime.RuntimeContext
+	ctx     *boot.RuntimeContext
 	healthy atomic.Bool
 }
 
@@ -26,7 +26,7 @@ func (m *IndustrialProtocolModule) DependsOn() []string {
 	return []string{"TelemetryModule"}
 }
 
-func (m *IndustrialProtocolModule) Init(ctx *runtime.RuntimeContext) error {
+func (m *IndustrialProtocolModule) Init(ctx *boot.RuntimeContext) error {
 	m.ctx = ctx
 	m.healthy.Store(true)
 	return nil

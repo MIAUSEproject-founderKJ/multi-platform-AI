@@ -1,4 +1,4 @@
-//MIAUSEproject-founderKJ/multi-platform-AI/core/platform/scoring.go
+//boot/platform/scoring.go
 package platform
 
 import (

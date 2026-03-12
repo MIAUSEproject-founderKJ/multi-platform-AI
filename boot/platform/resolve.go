@@ -1,4 +1,4 @@
-// MIAUSEproject-founderKJ/multi-platform-AI/core/platform/resolve.go
+//boot/platform/resolve.go
 package platform
 
 import (
@@ -18,19 +18,19 @@ func ResolvePlatform(env *schema.EnvConfig) schema.PlatformClass {
 	}
 
 	// 2. Fallback to Score-based Resolution
-	var bestClass schema.PlatformClass
+	var bestType schema.PlatformClass
 	var highestScore float64 = -1.0
 
 	for _, candidate := range env.Platform.Candidates {
 		if candidate.Score > highestScore {
 			highestScore = candidate.Score
-			bestClass = candidate.Class
+			bestType = candidate.Class
 		}
 	}
 
-	env.Platform.Final = bestClass
+	env.Platform.Final = bestType
 	env.Platform.ResolvedAt = time.Now()
 	env.Platform.Source = "probabilistic_match"
 
-	return bestClass
+	return bestType
 }

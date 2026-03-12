@@ -39,7 +39,7 @@ type RuntimeContext struct {
 	Entity        core.EntityType
 	Tier          core.TierType
 	BootMode      core.BootMode
-	Permissions   core.PermissionSet
+	Permissions   boot.PermissionSet
 	Router        *router.Router
 	Optimizer     optimization.Optimizer
 }
@@ -52,7 +52,7 @@ func BuildRuntimeContext(bs *schema.BootSequence) (*RuntimeContext, error){
 	}
 
 	var caps core.CapabilitySet
-	var perms core.PermissionSet
+	var perms boot.PermissionSet
 
 	// Platform capability resolution
 	switch bs.Identity.Platform {
@@ -71,10 +71,10 @@ func BuildRuntimeContext(bs *schema.BootSequence) (*RuntimeContext, error){
 	}
 
 	// Default permission logic (example)
-	perms |= core.PermUser
+	perms |= type.PermUser
 
 	if bs.Attestation.Level == schema.TrustStrong {
-		perms |= core.PermAdmin
+		perms |= type.PermAdmin
 	}
 
 	ctx := &RuntimeContext{

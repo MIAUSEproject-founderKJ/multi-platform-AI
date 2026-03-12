@@ -3,68 +3,56 @@
 package probe
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"os"
 	"runtime"
-	"strings"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/platform/classify"
 )
 
-// PassiveScan gathers identity without energizing external hardware.
-func PassiveScan() (*MachineIdentity, error) {
-	logging.Info("[PROBE] Phase 1: Passive Identity Extraction...")
+// PassiveScan performs a minimal, non-invasive identity extraction and resolves platform.
+func PassiveScan(env *schema.EnvConfig) (*schema.MachineIdentity, error) {
+    logging.Info("[PROBE] Phase 1: Passive Identity Extraction...")
 
-	id := &MachineIdentity{
-		OS:           runtime.GOOS,
-		Architecture: runtime.GOARCH,
-	}
+    // 1. Detect rough platform first
+    roughPlatform := classify.DetectPlatformClass(&env.Hardware)
+    env.Platform.Final = roughPlatform
+    logging.Info("[PROBE] Rough Platform Detected: %s", roughPlatform)
 
-	// 1. Extract Unique Instance ID (UUID/Serial)
-	var err error
-	id.InstanceID, err = getMachineUUID()
-	if err != nil {
-		return nil, fmt.Errorf("failed_to_extract_uuid: %w", err)
-	}
+    // 2. Build full Machine Identity
+    id := getMachineUUID()
+    env.Identity = id
 
-	// 2. Determine Platform Category
-	id.PlatformType = classifyPlatform()
-
-	logging.Info("[PROBE] Identity Confirmed: %s (%s)", id.InstanceID, id.PlatformType)
-	return id, nil
+	if env.Platform.Final == "" {
+    env.Platform.Final = classify.DetectPlatformClass(&env.Hardware)
+    logging.Warn("[PROBE] Using fallback platform detection: %s", env.Platform.Final)
 }
 
-// classifyPlatform looks for specific "Tells" in the OS environment
-func classifyPlatform() string {
-    // Check for CAN-bus (Automotive)
-    if _, err := os.Stat("/sys/class/net/can0"); err == nil {
-        return "Automotive"
-    }
+    // 3. Run full heuristic scoring to finalize platform
+    classify.RunPlatformInference(env)
 
-    // Check for Robotics/Industrial indicators
-    if _, err := os.Stat("/dev/ttyUSB0"); err == nil {
-        // Potential industrial PLC or sensor node
-        return "Industrial"
-    }
-
-    return "Workstation"
+    logging.Info("[PROBE] Identity Confirmed: %s (%s)", id.MachineID, env.Platform.Final)
+    return &id, nil
 }
 
-// getMachineUUID fetches the motherboard UUID or equivalent
-func getMachineUUID() (string, error) {
-	switch runtime.GOOS {
-	case "windows":
-		// Implementation for: wmic csproduct get uuid
-		return "WIN-UUID-1234-5678", nil
-	case "linux":
-		// Implementation for: /sys/class/dmi/id/product_uuid
-		data, err := os.ReadFile("/sys/class/dmi/id/product_uuid")
-		if err != nil {
-			return "LINUX-GENERIC-ID", nil
-		}
-		return strings.TrimSpace(string(data)), nil
-	default:
-		return "UNKNOWN-PLATFORM-ID", nil
+// getMachineUUID generates a unique machine ID from hostname, OS, and architecture
+func getMachineUUID() schema.MachineIdentity {
+	hostname, err := os.Hostname()
+	if err != nil || hostname == "" {
+		hostname = "unknown-node"
+	}
+
+	raw := fmt.Sprintf("%s-%s-%s", hostname, runtime.GOOS, runtime.GOARCH)
+	hash := sha256.Sum256([]byte(raw))
+
+	return schema.MachineIdentity{
+		MachineID:   hex.EncodeToString(hash[:]),
+		MachineName: hostname,
+		OS:          runtime.GOOS,
+		Arch:        runtime.GOARCH,
 	}
 }
