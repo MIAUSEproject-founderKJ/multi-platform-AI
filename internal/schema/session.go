@@ -12,4 +12,6 @@ type UserSession struct {
 	Service     ServiceType
 	Permissions map[string]bool
 	CreatedAt   time.Time
+	ExpiresAt   time.Time
+	Permissions core.PermissionSet
 }

@@ -1,4 +1,4 @@
-// core/platform/probe/active.go
+// boot/probe/active.go
 package probe
 
 import (

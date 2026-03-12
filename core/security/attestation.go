@@ -13,14 +13,7 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
 
-type VaultStore interface {
-	LoadConfig(key string) (*schema.EnvConfig, error)
-	SaveConfig(key string, cfg *schema.EnvConfig) error
 
-	LoadGoldenHash(machine string) (string, error)
-	LoadFirstBootMarker() (*schema.FirstBootMarker, error)
-	SaveFirstBootMarker(*schema.FirstBootMarker) error
-}
 
 func MeasureSelf() ([]byte, error) {
 	exePath, err := os.Executable()

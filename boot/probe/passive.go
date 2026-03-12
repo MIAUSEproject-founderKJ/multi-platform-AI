@@ -1,4 +1,4 @@
-// core/platform/probe/passive.go
+// boot/probe/heartbeat.go
 // PASSIVE PROBE: Minimal hardware identity check
 package probe
 

@@ -1,4 +1,4 @@
-// core/platform/probe/heartbeat.go
+// boot/probe/heartbeat.go
 
 package probe
 

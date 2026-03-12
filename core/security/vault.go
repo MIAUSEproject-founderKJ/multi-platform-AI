@@ -13,6 +13,15 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
+type VaultStore interface {
+	LoadConfig(key string) (*schema.EnvConfig, error)
+	SaveConfig(key string, cfg *schema.EnvConfig) error
+
+	LoadGoldenHash(machine string) (string, error)
+	LoadFirstBootMarker() (*schema.FirstBootMarker, error)
+	SaveFirstBootMarker(*schema.FirstBootMarker) error
+}
+
 type IsolatedVault struct {
 	BaseDir string
 	Key     []byte // Reserved for AES-GCM (Hardware-bound)
@@ -36,18 +45,7 @@ func OpenVault() (*IsolatedVault, error) {
 	}, nil
 }
 
-// --- Marker Logic ---
 
-func (v *IsolatedVault) IsMissingMarker(name string) bool {
-	_, err := os.Stat(filepath.Join(v.BaseDir, name))
-	return os.IsNotExist(err)
-}
-
-func (v *IsolatedVault) WriteMarker(name string) error {
-	path := filepath.Join(v.BaseDir, name)
-	logging.Info("[VAULT] Sealing state marker: %s", name)
-	return os.WriteFile(path, []byte("PROVISIONED"), 0600)
-}
 
 // --- Config Logic ---
 

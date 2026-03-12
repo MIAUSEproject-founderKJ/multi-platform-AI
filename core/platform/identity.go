@@ -29,7 +29,10 @@ func (id *Identity) Finalize(env *schema.EnvConfig) {
 
 	ensure := func(class schema.PlatformClass, max float64) *schema.PlatformScore {
 		if _, ok := scores[class]; !ok {
-			scores[class] = &schema.PlatformScore{Class: class, MaxScore: max}
+			scores[class] = &schema.PlatformScore{
+    Type:     class,
+    MaxScore: max,
+}
 		}
 		return scores[class]
 	}
@@ -49,13 +52,6 @@ if hasBus(env.Hardware, "i2c") && hasBus(env.Hardware, "spi") {
     s.Score += 0.5
     s.Signals = append(s.Signals, "I2C/SPI detected")
 }
-
-	// ROBOTIC Detection
-	if hasBus(env.Hardware, "i2c") && hasBus(env.Hardware, "spi") {
-		s := ensure(schema.PlatformRobot, 1.2)
-		s.Score += 0.5
-		s.Signals = append(s.Signals, "Micro-controller telemetry (I2C/SPI)")
-	}
 
 	// LAPTOP/MOBILE Detection
 	// Laptop/Desktop Detection
@@ -81,7 +77,7 @@ if env.Hardware.HasBattery {
 
 		if s.Confidence > highConf {
 			highConf = float64(s.Confidence)
-			bestClass = s.Class
+			bestClass = s.Type
 		}
 	}
 
@@ -110,11 +106,12 @@ func hasBus(h schema.HardwareProfile, target string) bool {
 }
 
 func generateHardwareHash(env *schema.EnvConfig) {
-	rawState := fmt.Sprintf("%s-%s-%d",
-		env.Identity.MachineID,
-		env.Identity.OS,
-		len(env.Hardware.Buses),
-	)
+	rawState := fmt.Sprintf("%s-%s-%s-%d",
+    env.Identity.MachineID,
+    env.Identity.OS,
+    env.Identity.Arch,
+    len(env.Hardware.Buses),
+)
 
 	hash := sha256.Sum256([]byte(rawState))
 	env.Attestation.EnvHash = hex.EncodeToString(hash[:])
@@ -156,14 +153,15 @@ func DetectPlatformClass(hw *schema.HardwareProfile) schema.PlatformClass {
 }
 
 func InitializeIdentity() schema.MachineIdentity {
-	hostname, err := os.Hostname()
-	if err != nil || hostname == "" {
-		hostname = "unknown-node"
-	}
+    hostname, _ := os.Hostname()
 
-	return schema.MachineIdentity{
-		MachineName: hostname,
-		OS:          runtime.GOOS,
-		Arch:        runtime.GOARCH,
-	}
+    raw := fmt.Sprintf("%s-%s-%s", hostname, runtime.GOOS, runtime.GOARCH)
+    hash := sha256.Sum256([]byte(raw))
+
+    return schema.MachineIdentity{
+        MachineID:   hex.EncodeToString(hash[:]),
+        MachineName: hostname,
+        OS:          runtime.GOOS,
+        Arch:        runtime.GOARCH,
+    }
 }

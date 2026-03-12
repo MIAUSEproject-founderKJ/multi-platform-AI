@@ -3,10 +3,9 @@
 package schema
 
 import (
-	"time"
+    "time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+    "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core"
 )
 
 // PlatformClass defines the type of hardware (Vehicle, Drone, etc.)
@@ -42,7 +41,7 @@ type BootSequence struct {
 	Service      core.ServiceType
 	Entity       core.EntityType
 	Tier         core.TierType
-	UserSession  *schema.UserSession
+	UserSession  *UserSession
 }
 type TrustLevel uint8
 

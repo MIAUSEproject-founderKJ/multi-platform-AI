@@ -1,4 +1,4 @@
-//cmd/aios/runtime/resolve_execution_context.go
+//boot/resolve_execution_context.go
 
 package runtime
 
@@ -11,7 +11,7 @@ import (
 
 func ResolveExecutionContext(
 	bs *schema.BootSequence,
-) (*core.RuntimeContext, error) {
+) (*runtime.RuntimeContext, error) {
 
 	// ------------------------------------------------------------
 	// 1. Validate Machine Attestation
@@ -65,7 +65,7 @@ func ResolveExecutionContext(
 	// 4. Construct RuntimeContext
 	// ------------------------------------------------------------
 
-	return &core.RuntimeContext{
+	return &runtime.RuntimeContext{
 		PlatformClass: bs.Env.Platform.Final,
 		Capabilities:  caps,
 		Service:       service,

@@ -83,7 +83,7 @@ func (a *AgentRuntime) HandleInput(input string) error {
 }
 
 type DefaultRouter struct {
-	ctx      *core.RuntimeContext
+	ctx      *runtime.RuntimeContext
 	handlers map[string]IntentHandler
 }
 

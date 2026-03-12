@@ -9,7 +9,7 @@ package modules
 import "aios/core"
 
 type AutonomousKernel struct {
-	ctx core.RuntimeContext
+	ctx runtime.RuntimeContext
 }
 
 func (a *AutonomousKernel) Name() string {
@@ -21,7 +21,7 @@ func (a *AutonomousKernel) RequiredPermissions() []string {
 	return []string{"AUTONOMOUS_EXECUTION"}
 }
 
-func (a *AutonomousKernel) Init(ctx core.RuntimeContext) error {
+func (a *AutonomousKernel) Init(ctx runtime.RuntimeContext) error {
 	a.ctx = ctx
 	return nil
 }

@@ -1,5 +1,4 @@
-//core\identity\provider.go
-
+//boot/identity/provider.go
 package identity
 
 import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core"
@@ -15,5 +14,5 @@ const (
 type IdentityProvider interface {
 	Type() ProviderType
 	// Authenticate returns a valid IdentityProfile or an error
-	Authenticate(ctx core.RuntimeContext) (*core.IdentityProfile, error)
+	Authenticate(ctx runtime.RuntimeContext) (*core.IdentityProfile, error)
 }

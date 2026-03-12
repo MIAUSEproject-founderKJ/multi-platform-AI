@@ -5,10 +5,40 @@ package boot
 import (
 	"fmt"
 
-	"time"
-
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
+
+// RunBootSequence performs full boot → verification → session creation
+func RunBootSequence(v *security.IsolatedVault) (*schema.BootSequence, *schema.UserSession, error) {
+
+    discovery, err := PhaseDiscovery()
+    if err != nil {
+        return nil, nil, err
+    }
+
+    identity, err := PhaseIdentity(discovery)
+    if err != nil {
+        return nil, nil, err
+    }
+
+    bootSeq, err := PhaseContext(v, identity)
+    if err != nil {
+        return nil, nil, err
+    }
+
+    session, err := PhaseAttestation(v, identity, bootSeq)
+    if err != nil {
+        return nil, nil, err
+    }
+
+    bootSeq.Env.Attestation.SessionToken = session.SessionID
+
+    return bootSeq, session, nil
+}
+
 
 // Summary returns a human-readable log line for the console.
 func (bs *BootSequence) Summary() string {
