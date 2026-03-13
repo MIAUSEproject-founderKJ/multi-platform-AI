@@ -1,4 +1,5 @@
-//modules/inference/feature_builder.go
+// modules/inference/feature_builder.go
+package inference
 
 func buildFeatures(req PredictionRequest) []float32 {
 

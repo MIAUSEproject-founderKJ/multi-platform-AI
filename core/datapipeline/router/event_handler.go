@@ -1,4 +1,6 @@
-//core/datapipeline/router/event_handler.go
+// core/datapipeline/router/event_handler.go
+package router
+
 type EventHandler interface {
-    Handle(*ExternalEvent) error
+	Handle(*ExternalEvent) error
 }

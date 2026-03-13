@@ -58,7 +58,7 @@ type App struct {
 	Logger     *slog.Logger
 	ExecCtx    *boot.RuntimeContext
 	User       *schema.UserSession
-	Session    *runtime.Session
+	Session    *boot.Session
 	Supervisor *Supervisor
 	Server     *http.Server
 }
@@ -81,7 +81,7 @@ func NewApp() (*App, error) {
 		return nil, err
 	}
 
-	execCtx, err := runtime.ResolveExecutionContext(bootSeq)
+	execCtx, err := boot.ResolveExecutionContext(bootSeq)
 	if err != nil {
 		return nil, err
 	}
@@ -145,7 +145,7 @@ func (a *App) Start(ctx context.Context) error {
 	• Lifecycle binding
 	• Controlled shutdown
 	• Backpressure*/
-	a.Session = runtime.NewSession(a.ExecCtx, agent)
+	a.Session = boot.NewSession(a.ExecCtx, agent)
 
 	if err := a.Session.Start(ctx); err != nil {
 		return err

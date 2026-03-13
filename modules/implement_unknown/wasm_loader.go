@@ -1,16 +1,24 @@
-//modules/implement_unknown/wasm_loader.go
+// modules/implement_unknown/wasm_loader.go
+package implement_unknown
+
+import (
+	"context"
+	"os"
+
+	"github.com/tetratelabs/wazero"
+)
 
 func LoadWASMModule(path string) (*WASMModule, error) {
 
-    ctx := context.Background()
-    r := wazero.NewRuntime(ctx)
+	ctx := context.Background()
+	r := wazero.NewRuntime(ctx)
 
-    wasmBytes, _ := os.ReadFile(path)
+	wasmBytes, _ := os.ReadFile(path)
 
-    mod, err := r.InstantiateModuleFromBinary(ctx, wasmBytes)
-    if err != nil {
-        return nil, err
-    }
+	mod, err := r.InstantiateModuleFromBinary(ctx, wasmBytes)
+	if err != nil {
+		return nil, err
+	}
 
-    return &WASMModule{module: mod}, nil
+	return &WASMModule{module: mod}, nil
 }

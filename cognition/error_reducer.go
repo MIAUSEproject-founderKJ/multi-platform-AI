@@ -1,5 +1,5 @@
 //cognition/error_reducer.go
-
+package cognition
 type ErrorReducer interface {
     Refine(Intent) Intent
     ConfidenceAdjust(Intent) Intent

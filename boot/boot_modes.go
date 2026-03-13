@@ -1,15 +1,15 @@
-//boot/boot_modes.go
+// boot/boot_modes.go
+
 package boot
 
 import (
 	"fmt"
-	"errors"
 	"time"
 
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe"
 )
 
 // DecideBootPath determines whether to run fast or cold boot
@@ -35,11 +35,11 @@ func (bm *BootManager) DecideBootPath() (*schema.BootSequence, error) {
 func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
 	// 1. Active hardware discovery
 	fullProfile, err := probe.ActiveDiscovery(&bm.Identity.Hardware)
-if err != nil {
-	return nil, fmt.Errorf("hardware discovery failed: %w", err)
-}
+	if err != nil {
+		return nil, fmt.Errorf("hardware discovery failed: %w", err)
+	}
 
-bm.Identity.BindHardware(fullProfile)
+	bm.Identity.BindHardware(fullProfile)
 
 	// 2. Provision golden baseline
 	goldenHash, err := security.ProvisionGolden(bm.Vault, bm.Identity.MachineName)
@@ -96,7 +96,7 @@ bm.Identity.BindHardware(fullProfile)
 		Entity:       authMgr.Entity,
 	}, nil
 
-	err := bm.Vault.SaveConfig(lastKnownEnvKey(bm.Identity.MachineID),fullProfile,)
+	err := bm.Vault.SaveConfig(lastKnownEnvKey(bm.Identity.MachineID), fullProfile)
 }
 
 // ------------------------------------------------------------

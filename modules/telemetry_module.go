@@ -1,16 +1,12 @@
-//modules/telemetry_module.go exports metrics to network.
+// modules/telemetry_module.go exports metrics to network.
 package modules
 
 import (
 	"context"
 	"sync/atomic"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/runtime"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
 )
-
-type TelemetryClient interface {
-	Send([]byte) error
-}
 
 type TelemetryModule struct {
 	BaseModule
@@ -21,38 +17,8 @@ type TelemetryModule struct {
 	running atomic.Bool
 }
 
-func NewTelemetryModule() DomainModule {
-
-	m := &TelemetryModule{
-		BaseModule: BaseModule{
-			name: "TelemetryModule",
-			deps: []string{"IngestionModule"},
-		},
-	}
-
-	return m
-}
-
-package modules
-
-import (
-	"context"
-	"sync/atomic"
-
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/runtime"
-)
-
 type TelemetryClient interface {
 	Send([]byte) error
-}
-
-type TelemetryModule struct {
-	BaseModule
-
-	ctx *boot.RuntimeContext
-
-	client  TelemetryClient
-	running atomic.Bool
 }
 
 func NewTelemetryModule() DomainModule {

@@ -1,2 +1,0 @@
-//core/validation/validator.go
-

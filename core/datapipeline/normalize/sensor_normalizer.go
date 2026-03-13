@@ -1,11 +1,12 @@
-//core/datapipeline/normalize/sensor_normalizer.go
+// core/datapipeline/normalize/sensor_normalizer.go
+package normalize
 
 func (n *SensorNormalizer) Normalize(e *ExternalEvent) error {
 
-    if v, ok := e.CanonicalData["temp"]; ok {
-        e.CanonicalData["temperature_c"] = v
-        delete(e.CanonicalData, "temp")
-    }
+	if v, ok := e.CanonicalData["temp"]; ok {
+		e.CanonicalData["temperature_c"] = v
+		delete(e.CanonicalData, "temp")
+	}
 
-    return nil
+	return nil
 }

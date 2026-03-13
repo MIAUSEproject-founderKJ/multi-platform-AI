@@ -1,5 +1,7 @@
-//core/datapipeline/data.go
+// core/datapipeline/data.go
+package datapipeline
 
+import "time"
 type ExternalEvent struct {
     Source        string
     Type          string

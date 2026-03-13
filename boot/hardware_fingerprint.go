@@ -1,17 +1,24 @@
 //boot/hardware_fingerprint.go
 
 package boot
+
 import (
+	"crypto/sha256"
+	"encoding/hex"
+	"net"
 	"os"
-	"fmt"
+	"os/exec"
+	"runtime"
+	"strings"
 )
+
 type HardwareFingerprint struct {
-	TPM        string
-	CPU        string
-	DMI        string
-	PCI        []string
-	MAC        []string
-	Storage    []string
+	TPM     string
+	CPU     string
+	DMI     string
+	PCI     []string
+	MAC     []string
+	Storage []string
 }
 
 func collectHardwareFingerprint() HardwareFingerprint {
@@ -66,8 +73,7 @@ func readCPUModel() string {
 	return ""
 }
 
-
-//This is extremely useful for robotics and vehicles because it fingerprints the motherboard bus layout.
+// This is extremely useful for robotics and vehicles because it fingerprints the motherboard bus layout.
 func readPCITopology() []string {
 
 	out, err := exec.Command("lspci").Output()
@@ -88,7 +94,7 @@ func readPCITopology() []string {
 	return devices
 }
 
-//Disk serial numbers.
+// Disk serial numbers.
 func readDiskSerials() []string {
 
 	out, err := exec.Command("lsblk", "-o", "SERIAL").Output()

@@ -8,7 +8,7 @@ Observability hooks
 Backpressure + error isolation
 No hidden goroutines*/
 
-package runtime
+package boot
 
 import (
 	"context"

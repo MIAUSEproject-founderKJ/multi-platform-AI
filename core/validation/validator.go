@@ -1,4 +1,6 @@
-//core/validation/validator.go
+// core/validation/validator.go
+package validation
+
 type Validator interface {
-    Validate(*ExternalEvent) error
+	Validate(*ExternalEvent) error
 }

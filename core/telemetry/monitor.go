@@ -1,5 +1,10 @@
 //core/telemetry/monitor.go
+package telemetry
 
+import (
+    "sync"
+    "time"
+)
 type PerformanceMonitor struct {
     metrics map[string]Metric
     lock    sync.Mutex
