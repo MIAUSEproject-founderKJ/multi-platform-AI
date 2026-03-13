@@ -91,8 +91,8 @@ func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
 		Mode:         schema.BootCold,
 		Attested:     true,
 		Capabilities: capSet,
-		Service:      core.ServiceType(serviceProfile.Name),
-		Tier:         core.TierType(tierProfile.Name),
+		Service:      schema.ServiceType(serviceProfile.Name),
+		Tier:         schema.TierType(tierProfile.Name),
 		Entity:       authMgr.Entity,
 	}, nil
 
@@ -143,56 +143,56 @@ func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence,
 		Mode:         schema.BootFast,
 		Attested:     true,
 		Capabilities: capSet,
-		Service:      core.ServiceType(serviceProfile.Name),
-		Tier:         core.TierType(tierProfile.Name),
+		Service:      schema.ServiceType(serviceProfile.Name),
+		Tier:         schema.TierType(tierProfile.Name),
 		Entity:       authMgr.Entity,
 	}, nil
 }
 
 // ------------------ Helpers ------------------
 
-func resolveTier(entity schema.EntityType) *core.TierProfile {
+func resolveTier(entity schema.EntityType) *schema.TierProfile {
 	if entity == schema.EntityOrganization || entity == schema.EntityTester {
-		return &core.TierProfile{Name: "Funder"}
+		return &schema.TierProfile{Name: "Funder"}
 	}
-	return &core.TierProfile{Name: "Non-Funder"}
+	return &schema.TierProfile{Name: "Non-Funder"}
 }
 
-func resolveServiceProfile(platform schema.PlatformClass) *core.ServiceProfile {
+func resolveServiceProfile(platform schema.PlatformClass) *schema.ServiceProfile {
 	switch platform {
 	case schema.PlatformVehicle:
-		return &core.ServiceProfile{Name: "AutonomousMobility"}
+		return &schema.ServiceProfile{Name: "AutonomousMobility"}
 	case schema.PlatformIndustrial:
-		return &core.ServiceProfile{Name: "IndustrialControl"}
+		return &schema.ServiceProfile{Name: "IndustrialControl"}
 	case schema.PlatformComputer, schema.PlatformLaptop:
-		return &core.ServiceProfile{Name: "ProductivityAI"}
+		return &schema.ServiceProfile{Name: "ProductivityAI"}
 	default:
-		return &core.ServiceProfile{Name: "GenericRuntime"}
+		return &schema.ServiceProfile{Name: "GenericRuntime"}
 	}
 }
 
 // BuildCapabilitySet computes platform + tier + service capabilities
-func BuildCapabilitySet(platform schema.PlatformClass, tierName, serviceName string) core.CapabilitySet {
-	var caps core.CapabilitySet
+func BuildCapabilitySet(platform schema.PlatformClass, tierName, serviceName string) schema.CapabilitySet {
+	var caps schema.CapabilitySet
 
 	// Platform capabilities
 	switch platform {
 	case schema.PlatformVehicle:
-		caps |= core.CapCANBus | core.CapSecureEnclave
+		caps |= schema.CapCANBus | schema.CapSecureEnclave
 	case schema.PlatformIndustrial:
-		caps |= core.CapIndustrialIO | core.CapNetwork
+		caps |= schema.CapIndustrialIO | schema.CapNetwork
 	case schema.PlatformComputer, schema.PlatformLaptop:
-		caps |= core.CapLocalStorage | core.CapNetwork | core.CapBiometric
+		caps |= schema.CapLocalStorage | schema.CapNetwork | schema.CapBiometric
 	}
 
 	// Tier capabilities
 	if tierName == "Funder" {
-		caps |= core.CapPersistentCloudLink
+		caps |= schema.CapPersistentCloudLink
 	}
 
 	// Service capabilities
 	if serviceName == "AutonomousMobility" {
-		caps |= core.CapSafetyCritical
+		caps |= schema.CapSafetyCritical
 	}
 
 	return caps

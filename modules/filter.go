@@ -2,11 +2,10 @@
 package modules
 
 import (
-	"log/slog"
-
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/optimization"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/runtime"
 )
-
 
 func FilterModules(registry []DomainModule, ctx *boot.RuntimeContext) []DomainModule {
 
@@ -39,7 +38,7 @@ func FilterModules(registry []DomainModule, ctx *boot.RuntimeContext) []DomainMo
 	return filtered
 }
 
-//platform filtering
+// platform filtering
 func platformSupported(m DomainModule, p runtime.PlatformClass) bool {
 	for _, sp := range m.SupportedPlatforms() {
 		if sp == p {
@@ -84,4 +83,3 @@ func optimizerAllows(m DomainModule, ctx *boot.RuntimeContext) bool {
 
 	return true
 }
-

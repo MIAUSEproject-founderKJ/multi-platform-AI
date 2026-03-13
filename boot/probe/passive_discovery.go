@@ -3,17 +3,13 @@
 package probe
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
-	"fmt"
-	"os"
-	"runtime"
-	"time"
 	"net"
+	"os"
 	"os/exec"
+	"runtime"
 	"strings"
+	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/platform"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
@@ -43,7 +39,6 @@ func PassiveDiscovery() (*schema.EnvConfig, error) {
 
 	return env, nil
 }
-
 
 func resolveHardwareRoot() string {
 

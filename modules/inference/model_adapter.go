@@ -2,10 +2,6 @@
 
 package inference
 
-import (
-	"context"
-)
-
 type ModelAdapter struct {
 	engine TensorEngine
 }

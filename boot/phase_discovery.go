@@ -1,4 +1,4 @@
-//boot/phase_discovery.go
+// boot/phase_discovery.go
 package boot
 
 import (
@@ -9,8 +9,10 @@ import (
 )
 
 type DiscoveryResult struct {
-	Identity schema.MachineIdentity
-	Platform schema.PlatformResolution
+	InstanceID   string
+	PlatformType schema.PlatformClass
+	OS           string
+	Architecture string
 }
 
 func PhaseDiscovery() (*DiscoveryResult, error) {
@@ -21,7 +23,9 @@ func PhaseDiscovery() (*DiscoveryResult, error) {
 	}
 
 	return &DiscoveryResult{
-		Identity: env.Identity,
-		Platform: env.Platform,
+		InstanceID:   env.Identity.MachineName,
+		PlatformType: env.Platform,
+		OS:           env.OS,
+		Architecture: env.Architecture,
 	}, nil
 }

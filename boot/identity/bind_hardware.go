@@ -4,7 +4,7 @@ package boot
 import (
 	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/platform/classify"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/classify"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 

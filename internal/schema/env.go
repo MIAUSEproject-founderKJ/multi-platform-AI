@@ -3,10 +3,9 @@
 package schema
 
 import (
-    "time"
-
-    "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core"
+	"time"
 )
+
 type CapabilitySet uint64
 type PermissionSet uint64
 type ServiceType uint8
@@ -61,10 +60,10 @@ type BootSequence struct {
 	Env          *EnvConfig
 	Mode         BootMode
 	Attested     bool
-	Capabilities core.CapabilitySet
-	Service      core.ServiceType
-	Entity       core.EntityType
-	Tier         core.TierType
+	Capabilities CapabilitySet
+	Service      ServiceType
+	Entity       EntityType
+	Tier         TierType
 	UserSession  *UserSession
 }
 type TrustLevel uint8
@@ -85,10 +84,10 @@ const (
 )
 
 type MachineIdentity struct {
-	MachineID   string `json:"machine_id"`
-	MachineName string `json:"machine_name"`
-	OS          string `json:"os"`
-	Arch        string `json:"arch"`
+	MachineID    string        `json:"machine_id"`
+	PlatformType PlatformClass `json:"platform_type"`
+	OS           string        `json:"os"`
+	Arch         string        `json:"arch"`
 }
 
 type HardwareProfile struct {

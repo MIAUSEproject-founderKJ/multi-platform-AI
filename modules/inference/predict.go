@@ -3,15 +3,8 @@
 package inference
 
 import (
-	"bytes"
 	"context"
-	"encoding/json"
-	"fmt"
-	"net/http"
-	"time"
 )
-
-
 
 func (m *ModelAdapter) Predict(
 	ctx context.Context,
@@ -77,4 +70,3 @@ func (m *ModelAdapter) Warmup(ctx context.Context) error {
 
 	return nil
 }
-
