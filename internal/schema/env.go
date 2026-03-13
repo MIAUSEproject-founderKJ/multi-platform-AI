@@ -4,31 +4,8 @@ package schema
 
 import (
 	"time"
-)
 
-type CapabilitySet uint64
-type PermissionSet uint64
-type ServiceType uint8
-type TierType uint8
-
-const (
-	ServiceUnknown ServiceType = iota
-	ServicePersonal
-	ServiceEnterprise
-	ServiceSystem
-)
-
-const (
-	EntityUnknown EntityType = iota
-	EntityUser
-	EntityAdmin
-	EntityDevice
-)
-
-const (
-	TierFree TierType = iota
-	TierPro
-	TierEnterprise
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
 )
 
 // PlatformClass defines the type of hardware (Vehicle, Drone, etc.)
@@ -52,7 +29,7 @@ type PlatformScore struct {
 	Type       PlatformClass `json:"type"`
 	Score      float64       `json:"raw_score"`
 	MaxScore   float64       `json:"max_score"`  // Potential maximum for normalization
-	Confidence uint16        `json:"confidence"` // Normalized Q16 (0-65535)
+	Confidence mathutil.Q16  `json:"confidence"` // Normalized Q16 (0-65535)
 	Signals    []string      `json:"signals"`    // Evidence found (e.g., "CAN_BUS_PRESENT")
 }
 
@@ -66,10 +43,11 @@ type BootSequence struct {
 	Tier         TierType
 	UserSession  *UserSession
 }
+
 type TrustLevel uint8
 
 const (
-	TrustInvalid
+	TrustInvalid TrustLevel = iota
 	TrustWeak
 	TrustStrong
 )
@@ -86,6 +64,7 @@ const (
 type MachineIdentity struct {
 	MachineID    string        `json:"machine_id"`
 	PlatformType PlatformClass `json:"platform_type"`
+	Hostname     string        `json:"hostname"`
 	OS           string        `json:"os"`
 	Arch         string        `json:"arch"`
 }
@@ -127,14 +106,18 @@ type EnvConfig struct {
 	Hardware      HardwareProfile    `json:"hardware"`
 	Platform      PlatformResolution `json:"platform"`
 	Attestation   EnvAttestation     `json:"attestation"`
+	EntityType    EntityType         `json:"entity_type"`
+	TierType      TierType           `json:"tier_type"`
 }
 
 // EnvAttestation defines the cryptographic seal of the environment
 type EnvAttestation struct {
-	Valid        bool   `json:"valid"`
-	Level        string `json:"level"` // "strong" | "weak" | "invalid"
-	EnvHash      string `json:"env_hash"`
-	SessionToken string `json:"session_token,omitempty"`
+	Locked        bool          `json:"locked"`
+	PlatformClass PlatformClass `json:"platform_class,omitempty"`
+	Valid         bool          `json:"valid"`
+	Level         string        `json:"level"` // "strong" | "weak" | "invalid"
+	EnvHash       string        `json:"env_hash"`
+	SessionToken  string        `json:"session_token,omitempty"`
 }
 
 type IdentityProfile struct {

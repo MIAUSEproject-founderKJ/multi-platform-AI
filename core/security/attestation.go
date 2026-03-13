@@ -13,8 +13,6 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
 
-
-
 func MeasureSelf() ([]byte, error) {
 	exePath, err := os.Executable()
 	if err != nil {
@@ -47,7 +45,9 @@ func VerifyEnvironment(v VaultStore, machineID string) error {
 		return errors.New("baseline_missing")
 	}
 
-	if subtle.ConstantTimeCompare(hash, expected) != 1 {
+	expectedBytes := []byte(expected)
+
+	if subtle.ConstantTimeCompare(hash, expectedBytes) != 1 {
 		return errors.New("binary_tamper_detected")
 	}
 
@@ -60,24 +60,24 @@ func VerifyAgainstGolden(v VaultStore, machineID string) error {
 		return fmt.Errorf("failed_to_measure_binary: %w", err)
 	}
 
-	expectedHash, err := v.LoadGoldenHash(machineID)
+	expected, err := v.LoadGoldenHash(machineID)
 	if err != nil {
-		return errors.New("golden_hash_missing")
+		return errors.New("baseline_missing")
 	}
 
-	if subtle.ConstantTimeCompare(currentHash, expectedHash) != 1 {
-		return errors.New("BINARY_TAMPER_DETECTED")
-	}
+	expectedBytes := []byte(expected)
 
+	if subtle.ConstantTimeCompare(currentHash, expectedBytes) != 1 {
+		return errors.New("binary_tamper_detected")
+	}
 	logging.Info("[SECURITY] Binary integrity verified.")
 	return nil
 }
 
-func ProvisionGolden(v VaultStore, machineID string) error {
+func ProvisionGolden(v VaultStore, machineID string) ([]byte, error) {
 	hash, err := MeasureSelf()
 	if err != nil {
-		return err
+		return nil, fmt.Errorf("failed_to_measure_binary: %w", err)
 	}
-
-	return v.SealGoldenHash(machineID, hash)
+	return hash, err
 }

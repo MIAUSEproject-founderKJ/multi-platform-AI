@@ -1,5 +1,4 @@
 // boot/probe/passive_discovery.go
-// PASSIVE PROBE: Minimal hardware identity check
 package probe
 
 import (
@@ -10,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/platform"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
@@ -18,22 +18,28 @@ func PassiveDiscovery() (*schema.EnvConfig, error) {
 
 	logging.Info("[PROBE] Phase 1: Passive Identity Extraction")
 
-	MachineID := buildRobustMachineID()
+	machineID := buildRobustMachineID()
+	hostname, _ := os.Hostname()
 
 	hardware := collectHardwareProfile()
 
 	env := &schema.EnvConfig{
 		SchemaVersion: schema.CurrentVersion,
 		GeneratedAt:   time.Now(),
-		Identity:      MachineID,
-		Hardware:      hardware,
+		Identity: schema.MachineIdentity{
+			MachineID: machineID,
+			Hostname:  hostname,
+			OS:        runtime.GOOS,
+			Arch:      runtime.GOARCH,
+		},
+		Hardware: hardware,
 	}
 
 	platform.RunPlatformInference(env)
 
 	logging.Info(
 		"[PROBE] Identity confirmed: %s (%s)",
-		id.MachineID,
+		env.Identity.MachineID,
 		env.Platform.Final,
 	)
 
@@ -44,7 +50,7 @@ func resolveHardwareRoot() string {
 
 	if runtime.GOOS == "windows" {
 		if v := readWindowsUUID(); v != "" {
-			return vreadWindowsUUID
+			return v
 		}
 	}
 
@@ -66,6 +72,7 @@ func resolveHardwareRoot() string {
 
 	return "soft-identity"
 }
+
 func readTPMIdentity() string {
 
 	if runtime.GOOS != "linux" {

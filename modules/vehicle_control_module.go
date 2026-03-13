@@ -7,7 +7,7 @@ import (
 	"errors"
 	"sync/atomic"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/runtime"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
 )
 
 type VehicleControlModule struct {

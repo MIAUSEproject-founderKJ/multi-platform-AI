@@ -23,9 +23,9 @@ func PhaseDiscovery() (*DiscoveryResult, error) {
 	}
 
 	return &DiscoveryResult{
-		InstanceID:   env.Identity.MachineName,
-		PlatformType: env.Platform,
-		OS:           env.OS,
-		Architecture: env.Architecture,
+		InstanceID:   env.Identity.MachineID,
+		PlatformType: env.Platform.Final,
+		OS:           env.Identity.OS,
+		Architecture: env.Identity.Arch,
 	}, nil
 }

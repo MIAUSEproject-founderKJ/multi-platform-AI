@@ -2,9 +2,15 @@
 
 package boot
 
+import (
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+)
+
 type CredentialProvider interface {
 	Identify() (*IdentityProfile, error)
-	IsAvailable(caps map[core.Capability]bool) bool
+	IsAvailable(caps map[schema.Capability]bool) bool
 }
 
 func ResolveUser(ctx boot.RuntimeContext) (*IdentityProfile, error) {

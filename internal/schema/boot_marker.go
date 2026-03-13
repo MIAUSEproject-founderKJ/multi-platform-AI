@@ -5,10 +5,10 @@ package schema
 import "time"
 
 type FirstBootMarker struct {
-	MachineName   string    `json:"machine_name"`
-	SchemaVersion string    `json:"schema_version"`
-	GoldenHash    string    `json:"golden_hash"`
-	Initialized   bool      `json:"initialized"`
-	CreatedAt     time.Time `json:"created_at"`
+	MachineName   string     `json:"machine_name"`
+	SchemaVersion int        `json:"schema_version"`
+	GoldenHash    []byte     `json:"golden_hash"`
+	Initialized   bool       `json:"initialized"`
+	CreatedAt     time.Time  `json:"created_at"`
 	TrustLevel    TrustLevel `json:"trust_level"`
 }

@@ -104,7 +104,7 @@ func PhaseContext(v *security.IsolatedVault, identity *schema.MachineIdentity) (
     }
 
     if bs.Mode == schema.BootCold {
-        if err := v.MarkFirstBoot(identity.MachineName); err != nil {
+        if err := v.MarkFirstBoot(Identity.MachineID); err != nil {
             return nil, err
         }
     }

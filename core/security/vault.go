@@ -18,6 +18,8 @@ type VaultStore interface {
 	SaveConfig(key string, cfg *schema.EnvConfig) error
 
 	LoadGoldenHash(machine string) (string, error)
+	SealGoldenHash(machine string, hash []byte) error
+
 	LoadFirstBootMarker() (*schema.FirstBootMarker, error)
 	SaveFirstBootMarker(*schema.FirstBootMarker) error
 }
@@ -45,17 +47,40 @@ func OpenVault() (*IsolatedVault, error) {
 	}, nil
 }
 
+func (v *IsolatedVault) SealGoldenHash(machine string, hash []byte) error {
+	path := filepath.Join(v.BaseDir, "golden-"+machine)
 
+	return os.WriteFile(path, hash, 0600)
+}
+
+func (v *IsolatedVault) LoadGoldenHash(machine string) (string, error) {
+	path := filepath.Join(v.BaseDir, "golden-"+machine)
+
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return "", err
+	}
+
+	return string(data), nil
+}
+
+func DerivePermissions(
+	platform schema.PlatformClass,
+	entity schema.EntityType,
+	tier string,
+) []string {
+
+	return []string{"basic_runtime"}
+}
 
 // --- Config Logic ---
 
 func (v *IsolatedVault) SaveConfig(name string, config *schema.EnvConfig) error {
-	path := filepath.Join(v.BaseDir, name+".json")
-	data, err := json.MarshalIndent(config, "", "  ")
-	if err != nil {
-		return err
-	}
-	return os.WriteFile(path, data, 0600)
+path := filepath.Join(v.BaseDir, name+".json")
+
+dir := filepath.Dir(path)
+if err := os.MkdirAll(dir, 0700); err != nil {
+    return err
 }
 
 func (v *IsolatedVault) LoadConfig(name string) (*schema.EnvConfig, error) {

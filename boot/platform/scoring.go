@@ -1,4 +1,4 @@
-//boot/platform/scoring.go
+// boot/platform/scoring.go
 package platform
 
 import (
@@ -38,7 +38,6 @@ func RunResolution(env *schema.EnvConfig) {
 			if ratio > 1.0 {
 				ratio = 1.0 // Cap at 100%
 			}
-			c.Confidence = uint16(ratio * 65535)
 		} else {
 			c.Confidence = 0
 		}
@@ -72,7 +71,7 @@ func RunResolution(env *schema.EnvConfig) {
 	env.Platform.ResolvedAt = time.Now()
 	env.Platform.Locked = true
 
-	logging.Info("[SCORING] Resolution Complete. Identity: %s (Confidence: %d/65535)", 
+	logging.Info("[SCORING] Resolution Complete. Identity: %s (Confidence: %d/65535)",
 		env.Platform.Final, highestConf)
 }
 

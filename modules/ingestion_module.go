@@ -14,6 +14,7 @@ import (
 	"go.uber.org/zap"
 	"golang.org/x/time/rate"
 
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/runtime"
 )
 
@@ -74,20 +75,20 @@ func (m *IngestionModule) Run(ctx context.Context) error {
 
 	m.ctx.Logger.Info("IngestionModule starting workers")
 
-workerCount := runtime.NumCPU()
+	workerCount := runtime.NumCPU()
 
-for i := 0; i < workerCount; i++ {
+	for i := 0; i < workerCount; i++ {
 
-	id := i
+		id := i
 
-	m.workers.Add(1)
+		m.workers.Add(1)
 
-	m.Go(ctx, "inference-worker", func() {
+		m.Go(ctx, "inference-worker", func() {
 
-		m.worker(ctx, id)
+			m.worker(ctx, id)
 
-	})
-}
+		})
+	}
 
 	<-ctx.Done()
 
@@ -207,17 +208,17 @@ func (m *IngestionModule) Handle(ctx context.Context, payload []byte) error {
 		return errors.New("rate limit exceeded")
 	}
 
-select {
+	select {
 
-case m.queue <- payload:
+	case m.queue <- payload:
 
-default:
+	default:
 
-	<-m.queue
+		<-m.queue
 
-	m.queue <- payload
+		m.queue <- payload
 
-	m.totalErrors.Add(1)
+		m.totalErrors.Add(1)
 
 		return errors.New("ingestion queue full")
 	}

@@ -1,4 +1,4 @@
-//boot/platform/resolve.go
+// boot/platform/resolve.go
 package platform
 
 import (
@@ -10,8 +10,8 @@ import (
 // ResolvePlatform selects the final operational class based on scores and attestation locks.
 func ResolvePlatform(env *schema.EnvConfig) schema.PlatformClass {
 	// 1. Check for Attestation Lock (The "Immutable" path)
-	if env.Attestation.schema.Locked {
-		env.Platform.Final = env.Attestation.Platform
+	if env.Attestation.Locked {
+		env.Platform.Final = env.Attestation.PlatformClass
 		env.Platform.Locked = true
 		env.Platform.Source = "attestation_lock"
 		return env.Platform.Final
@@ -24,7 +24,7 @@ func ResolvePlatform(env *schema.EnvConfig) schema.PlatformClass {
 	for _, candidate := range env.Platform.Candidates {
 		if candidate.Score > highestScore {
 			highestScore = candidate.Score
-			bestType = candidate.Class
+			bestType = candidate.Type
 		}
 	}
 

@@ -1,11 +1,10 @@
-//boot/platform/identity_resolver.go
-package boot
-r
+// boot/platform/identity_resolver.go
+package platform
+
 import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
-	"os"
 	"strings"
 	"time"
 
@@ -64,6 +63,7 @@ func RunPlatformInference(env *schema.EnvConfig) {
 	// Convert scores to Q16 confidence and select the best platform
 	var bestClass schema.PlatformClass = schema.PlatformComputer
 	var highConf mathutil.Q16
+
 	var candidates []schema.PlatformScore
 
 	for _, s := range scores {
@@ -129,4 +129,3 @@ type SecurityProfile struct {
 	RequiresKeyTelemetry bool
 	AuthTimeoutMinutes   int
 }
-

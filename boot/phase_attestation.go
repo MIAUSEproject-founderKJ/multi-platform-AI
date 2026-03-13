@@ -17,9 +17,9 @@ func PhaseAttestation(
 	am := &auth.AuthManager{
 		Vault:    v,
 		Identity: identity,
-		Platform: identity.Platform,
-		Entity:   bs.Env.Identity.EntityType,
-		Tier:     bs.Env.Identity.TierType,
+		Platform: identity.PlatformType,
+		Entity:   bs.Env.EntityType,
+		Tier:     bs.Env.TierType,
 	}
 
 	return am.LoginOrSignUp()

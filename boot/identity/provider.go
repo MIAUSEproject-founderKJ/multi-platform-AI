@@ -1,7 +1,11 @@
-//boot/identity/provider.go
+// boot/identity/provider.go
 package boot
 
-import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core"
+import (
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+)
 
 type ProviderType string
 
@@ -14,5 +18,5 @@ const (
 type IdentityProvider interface {
 	Type() ProviderType
 	// Authenticate returns a valid IdentityProfile or an error
-	Authenticate(ctx boot.RuntimeContext) (*core.IdentityProfile, error)
+	Authenticate(ctx boot.RuntimeContext) (*schema.IdentityProfile, error)
 }
