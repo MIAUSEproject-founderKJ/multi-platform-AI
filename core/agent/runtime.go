@@ -12,16 +12,16 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"sync"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/router"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/optimization"
 )
 
 type AgentRuntime struct {
 	router Router
 	ctx    context.Context
 	cancel context.CancelFunc
-	wg sync.WaitGroup
+	wg     sync.WaitGroup
 }
 
 func NewAgentRuntime(router Router) *AgentRuntime {

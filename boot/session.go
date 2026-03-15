@@ -14,6 +14,8 @@ import (
 	"context"
 	"errors"
 	"sync"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/agent"
 )
 
 type SessionState int
@@ -27,8 +29,8 @@ const (
 )
 
 type Session struct {
-	execCtx *ExecCtx
-	agent   *AgentRuntime
+	execCtx *RuntimeContext
+	agent   *agent.AgentRuntime
 
 	stateMu sync.RWMutex
 	state   SessionState
@@ -51,9 +53,9 @@ WaitGroup to track goroutines
 Error channel for async failures
 Idempotent Start/Stop
 */
-func NewSession(execCtx *ExecCtx, agent *AgentRuntime) *Session {
+func NewSession(ctx *RuntimeContext, agent *agent.AgentRuntime) *Session {
 	return &Session{
-		execCtx:    execCtx,
+		execCtx:    ctx,
 		agent:      agent,
 		state:      SessionCreated,
 		errCh:      make(chan error, 8),

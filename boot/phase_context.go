@@ -5,16 +5,18 @@ package boot
 import (
 	"errors"
 	"fmt"
+	"log/slog"
 	"time"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/optimization"
+
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/router"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/probe"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/capability"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/probe"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
+	"log/slog"
 )
 type Capability string
 
@@ -41,7 +43,7 @@ type RuntimeContext struct {
 	BootMode      core.BootMode
 	Permissions   boot.PermissionSet
 	Router        *router.Router
-	Optimizer     optimization.Optimizer
+	Logger *slog.Logger
 }
 
 

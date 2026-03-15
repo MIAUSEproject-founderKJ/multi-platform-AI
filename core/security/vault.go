@@ -76,22 +76,35 @@ func DerivePermissions(
 // --- Config Logic ---
 
 func (v *IsolatedVault) SaveConfig(name string, config *schema.EnvConfig) error {
-path := filepath.Join(v.BaseDir, name+".json")
+	path := filepath.Join(v.BaseDir, name+".json")
 
-dir := filepath.Dir(path)
-if err := os.MkdirAll(dir, 0700); err != nil {
-    return err
+	dir := filepath.Dir(path)
+	if err := os.MkdirAll(dir, 0700); err != nil {
+		return err
+	}
+
+	data, err := json.MarshalIndent(config, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	return os.WriteFile(path, data, 0600)
 }
 
 func (v *IsolatedVault) LoadConfig(name string) (*schema.EnvConfig, error) {
 	path := filepath.Join(v.BaseDir, name+".json")
+
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
+
 	var config schema.EnvConfig
-	err = json.Unmarshal(data, &config)
-	return &config, err
+	if err := json.Unmarshal(data, &config); err != nil {
+		return nil, err
+	}
+
+	return &config, nil
 }
 
 func (v *IsolatedVault) StoreToken(name string, token string) error {

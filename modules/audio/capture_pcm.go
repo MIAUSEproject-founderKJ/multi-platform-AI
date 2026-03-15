@@ -5,7 +5,6 @@ import (
 	"context"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/agent"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/optimization"
 	"github.com/gordonklaus/portaudio"
 )
 

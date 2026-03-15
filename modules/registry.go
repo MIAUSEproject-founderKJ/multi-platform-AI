@@ -13,6 +13,6 @@ func DefaultRegistry() []DomainModule {
 	}
 }
 
-		// Responsible for receiving raw external data streams
-		// such as sensors, files, microphones, or network inputs.
-		// Converts them into normalized envelopes
+// Responsible for receiving raw external data streams
+// such as sensors, files, microphones, or network inputs.
+// Converts them into normalized envelopes

@@ -102,8 +102,8 @@ func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
 		Mode:         schema.BootCold,
 		Attested:     true,
 		Capabilities: capSet,
-		Service:      serviceType,
-		Tier:         tierType,
+		Service:      serviceType.Name,
+		Tier:         tierType.Name,
 		Entity:       authMgr.Entity,
 	}, nil
 
@@ -145,7 +145,12 @@ func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence,
 
 	// 5. Build capabilities
 	capSet := BuildCapabilitySet(env.Platform.Final, tierType, serviceType)
-	permList := security.DerivePermissions(env.Platform.Final, authMgr.Entity, tierType)
+
+	permList := security.DerivePermissions(
+		env.Platform.Final,
+		authMgr.Entity,
+		string(tierType.Name),
+	)
 
 	permMap := make(map[string]bool)
 	for _, p := range permList {
@@ -160,8 +165,8 @@ func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence,
 		Mode:         schema.BootFast,
 		Attested:     true,
 		Capabilities: capSet,
-		Service:      serviceType,
-		Tier:         tierType,
+		Service:      serviceType.Name,
+		Tier:         tierType.Name,
 		Entity:       authMgr.Entity,
 	}, nil
 }
@@ -169,30 +174,42 @@ func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence,
 // ------------------ Helpers ------------------
 
 func resolveTier(entity schema.EntityType) *schema.TierProfile {
-	if entity == schema.EntityOrganization || entity == schema.EntityTester {
-		return &schema.TierProfile{Name: "Funder"}
+
+	switch entity {
+	case schema.EntityOrganization:
+		return &schema.TierProfile{Name: schema.TierEnterprise}
+
+	case schema.EntityTester:
+		return &schema.TierProfile{Name: schema.TierTester}
+
+	default:
+		return &schema.TierProfile{Name: schema.TierPersonal}
 	}
-	return &schema.TierProfile{Name: "Non-Funder"}
 }
 
 func resolveServiceProfile(platform schema.PlatformClass) *schema.ServiceProfile {
+
 	switch platform {
+
 	case schema.PlatformVehicle:
-		return &schema.ServiceProfile{Name: "AutonomousMobility"}
+		return &schema.ServiceProfile{Name: schema.ServiceMobility}
+
 	case schema.PlatformIndustrial:
-		return &schema.ServiceProfile{Name: "IndustrialControl"}
+		return &schema.ServiceProfile{Name: schema.ServiceIndustrial}
+
 	case schema.PlatformComputer, schema.PlatformLaptop:
-		return &schema.ServiceProfile{Name: "ProductivityAI"}
+		return &schema.ServiceProfile{Name: schema.ServicePersonal}
+
 	default:
-		return &schema.ServiceProfile{Name: "GenericRuntime"}
+		return &schema.ServiceProfile{Name: schema.ServiceUnknown}
 	}
 }
 
 // BuildCapabilitySet computes platform + tier + service capabilities
 func BuildCapabilitySet(
 	platform schema.PlatformClass,
-	tier schema.TierType,
-	service schema.ServiceType,
+	tier *schema.TierProfile,
+	service *schema.ServiceProfile,
 ) schema.CapabilitySet {
 	var caps schema.CapabilitySet
 
@@ -207,13 +224,12 @@ func BuildCapabilitySet(
 	}
 
 	// Tier capabilities
-	if tier == schema.TierEnterprise {
+	if tier.Name == schema.TierEnterprise {
 		caps |= schema.CapPersistentCloudLink
 	}
-	// Service capabilities
-	if service == schema.ServiceSystem {
+
+	if service.Name == schema.ServiceSystem {
 		caps |= schema.CapSafetyCritical
 	}
-
 	return caps
 }

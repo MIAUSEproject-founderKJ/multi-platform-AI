@@ -7,7 +7,6 @@ import (
 	"net/http"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/agent"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/optimization"
 )
 
 func FileUploadHandler(agent *agent.AgentRuntime, opt optimization.Optimizer) http.HandlerFunc {

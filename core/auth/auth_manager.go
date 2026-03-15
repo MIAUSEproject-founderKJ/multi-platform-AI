@@ -18,6 +18,7 @@ type AuthManager struct {
 	Entity   schema.EntityType
 	Tier     schema.TierType
 }
+
 // LoginOrSignUp automatically runs the correct verification flow
 // based on platform, entity type, and tier
 func (am *AuthManager) LoginOrSignUp() (*schema.UserSession, error) {
@@ -92,6 +93,7 @@ func (am *AuthManager) LoginOrSignUp() (*schema.UserSession, error) {
 
 	return am.createSession(service)
 }
+
 // ------------------------------------------------------------
 // Vehicle / Autonomous Mobility Auth
 // ------------------------------------------------------------
@@ -184,14 +186,28 @@ func (am *AuthManager) enableDebugLogin() error {
 // ------------------------------------------------------------
 
 func (am *AuthManager) createSession(service schema.ServiceType) (*schema.UserSession, error) {
+
+	permList := security.DerivePermissions(
+		am.Platform,
+		am.Entity,
+		string(am.Tier),
+	)
+
+	permMap := make(map[string]bool)
+	for _, p := range permList {
+		permMap[p] = true
+	}
+
 	session := &schema.UserSession{
 		SessionID:   security.GenerateSessionToken(),
 		Platform:    am.Platform,
 		Entity:      am.Entity,
 		Tier:        am.Tier,
 		Service:     service,
-		Permissions: security.DerivePermissions(am.Platform, am.Entity, am.Tier),
+		Permissions: permMap,
 	}
+
 	fmt.Printf("[SESSION] Created: %s\n", session.SessionID)
+
 	return session, nil
 }

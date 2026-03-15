@@ -15,7 +15,6 @@ import (
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/agent"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/optimization"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/router"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
@@ -85,8 +84,6 @@ func NewApp() (*App, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	execCtx.Optimizer = optimization.NewDefaultOptimizer(execCtx.PlatformClass)
 
 	registry := modules.DefaultRegistry()
 	filtered := modules.FilterModules(registry, execCtx)
