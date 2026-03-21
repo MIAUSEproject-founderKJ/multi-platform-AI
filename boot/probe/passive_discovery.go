@@ -98,7 +98,7 @@ func readDMIUUID() string {
 		return ""
 	}
 
-	return strings.TrimSpace(string(data))
+	return normalize(string(data))
 }
 
 func readSystemSerial() string {
@@ -156,4 +156,9 @@ func readWindowsUUID() string {
 	}
 
 	return strings.TrimSpace(lines[1])
+}
+func normalize(s string) string {
+	s = strings.TrimSpace(s)
+	s = strings.ToLower(s)
+	return s
 }

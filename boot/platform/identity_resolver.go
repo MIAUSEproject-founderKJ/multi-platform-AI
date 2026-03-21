@@ -124,7 +124,7 @@ func ComputeHardwareFingerprint(env *schema.EnvConfig) []byte {
 // -----------------------------
 
 type SecurityProfile struct {
-	PlatformClass        string // Automotive | Workstation | Industrial | Embedded
+	PlatformClass        string
 	RequiresBiometry     bool
 	RequiresKeyTelemetry bool
 	AuthTimeoutMinutes   int

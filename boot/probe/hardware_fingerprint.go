@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"sort"
 	"strings"
 )
 
@@ -37,19 +38,34 @@ func buildRobustMachineID() string {
 
 	fp := collectHardwareFingerprint()
 
-	data := strings.Join([]string{
+	// ---- Tier 1 & 2 (CORE IDENTITY) ----
+	coreParts := []string{
 		fp.TPM,
-		fp.CPU,
 		fp.DMI,
+		fp.CPU,
+	}
+
+	core := strings.Join(coreParts, "|")
+
+	// ---- Tier 3 & 4 (ENTROPY ONLY) ----
+	entropyParts := []string{
 		strings.Join(fp.PCI, ","),
 		strings.Join(fp.MAC, ","),
 		strings.Join(fp.Storage, ","),
-	}, "|")
+	}
 
-	hash := sha256.Sum256([]byte(data))
+	entropy := strings.Join(entropyParts, "|")
+
+	if fp.TPM != "" {
+		// Ignore unstable signals entirely
+		entropy = ""
+	}
+	// ---- Combined canonical structure ----
+	final := "core:" + core + "||entropy:" + entropy
+
+	hash := sha256.Sum256([]byte(final))
 	return hex.EncodeToString(hash[:])
 }
-
 func readCPUModel() string {
 
 	if runtime.GOOS != "linux" {
@@ -81,16 +97,16 @@ func readPCITopology() []string {
 		return nil
 	}
 
-	lines := strings.Split(string(out), "\n")
-
 	var devices []string
 
-	for _, l := range lines {
-		if strings.TrimSpace(l) != "" {
+	for _, l := range strings.Split(string(out), "\n") {
+		l = normalize(l)
+		if l != "" {
 			devices = append(devices, l)
 		}
 	}
 
+	sort.Strings(devices)
 	return devices
 }
 
@@ -105,15 +121,17 @@ func readDiskSerials() []string {
 	var serials []string
 
 	for _, l := range strings.Split(string(out), "\n") {
-		l = strings.TrimSpace(l)
-		if l != "" && l != "SERIAL" {
-			serials = append(serials, l)
+		l = normalize(l)
+		if l == "" || l == "serial" {
+			continue
 		}
+
+		serials = append(serials, l)
 	}
 
+	sort.Strings(serials)
 	return serials
 }
-
 func readMACs() []string {
 
 	ifaces, err := net.Interfaces()
@@ -124,10 +142,48 @@ func readMACs() []string {
 	var macs []string
 
 	for _, i := range ifaces {
-		if len(i.HardwareAddr) > 0 {
-			macs = append(macs, i.HardwareAddr.String())
+
+		// Skip loopback & down interfaces
+		if i.Flags&net.FlagLoopback != 0 || i.Flags&net.FlagUp == 0 {
+			continue
+		}
+
+		mac := strings.TrimSpace(i.HardwareAddr.String())
+		if mac == "" {
+			continue
+		}
+
+		macs = append(macs, normalize(mac))
+	}
+
+	sort.Strings(macs)
+	return macs
+}
+
+func readTPM() string {
+
+	if runtime.GOOS != "linux" {
+		return ""
+	}
+
+	// Preferred: tpm2-tools
+	out, err := exec.Command("tpm2_getcap", "properties-fixed").Output()
+	if err == nil && len(out) > 0 {
+		return normalize(string(out))
+	}
+
+	// Fallback: sysfs
+	paths := []string{
+		"/sys/class/tpm/tpm0/device/unique_id",
+		"/sys/class/tpm/tpm0/device/description",
+	}
+
+	for _, p := range paths {
+		data, err := os.ReadFile(p)
+		if err == nil && len(data) > 0 {
+			return normalize(string(data))
 		}
 	}
 
-	return macs
+	return ""
 }

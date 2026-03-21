@@ -1,27 +1,25 @@
 //go:build automotive
 
-
-//modules/autonomous_kernel.go 
+//modules/autonomous_kernel.go
 //Domain Module. If this binary runs on a laptop: Capabilities won't match → module never loads.
 
 package modules
 
-import "aios/core"
+import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 
 type AutonomousKernel struct {
-	ctx boot.RuntimeContext
+	ctx schema.BootContext
 }
 
 func (a *AutonomousKernel) Name() string {
 	return "AutonomousKernel"
 }
 
-
 func (a *AutonomousKernel) RequiredPermissions() []string {
 	return []string{"AUTONOMOUS_EXECUTION"}
 }
 
-func (a *AutonomousKernel) Init(ctx boot.RuntimeContext) error {
+func (a *AutonomousKernel) Init(ctx schema.BootContext) error {
 	a.ctx = ctx
 	return nil
 }

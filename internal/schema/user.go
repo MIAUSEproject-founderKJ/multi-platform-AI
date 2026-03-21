@@ -1,6 +1,19 @@
-//internal/schema/runtime_types.go
+//internal/schema/user.go
 
 package schema
+
+import "time"
+
+type UserSession struct {
+	SessionID   string
+	Platform    PlatformClass
+	Entity      EntityType
+	Tier        TierType
+	Service     ServiceType
+	Permissions map[Permission]bool
+	CreatedAt   time.Time
+	ExpiresAt   time.Time
+}
 
 // ------------------------------------------------------------
 // Tier System
@@ -39,3 +52,32 @@ const (
 type ServiceProfile struct {
 	Name ServiceType
 }
+
+type Attestation struct {
+	SessionToken string
+	Valid        bool
+	Level        TrustLevel
+}
+
+type TrustLevel int
+
+const (
+	TrustUntrusted TrustLevel = iota
+	TrustUser
+	TrustDevice
+	TrustAdmin
+	TrustSystem
+)
+
+type Permission string
+
+const (
+	PermUser  Permission = "user"
+	PermAdmin Permission = "admin"
+
+	PermBasicRuntime   Permission = "basic_runtime"
+	PermConfigEdit     Permission = "config_edit"
+	PermDiagnostics    Permission = "diagnostics"
+	PermHardwareIO     Permission = "hardware_io"
+	PermSafetyOverride Permission = "safety_override"
+)

@@ -55,7 +55,7 @@ func main() {
 
 type App struct {
 	Logger     *slog.Logger
-	ExecCtx    *boot.RuntimeContext
+	ExecCtx    *schema.BootContext
 	User       *schema.UserSession
 	Session    *boot.Session
 	Supervisor *Supervisor
@@ -128,7 +128,7 @@ func (a *App) Start(ctx context.Context) error {
 	• Error reduction
 	• Message normalization
 	• Dispatching to domain modules*/
-	rtr := router.NewDefaultRouter(a.ExecCtx)
+	rtr := router.NewDefaultRouter()
 
 	/*• Algorithm distillation
 	  • Optimization
@@ -247,7 +247,7 @@ func NewSupervisor(logger *slog.Logger, mods []modules.DomainModule) *Supervisor
 	}
 }
 
-func (s *Supervisor) InitAll(ctx *boot.RuntimeContext) error {
+func (s *Supervisor) InitAll(ctx *schema.BootContext) error {
 	for _, m := range s.modules {
 		if err := m.Init(ctx); err != nil {
 			return fmt.Errorf("module %s init failed: %w", m.Name(), err)
@@ -271,41 +271,34 @@ func (s *Supervisor) run(ctx context.Context, m modules.DomainModule) {
 	backoff := time.Second
 
 	for {
-
 		func() {
-
 			defer func() {
 				if r := recover(); r != nil {
 					s.logger.Error("module panic", "module", name, "panic", r)
 				}
 			}()
 
-			s.mu.Lock()
 			st := s.states[name]
+			s.mu.Lock()
 			st.started = true
-			st.healthy = true
 			s.mu.Unlock()
 
 			err := m.Run(ctx)
 
-			if err != nil {
-				s.logger.Error("module error", "module", name, "error", err)
-			}
+			s.mu.Lock()
+			st.healthy = err == nil
+			s.mu.Unlock()
 
+			if err != nil {
+				s.logger.Error("module run failed", "module", name, "error", err)
+			}
 		}()
 
 		if ctx.Err() != nil {
 			return
 		}
 
-		s.mu.Lock()
-		st := s.states[name]
-		st.healthy = false
-		st.restarts++
-		s.mu.Unlock()
-
 		time.Sleep(backoff)
-
 		if backoff < 30*time.Second {
 			backoff *= 2
 		}

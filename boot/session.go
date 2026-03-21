@@ -16,6 +16,7 @@ import (
 	"sync"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/agent"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
 type SessionState int
@@ -29,7 +30,7 @@ const (
 )
 
 type Session struct {
-	execCtx *RuntimeContext
+	execCtx *schema.BootContext
 	agent   *agent.AgentRuntime
 
 	stateMu sync.RWMutex
@@ -53,7 +54,7 @@ WaitGroup to track goroutines
 Error channel for async failures
 Idempotent Start/Stop
 */
-func NewSession(ctx *RuntimeContext, agent *agent.AgentRuntime) *Session {
+func NewSession(ctx *schema.BootContext, agent *agent.AgentRuntime) *Session {
 	return &Session{
 		execCtx:    ctx,
 		agent:      agent,
@@ -106,7 +107,7 @@ func (s *Session) runSupervisor() {
 
 	defer func() {
 		if r := recover(); r != nil {
-			s.execCtx.Logger.Error("session panic", r)
+			s.execCtx.Logger.Info("session panic")
 			s.errCh <- errors.New("session panic")
 		}
 	}()
@@ -120,7 +121,7 @@ func (s *Session) runSupervisor() {
 
 		case err := <-s.errCh:
 			if err != nil {
-				s.execCtx.Logger.Error("session async error", err)
+				s.execCtx.Logger.Info("session async error")
 				s.Stop(context.Background())
 				return
 			}

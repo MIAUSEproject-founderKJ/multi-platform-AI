@@ -11,6 +11,10 @@ const (
 	Q16Half = 32768
 )
 
+func (q Q16) Greater(other Q16) bool {
+	return q > other
+}
+
 // ToFloat64 converts a Q16 fixed-point (uint16) to a float64 (0.0 - 1.0)
 func ToFloat64(q uint16) float64 {
 	return float64(q) / Q16Max

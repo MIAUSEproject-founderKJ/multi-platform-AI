@@ -4,13 +4,15 @@ package audio
 import (
 	"context"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/agent"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"github.com/gordonklaus/portaudio"
 )
 
-func StartMicrophoneStream(agent *agent.AgentRuntime, opt optimization.Optimizer) error {
+func StartMicrophoneStream(ctx context.Context, bus *schema.MessageBus) error {
 
-	portaudio.Initialize()
+	if err := portaudio.Initialize(); err != nil {
+		return err
+	}
 	defer portaudio.Terminate()
 
 	buffer := make([]int16, 320)
@@ -19,15 +21,24 @@ func StartMicrophoneStream(agent *agent.AgentRuntime, opt optimization.Optimizer
 	if err != nil {
 		return err
 	}
+	defer stream.Close()
 
-	stream.Start()
+	if err := stream.Start(); err != nil {
+		return err
+	}
 
 	for {
-		if err := stream.Read(); err != nil {
-			return err
-		}
+		select {
+		case <-ctx.Done():
+			return nil
+		default:
+			if err := stream.Read(); err != nil {
+				return err
+			}
 
-		raw := int16ToBytes(buffer)
-		agent.Process(context.Background(), opt, raw)
+			raw := schema.int16ToBytes(buffer)
+
+			_ = bus.Publish(ctx, "audio.raw", raw)
+		}
 	}
 }

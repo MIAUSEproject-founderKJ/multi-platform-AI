@@ -5,13 +5,13 @@ import (
 	"context"
 	"sync/atomic"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
 type TelemetryModule struct {
 	BaseModule
 
-	ctx *boot.RuntimeContext
+	ctx *schema.BootContext
 
 	client  TelemetryClient
 	running atomic.Bool
@@ -33,7 +33,7 @@ func NewTelemetryModule() DomainModule {
 	return m
 }
 
-func (m *TelemetryModule) Init(ctx *boot.RuntimeContext) error {
+func (m *TelemetryModule) Init(ctx *schema.BootContext) error {
 
 	m.ctx = ctx
 

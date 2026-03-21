@@ -263,7 +263,7 @@ Runtime Ready
 Execution Context (Core Decision Object)
 Everything in the system should depend on a single authoritative runtime object.
 Example structure:
-RuntimeContext
+BootContext
 │
 ├ PlatformClass
 │    Automotive
@@ -303,7 +303,7 @@ RuntimeContext
      safety rules
      
 Modules should never check hardware directly.
-They should only query RuntimeContext.
+They should only query BootContext.
 
 
 Module Dependency Graph

@@ -186,28 +186,36 @@ func (am *AuthManager) enableDebugLogin() error {
 // ------------------------------------------------------------
 
 func (am *AuthManager) createSession(service schema.ServiceType) (*schema.UserSession, error) {
-
+	// Derive permissions dynamically from platform, entity, and tier
 	permList := security.DerivePermissions(
 		am.Platform,
 		am.Entity,
-		string(am.Tier),
+		am.Tier,
 	)
 
-	permMap := make(map[string]bool)
+	// Use map[schema.Permission]bool to match UserSession type
+	permMap := make(map[schema.Permission]bool)
 	for _, p := range permList {
 		permMap[p] = true
 	}
 
+	// Ensure the session has at least basic user permission
+	permMap[schema.PermUser] = true
+
+	// Build the UserSession struct dynamically
 	session := &schema.UserSession{
-		SessionID:   security.GenerateSessionToken(),
+		SessionID:   fmt.Sprintf("%d", time.Now().UnixNano()), // unique session ID
 		Platform:    am.Platform,
 		Entity:      am.Entity,
 		Tier:        am.Tier,
 		Service:     service,
 		Permissions: permMap,
+		CreatedAt:   time.Now(),
+		ExpiresAt:   time.Now().Add(24 * time.Hour), // default 24h expiration
 	}
 
-	fmt.Printf("[SESSION] Created: %s\n", session.SessionID)
+	fmt.Printf("[SESSION] Created: %s | Platform: %s | Entity: %x | Tier: %s | Service: %s\n",
+		session.SessionID, session.Platform, session.Entity, session.Tier, session.Service)
 
 	return session, nil
 }

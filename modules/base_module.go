@@ -7,7 +7,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"go.uber.org/zap"
 )
 
@@ -15,7 +15,7 @@ type BaseModule struct {
 	name string
 	deps []string
 
-	ctx    *boot.RuntimeContext
+	ctx    *schema.RuntimeContext
 	logger *zap.Logger
 
 	healthy atomic.Bool
@@ -37,7 +37,7 @@ func (b *BaseModule) DependsOn() []string {
 	return b.deps
 }
 
-func (b *BaseModule) InitBase(ctx *boot.RuntimeContext) {
+func (b *BaseModule) InitBase(ctx *schema.RuntimeContext) {
 
 	b.ctx = ctx
 

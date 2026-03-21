@@ -18,13 +18,13 @@ import (
 )
 
 type AgentRuntime struct {
-	router Router
+	router router.Router
 	ctx    context.Context
 	cancel context.CancelFunc
 	wg     sync.WaitGroup
 }
 
-func NewAgentRuntime(router Router) *AgentRuntime {
+func NewAgentRuntime(router router.Router) *AgentRuntime {
 	return &AgentRuntime{
 		router: router,
 	}
@@ -36,7 +36,7 @@ type RawInput struct {
 	Source  string          `json:"source"`
 }
 
-func (a *AgentRuntime) Process(ctx context.Context, opt optimization.Optimizer, raw []byte) error {
+func (a *AgentRuntime) Process(ctx context.Context, opt Optimizer, raw []byte) error {
 
 	var input RawInput
 	if err := json.Unmarshal(raw, &input); err != nil {

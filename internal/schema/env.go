@@ -44,14 +44,6 @@ type BootSequence struct {
 	UserSession  *UserSession
 }
 
-type TrustLevel uint8
-
-const (
-	TrustInvalid TrustLevel = iota
-	TrustWeak
-	TrustStrong
-)
-
 type EntityType uint8
 
 const (
@@ -61,26 +53,34 @@ const (
 	EntityTester
 )
 
+func (m *MachineIdentity) BindHardware(env *EnvConfig) {
+	m.Hardware = env.Hardware
+}
+
 type MachineIdentity struct {
 	MachineID    string        `json:"machine_id"`
 	PlatformType PlatformClass `json:"platform_type"`
 	Hostname     string        `json:"hostname"`
 	OS           string        `json:"os"`
 	Arch         string        `json:"arch"`
+	Hardware     HardwareProfile
+	EntityType   EntityType
+	TierType     TierType
 }
 
 type HardwareProfile struct {
 	Processors []Processor     `json:"processors"`
 	Buses      []BusCapability `json:"buses"`
+
 	// Simplified Battery for the check
 	HasBattery bool `json:"has_battery"`
 }
 
 type BusCapability struct {
-	ID         string `json:"id"`
-	Type       string `json:"type"` // can, usb, i2c
-	Confidence uint16 `json:"confidence"`
-	Source     string `json:"source"`
+	ID         string  `json:"id"`
+	Type       string  `json:"type"` // can, usb, i2c
+	Confidence float64 `json:"confidence"`
+	Source     string  `json:"source"`
 }
 
 type Processor struct {
@@ -115,10 +115,18 @@ type EnvAttestation struct {
 	Locked        bool          `json:"locked"`
 	PlatformClass PlatformClass `json:"platform_class,omitempty"`
 	Valid         bool          `json:"valid"`
-	Level         string        `json:"level"` // "strong" | "weak" | "invalid"
+	Level         BootTrust     `json:"level"` // "strong" | "weak" | "invalid"
 	EnvHash       string        `json:"env_hash"`
 	SessionToken  string        `json:"session_token,omitempty"`
 }
+
+type BootTrust uint8
+
+const (
+	TrustInvalid BootTrust = iota
+	TrustWeak
+	TrustStrong
+)
 
 type IdentityProfile struct {
 	MachineID    string
@@ -166,12 +174,4 @@ type ProtocolProfile struct {
 	ReadableRegisters int    `json:"readable_registers"`
 	SupportsWatchdog  bool   `json:"supports_watchdog"`
 	SupportsSafeStop  bool   `json:"supports_safe_stop"`
-}
-
-type CapabilityDescriptor struct {
-	SupportsGoalControl        bool
-	SupportsRegisterControl    bool
-	SensorOnly                 bool
-	HasSafetyEnvelope          bool
-	SupportsAcceleratedCompute bool
 }

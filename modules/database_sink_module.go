@@ -12,9 +12,8 @@ import (
 	"sync"
 	"sync/atomic"
 
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
 	"go.uber.org/zap"
-
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/runtime"
 )
 
 const (
@@ -26,8 +25,8 @@ type DatabaseSinkModule struct {
 	BaseModule
 
 	db *sql.DB
-
-	queue chan TelemetryEvent
+	ctx *schema.BootContext
+	queue chan []byte
 
 	workers sync.WaitGroup
 
@@ -42,23 +41,20 @@ func NewDatabaseSinkModule() DomainModule {
 			name: "DatabaseSinkModule",
 			deps: []string{"TelemetryModule"},
 		},
-		queue: make(chan []byte, DBQueueSize),
+		queue chan []byte, DBQueueSize,
 	}
 
 	return m
 }
 
-func (m *DatabaseSinkModule) Init(ctx *boot.RuntimeContext) error {
+func (m *DatabaseSinkModule) Init(ctx *schema.BootContext) error {
 
+	m.ctx = ctx
 	m.InitBase(ctx)
 
-	m.db = ctx.DB
+	m.db = ctx.Data.DB
 
-	if m.db == nil {
-		return errors.New("database not configured")
-	}
-
-	m.logger.Info("database sink initialized")
+	ctx.Data.Bus.Subscribe("database", m.Handle)
 
 	return nil
 }
@@ -74,8 +70,8 @@ func (m *DatabaseSinkModule) Run(ctx context.Context) error {
 		m.workers.Add(1)
 
 		m.Go(ctx, "inference-worker", func() {
-	m.worker(ctx, i)
-})
+			m.worker(ctx, i)
+		})
 	}
 
 	<-ctx.Done()
@@ -96,7 +92,7 @@ func (m *DatabaseSinkModule) worker(ctx context.Context, id int) {
 	defer m.workers.Done()
 
 	logger := m.logger.Named("inference_worker").
-	With(zap.Int("worker", id))
+		With(zap.Int("worker", id))
 
 	for {
 
@@ -138,17 +134,17 @@ func (m *DatabaseSinkModule) Handle(ctx context.Context, payload []byte) error {
 		return errors.New("empty payload")
 	}
 
-select {
+	select {
 
-case m.queue <- payload:
+	case m.queue <- payload:
 
-default:
+	default:
 
-	<-m.queue
+		<-m.queue
 
-	m.queue <- payload
+		m.queue <- payload
 
-	m.totalErrors.Add(1)
+		m.totalErrors.Add(1)
 		return errors.New("database queue full")
 	}
 }

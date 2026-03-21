@@ -13,24 +13,31 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/runtime"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
 type DomainModule interface {
 	Name() string
 	Category() ModuleCategory
 	DependsOn() []string
-	Allowed(*boot.RuntimeContext) bool
-	Init(*boot.RuntimeContext) error
+	Allowed(*schema.BootContext) bool
+	Init(*schema.BootContext) error
 	Start() error
 	Stop() error
 	Run(context.Context) error
 
 	// Capability introspection
-	SupportedPlatforms() []runtime.PlatformClass
+	SupportedPlatforms() []schema.PlatformClass
 	RequiredCapabilities() []string
 	Optional() bool
+}
+
+type RuntimeAware interface {
+	SetRuntime(*schema.RuntimeContext)
+}
+
+func (m *AuditModule) Allowed(ctx *schema.BootContext) bool {
+	return true // or policy-based
 }
 
 type ModuleCategory int
@@ -52,6 +59,22 @@ type Intent struct {
 	Action     string
 	Parameters map[string]interface{}
 	Confidence float64
+}
+
+type IntentInterpreter interface {
+	Parse(input string) (Intent, error)
+}
+
+type TaskPlanner interface {
+	Plan(Intent) Task
+}
+
+type IntentHandler interface {
+	Handle(Intent) error
+}
+
+type Task struct {
+	Intent Intent
 }
 
 type AgentRuntime struct {
@@ -83,7 +106,7 @@ func (a *AgentRuntime) HandleInput(input string) error {
 }
 
 type DefaultRouter struct {
-	ctx      *boot.RuntimeContext
+	ctx      *schema.BootContext
 	handlers map[string]IntentHandler
 }
 

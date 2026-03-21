@@ -1,4 +1,4 @@
-//modules/inference_module.go performs AI inference and writes results to storage.
+// modules/inference_module.go performs AI inference and writes results to storage.
 package modules
 
 import (
@@ -9,16 +9,14 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"go.uber.org/zap"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/modules/inference"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/cmd/aios/runtime"
 )
 
 const (
 	InferenceQueueSize = 5000
 	InferenceWorkers   = 4
 )
-
 
 type TelemetryEvent struct {
 	DeviceID  string  `json:"device_id"`
@@ -35,7 +33,7 @@ type InferenceResult struct {
 type InferenceModule struct {
 	BaseModule
 
-	model inference.Model
+	model Model
 
 	queue chan TelemetryEvent
 
@@ -58,22 +56,20 @@ func NewInferenceModule() DomainModule {
 	return m
 }
 
-func (m *InferenceModule) Init(ctx *boot.RuntimeContext) error {
+func (m *InferenceModule) Init(ctx *schema.RuntimeContext) error {
 
+	m.ctx = ctx
 	m.InitBase(ctx)
 
 	engine := engines.NewONNXEngine()
 
-err := engine.Load("models/model.onnx")
-if err != nil {
-	return err
-}
+	if err := engine.Load("models/model.onnx"); err != nil {
+		return err
+	}
 
-adapter := inference.NewModelAdapter(engine)
+	m.model = inference.NewModelAdapter(engine)
 
-m.model = adapter
-
-	m.logger.Info("InferenceModule initialized")
+	ctx.Bus.Subscribe("audio.features", m.Handle)
 
 	return nil
 }
@@ -84,16 +80,16 @@ func (m *InferenceModule) Run(ctx context.Context) error {
 
 	m.logger.Info("Inference workers starting")
 
-for i := 0; i < InferenceWorkers; i++ {
+	for i := 0; i < InferenceWorkers; i++ {
 
-	id := i
+		id := i
 
-	m.workers.Add(1)
+		m.workers.Add(1)
 
-	m.Go(ctx, "inference-worker", func() {
-		m.worker(ctx, id)
-	})
-}
+		m.Go(ctx, "inference-worker", func() {
+			m.worker(ctx, id)
+		})
+	}
 
 	<-ctx.Done()
 
@@ -108,11 +104,11 @@ for i := 0; i < InferenceWorkers; i++ {
 	return nil
 }
 
-
-
-/*waits for 1 event
+/*
+waits for 1 event
 tries to fill the batch without blocking
-runs PredictBatch()*/
+runs PredictBatch()
+*/
 func (m *InferenceModule) worker(ctx context.Context, id int) {
 
 	defer m.workers.Done()
@@ -136,14 +132,11 @@ func (m *InferenceModule) worker(ctx context.Context, id int) {
 
 			// collect additional events without blocking
 			for i := 1; i < BatchSize; i++ {
-
 				select {
-
 				case e := <-m.queue:
 					batch = append(batch, m.convert(e))
-
 				default:
-					break
+					i = BatchSize // force exit
 				}
 			}
 
@@ -255,7 +248,7 @@ func (m *InferenceModule) Handle(ctx context.Context, payload []byte) error {
 	}
 }
 
-//Now workers are supervised automatically.
+// Now workers are supervised automatically.
 func (b *BaseModule) Go(ctx context.Context, name string, fn func()) {
 
 	b.wg.Add(1)
@@ -356,5 +349,3 @@ func (m *InferenceModule) processBatch(
 		_ = m.ctx.Router.Publish("audit", resultBytes)
 	}
 }
-
-batchTimeout := time.After(5 * time.Millisecond)

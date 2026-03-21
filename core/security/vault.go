@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/apppath"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
@@ -16,7 +17,7 @@ import (
 type VaultStore interface {
 	LoadConfig(key string) (*schema.EnvConfig, error)
 	SaveConfig(key string, cfg *schema.EnvConfig) error
-
+	MarkFirstBoot(machineID string) error
 	LoadGoldenHash(machine string) (string, error)
 	SealGoldenHash(machine string, hash []byte) error
 
@@ -67,10 +68,10 @@ func (v *IsolatedVault) LoadGoldenHash(machine string) (string, error) {
 func DerivePermissions(
 	platform schema.PlatformClass,
 	entity schema.EntityType,
-	tier string,
-) []string {
+	tier schema.TierType,
+) []schema.Permission {
 
-	return []string{"basic_runtime"}
+	return []schema.Permission{schema.PermBasicRuntime}
 }
 
 // --- Config Logic ---
@@ -110,4 +111,94 @@ func (v *IsolatedVault) LoadConfig(name string) (*schema.EnvConfig, error) {
 func (v *IsolatedVault) StoreToken(name string, token string) error {
 	path := filepath.Join(v.BaseDir, name)
 	return os.WriteFile(path, []byte(token), 0600)
+}
+
+// --- Marker Logic ---
+
+const firstBootVaultKey = "machine_first_boot_marker"
+
+func (v *IsolatedVault) IsMissingMarker(name string) bool {
+	_, err := os.Stat(filepath.Join(v.BaseDir, name))
+	return os.IsNotExist(err)
+}
+
+func (v *IsolatedVault) WriteMarker(name string) error {
+	path := filepath.Join(v.BaseDir, name)
+	logging.Info("[VAULT] Sealing state marker: %s", name)
+	return os.WriteFile(path, []byte("PROVISIONED"), 0600)
+}
+
+func (v *IsolatedVault) MarkFirstBoot(machineID string) error {
+
+	marker := &schema.FirstBootMarker{
+		MachineID:   machineID,
+		Initialized: true,
+		CreatedAt:   time.Now(),
+	}
+
+	return v.SaveFirstBootMarker(marker)
+}
+
+func (v *IsolatedVault) LoadFirstBootMarker() (*schema.FirstBootMarker, error) {
+
+	path := filepath.Join(v.BaseDir, firstBootVaultKey+".json")
+
+	raw, err := os.ReadFile(path)
+	if err != nil {
+		return nil, fmt.Errorf("failed to load first boot marker: %w", err)
+	}
+
+	var marker schema.FirstBootMarker
+	if err := json.Unmarshal(raw, &marker); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal first boot marker: %w", err)
+	}
+
+	return &marker, nil
+}
+
+func (v *IsolatedVault) SaveFirstBootMarker(marker *schema.FirstBootMarker) error {
+
+	path := filepath.Join(v.BaseDir, firstBootVaultKey+".json")
+
+	data, err := json.MarshalIndent(marker, "", "  ")
+	if err != nil {
+		return fmt.Errorf("failed to serialize first boot marker: %w", err)
+	}
+
+	return os.WriteFile(path, data, 0600)
+}
+func (v *IsolatedVault) Read(collection, key string, out interface{}) (bool, error) {
+	path := filepath.Join(v.BaseDir, collection+"_"+key+".json")
+	data, err := os.ReadFile(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return false, nil
+		}
+		return false, err
+	}
+	if err := json.Unmarshal(data, out); err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
+func (v *IsolatedVault) Write(collection, key string, value interface{}) error {
+	path := filepath.Join(v.BaseDir, collection+"_"+key+".json")
+	data, err := json.MarshalIndent(value, "", "  ")
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(path, data, 0600)
+}
+
+func (v *IsolatedVault) Exists(collection, key string) (bool, error) {
+	path := filepath.Join(v.BaseDir, collection+"_"+key+".json")
+	_, err := os.Stat(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return false, nil
+		}
+		return false, err
+	}
+	return true, nil
 }

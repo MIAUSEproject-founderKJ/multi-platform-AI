@@ -8,7 +8,6 @@ func DefaultRegistry() []DomainModule {
 		NewInferenceModule(),
 		NewDatabaseSinkModule(),
 		NewIndustrialProtocolModule(),
-		NewVehicleControlModule(),
 		NewAuditModule(),
 	}
 }

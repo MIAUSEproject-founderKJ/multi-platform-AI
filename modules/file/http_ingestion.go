@@ -6,10 +6,10 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/agent"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
-func FileUploadHandler(agent *agent.AgentRuntime, opt optimization.Optimizer) http.HandlerFunc {
+func FileUploadHandler(bus *schema.MessageBus) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {
 
@@ -25,7 +25,7 @@ func FileUploadHandler(agent *agent.AgentRuntime, opt optimization.Optimizer) ht
 		for {
 			n, err := file.Read(buf)
 			if n > 0 {
-				agent.Process(r.Context(), opt, buf[:n])
+				_ = bus.Publish(r.Context(), "file.chunk", buf[:n])
 			}
 			if err == io.EOF {
 				break

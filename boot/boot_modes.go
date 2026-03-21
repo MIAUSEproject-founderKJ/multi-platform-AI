@@ -23,6 +23,7 @@ func (bm *BootManager) DecideBootPath() (*schema.BootSequence, error) {
 
 	if env.SchemaVersion < schema.CurrentVersion {
 		env = schema.Migrate(env)
+		_ = bm.Vault.SaveConfig(lastkey, env)
 	}
 
 	// Verify golden baseline
@@ -39,7 +40,12 @@ func (bm *BootManager) DecideBootPath() (*schema.BootSequence, error) {
 // ------------------------------------------------------------
 func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
 	// 1. Active hardware discovery
-	fullProfile, err := probe.ActiveDiscovery(&bm.Identity.Hardware)
+	env := &schema.EnvConfig{
+		Identity: schema.MachineIdentity{},
+		Hardware: bm.Identity.Hardware,
+	}
+
+	fullProfile, err := probe.ActiveDiscovery(env)
 	if err != nil {
 		return nil, fmt.Errorf("hardware discovery failed: %w", err)
 	}
@@ -54,12 +60,12 @@ func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
 
 	// 3. Create first-boot marker
 	marker := &schema.FirstBootMarker{
-		MachineName:   bm.Identity.MachineID,
+		MachineID:     bm.Identity.MachineID,
 		SchemaVersion: schema.CurrentVersion,
 		GoldenHash:    goldenHash,
 		Initialized:   true,
 		CreatedAt:     time.Now(),
-		TrustLevel:    schema.TrustStrong,
+		BootTrust:     schema.TrustStrong,
 	}
 	if err := bm.Vault.SaveFirstBootMarker(marker); err != nil {
 		return nil, err
@@ -79,7 +85,7 @@ func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
 	// 6. Attach session token
 	fullProfile.Attestation.SessionToken = session.SessionID
 	fullProfile.Attestation.Valid = true
-	fullProfile.Attestation.Level = string(schema.TrustStrong)
+	fullProfile.Attestation.Level = schema.TrustStrong
 	err = bm.Vault.SaveConfig(
 		security.LastKnownEnvKey(bm.Identity.MachineID),
 		fullProfile,
@@ -118,7 +124,7 @@ func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence,
 	if err != nil || marker.SchemaVersion != schema.CurrentVersion {
 		return bm.runColdBoot()
 	}
-	if err := security.VerifyAgainstGolden(bm.Vault, marker.MachineName); err != nil {
+	if err := security.VerifyAgainstGolden(bm.Vault, marker.MachineID); err != nil {
 		return bm.runColdBoot()
 	}
 
@@ -143,23 +149,24 @@ func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence,
 	serviceType := resolveServiceProfile(env.Platform.Final)
 	tierType := resolveTier(authMgr.Entity)
 
-	// 5. Build capabilities
-	capSet := BuildCapabilitySet(env.Platform.Final, tierType, serviceType)
-
 	permList := security.DerivePermissions(
 		env.Platform.Final,
 		authMgr.Entity,
-		string(tierType.Name),
+		authMgr.Tier,
 	)
 
-	permMap := make(map[string]bool)
+	permMap := make(map[schema.Permission]bool)
 	for _, p := range permList {
 		permMap[p] = true
 	}
 
 	session.Permissions = permMap
 	env.Attestation.SessionToken = session.SessionID
-
+	capSet := BuildCapabilitySet(
+		env.Platform.Final,
+		tierType,
+		serviceType,
+	)
 	return &schema.BootSequence{
 		Env:          env,
 		Mode:         schema.BootFast,
@@ -190,6 +197,9 @@ func resolveTier(entity schema.EntityType) *schema.TierProfile {
 func resolveServiceProfile(platform schema.PlatformClass) *schema.ServiceProfile {
 
 	switch platform {
+
+	case schema.PlatformMobile, schema.PlatformTablet:
+		return &schema.ServiceProfile{Name: schema.ServicePersonal}
 
 	case schema.PlatformVehicle:
 		return &schema.ServiceProfile{Name: schema.ServiceMobility}
@@ -232,4 +242,15 @@ func BuildCapabilitySet(
 		caps |= schema.CapSafetyCritical
 	}
 	return caps
+}
+
+func BootTrustToString(t schema.BootTrust) string {
+	switch t {
+	case schema.TrustStrong:
+		return "strong"
+	case schema.TrustWeak:
+		return "weak"
+	default:
+		return "invalid"
+	}
 }

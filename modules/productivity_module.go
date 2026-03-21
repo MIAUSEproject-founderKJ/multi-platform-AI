@@ -1,27 +1,25 @@
 //go:build workstation
 
-
 //modules/productivity_module.go
 //Productivity Module (Workstation)
 
 package modules
 
-import "aios/core"
+import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 
 type ProductivityModule struct {
-	ctx boot.RuntimeContext
+	ctx schema.RuntimeContext
 }
 
 func (p *ProductivityModule) Name() string {
 	return "ProductivityModule"
 }
 
-
 func (p *ProductivityModule) RequiredPermissions() []string {
 	return []string{"STANDARD_USE"}
 }
 
-func (p *ProductivityModule) Init(ctx boot.RuntimeContext) error {
+func (p *ProductivityModule) Init(ctx schema.BootContext) error {
 	p.ctx = ctx
 	return nil
 }

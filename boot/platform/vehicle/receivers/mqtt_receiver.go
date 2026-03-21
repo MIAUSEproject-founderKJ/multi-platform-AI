@@ -11,7 +11,6 @@ type MQTTReceiver struct {
 }
 
 func (r *MQTTReceiver) Start() error {
-	return r.client.Subscribe("#", 0, func(client mqtt.Client, msg mqtt.Message) {
-		r.output <- msg.Payload()
-	})
+	// Placeholder: Connect to MQTT broker and subscribe to topics
+	return nil
 }

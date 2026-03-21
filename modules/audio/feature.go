@@ -1,7 +1,10 @@
 // modules/audio/feature.go
 package audio
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 type FeatureExtractor struct {
 	sampleRate int
@@ -27,7 +30,9 @@ func (f *FeatureExtractor) ProcessPCM(pcm []byte) ([]float64, error) {
 
 	// 3. FFT
 	spectrum := fft(samples)
-
+	if len(spectrum) < 40 {
+		return nil, fmt.Errorf("insufficient spectrum size")
+	}
 	// 4. Log energy
 	features := make([]float64, len(spectrum))
 	for i := range spectrum {

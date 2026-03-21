@@ -6,7 +6,7 @@ import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 func PhaseIdentity(d *DiscoveryResult) (*schema.MachineIdentity, error) {
 
 	identity := &schema.MachineIdentity{
-		MachineName:  d.InstanceID,
+		MachineID:    d.InstanceID,
 		PlatformType: d.PlatformType,
 		OS:           d.OS,
 		Arch:         d.Architecture,

@@ -10,6 +10,7 @@ package router
 
 import (
 	"context"
+	"errors"
 )
 
 type MessageType string
@@ -29,6 +30,7 @@ type Envelope struct {
 type Router interface {
 	Start(ctx context.Context) error
 	Stop(ctx context.Context) error
+	Dispatch(ctx context.Context, env Envelope) error
 	Next(ctx context.Context) (interface{}, error)
 }
 
@@ -36,7 +38,7 @@ type DefaultRouter struct {
 	queue chan interface{}
 }
 
-func NewDefaultRouter(execCtx *ExecCtx) *DefaultRouter {
+func NewDefaultRouter() *DefaultRouter {
 	return &DefaultRouter{
 		queue: make(chan interface{}, 1024),
 	}
@@ -51,9 +53,21 @@ func (r *DefaultRouter) Stop(ctx context.Context) error {
 	return nil
 }
 
+func (r *DefaultRouter) Dispatch(ctx context.Context, env Envelope) error {
+	select {
+	case r.queue <- env:
+		return nil
+	case <-ctx.Done():
+		return ctx.Err()
+	}
+}
+
 func (r *DefaultRouter) Next(ctx context.Context) (interface{}, error) {
 	select {
-	case evt := <-r.queue:
+	case evt, ok := <-r.queue:
+		if !ok {
+			return nil, errors.New("router stopped")
+		}
 		return evt, nil
 	case <-ctx.Done():
 		return nil, ctx.Err()

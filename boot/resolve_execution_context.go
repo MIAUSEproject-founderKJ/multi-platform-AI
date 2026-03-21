@@ -1,21 +1,26 @@
-//boot/resolve_execution_context.go
-
+// boot/resolve_execution_context.go
 package boot
 
 import (
 	"fmt"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
 func ResolveExecutionContext(
 	bs *schema.BootSequence,
-) (*boot.RuntimeContext, error) {
+) (*schema.BootContext, error) {
 
 	// ------------------------------------------------------------
-	// 1. Validate Machine Attestation
+	// 1. Hard Validation (Fail Fast)
 	// ------------------------------------------------------------
 
-	if bs == nil || bs.Env == nil {
-		return nil, fmt.Errorf("invalid boot sequence")
+	if bs == nil {
+		return nil, fmt.Errorf("boot sequence is nil")
+	}
+
+	if bs.Env == nil {
+		return nil, fmt.Errorf("missing environment config")
 	}
 
 	if !bs.Attested || !bs.Env.Attestation.Valid {
@@ -27,48 +32,98 @@ func ResolveExecutionContext(
 	}
 
 	// ------------------------------------------------------------
-	// 2. Trust Boot-Derived Values (Single Source of Truth)
+	// 2. Normalize Core Inputs (Single Source of Truth)
 	// ------------------------------------------------------------
 
-	caps := bs.Capabilities
+	env := bs.Env
+	session := bs.UserSession
+
 	entity := bs.Entity
 	tier := bs.Tier
 	service := bs.Service
+	caps := bs.Capabilities
+
+	// Trust resolution (CRITICAL DESIGN DECISION)
+	// Prefer environment attestation as root-of-trust
+	var trust schema.TrustLevel
+
+	switch env.Attestation.Level {
+	case schema.TrustStrong:
+		trust = schema.TrustSystem
+	case schema.TrustWeak:
+		trust = schema.TrustDevice
+	default:
+		trust = schema.TrustUntrusted
+	}
 
 	// ------------------------------------------------------------
-	// 3. Derive Permissions (Policy Layer)
+	// 3. Derive Permissions (Policy Engine)
 	// ------------------------------------------------------------
 
-	var perms boot.PermissionSet
+	perms := make(map[schema.Permission]bool)
 
-	// Base permission
-	perms |= type.PermUser
+	// --- Base permission (always granted)
+	perms[schema.PermUser] = true
 
+	// --- Entity-based permissions
 	switch entity {
-	case core.EntityAdmin:
-		perms |= type.PermAdmin
-	case core.EntityDevice:
-		perms |= core.PermDeviceControl
+	case schema.EntityPersonal:
+		// baseline user only
+
+	case schema.EntityOrganization:
+		perms[schema.PermDiagnostics] = true
+
+	case schema.EntityTester:
+		perms[schema.PermDiagnostics] = true
+		perms[schema.PermConfigEdit] = true
+
+	case schema.EntityStranger:
+		// minimal permissions only
 	}
 
-	if tier == core.TierEnterprise {
-		perms |= core.PermFleetControl
+	// --- Tier-based permissions
+	switch tier {
+	case schema.TierEnterprise:
+		perms[schema.PermDiagnostics] = true
+		perms[schema.PermConfigEdit] = true
 	}
 
-	// Optionally merge session-derived permissions
-	perms |= bs.UserSession.Permissions
+	// --- Capability-based permissions (hardware-aware)
+	if caps.Has(schema.CapCANBus) || caps.Has(schema.CapIndustrialIO) {
+		perms[schema.PermHardwareIO] = true
+	}
+
+	if caps.Has(schema.CapSafetyCritical) && trust >= schema.TrustAdmin {
+		perms[schema.PermSafetyOverride] = true
+	}
+
+	// --- Trust-based escalation (high-risk controls)
+	if trust >= schema.TrustAdmin {
+		perms[schema.PermAdmin] = true
+		perms[schema.PermSafetyOverride] = true
+	}
+
+	// --- Merge session permissions (last layer, additive only)
+	for p, allowed := range session.Permissions {
+		if allowed {
+			perms[p] = true
+		}
+	}
 
 	// ------------------------------------------------------------
-	// 4. Construct RuntimeContext
+	// 4. Construct BootContext
 	// ------------------------------------------------------------
 
-	return &boot.RuntimeContext{
-		PlatformClass: bs.Env.Platform.Final,
+	ctx := &schema.BootContext{
+		PlatformClass: env.Platform.Final,
 		Capabilities:  caps,
 		Service:       service,
 		Entity:        entity,
 		Tier:          tier,
 		BootMode:      bs.Mode,
 		Permissions:   perms,
-	}, nil
+		TrustLevel:    trust,
+	}
+
+	return ctx, nil
 }

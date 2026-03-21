@@ -6,11 +6,11 @@ import (
 	"context"
 	"sync/atomic"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
 type IndustrialProtocolModule struct {
-	ctx     *boot.RuntimeContext
+	ctx     *schema.BootContext
 	healthy atomic.Bool
 }
 
@@ -26,7 +26,7 @@ func (m *IndustrialProtocolModule) DependsOn() []string {
 	return []string{"TelemetryModule"}
 }
 
-func (m *IndustrialProtocolModule) Init(ctx *boot.RuntimeContext) error {
+func (m *IndustrialProtocolModule) Init(ctx *schema.BootContext) error {
 	m.ctx = ctx
 	m.healthy.Store(true)
 	return nil
