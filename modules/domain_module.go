@@ -14,6 +14,7 @@ import (
 	"fmt"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
 )
 
 type DomainModule interface {
@@ -28,16 +29,17 @@ type DomainModule interface {
 
 	// Capability introspection
 	SupportedPlatforms() []schema.PlatformClass
-	RequiredCapabilities() []string
+	RequiredCapabilities() schema.CapabilitySet
 	Optional() bool
 }
 
+// All modules that need DB/Bus access implement this
 type RuntimeAware interface {
-	SetRuntime(*schema.RuntimeContext)
+	SetRuntime(*runtime.RuntimeContext)
 }
 
-func (m *AuditModule) Allowed(ctx *schema.BootContext) bool {
-	return true // or policy-based
+func (defaultPolicy) Allowed(*schema.BootContext, Intent) bool {
+	return true
 }
 
 type ModuleCategory int
@@ -47,18 +49,14 @@ const (
 	ModulePlatform
 	ModuleDomain
 	ModuleCognitive
+	ModuleCategoryInference ModuleCategory = iota
+	ModuleCategoryTelemetry
+	ModuleCategoryControl
 )
 
 // AI Agent Initialization (Execution Layer)
 type ExecutionRouter interface {
 	ExecuteIntent(Intent) error
-}
-
-type Intent struct {
-	Domain     string
-	Action     string
-	Parameters map[string]interface{}
-	Confidence float64
 }
 
 type IntentInterpreter interface {
@@ -71,10 +69,6 @@ type TaskPlanner interface {
 
 type IntentHandler interface {
 	Handle(Intent) error
-}
-
-type Task struct {
-	Intent Intent
 }
 
 type AgentRuntime struct {
@@ -126,4 +120,18 @@ func (r *DefaultRouter) ExecuteIntent(i Intent) error {
 	}
 
 	return h.Handle(i)
+}
+
+type PolicyEngine interface {
+	Allowed(*schema.BootContext, Intent) bool
+}
+
+type defaultPolicy struct{}
+
+var policy = struct {
+	Allowed func(*schema.BootContext, Intent) bool
+}{
+	Allowed: func(*schema.BootContext, Intent) bool {
+		return true
+	},
 }

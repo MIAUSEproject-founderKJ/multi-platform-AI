@@ -40,7 +40,9 @@ func (bm *BootManager) DecideBootPath() (*schema.BootSequence, error) {
 // ------------------------------------------------------------
 func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
 	// 1. Active hardware discovery
+
 	env := &schema.EnvConfig{
+		Platform: schema.PlatformResolution{},
 		Identity: schema.MachineIdentity{},
 		Hardware: bm.Identity.Hardware,
 	}

@@ -1,4 +1,4 @@
-//core\router\default_router.go
+//core/router/default_router.go
 
 /*The router is responsible for:
 • Input validation
@@ -72,4 +72,8 @@ func (r *DefaultRouter) Next(ctx context.Context) (interface{}, error) {
 	case <-ctx.Done():
 		return nil, ctx.Err()
 	}
+}
+
+func New() Router {
+	return NewDefaultRouter()
 }

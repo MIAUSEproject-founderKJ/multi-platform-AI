@@ -3,9 +3,7 @@
 package modules
 
 import (
-	"sync"
 	"sync/atomic"
-	"time"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"go.uber.org/zap"
@@ -15,55 +13,44 @@ type BaseModule struct {
 	name string
 	deps []string
 
-	ctx    *schema.RuntimeContext
-	logger *zap.Logger
-
-	healthy atomic.Bool
+	// Add these fields for InferenceModule
+	ctx     *schema.BootContext
+	logger  *zap.Logger
 	running atomic.Bool
+}
 
-	startTime time.Time
+func (b *BaseModule) setRunning(v bool) { b.running.Store(v) }
+func (b *BaseModule) IsRunning() bool   { return b.running.Load() }
 
-	wg sync.WaitGroup
+func (b *BaseModule) Init(ctx *schema.BootContext) {
+	b.ctx = ctx
+	b.logger = zap.NewExample() // replace with proper logger
+}
 
-	eventsProcessed atomic.Uint64
-	errorsTotal     atomic.Uint64
+func (b *BaseModule) LogInfo(msg string, fields ...zap.Field) {
+	if b.logger != nil {
+		b.logger.Info(msg, fields...)
+	}
+}
+
+func (b *BaseModule) LogError(msg string, err error) {
+	if b.logger != nil {
+		b.logger.Error(msg, zap.Error(err))
+	}
+}
+
+func (b *BaseModule) SetName(name string) {
+	b.name = name
 }
 
 func (b *BaseModule) Name() string {
 	return b.name
 }
 
+func (b *BaseModule) SetDeps(deps []string) {
+	b.deps = deps
+}
+
 func (b *BaseModule) DependsOn() []string {
 	return b.deps
-}
-
-func (b *BaseModule) InitBase(ctx *schema.RuntimeContext) {
-
-	b.ctx = ctx
-
-	b.logger = ctx.Logger.With(
-		zap.String("module", b.name),
-	)
-
-	b.startTime = time.Now()
-
-	b.healthy.Store(true)
-
-	b.logger.Info("module initialized")
-}
-
-func (b *BaseModule) Healthy() bool {
-	return b.healthy.Load()
-}
-
-func (b *BaseModule) setHealthy(v bool) {
-	b.healthy.Store(v)
-}
-
-func (b *BaseModule) setRunning(v bool) {
-	b.running.Store(v)
-}
-
-func (b *BaseModule) Running() bool {
-	return b.running.Load()
 }

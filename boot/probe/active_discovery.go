@@ -59,7 +59,7 @@ func ActiveDiscovery(env *schema.EnvConfig) (*schema.EnvConfig, error) {
 
 // populateCompute fills GPU/VRAM info for high-level devices
 func populateCompute(cfg *schema.EnvConfig) {
-	count, totalVRAM := probeVRAM()
+	count, totalVRAM := ProbeVRAM()
 	if count > 0 {
 		cfg.Hardware.Processors = append(cfg.Hardware.Processors,
 			schema.Processor{Type: "GPU", Count: count, Version: float64(totalVRAM)})
@@ -89,10 +89,10 @@ func populateEmbedded(cfg *schema.EnvConfig) {
 // resolveCapabilities maps protocol profile to capability descriptor
 func resolveCapabilities(p schema.ProtocolProfile) schema.CapabilityDescriptor {
 	return schema.CapabilityDescriptor{
-		SensorOnly:           p.ReadableRegisters > 0,
+		SensorOnly:              p.ReadableRegisters > 0,
 		SupportsRegisterControl: p.WritableRegisters > 0,
-		SupportsGoalControl:      p.WritableRegisters > 0 && p.SupportsWatchdog && p.SupportsSafeStop,
-		HasSafetyEnvelope:        p.WritableRegisters > 0 && p.SupportsWatchdog && p.SupportsSafeStop,
+		SupportsGoalControl:     p.WritableRegisters > 0 && p.SupportsWatchdog && p.SupportsSafeStop,
+		HasSafetyEnvelope:       p.WritableRegisters > 0 && p.SupportsWatchdog && p.SupportsSafeStop,
 	}
 }
 
@@ -193,7 +193,8 @@ func discoverProtocol(nodes []schema.NodeDescriptor) (schema.ProtocolProfile, er
 }
 
 // probeVRAM returns GPU count and total VRAM (MB)
-func probeVRAM() (int, int) {
+
+func ProbeVRAM() (int, int) {
 	switch runtime.GOOS {
 	case "linux":
 		return probeVRAMLinux()
@@ -226,4 +227,4 @@ func probeVRAMLinux() (int, int) {
 }
 
 func probeVRAMWindows() (int, int) { return 0, 0 }
-func probeVRAMMac() (int, int) { return 0, 0 }
+func probeVRAMMac() (int, int)     { return 0, 0 }

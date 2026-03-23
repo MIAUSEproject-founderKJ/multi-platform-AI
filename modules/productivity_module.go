@@ -5,10 +5,13 @@
 
 package modules
 
-import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+import (
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
+)
 
 type ProductivityModule struct {
-	ctx schema.RuntimeContext
+	ctx runtime.RuntimeContext
 }
 
 func (p *ProductivityModule) Name() string {

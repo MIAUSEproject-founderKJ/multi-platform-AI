@@ -1,10 +1,8 @@
-//boot\probe\hardware_fingerprint.go
+//boot/probe/hardware_fingerprint.go
 
 package probe
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"net"
 	"os"
 	"os/exec"
@@ -34,38 +32,26 @@ func collectHardwareFingerprint() HardwareFingerprint {
 	}
 }
 
-func buildRobustMachineID() string {
+func readDMIUUID() string {
 
-	fp := collectHardwareFingerprint()
-
-	// ---- Tier 1 & 2 (CORE IDENTITY) ----
-	coreParts := []string{
-		fp.TPM,
-		fp.DMI,
-		fp.CPU,
+	if runtime.GOOS != "linux" {
+		return ""
 	}
 
-	core := strings.Join(coreParts, "|")
-
-	// ---- Tier 3 & 4 (ENTROPY ONLY) ----
-	entropyParts := []string{
-		strings.Join(fp.PCI, ","),
-		strings.Join(fp.MAC, ","),
-		strings.Join(fp.Storage, ","),
+	data, err := os.ReadFile("/sys/class/dmi/id/product_uuid")
+	if err != nil {
+		return ""
 	}
 
-	entropy := strings.Join(entropyParts, "|")
-
-	if fp.TPM != "" {
-		// Ignore unstable signals entirely
-		entropy = ""
-	}
-	// ---- Combined canonical structure ----
-	final := "core:" + core + "||entropy:" + entropy
-
-	hash := sha256.Sum256([]byte(final))
-	return hex.EncodeToString(hash[:])
+	return normalize(string(data))
 }
+
+func normalize(s string) string {
+	s = strings.TrimSpace(s)
+	s = strings.ToLower(s)
+	return s
+}
+
 func readCPUModel() string {
 
 	if runtime.GOOS != "linux" {

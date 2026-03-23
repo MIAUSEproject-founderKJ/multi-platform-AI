@@ -1,6 +1,10 @@
-//internal/schema/service.go
+//internal/schema/capabillities.go
 
 package schema
+
+func (c CapabilitySet) HasAll(required CapabilitySet) bool {
+	return c&required == required
+}
 
 type CapabilitySet uint64
 

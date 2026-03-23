@@ -1,14 +1,14 @@
-//internal\schema\message_bus.go
+//runtime/message_bus.go
 
-package schema
+package runtime
+
+type MessageBus struct {
+	subscribers map[string][]chan Message
+}
 
 type Message struct {
 	Topic string
 	Data  []byte
-}
-
-type MessageBus struct {
-	subscribers map[string][]chan Message
 }
 
 func NewMessageBus() *MessageBus {

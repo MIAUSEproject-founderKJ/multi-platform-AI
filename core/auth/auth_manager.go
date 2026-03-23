@@ -23,7 +23,8 @@ type AuthManager struct {
 // based on platform, entity type, and tier
 func (am *AuthManager) LoginOrSignUp() (*schema.UserSession, error) {
 	var err error
-
+	fmt.Printf("[DEBUG] Platform: %v | Entity: %v | Tier: %v\n",
+		am.Platform, am.Entity, am.Tier)
 	switch am.Platform {
 
 	// ------------------------------

@@ -5,10 +5,11 @@ import (
 	"context"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
 	"github.com/gordonklaus/portaudio"
 )
 
-func StartMicrophoneStream(ctx context.Context, bus *schema.MessageBus) error {
+func StartMicrophoneStream(ctx context.Context, bus *runtime.MessageBus) error {
 
 	if err := portaudio.Initialize(); err != nil {
 		return err
@@ -35,10 +36,11 @@ func StartMicrophoneStream(ctx context.Context, bus *schema.MessageBus) error {
 			if err := stream.Read(); err != nil {
 				return err
 			}
-
-			raw := schema.int16ToBytes(buffer)
-
-			_ = bus.Publish(ctx, "audio.raw", raw)
+			raw := schema.Int16ToBytes(buffer)
+			bus.Publish(runtime.Message{
+				Topic: "audio.raw",
+				Data:  raw,
+			})
 		}
 	}
 }

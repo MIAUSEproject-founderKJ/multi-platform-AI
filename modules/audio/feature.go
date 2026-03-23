@@ -4,10 +4,19 @@ package audio
 import (
 	"fmt"
 	"math"
+	"math/cmplx"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	"gonum.org/v1/gonum/dsp/fourier"
 )
 
 type FeatureExtractor struct {
 	sampleRate int
+}
+
+func fft(x []float64) []complex128 {
+	fft := fourier.NewFFT(len(x))
+	return fft.Coefficients(nil, x)
 }
 
 func NewFeatureExtractor(rate int) *FeatureExtractor {
@@ -16,7 +25,7 @@ func NewFeatureExtractor(rate int) *FeatureExtractor {
 
 func (f *FeatureExtractor) ProcessPCM(pcm []byte) ([]float64, error) {
 
-	samples := bytesToFloat64(pcm)
+	samples := schema.BytesToFloat64(pcm)
 
 	// 1. Pre-emphasis
 	for i := 1; i < len(samples); i++ {
@@ -36,7 +45,7 @@ func (f *FeatureExtractor) ProcessPCM(pcm []byte) ([]float64, error) {
 	// 4. Log energy
 	features := make([]float64, len(spectrum))
 	for i := range spectrum {
-		features[i] = math.Log(math.Abs(spectrum[i]) + 1e-6)
+		features[i] = math.Log(cmplx.Abs(spectrum[i]) + 1e-6)
 	}
 
 	return features[:40], nil // first 40 bins

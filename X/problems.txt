@@ -1,6 +1,28 @@
 [{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/audio/audio_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "IncompatibleAssign",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "IncompatibleAssign"
+		}
+	},
+	"severity": 8,
+	"message": "cannot use ctx (variable of type *runtime.RuntimeContext) as *schema.BootContext value in argument to m.InitBase",
+	"source": "compiler",
+	"startLineNumber": 38,
+	"startColumn": 13,
+	"endLineNumber": 38,
+	"endColumn": 16,
+	"modelVersionId": 96,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/audio/audio_module.go",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "IncompatibleAssign",
 		"target": {
@@ -18,10 +40,11 @@
 	"startColumn": 11,
 	"endLineNumber": 42,
 	"endColumn": 37,
+	"modelVersionId": 96,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/audio/audio_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "WrongArgCount",
 		"target": {
@@ -39,115 +62,11 @@
 	"startColumn": 30,
 	"endLineNumber": 42,
 	"endColumn": 36,
+	"modelVersionId": 96,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/audio/audio_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "WrongArgCount",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "WrongArgCount"
-		}
-	},
-	"severity": 8,
-	"message": "too many arguments in call to ctx.Bus.Subscribe\n\thave (string, func(ctx context.Context, payload []byte) error)\n\twant (string)",
-	"source": "compiler",
-	"startLineNumber": 44,
-	"startColumn": 33,
-	"endLineNumber": 44,
-	"endColumn": 41,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/audio/audio_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "MissingFieldOrMethod",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "MissingFieldOrMethod"
-		}
-	},
-	"severity": 8,
-	"message": "m.ctx.Data undefined (type *schema.RuntimeContext has no field or method Data)",
-	"source": "compiler",
-	"startLineNumber": 62,
-	"startColumn": 15,
-	"endLineNumber": 62,
-	"endColumn": 19,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/audio/capture_pcm.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "UndeclaredImportedName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredImportedName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: schema.int16ToBytes",
-	"source": "compiler",
-	"startLineNumber": 39,
-	"startColumn": 18,
-	"endLineNumber": 39,
-	"endColumn": 30,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/audio/capture_pcm.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "TooManyValues",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "TooManyValues"
-		}
-	},
-	"severity": 8,
-	"message": "bus.Publish(ctx, \"audio.raw\", raw) (no value) used as value",
-	"source": "compiler",
-	"startLineNumber": 41,
-	"startColumn": 8,
-	"endLineNumber": 41,
-	"endColumn": 42,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/audio/capture_pcm.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "WrongArgCount",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "WrongArgCount"
-		}
-	},
-	"severity": 8,
-	"message": "too many arguments in call to bus.Publish\n\thave (context.Context, string, unknown type)\n\twant (schema.Message)",
-	"source": "compiler",
-	"startLineNumber": 41,
-	"startColumn": 25,
-	"endLineNumber": 41,
-	"endColumn": 36,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/audio/feature.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -159,16 +78,61 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: bytesToFloat64",
+	"message": "undefined: result",
 	"source": "compiler",
-	"startLineNumber": 19,
-	"startColumn": 13,
-	"endLineNumber": 19,
-	"endColumn": 27,
+	"startLineNumber": 62,
+	"startColumn": 2,
+	"endLineNumber": 62,
+	"endColumn": 8,
+	"modelVersionId": 96,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/audio/audio_module.go",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "TooManyValues",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "TooManyValues"
+		}
+	},
+	"severity": 8,
+	"message": "m.ctx.Bus.Publish(runtime.Message{…}) (no value) used as value",
+	"source": "compiler",
+	"startLineNumber": 62,
+	"startColumn": 11,
+	"endLineNumber": 65,
+	"endColumn": 4,
+	"modelVersionId": 96,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/audio/audio_module.go",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: result",
+	"source": "compiler",
+	"startLineNumber": 67,
+	"startColumn": 9,
+	"endLineNumber": 67,
+	"endColumn": 15,
+	"modelVersionId": 96,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/audio/feature.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -182,58 +146,37 @@
 	"severity": 8,
 	"message": "undefined: fft",
 	"source": "compiler",
-	"startLineNumber": 32,
+	"startLineNumber": 34,
 	"startColumn": 14,
-	"endLineNumber": 32,
+	"endLineNumber": 34,
 	"endColumn": 17,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/audit_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "InvalidIfaceAssign",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "InvalidIfaceAssign"
-		}
-	},
-	"severity": 8,
-	"message": "cannot use &AuditModule{} (value of type *AuditModule) as DomainModule value in return statement: *AuditModule does not implement DomainModule (missing method Category)",
-	"source": "compiler",
-	"startLineNumber": 19,
-	"startColumn": 9,
-	"endLineNumber": 19,
-	"endColumn": 23,
 	"modelVersionId": 13,
 	"origin": "extHost1"
 },{
-	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/cognition_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/base_module.go",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
-		"value": "WrongArgCount",
+		"value": "DuplicateMethod",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "WrongArgCount"
+			"fragment": "DuplicateMethod"
 		}
 	},
 	"severity": 8,
-	"message": "too many arguments in call to ctx.Bus.Subscribe\n\thave (string, func(ctx context.Context, payload []byte) error)\n\twant (string)",
+	"message": "method BaseModule.Init already declared at C:\\Users\\MIAUSE\\Documents\\GitHub\\Programming\\multi-platform-AI\\modules\\base_module.go:15:22",
 	"source": "compiler",
-	"startLineNumber": 20,
-	"startColumn": 36,
-	"endLineNumber": 20,
-	"endColumn": 44,
-	"modelVersionId": 1,
+	"startLineNumber": 55,
+	"startColumn": 22,
+	"endLineNumber": 55,
+	"endColumn": 26,
+	"modelVersionId": 38,
 	"origin": "extHost1"
 },{
 	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/cognition_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -251,11 +194,10 @@
 	"startColumn": 12,
 	"endLineNumber": 27,
 	"endColumn": 23,
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/cognition_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -273,11 +215,10 @@
 	"startColumn": 10,
 	"endLineNumber": 33,
 	"endColumn": 14,
-	"modelVersionId": 1,
 	"origin": "extHost1"
 },{
 	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/cognition_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -289,156 +230,16 @@
 		}
 	},
 	"severity": 8,
-	"message": "m.ctx.Data undefined (type *schema.RuntimeContext has no field or method Data)",
+	"message": "m.ctx.Data undefined (type *runtime.RuntimeContext has no field or method Data)",
 	"source": "compiler",
 	"startLineNumber": 37,
 	"startColumn": 15,
 	"endLineNumber": 37,
 	"endColumn": 19,
-	"modelVersionId": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/database_sink_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"severity": 8,
-	"message": "missing ',' in composite literal",
-	"source": "syntax",
-	"startLineNumber": 44,
-	"startColumn": 9,
-	"endLineNumber": 44,
-	"endColumn": 9,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "DuplicateMethod",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "DuplicateMethod"
-		}
-	},
-	"severity": 8,
-	"message": "method AuditModule.Allowed already declared at C:\\Users\\MIAUSE\\Documents\\GitHub\\Programming\\multi-platform-AI\\modules\\audit_module.go:11:23",
-	"source": "compiler",
-	"startLineNumber": 39,
-	"startColumn": 23,
-	"endLineNumber": 39,
-	"endColumn": 30,
-	"modelVersionId": 15,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: policy",
-	"source": "compiler",
-	"startLineNumber": 119,
-	"startColumn": 6,
-	"endLineNumber": 119,
-	"endColumn": 12,
-	"modelVersionId": 15,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/file/http_ingestion.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "TooManyValues",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "TooManyValues"
-		}
-	},
-	"severity": 8,
-	"message": "bus.Publish(r.Context(), \"file.chunk\", buf[:n]) (no value) used as value",
-	"source": "compiler",
-	"startLineNumber": 28,
-	"startColumn": 9,
-	"endLineNumber": 28,
-	"endColumn": 56,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/file/http_ingestion.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "WrongArgCount",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "WrongArgCount"
-		}
-	},
-	"severity": 8,
-	"message": "too many arguments in call to bus.Publish\n\thave (context.Context, string, []byte)\n\twant (schema.Message)",
-	"source": "compiler",
-	"startLineNumber": 28,
-	"startColumn": 34,
-	"endLineNumber": 28,
-	"endColumn": 46,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/file/http_ingestion.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: FileRepository",
-	"source": "compiler",
-	"startLineNumber": 40,
-	"startColumn": 7,
-	"endLineNumber": 40,
-	"endColumn": 21,
-	"origin": "extHost1"
-},{
-	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/industrial_protocol_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "InvalidIfaceAssign",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "InvalidIfaceAssign"
-		}
-	},
-	"severity": 8,
-	"message": "cannot use &IndustrialProtocolModule{} (value of type *IndustrialProtocolModule) as DomainModule value in return statement: *IndustrialProtocolModule does not implement DomainModule (missing method Allowed)",
-	"source": "compiler",
-	"startLineNumber": 18,
-	"startColumn": 9,
-	"endLineNumber": 18,
-	"endColumn": 36,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -456,55 +257,11 @@
 	"startColumn": 8,
 	"endLineNumber": 36,
 	"endColumn": 13,
-	"modelVersionId": 1,
+	"modelVersionId": 43,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "InvalidIfaceAssign",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "InvalidIfaceAssign"
-		}
-	},
-	"severity": 8,
-	"message": "cannot use m (variable of type *InferenceModule) as DomainModule value in return statement: *InferenceModule does not implement DomainModule (missing method Allowed)",
-	"source": "compiler",
-	"startLineNumber": 56,
-	"startColumn": 9,
-	"endLineNumber": 56,
-	"endColumn": 10,
-	"modelVersionId": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: engines",
-	"source": "compiler",
-	"startLineNumber": 64,
-	"startColumn": 12,
-	"endLineNumber": 64,
-	"endColumn": 19,
-	"modelVersionId": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -518,59 +275,15 @@
 	"severity": 8,
 	"message": "undefined: inference",
 	"source": "compiler",
-	"startLineNumber": 70,
-	"startColumn": 12,
-	"endLineNumber": 70,
-	"endColumn": 21,
-	"modelVersionId": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "WrongArgCount",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "WrongArgCount"
-		}
-	},
-	"severity": 8,
-	"message": "too many arguments in call to ctx.Bus.Subscribe\n\thave (string, func(ctx context.Context, payload []byte) error)\n\twant (string)",
-	"source": "compiler",
-	"startLineNumber": 72,
-	"startColumn": 38,
-	"endLineNumber": 72,
-	"endColumn": 46,
-	"modelVersionId": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: inference",
-	"source": "compiler",
-	"startLineNumber": 128,
+	"startLineNumber": 119,
 	"startColumn": 15,
-	"endLineNumber": 128,
+	"endLineNumber": 119,
 	"endColumn": 24,
-	"modelVersionId": 1,
+	"modelVersionId": 43,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -584,15 +297,15 @@
 	"severity": 8,
 	"message": "undefined: BatchSize",
 	"source": "compiler",
-	"startLineNumber": 134,
+	"startLineNumber": 125,
 	"startColumn": 20,
-	"endLineNumber": 134,
+	"endLineNumber": 125,
 	"endColumn": 29,
-	"modelVersionId": 1,
+	"modelVersionId": 43,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -606,15 +319,15 @@
 	"severity": 8,
 	"message": "undefined: BatchSize",
 	"source": "compiler",
-	"startLineNumber": 139,
+	"startLineNumber": 130,
 	"startColumn": 10,
-	"endLineNumber": 139,
+	"endLineNumber": 130,
 	"endColumn": 19,
-	"modelVersionId": 1,
+	"modelVersionId": 43,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -628,15 +341,15 @@
 	"severity": 8,
 	"message": "undefined: inference",
 	"source": "compiler",
-	"startLineNumber": 151,
+	"startLineNumber": 142,
 	"startColumn": 57,
-	"endLineNumber": 151,
+	"endLineNumber": 142,
 	"endColumn": 66,
-	"modelVersionId": 1,
+	"modelVersionId": 43,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -650,15 +363,15 @@
 	"severity": 8,
 	"message": "undefined: inference",
 	"source": "compiler",
-	"startLineNumber": 153,
+	"startLineNumber": 144,
 	"startColumn": 9,
-	"endLineNumber": 153,
+	"endLineNumber": 144,
 	"endColumn": 18,
-	"modelVersionId": 1,
+	"modelVersionId": 43,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -672,15 +385,15 @@
 	"severity": 8,
 	"message": "undefined: inference",
 	"source": "compiler",
-	"startLineNumber": 176,
+	"startLineNumber": 167,
 	"startColumn": 9,
-	"endLineNumber": 176,
+	"endLineNumber": 167,
 	"endColumn": 18,
-	"modelVersionId": 1,
+	"modelVersionId": 43,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -692,17 +405,17 @@
 		}
 	},
 	"severity": 8,
-	"message": "m.ctx.Router.Publish undefined (type *router.Router is pointer to interface, not interface)",
+	"message": "m.ctx.Router undefined (type *schema.BootContext has no field or method Router)",
 	"source": "compiler",
-	"startLineNumber": 218,
-	"startColumn": 19,
-	"endLineNumber": 218,
-	"endColumn": 26,
-	"modelVersionId": 1,
+	"startLineNumber": 209,
+	"startColumn": 12,
+	"endLineNumber": 209,
+	"endColumn": 18,
+	"modelVersionId": 43,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -714,17 +427,17 @@
 		}
 	},
 	"severity": 8,
-	"message": "m.ctx.Router.Publish undefined (type *router.Router is pointer to interface, not interface)",
+	"message": "m.ctx.Router undefined (type *schema.BootContext has no field or method Router)",
 	"source": "compiler",
-	"startLineNumber": 219,
-	"startColumn": 19,
-	"endLineNumber": 219,
-	"endColumn": 26,
-	"modelVersionId": 1,
+	"startLineNumber": 210,
+	"startColumn": 12,
+	"endLineNumber": 210,
+	"endColumn": 18,
+	"modelVersionId": 43,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -736,17 +449,17 @@
 		}
 	},
 	"severity": 8,
-	"message": "m.ctx.Router.Publish undefined (type *router.Router is pointer to interface, not interface)",
+	"message": "m.ctx.Router undefined (type *schema.BootContext has no field or method Router)",
 	"source": "compiler",
-	"startLineNumber": 220,
-	"startColumn": 19,
-	"endLineNumber": 220,
-	"endColumn": 26,
-	"modelVersionId": 1,
+	"startLineNumber": 211,
+	"startColumn": 12,
+	"endLineNumber": 211,
+	"endColumn": 18,
+	"modelVersionId": 43,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -760,15 +473,37 @@
 	"severity": 8,
 	"message": "undefined: inference",
 	"source": "compiler",
-	"startLineNumber": 309,
+	"startLineNumber": 300,
 	"startColumn": 10,
-	"endLineNumber": 309,
+	"endLineNumber": 300,
 	"endColumn": 19,
-	"modelVersionId": 1,
+	"modelVersionId": 43,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "UnusedVar",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UnusedVar"
+		}
+	},
+	"severity": 8,
+	"message": "declared and not used: resultBytes",
+	"source": "compiler",
+	"startLineNumber": 323,
+	"startColumn": 3,
+	"endLineNumber": 323,
+	"endColumn": 14,
+	"modelVersionId": 43,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -780,17 +515,17 @@
 		}
 	},
 	"severity": 8,
-	"message": "m.ctx.Router.Publish undefined (type *router.Router is pointer to interface, not interface)",
+	"message": "m.ctx.Subscribe undefined (type *schema.BootContext has no field or method Subscribe)",
 	"source": "compiler",
-	"startLineNumber": 347,
-	"startColumn": 20,
-	"endLineNumber": 347,
-	"endColumn": 27,
-	"modelVersionId": 1,
+	"startLineNumber": 338,
+	"startColumn": 13,
+	"endLineNumber": 338,
+	"endColumn": 22,
+	"modelVersionId": 43,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
+	"owner": "_generated_diagnostic_collection_name_#2",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -802,77 +537,34 @@
 		}
 	},
 	"severity": 8,
-	"message": "m.ctx.Router.Publish undefined (type *router.Router is pointer to interface, not interface)",
+	"message": "m.ctx.Bus undefined (type *schema.BootContext has no field or method Bus)",
 	"source": "compiler",
-	"startLineNumber": 348,
-	"startColumn": 20,
-	"endLineNumber": 348,
-	"endColumn": 27,
-	"modelVersionId": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "MissingFieldOrMethod",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "MissingFieldOrMethod"
-		}
-	},
-	"severity": 8,
-	"message": "m.ctx.Router.Publish undefined (type *router.Router is pointer to interface, not interface)",
-	"source": "compiler",
-	"startLineNumber": 349,
-	"startColumn": 20,
-	"endLineNumber": 349,
-	"endColumn": 27,
-	"modelVersionId": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/ingestion_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: IngestionModule",
-	"source": "compiler",
-	"startLineNumber": 6,
-	"startColumn": 10,
-	"endLineNumber": 6,
-	"endColumn": 25,
-	"modelVersionId": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/telemetry_module.go",
-	"owner": "_generated_diagnostic_collection_name_#0",
-	"code": {
-		"value": "InvalidIfaceAssign",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "InvalidIfaceAssign"
-		}
-	},
-	"severity": 8,
-	"message": "cannot use m (variable of type *TelemetryModule) as DomainModule value in return statement: *TelemetryModule does not implement DomainModule (missing method Allowed)",
-	"source": "compiler",
-	"startLineNumber": 33,
+	"startLineNumber": 339,
 	"startColumn": 9,
-	"endLineNumber": 33,
-	"endColumn": 10,
+	"endLineNumber": 339,
+	"endColumn": 12,
+	"modelVersionId": 43,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "m.ctx.Bus undefined (type *schema.BootContext has no field or method Bus)",
+	"source": "compiler",
+	"startLineNumber": 340,
+	"startColumn": 13,
+	"endLineNumber": 340,
+	"endColumn": 16,
+	"modelVersionId": 43,
 	"origin": "extHost1"
 }]

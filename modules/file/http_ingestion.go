@@ -1,4 +1,5 @@
 // modules/file/http_ingestion.go
+
 package file
 
 import (
@@ -6,10 +7,10 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
 )
 
-func FileUploadHandler(bus *schema.MessageBus) http.HandlerFunc {
+func FileUploadHandler(bus *runtime.MessageBus) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {
 
@@ -24,11 +25,21 @@ func FileUploadHandler(bus *schema.MessageBus) http.HandlerFunc {
 
 		for {
 			n, err := file.Read(buf)
+
 			if n > 0 {
-				_ = bus.Publish(r.Context(), "file.chunk", buf[:n])
+				bus.Publish(runtime.Message{
+					Topic: "file.chunk",
+					Data:  buf[:n],
+				})
 			}
+
 			if err == io.EOF {
 				break
+			}
+
+			if err != nil {
+				http.Error(w, err.Error(), 500)
+				return
 			}
 		}
 
@@ -36,15 +47,6 @@ func FileUploadHandler(bus *schema.MessageBus) http.HandlerFunc {
 	}
 }
 
-type IngestionModule struct {
-	repo FileRepository
+type FileRepository interface {
+	StoreChunk(ctx context.Context, data []byte) error
 }
-
-func (m *IngestionModule) Handle(ctx context.Context, payload []byte) error {
-	return m.repo.StoreChunk(ctx, payload)
-}
-
-/*This supports:
-• CSV ingestion
-• JSON ingestion
-• Binary blob storage*/

@@ -20,4 +20,5 @@ require (
 	golang.org/x/net v0.44.0 // indirect
 	golang.org/x/sync v0.17.0 // indirect
 	golang.org/x/sys v0.38.0 // indirect
+	gonum.org/v1/gonum v0.17.0
 )
