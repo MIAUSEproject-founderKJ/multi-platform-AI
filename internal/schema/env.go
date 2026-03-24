@@ -22,6 +22,7 @@ const (
 	PlatformIndustrial PlatformClass = "industrial"
 	PlatformEmbedded   PlatformClass = "embedded"
 	PlatformGamePad    PlatformClass = "gamepad"
+	PlatformUnknown    PlatformClass = "unknown"
 )
 
 // PlatformScore tracks the heuristic weight for a specific platform type.

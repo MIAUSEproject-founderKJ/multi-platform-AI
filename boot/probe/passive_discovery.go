@@ -10,7 +10,6 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
-	"strconv"
 	"strings"
 	"time"
 
@@ -139,13 +138,23 @@ func runPlatformInference(env *schema.EnvConfig, fp HardwareFingerprint) {
 	}
 
 	// Desktop/Laptop scoring
-	collectDesktopSignals(env, fp)
+	desktop := collectDesktopSignals(fp, env)
+	scores[schema.PlatformComputer] = desktop
 
 	// Convert to confidence and pick best
-	var best schema.PlatformClass = schema.PlatformComputer
-	var highConf mathutil.Q16
+	var best schema.PlatformClass = schema.PlatformUnknown
+	highConf := mathutil.Q16(0)
 
 	candidates := []schema.PlatformScore{}
+
+	if len(scores) == 0 {
+		logging.Warn("[IDENTITY] No platform signals detected, defaulting to UNKNOWN")
+
+		env.Platform.Final = schema.PlatformUnknown
+		env.Platform.Locked = false
+		return
+	}
+
 	for _, s := range scores {
 		s.Confidence = mathutil.Q16(mathutil.FromFloat64(s.Score / s.MaxScore))
 		candidates = append(candidates, *s)
@@ -154,57 +163,47 @@ func runPlatformInference(env *schema.EnvConfig, fp HardwareFingerprint) {
 			best = s.Type
 		}
 	}
+	logging.Info("[DEBUG] Passive Discovery 1 RunPlatformInference: best=%s, highConf=%d%%", best, highConf.Percentage())
+
 	env.Platform.Candidates = candidates
 	env.Platform.Final = best
 	env.Platform.Locked = true
 	env.Platform.ResolvedAt = time.Now()
 
-	logging.Info("[DEBUG] Passive Discovery RunPlatformInference: best=%s, highConf=%d%%", best, highConf.Percentage())
+	logging.Info("[DEBUG] Passive Discovery 2 RunPlatformInference: best=%s, highConf=%d%%", best, highConf.Percentage())
 	logging.Info("[IDENTITY]  Passive Discovery Resolution: %s (Conf: %d%%)", best, highConf.Percentage())
 }
 
 // Desktop/Laptop scoring helper
-func collectDesktopSignals(env *schema.EnvConfig, fp HardwareFingerprint) {
-	s := &env.Platform
+func collectDesktopSignals(fp HardwareFingerprint, env *schema.EnvConfig) *schema.PlatformScore {
 	cpu := runtime.NumCPU()
+
 	score := 0.2
 	maxScore := 1.5
 
 	score += 0.1 * float64(cpu)
 	score += 0.05 * float64(len(fp.PCI))
 	score += 0.05 * float64(len(fp.MAC))
+
 	if env.Hardware.HasBattery {
 		score += 0.3
 	}
+
 	if score > maxScore {
 		score = maxScore
 	}
 
-	s.Candidates = append(s.Candidates, schema.PlatformScore{
+	return &schema.PlatformScore{
 		Type:     schema.PlatformComputer,
 		Score:    score,
 		MaxScore: maxScore,
 		Signals: []string{
-			"CPU cores: " + strconv.Itoa(cpu),
+			fmt.Sprintf("CPU cores: %d", cpu),
 			fmt.Sprintf("Battery: %v", env.Hardware.HasBattery),
 			fmt.Sprintf("PCI devices: %d", len(fp.PCI)),
 			fmt.Sprintf("MAC addresses: %d", len(fp.MAC)),
 		},
-	})
-
-	// Pick best candidate
-	best := schema.PlatformComputer
-	var highConf mathutil.Q16
-	for _, c := range s.Candidates {
-		c.Confidence = mathutil.Q16(mathutil.FromFloat64(c.Score / c.MaxScore))
-		if c.Confidence > highConf {
-			highConf = c.Confidence
-			best = c.Type
-		}
 	}
-	s.Final = best
-	s.Locked = true
-	s.ResolvedAt = time.Now()
 }
 
 // -----------------------------
