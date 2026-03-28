@@ -18,10 +18,10 @@ import (
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
 )
-
 
 // ============================================================
 // ENTRYPOINT
@@ -63,8 +63,8 @@ func main() {
 }
 
 type SystemContext struct {
-	Boot    *schema.BootContext
-	Exec    *boot.ExecutionContext
+	Boot *schema.BootContext
+	Exec *boot.ExecutionContext
 }
 
 // ============================================================
@@ -78,31 +78,30 @@ func BuildSystemContext() (*SystemContext, error) {
 		return nil, err
 	}
 
-bootSeq, session, err := boot.RunBootSequence(vault)
-if err != nil {
-	return nil, err
+	bootSeq, session, err := boot.RunBootSequence(vault)
+	if err != nil {
+		return nil, err
+	}
+
+	// Attach session back if not already embedded
+	bootSeq.UserSession = session
+
+	bootCtx, err := boot.ResolveBootContext(bootSeq)
+	if err != nil {
+		return nil, err
+	}
+
+	execCtx, err := boot.ResolveExecutionContext(bootSeq)
+	if err != nil {
+		return nil, err
+	}
+
+	return &SystemContext{
+		Boot:    bootCtx,
+		Exec:    execCtx,
+		Session: session,
+	}, nil
 }
-
-// Attach session back if not already embedded
-bootSeq.UserSession = session
-
-bootCtx, err := boot.ResolveBootContext(bootSeq)
-if err != nil {
-	return nil, err
-}
-
-execCtx, err := boot.ResolveExecutionContext(bootSeq)
-if err != nil {
-	return nil, err
-}
-
-return &SystemContext{
-	Boot:    bootCtx,
-	Exec:    execCtx,
-	Session: session,
-}, nil
-}
-
 
 // ============================================================
 // APP STRUCT
@@ -113,7 +112,6 @@ type App struct {
 	supervisor *runtime.Supervisor
 	server     *http.Server
 }
-
 
 // ============================================================
 // PHASE 2: RUNTIME BUILD
@@ -130,7 +128,7 @@ func BuildRuntime(logger *zap.Logger, bootCtx *schema.BootContext) (*App, error)
 	// --- MODULE GRAPH ---
 	registry := modules.DefaultRegistry()
 
-	filtered := modules.FilterModules(registry, bootCtx.ExecCtx)
+	filtered := modules.FilterModules(registry, bootCtx)
 
 	ordered, err := modules.ResolveDependencies(filtered)
 	if err != nil {
@@ -147,7 +145,6 @@ func BuildRuntime(logger *zap.Logger, bootCtx *schema.BootContext) (*App, error)
 		supervisor: sup,
 	}, nil
 }
-
 
 // ============================================================
 // START
@@ -169,7 +166,6 @@ func (a *App) Start(ctx context.Context) error {
 	return nil
 }
 
-
 // ============================================================
 // STOP
 // ============================================================
@@ -182,7 +178,6 @@ func (a *App) Stop(ctx context.Context) error {
 
 	return a.supervisor.Stop(ctx)
 }
-
 
 // ============================================================
 // HTTP (EDGE ADAPTER)

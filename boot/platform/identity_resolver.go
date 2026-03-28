@@ -28,19 +28,31 @@ func RunPlatformInference(env *schema.EnvConfig, fp probe.HardwareFingerprint) {
 		return scores[class]
 	}
 
-	buses := env.Hardware.Buses
 	osName := strings.ToLower(env.Identity.OS)
 
 	// Vehicle / Robotic / Industrial scoring
-	if hasBus(buses, "can") || osName == "qnx" || osName == "autosar" {
+	if hasBus(fp, "can") || osName == "qnx" || osName == "autosar" {
 		s := ensure(schema.PlatformVehicle, 1.5)
 		s.Score += 1.0
-		s.Signals = append(s.Signals, "CAN bus / automotive RTOS detected")
+		s.Signals = append(s.Signals, schema.Signal{
+			Name:       "can_bus_or_rtos",
+			Value:      1.0,
+			Weight:     1.0,
+			Confidence: 0.9,
+			Source:     "heuristic",
+		})
 	}
-	if hasBus(buses, "i2c") && hasBus(buses, "spi") {
+	if hasBus(fp, "i2c") && hasBus(fp, "spi") {
 		s := ensure(schema.PlatformRobot, 1.2)
 		s.Score += 0.4
-		s.Signals = append(s.Signals, "I2C+SPI sensors detected")
+
+		s.Signals = append(s.Signals, schema.Signal{
+			Name:       "I2C+SPI sensors",
+			Value:      1.0,
+			Weight:     1.0,
+			Confidence: 0.9,
+			Source:     "heuristic",
+		})
 	}
 
 	// Desktop/Laptop scoring
@@ -66,6 +78,9 @@ func RunPlatformInference(env *schema.EnvConfig, fp probe.HardwareFingerprint) {
 }
 
 // ------------------- helpers -------------------
+func hasBus(fp probe.HardwareFingerprint, bus string) bool {
+	return fp.Buses[bus]
+}
 
 // Desktop/Laptop scoring using fingerprint
 func collectDesktopSignals(env *schema.EnvConfig, fp probe.HardwareFingerprint, scores map[schema.PlatformClass]*schema.PlatformScore) {
@@ -86,10 +101,34 @@ func collectDesktopSignals(env *schema.EnvConfig, fp probe.HardwareFingerprint, 
 
 	s.Score += scoreFromCPU + scoreFromPCI + scoreFromMAC + scoreFromBattery
 	s.Signals = append(s.Signals,
-		fmt.Sprintf("CPU cores: %d", cpu),
-		fmt.Sprintf("Battery: %v", env.Hardware.HasBattery),
-		fmt.Sprintf("PCI devices: %d", len(fp.PCI)),
-		fmt.Sprintf("MAC addresses: %d", len(fp.MAC)),
+		schema.Signal{
+			Name:       "cpu_cores",
+			Value:      minFloat(float64(cpu)/16.0, 1.0),
+			Weight:     0.3,
+			Confidence: 0.9,
+			Source:     "runtime",
+		},
+		schema.Signal{
+			Name:       "battery_present",
+			Value:      boolToFloat(env.Hardware.HasBattery),
+			Weight:     0.3,
+			Confidence: 0.95,
+			Source:     "power",
+		},
+		schema.Signal{
+			Name:       "pci_devices",
+			Value:      minFloat(float64(len(fp.PCI))/10.0, 1.0),
+			Weight:     0.3,
+			Confidence: 0.9,
+			Source:     "runtime",
+		},
+		schema.Signal{
+			Name:       "mac_addresses",
+			Value:      minFloat(float64(len(fp.MAC))/5.0, 1.0),
+			Weight:     0.2,
+			Confidence: 0.9,
+			Source:     "runtime",
+		},
 	)
 
 	// Update Candidates slice for logging
@@ -112,4 +151,17 @@ func ComputeHardwareFingerprint(env *schema.EnvConfig) []byte {
 
 	logging.Info("[SECURITY] Environment Hash Generated: %s...", env.Attestation.EnvHash[:12])
 	return hash[:]
+}
+
+func boolToFloat(b bool) float64 {
+	if b {
+		return 1.0
+	}
+	return 0.0
+}
+func minFloat(a, b float64) float64 {
+	if a < b {
+		return a
+	}
+	return b
 }

@@ -1,12 +1,15 @@
-//boot/probe/type_struct.go
+// boot/probe/type_struct.go
+package probe
 
+import (
+	"context"
+	"time"
+)
 
 type Probe interface {
 	Name() string
 	Run(ctx context.Context) (any, error)
 }
-
-
 
 type ProbeResult[T any] struct {
 	Value    T
@@ -14,4 +17,3 @@ type ProbeResult[T any] struct {
 	Duration time.Duration
 	Source   string
 }
-

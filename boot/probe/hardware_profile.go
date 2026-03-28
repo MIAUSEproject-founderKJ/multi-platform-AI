@@ -4,6 +4,7 @@ package probe
 
 import (
 	"os"
+	"os/exec"
 	"runtime"
 	"strings"
 

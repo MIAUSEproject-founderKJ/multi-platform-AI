@@ -56,15 +56,13 @@ func ResolveBootContext(
 		trust = schema.TrustUntrusted
 	}
 
-
 	const (
-	TrustUntrusted TrustLevel = iota
-	TrustUser
-	TrustDevice
-	TrustAdmin
-	TrustSystem
-)
-
+		TrustUntrusted TrustLevel = iota
+		TrustUser
+		TrustDevice
+		TrustAdmin
+		TrustSystem
+	)
 
 	// ------------------------------------------------------------
 	// 3. Derive Permissions (Policy Engine)

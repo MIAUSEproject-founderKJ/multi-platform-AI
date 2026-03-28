@@ -3,7 +3,9 @@
 package probe
 
 import (
+	"bytes"
 	"context"
+	"fmt"
 	"net"
 	"os"
 	"os/exec"
@@ -12,6 +14,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
 // ------------------------------------------------------------
@@ -50,7 +54,7 @@ func (b *fingerprintBuilder) setSlice(target *[]string, val []string) {
 // ------------------------------------------------------------
 
 func CollectHardwareFingerprint(ctx context.Context) (HardwareFingerprint, []string) {
-var probeErrors []string
+	var probeErrors []string
 	ctx, cancel := context.WithTimeout(ctx, 3*time.Second)
 	defer cancel()
 
@@ -78,16 +82,16 @@ var probeErrors []string
 	})
 
 	run(func(c context.Context) {
-	res := runProbe(ctx, "pci_scan", func(ctx context.Context) ([]string, error) {
-	return readPCITopology(ctx), nil
-	})
+		res := runProbe(ctx, "pci_scan", func(ctx context.Context) ([]string, error) {
+			return readPCITopology(ctx), nil
+		})
 
-	if res.Error != nil {
-	probeErrors = append(probeErrors,
-		fmt.Sprintf("%s: %v", res.Source, res.Error))
-	} else {
-	builder.setSlice(&builder.fp.PCI, res.Value)
-	}
+		if res.Error != nil {
+			probeErrors = append(probeErrors,
+				fmt.Sprintf("%s: %v", res.Source, res.Error))
+		} else {
+			builder.setSlice(&builder.fp.PCI, res.Value)
+		}
 	})
 
 	run(func(c context.Context) {
@@ -99,7 +103,7 @@ var probeErrors []string
 	})
 
 	wg.Wait()
-	return builder.fp
+	return builder.fp, probeErrors
 }
 
 //
@@ -108,11 +112,11 @@ var probeErrors []string
 // ------------------------------------------------------------
 //
 
-// MaxCommandOutput defines a safety limit (1MB) to prevent a bugged or 
+// MaxCommandOutput defines a safety limit (1MB) to prevent a bugged or
 // malicious tool from exhausting system memory.
-const MaxCommandOutput = 1024 * 1024 
+const MaxCommandOutput = 1024 * 1024
 
-// runCommand executes a system binary with context awareness, 
+// runCommand executes a system binary with context awareness,
 // resource limits, and detailed error reporting.
 func runCommand(ctx context.Context, name string, args ...string) (string, error) {
 	// 1. Verify the binary exists before execution to avoid unnecessary process overhead
@@ -122,14 +126,14 @@ func runCommand(ctx context.Context, name string, args ...string) (string, error
 	}
 
 	cmd := exec.CommandContext(ctx, path, args...)
-	
+
 	// Use a clean environment but allow specifically required vars if needed.
 	// Typically, hardware probes benefit from the host's PATH.
 	cmd.Env = os.Environ()
 
 	// 2. Capture both Stdout and Stderr separately
 	var stdout, stderr bytes.Buffer
-	
+
 	// 3. Implement a LimitReader to prevent memory exhaustion
 	// We wrap the buffers in a LimitWriter to ensure we don't exceed MaxCommandOutput
 	cmd.Stdout = &stdout
@@ -145,13 +149,14 @@ func runCommand(ctx context.Context, name string, args ...string) (string, error
 
 	if err != nil {
 		// Provide a rich error message including Stderr for debugging
-		return "", fmt.Errorf("command %s failed: %w (stderr: %s)", 
+		return "", fmt.Errorf("command %s failed: %w (stderr: %s)",
 			name, err, strings.TrimSpace(stderr.String()))
 	}
 
 	// 5. Success: Return cleaned output
 	return strings.TrimSpace(stdout.String()), nil
 }
+
 //
 // ------------------------------------------------------------
 // Probe implementations
@@ -322,8 +327,6 @@ func readDiskSerials(ctx context.Context) []string {
 func normalize(s string) string {
 	return strings.TrimSpace(strings.ToLower(s))
 }
-
-
 
 //
 // ------------------------------------------------------------

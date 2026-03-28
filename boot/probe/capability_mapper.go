@@ -85,7 +85,7 @@ func BuildCapabilitySet(env *schema.EnvConfig, fp HardwareFingerprint) schema.Ca
 	// NEGATIVE SIGNALS (CRITICAL FOR STABILITY)
 	// --------------------------------------------------
 
-	if !hasBus(hw, "can") && !hasBus(hw, "industrial") {
+	if !hasBusProfile(hw, "can") && !hasBusProfile(hw, "industrial") {
 		// strongly implies non-safety-critical environment
 		caps.Remove(schema.CapSafetyCritical)
 	}
@@ -93,8 +93,13 @@ func BuildCapabilitySet(env *schema.EnvConfig, fp HardwareFingerprint) schema.Ca
 	return caps
 }
 
-func hasBus(fp HardwareFingerprint, bus string) bool {
-	return fp.Buses[bus]
+func hasBusProfile(hw schema.HardwareProfile, bus string) bool {
+	for _, b := range hw.Buses {
+		if b.Type == bus {
+			return true
+		}
+	}
+	return false
 }
 
 func hasGPU(hw schema.HardwareProfile) bool {

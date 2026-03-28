@@ -2,8 +2,6 @@
 
 package schema
 
-import "go.uber.org/zap"
-
 type BootContext struct {
 	PlatformClass PlatformClass
 	Capabilities  CapabilitySet
@@ -12,9 +10,7 @@ type BootContext struct {
 	Entity   EntityType
 	Tier     TierType
 	BootMode BootMode
-
+	Logger
 	Permissions map[Permission]bool
 	TrustLevel  TrustLevel
-
 }
-

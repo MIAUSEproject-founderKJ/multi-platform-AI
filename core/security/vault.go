@@ -5,6 +5,7 @@ package security
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"time"
@@ -30,7 +31,6 @@ type IsolatedVault struct {
 	Key     []byte // Reserved for AES-GCM (Hardware-bound)
 }
 
-
 // LoadSecureKey fetches the encryption key from environment variables.
 // It ensures the key meets the 32-byte requirement for AES-256.
 func LoadSecureKey() []byte {
@@ -52,7 +52,6 @@ func LoadSecureKey() []byte {
 	return key
 }
 
-
 // OpenVault initializes the secure directory with restricted owner-only access.
 func OpenVault() (*IsolatedVault, error) {
 	path := apppath.GetVaultPath()
@@ -71,7 +70,7 @@ func OpenVault() (*IsolatedVault, error) {
 
 	return &IsolatedVault{
 		BaseDir: path,
-		Key: encryptionKey,
+		Key:     encryptionKey,
 	}, nil
 }
 

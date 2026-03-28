@@ -26,43 +26,18 @@ func PassiveDiscovery(ctx context.Context) (*schema.EnvConfig, error) {
 
 	fp, probeErrors := CollectHardwareFingerprint(ctx)
 
-	if env.Diagnostics == nil {
-	env.Diagnostics = &schema.Diagnostics{}
-	}
-
-	env.Diagnostics.ProbeErrors = probeErrors
-
-	hardware := convertFingerprintToProfile(fp)
-
-	hostname, err := os.Hostname()
-	if err != nil || hostname == "" {
-		hostname = "unknown"
-	}
-
-	env := &schema.EnvConfig{
-		SchemaVersion: schema.CurrentVersion,
-		GeneratedAt:   time.Now(),
-		Identity: schema.MachineIdentity{
-			MachineID: BuildRobustMachineID(fp),
-			Hostname:  hostname,
-			OS:        runtime.GOOS,
-			Arch:      runtime.GOARCH,
-			Hardware:  hardware,
-		},
-		Hardware: hardware,
-	}
+env := schema.EnvConfig{
 
 	runPlatformInference(env, fp)
 
 	// Safe diagnostics assignment
-	if env.Diagnostics == nil {
-		env.Diagnostics = &schema.Diagnostics{}
+	if env.Discovery == nil {
+		env.Discovery = &schema.DiscoveryDiagnostics{}
 	}
-	env.Diagnostics.DiscoveryDuration = time.Since(start)
+	env.Discovery.DiscoveryDuration = time.Since(start)
 
 	return env, nil
 }
-
 
 func runProbe[T any](ctx context.Context, name string, fn func(context.Context) (T, error)) ProbeResult[T] {
 	start := time.Now()
@@ -75,7 +50,6 @@ func runProbe[T any](ctx context.Context, name string, fn func(context.Context) 
 		Source:   name,
 	}
 }
-
 
 //
 // ------------------------------------------------------------
@@ -167,18 +141,18 @@ func runPlatformInference(env *schema.EnvConfig, fp HardwareFingerprint) {
 		return
 	}
 
-for _, s := range scores {
-	s.Compute()
+	for _, s := range scores {
+		s.Compute()
 
-	s.Confidence = mathutil.Q16(mathutil.FromFloat64(s.Confidence))
+		s.Confidence = mathutil.Q16(mathutil.FromFloat64(s.Confidence))
 
-	candidates = append(candidates, *s)
+		candidates = append(candidates, *s)
 
-	if s.Confidence > highConf {
-		highConf = s.Confidence
-		best = s.Type
+		if s.Confidence > highConf {
+			highConf = s.Confidence
+			best = s.Type
+		}
 	}
-}
 
 	env.Platform.Candidates = candidates
 	env.Platform.Final = best
@@ -227,12 +201,12 @@ func collectDesktopSignals(fp HardwareFingerprint, env *schema.EnvConfig) *schem
 		},
 	}
 
-ps := &schema.PlatformScore{
-	Type:    schema.PlatformVehicle,
-	Signals: vehicleSignals(fp, osName),
-}
-ps.Compute()
-scores[schema.PlatformVehicle] = ps
+	ps := &schema.PlatformScore{
+		Type:    schema.PlatformVehicle,
+		Signals: vehicleSignals(fp, osName),
+	}
+	ps.Compute()
+	scores[schema.PlatformVehicle] = ps
 }
 
 //

@@ -3,8 +3,6 @@
 package boot
 
 import (
-	"fmt"
-
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
@@ -24,7 +22,6 @@ const (
 type BootProfile struct {
 	Type string // FirstBoot | FastBoot | RecoveryBoot
 }
-
 
 func PhaseContext(v *security.IsolatedVault, identity *schema.MachineIdentity) (*schema.BootSequence, error) {
 
@@ -56,8 +53,6 @@ type BootManager struct {
 	Vault    security.VaultStore
 	Identity *schema.MachineIdentity
 }
-
-
 
 /*
 func BuildBootContext(bs *schema.BootSequence) (*schema.BootContext, error) {

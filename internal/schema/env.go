@@ -28,11 +28,11 @@ const (
 // PlatformScore tracks the heuristic weight for a specific platform type.
 
 type PlatformScore struct {
-	Type       schema.PlatformClass
+	Type       PlatformClass
 	Signals    []Signal
 	Score      float64
-	MaxScore   float64 // Potential maximum for normalization
-	Confidence mathutil.Q16  `json:"confidence"` // Normalized Q16 (0-65535)
+	MaxScore   float64      // Potential maximum for normalization
+	Confidence mathutil.Q16 `json:"confidence"` // Normalized Q16 (0-65535)
 }
 
 type Signal struct {
@@ -42,7 +42,6 @@ type Signal struct {
 	Weight     float64
 	Source     string
 }
-
 
 type BootSequence struct {
 	Env          *EnvConfig
