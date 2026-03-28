@@ -24,7 +24,14 @@ func PassiveDiscovery(ctx context.Context) (*schema.EnvConfig, error) {
 
 	start := time.Now()
 
-	fp := CollectHardwareFingerprint(ctx)
+	fp, probeErrors := CollectHardwareFingerprint(ctx)
+
+if env.Diagnostics == nil {
+	env.Diagnostics = &schema.Diagnostics{}
+}
+
+env.Diagnostics.ProbeErrors = probeErrors
+
 	hardware := convertFingerprintToProfile(fp)
 
 	hostname, err := os.Hostname()

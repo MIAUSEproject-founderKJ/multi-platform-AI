@@ -49,8 +49,8 @@ func (b *fingerprintBuilder) setSlice(target *[]string, val []string) {
 // Public Entry
 // ------------------------------------------------------------
 
-func CollectHardwareFingerprint(ctx context.Context) HardwareFingerprint {
-
+func CollectHardwareFingerprint(ctx context.Context) (HardwareFingerprint, []string) {
+var probeErrors []string
 	ctx, cancel := context.WithTimeout(ctx, 3*time.Second)
 	defer cancel()
 
@@ -82,8 +82,13 @@ func CollectHardwareFingerprint(ctx context.Context) HardwareFingerprint {
 	return readPCITopology(ctx), nil
 })
 
+res := runProbe(ctx, "pci_scan", func(ctx context.Context) ([]string, error) {
+	return readPCITopology(ctx), nil
+})
+
 if res.Error != nil {
-	logging.Warn("[PROBE] pci_scan failed: %v", res.Error)
+	probeErrors = append(probeErrors,
+		fmt.Sprintf("%s: %v", res.Source, res.Error))
 } else {
 	builder.setSlice(&builder.fp.PCI, res.Value)
 }

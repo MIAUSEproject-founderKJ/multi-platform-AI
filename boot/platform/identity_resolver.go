@@ -49,18 +49,13 @@ func RunPlatformInference(env *schema.EnvConfig, fp probe.HardwareFingerprint) {
 	// Compute final confidence
 	var best schema.PlatformClass = schema.PlatformComputer
 	var highConf mathutil.Q16
-for _, s := range scores {
-	s.Compute()
-
-	s.Confidence = mathutil.Q16(mathutil.FromFloat64(s.Confidence))
-
-	candidates = append(candidates, *s)
-
-	if s.Confidence > highConf {
-		highConf = s.Confidence
-		best = s.Type
+	for _, s := range scores {
+		s.Confidence = mathutil.Q16(mathutil.FromFloat64(s.Score / s.MaxScore))
+		if s.Confidence > highConf {
+			highConf = s.Confidence
+			best = s.Type
+		}
 	}
-}
 
 	env.Platform.Final = best
 	env.Platform.Locked = true
@@ -71,10 +66,6 @@ for _, s := range scores {
 }
 
 // ------------------- helpers -------------------
-
-func hasBus(fp HardwareFingerprint, bus string) bool {
-	return fp.Buses[bus]
-}
 
 // Desktop/Laptop scoring using fingerprint
 func collectDesktopSignals(env *schema.EnvConfig, fp probe.HardwareFingerprint, scores map[schema.PlatformClass]*schema.PlatformScore) {
