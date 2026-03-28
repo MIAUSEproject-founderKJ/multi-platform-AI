@@ -78,20 +78,16 @@ var probeErrors []string
 	})
 
 	run(func(c context.Context) {
-		res := runProbe(ctx, "pci_scan", func(ctx context.Context) ([]string, error) {
+	res := runProbe(ctx, "pci_scan", func(ctx context.Context) ([]string, error) {
 	return readPCITopology(ctx), nil
-})
+	})
 
-res := runProbe(ctx, "pci_scan", func(ctx context.Context) ([]string, error) {
-	return readPCITopology(ctx), nil
-})
-
-if res.Error != nil {
+	if res.Error != nil {
 	probeErrors = append(probeErrors,
 		fmt.Sprintf("%s: %v", res.Source, res.Error))
-} else {
+	} else {
 	builder.setSlice(&builder.fp.PCI, res.Value)
-}
+	}
 	})
 
 	run(func(c context.Context) {
