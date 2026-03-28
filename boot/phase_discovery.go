@@ -3,7 +3,7 @@ package boot
 
 import (
 	"fmt"
-
+	"context"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
@@ -17,7 +17,9 @@ type DiscoveryResult struct {
 
 func PhaseDiscovery() (*DiscoveryResult, error) {
 
-	env, err := probe.PassiveDiscovery()
+	ctx := context.Background()
+
+	env, err := probe.PassiveDiscovery(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("passive scan failed: %w", err)
 	}

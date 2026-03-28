@@ -1,4 +1,4 @@
-//internal\schema\context.go
+//internal/schema/context.go
 
 package schema
 
@@ -16,5 +16,5 @@ type BootContext struct {
 	Permissions map[Permission]bool
 	TrustLevel  TrustLevel
 
-	Logger *zap.Logger
 }
+

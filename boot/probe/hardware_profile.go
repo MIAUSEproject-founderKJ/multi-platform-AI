@@ -48,35 +48,71 @@ func collectHardwareProfile() schema.HardwareProfile {
 	}
 }
 
-func detectBattery() bool {
+func detectBuses(fp *HardwareFingerprint) {
+	fp.Buses = map[string]bool{}
 
-	if runtime.GOOS != "linux" {
-		return false
+	if len(fp.PCI) > 0 {
+		fp.Buses["pci"] = true
 	}
 
-	entries, err := os.ReadDir("/sys/class/power_supply/")
+	if len(fp.MAC) > 0 {
+		fp.Buses["network"] = true
+	}
+
+	// Linux-specific
+	if runtime.GOOS == "linux" {
+		if _, err := os.Stat("/sys/bus/i2c"); err == nil {
+			fp.Buses["i2c"] = true
+		}
+		if _, err := os.Stat("/sys/bus/spi"); err == nil {
+			fp.Buses["spi"] = true
+		}
+		if _, err := os.Stat("/sys/class/net/can0"); err == nil {
+			fp.Buses["can"] = true
+		}
+	}
+}
+
+
+func detectBattery() bool {
+	switch runtime.GOOS {
+	case "linux":
+		return detectBatteryLinux()
+	case "darwin":
+		return detectBatteryDarwin()
+	case "windows":
+		return detectBatteryWindows()
+	default:
+		return false
+	}
+}
+
+func detectBatteryLinux() bool {
+	entries, err := os.ReadDir("/sys/class/power_supply")
 	if err != nil {
 		return false
 	}
 
 	for _, e := range entries {
-
-		name := strings.ToLower(e.Name())
-
-		// Typical battery identifiers
-		if strings.Contains(name, "bat") {
+		if strings.HasPrefix(strings.ToLower(e.Name()), "bat") {
 			return true
 		}
-
-		// More explicit check
-		data, err := os.ReadFile("/sys/class/power_supply/" + e.Name() + "/type")
-		if err == nil {
-			t := strings.TrimSpace(strings.ToLower(string(data)))
-			if t == "battery" {
-				return true
-			}
-		}
 	}
-
 	return false
+}
+
+func detectBatteryDarwin() bool {
+	out, err := exec.Command("pmset", "-g", "batt").Output()
+	if err != nil {
+		return false
+	}
+	return strings.Contains(string(out), "Battery")
+}
+
+func detectBatteryWindows() bool {
+	out, err := exec.Command("wmic", "path", "Win32_Battery", "get", "Status").Output()
+	if err != nil {
+		return false
+	}
+	return strings.Contains(string(out), "OK")
 }

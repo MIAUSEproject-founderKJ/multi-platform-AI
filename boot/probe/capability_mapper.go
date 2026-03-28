@@ -93,13 +93,8 @@ func BuildCapabilitySet(env *schema.EnvConfig, fp HardwareFingerprint) schema.Ca
 	return caps
 }
 
-func hasBus(hw schema.HardwareProfile, t string) bool {
-	for _, b := range hw.Buses {
-		if b.Type == t {
-			return true
-		}
-	}
-	return false
+func hasBus(fp HardwareFingerprint, bus string) bool {
+	return fp.Buses[bus]
 }
 
 func hasGPU(hw schema.HardwareProfile) bool {

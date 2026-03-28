@@ -3,13 +3,22 @@ package boot
 
 import (
 	"context"
-	"log/slog"
+
+	"go.uber.org/zap"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
-type ExecCtx struct {
-	Logger *slog.Logger
+// ExecutionContext is runtime-facing, derived from BootSequence.
+// It MUST NOT contain raw BootSequence.
+type ExecutionContext struct {
+	Logger      *zap.Logger
+	Session     *schema.UserSession
+	Permissions map[schema.Permission]bool
+	TrustLevel  schema.TrustLevel
 }
 
+// Optional runtime component example
 type AgentRuntime struct{}
 
 func (a *AgentRuntime) Start(ctx context.Context) error {

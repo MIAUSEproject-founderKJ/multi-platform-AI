@@ -26,13 +26,23 @@ const (
 )
 
 // PlatformScore tracks the heuristic weight for a specific platform type.
+
 type PlatformScore struct {
-	Type       PlatformClass `json:"type"`
-	Score      float64       `json:"raw_score"`
-	MaxScore   float64       `json:"max_score"`  // Potential maximum for normalization
+	Type       schema.PlatformClass
+	Signals    []Signal
+	Score      float64
+	MaxScore   float64 // Potential maximum for normalization
 	Confidence mathutil.Q16  `json:"confidence"` // Normalized Q16 (0-65535)
-	Signals    []string      `json:"signals"`    // Evidence found (e.g., "CAN_BUS_PRESENT")
 }
+
+type Signal struct {
+	Name       string
+	Value      float64
+	Confidence float64
+	Weight     float64
+	Source     string
+}
+
 
 type BootSequence struct {
 	Env          *EnvConfig
@@ -53,6 +63,11 @@ const (
 	EntityStranger
 	EntityTester
 )
+
+type DiscoveryDiagnostics struct {
+	DiscoveryDuration time.Duration
+	ProbeErrors       []string
+}
 
 func (m *MachineIdentity) BindHardware(env *EnvConfig) {
 	m.Hardware = env.Hardware

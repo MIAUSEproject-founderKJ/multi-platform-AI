@@ -30,6 +30,29 @@ type IsolatedVault struct {
 	Key     []byte // Reserved for AES-GCM (Hardware-bound)
 }
 
+
+// LoadSecureKey fetches the encryption key from environment variables.
+// It ensures the key meets the 32-byte requirement for AES-256.
+func LoadSecureKey() []byte {
+	// 1. Retrieve the key from an environment variable named 'APP_ENCRYPTION_KEY'
+	keyStr := os.Getenv("APP_ENCRYPTION_KEY")
+
+	// 2. Check if the key is empty
+	if keyStr == "" {
+		log.Fatal("PRODUCTION ERROR: APP_ENCRYPTION_KEY environment variable is not set.")
+	}
+
+	key := []byte(keyStr)
+
+	// 3. Validate length (AES-256 requires exactly 32 bytes)
+	if len(key) != 32 {
+		log.Fatalf("PRODUCTION ERROR: Encryption key must be exactly 32 bytes. Current length: %d", len(key))
+	}
+
+	return key
+}
+
+
 // OpenVault initializes the secure directory with restricted owner-only access.
 func OpenVault() (*IsolatedVault, error) {
 	path := apppath.GetVaultPath()
@@ -41,10 +64,14 @@ func OpenVault() (*IsolatedVault, error) {
 
 	logging.Info("[VAULT] Secure storage initialized at %s", path)
 
+	// Initialize your key at the start of the application
+	encryptionKey := LoadSecureKey()
+
+	fmt.Println("Success: Key loaded and validated.")
+
 	return &IsolatedVault{
 		BaseDir: path,
-		// TODO: Implement Key Derivation (Argon2) from Hardware UUID
-		Key: []byte("temporary-32-byte-dev-key-12345"),
+		Key: encryptionKey,
 	}, nil
 }
 
