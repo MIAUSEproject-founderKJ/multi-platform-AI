@@ -56,10 +56,12 @@ type PlatformProfile struct {
 
 type PlatformScore struct {
 	Type       PlatformClass
+	Profile    PlatformProfile   // NEW
 	Signals    []Signal
 	Score      float64
-	MaxScore   float64      // Potential maximum for normalization
-	Confidence mathutil.Q16 `json:"confidence"` // Normalized Q16 (0-65535)
+	MaxScore   float64
+	Confidence float64
+	Q16        mathutil.Q16
 }
 
 type Signal struct {
