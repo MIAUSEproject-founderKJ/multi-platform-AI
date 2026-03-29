@@ -86,8 +86,6 @@ type MachineIdentity struct {
 type HardwareProfile struct {
 	Processors []Processor     `json:"processors"`
 	Buses      []BusCapability `json:"buses"`
-
-	// Simplified Battery for the check
 	HasBattery bool `json:"has_battery"`
 }
 

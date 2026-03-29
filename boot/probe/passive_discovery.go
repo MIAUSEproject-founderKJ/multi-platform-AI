@@ -26,11 +26,14 @@ func PassiveDiscovery(ctx context.Context) (*schema.EnvConfig, error) {
 
 	fp, probeErrors := CollectHardwareFingerprint(ctx)
 
-env := schema.EnvConfig{
+	if len(probeErrors) > 0 {
+		logging.Warn("hardware probe errors: %v", probeErrors)
+	}
+
+	env := &schema.EnvConfig{}
 
 	runPlatformInference(env, fp)
 
-	// Safe diagnostics assignment
 	if env.Discovery == nil {
 		env.Discovery = &schema.DiscoveryDiagnostics{}
 	}
@@ -202,11 +205,12 @@ func collectDesktopSignals(fp HardwareFingerprint, env *schema.EnvConfig) *schem
 	}
 
 	ps := &schema.PlatformScore{
-		Type:    schema.PlatformVehicle,
-		Signals: vehicleSignals(fp, osName),
+		Type:    schema.PlatformComputer,
+		Signals: signals,
 	}
+
 	ps.Compute()
-	scores[schema.PlatformVehicle] = ps
+	return ps
 }
 
 //

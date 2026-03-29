@@ -14,7 +14,7 @@ import (
 
 func collectHardwareProfile() schema.HardwareProfile {
 
-	fp := collectHardwareFingerprint()
+	fp := CollectHardwareFingerprint()
 
 	var buses []schema.BusCapability
 

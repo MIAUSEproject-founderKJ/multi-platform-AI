@@ -10,7 +10,6 @@ import (
 // RunBootSequence performs full boot → verification → session creation
 func RunBootSequence(v *security.IsolatedVault) (*schema.BootSequence, *schema.UserSession, error) {
 
-	
 	discovery, err := PhaseDiscovery()
 	if err != nil {
 		return nil, nil, err

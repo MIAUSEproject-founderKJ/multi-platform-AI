@@ -31,17 +31,20 @@ func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
-	logger, _ := zap.NewProduction()
-	defer logger.Sync()
+	logger, err := zap.NewProduction()
+if err != nil {
+	panic(err)
+}	
+	defer func() { _ = logger.Sync() }()
 
 	// --- PHASE 1: BOOT ---
-	bootCtx, err := BuildSystemContext()
+	sysCtx, err := BuildSystemContext()
 	if err != nil {
 		logger.Fatal("boot failure", zap.Error(err))
 	}
 
 	// --- PHASE 2: RUNTIME ---
-	app, err := BuildRuntime(logger, bootCtx)
+	app, err := BuildRuntime(logger, sysCtx.Boot)
 	if err != nil {
 		logger.Fatal("runtime build failure", zap.Error(err))
 	}
@@ -65,6 +68,7 @@ func main() {
 type SystemContext struct {
 	Boot *schema.BootContext
 	Exec *boot.ExecutionContext
+	Session *schema.UserSession
 }
 
 // ============================================================
@@ -117,7 +121,7 @@ type App struct {
 // PHASE 2: RUNTIME BUILD
 // ============================================================
 
-func BuildRuntime(logger *zap.Logger, bootCtx *schema.BootContext) (*App, error) {
+func BuildRuntime(logger *zap.Logger, sys *SystemContext) (*App, error) {
 
 	// --- RUNTIME CONTEXT ---
 	rtx, err := runtime.NewRuntimeContext(logger)
@@ -128,7 +132,7 @@ func BuildRuntime(logger *zap.Logger, bootCtx *schema.BootContext) (*App, error)
 	// --- MODULE GRAPH ---
 	registry := modules.DefaultRegistry()
 
-	filtered := modules.FilterModules(registry, bootCtx)
+	filtered := modules.FilterModules(registry, sys.Boot)
 
 	ordered, err := modules.ResolveDependencies(filtered)
 	if err != nil {
@@ -212,3 +216,4 @@ func (a *App) startHTTPServer() {
 		}
 	}()
 }
+

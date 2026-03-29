@@ -58,7 +58,11 @@ func CollectHardwareFingerprint(ctx context.Context) (HardwareFingerprint, []str
 	ctx, cancel := context.WithTimeout(ctx, 3*time.Second)
 	defer cancel()
 
-	builder := &fingerprintBuilder{}
+builder := &fingerprintBuilder{
+    fp: HardwareFingerprint{
+        Buses: make(map[string]bool),
+    },
+}
 	var wg sync.WaitGroup
 
 	run := func(fn func(context.Context)) {
@@ -81,18 +85,22 @@ func CollectHardwareFingerprint(ctx context.Context) (HardwareFingerprint, []str
 		builder.setString(&builder.fp.DMI, readDMIUUID(c))
 	})
 
-	run(func(c context.Context) {
-		res := runProbe(ctx, "pci_scan", func(ctx context.Context) ([]string, error) {
-			return readPCITopology(ctx), nil
-		})
+var errMu sync.Mutex
 
-		if res.Error != nil {
-			probeErrors = append(probeErrors,
-				fmt.Sprintf("%s: %v", res.Source, res.Error))
-		} else {
-			builder.setSlice(&builder.fp.PCI, res.Value)
-		}
-	})
+run(func(c context.Context) {
+    res := runProbe(c, "pci_scan", func(ctx context.Context) ([]string, error) {
+        return readPCITopology(ctx), nil
+    })
+
+    if res.Error != nil {
+        errMu.Lock()
+        probeErrors = append(probeErrors,
+            fmt.Sprintf("%s: %v", res.Source, res.Error))
+        errMu.Unlock()
+    } else {
+        builder.setSlice(&builder.fp.PCI, res.Value)
+    }
+})
 
 	run(func(c context.Context) {
 		builder.setSlice(&builder.fp.MAC, readMACs(c))
