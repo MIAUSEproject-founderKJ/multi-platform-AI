@@ -8,41 +8,6 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
 )
 
-// PlatformClass defines the type of hardware (Vehicle, Drone, etc.)
-type PlatformClass string
-
-const (
-	PlatformComputer   PlatformClass = "computer"
-	PlatformLaptop     PlatformClass = "laptop"
-	PlatformMobile     PlatformClass = "mobile"
-	PlatformTablet     PlatformClass = "tablet"
-	PlatformRobot      PlatformClass = "robotic"
-	PlatformVehicle    PlatformClass = "vehicle"
-	PlatformDrone      PlatformClass = "drone"
-	PlatformIndustrial PlatformClass = "industrial"
-	PlatformEmbedded   PlatformClass = "embedded"
-	PlatformGamePad    PlatformClass = "gamepad"
-	PlatformUnknown    PlatformClass = "unknown"
-)
-
-// PlatformScore tracks the heuristic weight for a specific platform type.
-
-type PlatformScore struct {
-	Type       PlatformClass
-	Signals    []Signal
-	Score      float64
-	MaxScore   float64      // Potential maximum for normalization
-	Confidence mathutil.Q16 `json:"confidence"` // Normalized Q16 (0-65535)
-}
-
-type Signal struct {
-	Name       string
-	Value      float64
-	Confidence float64
-	Weight     float64
-	Source     string
-}
-
 type BootSequence struct {
 	Env          *EnvConfig
 	Mode         BootMode
@@ -102,14 +67,6 @@ type Processor struct {
 	Version float64 `json:"version"`
 }
 
-// PlatformResolution is the finalized identity of the environment.
-type PlatformResolution struct {
-	Candidates []PlatformScore `json:"candidates"`
-	Final      PlatformClass   `json:"final"`
-	Locked     bool            `json:"locked"`
-	Source     string          `json:"source"` // e.g., "heuristic_v1" or "manual_override"
-	ResolvedAt time.Time       `json:"resolved_at"`
-}
 
 type EnvConfig struct {
 	SchemaVersion int                `json:"schema_version"`

@@ -18,23 +18,24 @@ func collectHardwareProfile() schema.HardwareProfile {
 
 	var buses []schema.BusCapability
 
-	if len(fp.PCI) > 0 {
-		buses = append(buses, schema.BusCapability{
-			ID:         "pci-root",
-			Type:       "pci",
-			Confidence: mathutil.ToFloat64(60000),
-			Source:     "lspci",
-		})
-	}
 
-	if len(fp.MAC) > 0 {
-		buses = append(buses, schema.BusCapability{
-			ID:         "ethernet",
-			Type:       "network",
-			Confidence: mathutil.ToFloat64(60000),
-			Source:     "net-iface",
-		})
-	}
+if len(fp.PCI) > 0 {
+	buses = append(buses, schema.BusCapability{
+		ID:         "pci-root",
+		Type:       "pci",
+		Confidence: mathutil.Q16(60000).ToFloat64(),
+		Source:     "lspci",
+	})
+}
+
+if len(fp.MAC) > 0 {
+	buses = append(buses, schema.BusCapability{
+		ID:         "ethernet",
+		Type:       "network",
+		Confidence: mathutil.Q16(60000).ToFloat64(),
+		Source:     "net-iface",
+	})
+}
 
 	return schema.HardwareProfile{
 		Processors: []schema.Processor{

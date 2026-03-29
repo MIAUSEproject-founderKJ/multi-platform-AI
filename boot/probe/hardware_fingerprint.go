@@ -58,11 +58,11 @@ func CollectHardwareFingerprint(ctx context.Context) (HardwareFingerprint, []str
 	ctx, cancel := context.WithTimeout(ctx, 3*time.Second)
 	defer cancel()
 
-builder := &fingerprintBuilder{
+	builder := &fingerprintBuilder{
     fp: HardwareFingerprint{
         Buses: make(map[string]bool),
-    },
-}
+    	},
+	}
 	var wg sync.WaitGroup
 
 	run := func(fn func(context.Context)) {
@@ -85,22 +85,29 @@ builder := &fingerprintBuilder{
 		builder.setString(&builder.fp.DMI, readDMIUUID(c))
 	})
 
-var errMu sync.Mutex
+	var errMu sync.Mutex
 
-run(func(c context.Context) {
+	run(func(c context.Context) {
+
+	run(func(c context.Context) {
+	builder.mu.Lock()
+	builder.fp.Buses = detectBuses(c)
+	builder.mu.Unlock()
+	})
+
+	//func runProbe[T any](ctx context.Context, name string, fn func(context.Context) (T, error)) ProbeResult[T]
     res := runProbe(c, "pci_scan", func(ctx context.Context) ([]string, error) {
         return readPCITopology(ctx), nil
     })
 
     if res.Error != nil {
         errMu.Lock()
-        probeErrors = append(probeErrors,
-            fmt.Sprintf("%s: %v", res.Source, res.Error))
+        probeErrors = append(probeErrors, fmt.Sprintf("%s: %v", res.Source, res.Error))
         errMu.Unlock()
     } else {
         builder.setSlice(&builder.fp.PCI, res.Value)
     }
-})
+	})
 
 	run(func(c context.Context) {
 		builder.setSlice(&builder.fp.MAC, readMACs(c))
@@ -124,45 +131,76 @@ run(func(c context.Context) {
 // malicious tool from exhausting system memory.
 const MaxCommandOutput = 1024 * 1024
 
+
+
+type limitedBuffer struct {
+	buf       *bytes.Buffer
+	limit     int
+	written   int
+	truncated bool
+}
+
+func (l *limitedBuffer) Write(p []byte) (int, error) {
+	remaining := l.limit - l.written
+
+	if remaining <= 0 {
+		l.truncated = true
+		return len(p), nil
+	}
+
+	if len(p) > remaining {
+		l.buf.Write(p[:remaining])
+		l.written += remaining
+		l.truncated = true
+		return len(p), nil
+	}
+
+	l.buf.Write(p)
+	l.written += len(p)
+	return len(p), nil
+}
+
 // runCommand executes a system binary with context awareness,
 // resource limits, and detailed error reporting.
 func runCommand(ctx context.Context, name string, args ...string) (string, error) {
-	// 1. Verify the binary exists before execution to avoid unnecessary process overhead
 	path, err := exec.LookPath(name)
 	if err != nil {
-		return "", fmt.Errorf("command %s not found in PATH: %w", name, err)
+		return "", fmt.Errorf("command %s not found: %w", name, err)
 	}
 
 	cmd := exec.CommandContext(ctx, path, args...)
-
-	// Use a clean environment but allow specifically required vars if needed.
-	// Typically, hardware probes benefit from the host's PATH.
 	cmd.Env = os.Environ()
 
-	// 2. Capture both Stdout and Stderr separately
-	var stdout, stderr bytes.Buffer
+	var stdout bytes.Buffer
+	var stderr bytes.Buffer
 
-	// 3. Implement a LimitReader to prevent memory exhaustion
-	// We wrap the buffers in a LimitWriter to ensure we don't exceed MaxCommandOutput
-	cmd.Stdout = &stdout
-	cmd.Stderr = &stderr
+	// Track truncation
+	stdoutLimited := &limitedBuffer{buf: &stdout, limit: MaxCommandOutput}
+	stderrLimited := &limitedBuffer{buf: &stderr, limit: MaxCommandOutput}
 
-	// Run the command
+	cmd.Stdout = stdoutLimited
+	cmd.Stderr = stderrLimited
+
 	err = cmd.Run()
 
-	// 4. Handle context cancellation vs execution errors
+	// Context handling (precise)
 	if ctx.Err() != nil {
-		return "", fmt.Errorf("command %s timed out or cancelled: %w", name, ctx.Err())
+		return "", fmt.Errorf("command %s cancelled: %w", name, ctx.Err())
 	}
 
 	if err != nil {
-		// Provide a rich error message including Stderr for debugging
 		return "", fmt.Errorf("command %s failed: %w (stderr: %s)",
 			name, err, strings.TrimSpace(stderr.String()))
 	}
 
-	// 5. Success: Return cleaned output
-	return strings.TrimSpace(stdout.String()), nil
+	out := strings.TrimSpace(stdout.String())
+
+	// Optional: annotate truncation
+	if stdoutLimited.truncated {
+		out += "\n[truncated]"
+	}
+
+	return out, nil
 }
 
 //

@@ -11,24 +11,29 @@ const (
 	Q16Half = 32768
 )
 
+
 func (q Q16) Greater(other Q16) bool {
 	return q > other
 }
 
+if s.Confidence.Greater(highConf) {
+	return q > other
+}
+
 // ToFloat64 converts a Q16 fixed-point (uint16) to a float64 (0.0 - 1.0)
-func ToFloat64(q uint16) float64 {
+func (q Q16) ToFloat64() float64 {
 	return float64(q) / Q16Max
 }
 
 // FromFloat64 converts a float64 (0.0 - 1.0) to a Q16 fixed-point (uint16)
-func FromFloat64(f float64) uint16 {
+func FromFloat64(f float64) Q16 {
 	if f > 1.0 {
 		f = 1.0
 	}
 	if f < 0.0 {
 		f = 0.0
 	}
-	return uint16(f * Q16Max)
+	return Q16(f * Q16Max)
 }
 
 // Multiply performs a fixed-point multiplication: (a * b) / Q16Max

@@ -21,16 +21,18 @@ import (
 // ------------------------------------------------------------
 
 func PassiveDiscovery(ctx context.Context) (*schema.EnvConfig, error) {
-
 	start := time.Now()
 
 	fp, probeErrors := CollectHardwareFingerprint(ctx)
-
 	if len(probeErrors) > 0 {
 		logging.Warn("hardware probe errors: %v", probeErrors)
 	}
 
-	env := &schema.EnvConfig{}
+	env := &schema.EnvConfig{
+		Identity: schema.Identity{
+			OS: runtime.GOOS,
+		},
+	}
 
 	runPlatformInference(env, fp)
 
@@ -61,7 +63,6 @@ func runProbe[T any](ctx context.Context, name string, fn func(context.Context) 
 //
 
 func BuildRobustMachineID(fp HardwareFingerprint) string {
-
 	stable := []string{fp.TPM, fp.DMI}
 	semi := []string{fp.CPU, strings.Join(fp.Storage, ",")}
 	volatile := strings.Join(fp.MAC, "|")
@@ -84,85 +85,60 @@ func BuildRobustMachineID(fp HardwareFingerprint) string {
 		material = volatile + "::" + strings.Join(semi, "|")
 
 	default:
-		// last-resort entropy
-		material = fmt.Sprintf("fallback-%d-%s", time.Now().UnixNano(), runtime.GOOS)
+		hostname, _ := os.Hostname()
+		material = hostname + "::" + runtime.GOOS
 	}
 
 	hash := sha256.Sum256([]byte(material))
 	return hex.EncodeToString(hash[:])
 }
-
 //
 // ------------------------------------------------------------
 // Platform Inference
 // ------------------------------------------------------------
 //
 
+const minConfidence = 0.25
+
 func runPlatformInference(env *schema.EnvConfig, fp HardwareFingerprint) {
-
-	scores := map[schema.PlatformClass]*schema.PlatformScore{}
-
-	ensure := func(class schema.PlatformClass, max float64) *schema.PlatformScore {
-		if scores[class] == nil {
-			scores[class] = &schema.PlatformScore{
-				Type:     class,
-				MaxScore: max,
-			}
-		}
-		return scores[class]
-	}
+	var candidates []*schema.PlatformScore
 
 	osName := strings.ToLower(env.Identity.OS)
 
-	// Vehicle
-	if hasBus(fp, "can") || osName == "qnx" || osName == "autosar" {
-		s := ensure(schema.PlatformVehicle, 1.5)
-		s.Score += 1.0
-		s.Signals = append(s.Signals, "automotive environment detected")
-	}
+	candidates = append(candidates,
+		scoreVehicle(fp, osName),
+		scoreRobot(fp),
+		scoreDesktop(fp, env),
+	)
 
-	// Robot
-	if hasBus(fp, "i2c") && hasBus(fp, "spi") {
-		s := ensure(schema.PlatformRobot, 1.2)
-		s.Score += 0.4
-		s.Signals = append(s.Signals, "sensor buses detected")
-	}
-
-	// Desktop
-	scores[schema.PlatformComputer] = collectDesktopSignals(fp, env)
-
-	// Resolve best
 	var best schema.PlatformClass = schema.PlatformUnknown
-	highConf := mathutil.Q16(0)
+	var bestScore float64
 
-	var candidates []schema.PlatformScore
+	var results []schema.PlatformScore
 
-	if len(scores) == 0 {
-		logging.Warn("[IDENTITY] No platform signals detected")
-		env.Platform.Final = schema.PlatformUnknown
-		env.Platform.Locked = false
-		return
-	}
+	for _, c := range candidates {
+		if c == nil {
+			continue
+		}
 
-	for _, s := range scores {
-		s.Compute()
+		c.Compute()
 
-		s.Confidence = mathutil.Q16(mathutil.FromFloat64(s.Confidence))
+		c.ConfidenceQ16 = mathutil.FromFloat64(c.Confidence)
 
-		candidates = append(candidates, *s)
+		results = append(results, *c)
 
-		if s.Confidence > highConf {
-			highConf = s.Confidence
-			best = s.Type
+		if c.Confidence > bestScore && c.Confidence >= minConfidence {
+			bestScore = c.Confidence
+			best = c.Type
 		}
 	}
 
-	env.Platform.Candidates = candidates
+	env.Platform.Candidates = results
 	env.Platform.Final = best
-	env.Platform.Locked = true
+	env.Platform.Locked = best != schema.PlatformUnknown
 	env.Platform.ResolvedAt = time.Now()
 
-	logging.Info("[IDENTITY] Platform: %s (%d%%)", best, highConf.Percentage())
+	logging.Info("[IDENTITY] Platform: %s (%.2f)", best, bestScore)
 }
 
 //
@@ -260,5 +236,86 @@ func vehicleSignals(fp HardwareFingerprint, osName string) []schema.Signal {
 			Confidence: 0.9,
 			Source:     "os",
 		},
+	}
+}
+
+
+func scoreVehicle(fp HardwareFingerprint, osName string) *schema.PlatformScore {
+	signals := []schema.Signal{
+		{
+			Name:       "can_bus",
+			Value:      boolToFloat(hasBus(fp, "can")),
+			Weight:     0.6,
+			Confidence: 0.95,
+			Source:     "bus",
+		},
+		{
+			Name:       "automotive_os",
+			Value:      boolToFloat(osName == "qnx" || osName == "autosar"),
+			Weight:     0.8,
+			Confidence: 0.9,
+			Source:     "os",
+		},
+	}
+
+	return &schema.PlatformScore{
+		Type:    schema.PlatformVehicle,
+		Signals: signals,
+	}
+}
+
+func scoreRobot(fp HardwareFingerprint) *schema.PlatformScore {
+	signals := []schema.Signal{
+		{
+			Name:       "i2c_bus",
+			Value:      boolToFloat(hasBus(fp, "i2c")),
+			Weight:     0.5,
+			Confidence: 0.9,
+		},
+		{
+			Name:       "spi_bus",
+			Value:      boolToFloat(hasBus(fp, "spi")),
+			Weight:     0.5,
+			Confidence: 0.9,
+		},
+	}
+
+	return &schema.PlatformScore{
+		Type:    schema.PlatformRobot,
+		Signals: signals,
+	}
+}
+
+func scoreDesktop(fp HardwareFingerprint, env *schema.EnvConfig) *schema.PlatformScore {
+	signals := []schema.Signal{
+		{
+			Name:       "cpu_cores",
+			Value:      minFloat(float64(runtime.NumCPU())/16.0, 1.0),
+			Weight:     0.3,
+			Confidence: 0.9,
+		},
+		{
+			Name:       "pci_devices",
+			Value:      minFloat(float64(len(fp.PCI))/10.0, 1.0),
+			Weight:     0.2,
+			Confidence: 0.8,
+		},
+		{
+			Name:       "mac_interfaces",
+			Value:      minFloat(float64(len(fp.MAC))/5.0, 1.0),
+			Weight:     0.2,
+			Confidence: 0.85,
+		},
+		{
+			Name:       "battery_present",
+			Value:      boolToFloat(env.Hardware.HasBattery),
+			Weight:     0.3,
+			Confidence: 0.95,
+		},
+	}
+
+	return &schema.PlatformScore{
+		Type:    schema.PlatformComputer,
+		Signals: signals,
 	}
 }
