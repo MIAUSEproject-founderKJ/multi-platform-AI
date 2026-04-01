@@ -9,10 +9,20 @@ import (
 )
 
 func PhaseAttestation(
-	v *security.IsolatedVault,
+	v security.VaultStore,
 	identity *schema.MachineIdentity,
 	bs *schema.BootSequence,
 ) (*schema.UserSession, error) {
+	// Load credentials from Vault
+	var cred struct {
+		UserID   string
+		Password string
+	}
+
+	found, err := v.Read("credentials", identity.MachineID, &cred)
+	if err != nil || !found {
+		return nil, err
+	}
 
 	am := &auth.AuthManager{
 		Vault:    v,
@@ -22,5 +32,5 @@ func PhaseAttestation(
 		Tier:     bs.Env.TierType,
 	}
 
-	return am.LoginOrSignUp()
+	return am.LoginOrSignUpInteractive()
 }

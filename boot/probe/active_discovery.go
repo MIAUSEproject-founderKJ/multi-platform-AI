@@ -8,47 +8,25 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
 // ActiveDiscovery acts as the "Neurologist" for the machine.
+// boot/probe/active_discovery.go
 func ActiveDiscovery(env *schema.EnvConfig) (*schema.EnvConfig, error) {
 
-	logging.Info(
-		"[PROBE] Phase 2: Active Hardware Mapping for %s",
-		env.Platform.Final,
-	)
-
-	env.GeneratedAt = time.Now()
+	logging.Info("[active_discovery] Phase 2: Active Hardware Mapping for %s", env.Platform.Final)
 
 	switch env.Platform.Final {
-
-	case schema.PlatformComputer,
-		schema.PlatformLaptop,
-		schema.PlatformTablet,
-		schema.PlatformMobile:
-
+	case schema.PlatformComputer, schema.PlatformMobile:
 		populateCompute(env)
-
-	case schema.PlatformVehicle,
-		schema.PlatformDrone,
-		schema.PlatformRobot,
-		schema.PlatformIndustrial,
-		schema.PlatformEmbedded,
-		schema.PlatformGamePad:
-
+	case schema.PlatformVehicle, schema.PlatformRobot,
+		schema.PlatformIndustrial, schema.PlatformEmbedded:
 		populateEmbedded(env)
-
 	default:
-
-		logging.Warn(
-			"[PROBE] Unknown platform %s using sensor-only fallback",
-			env.Platform.Final,
-		)
-
+		logging.Warn("[PROBE] Unknown platform %s using sensor-only fallback", env.Platform.Final)
 		phy, _ := discoverPhysical()
 		env.Discovery.Physical = phy
 		env.Discovery.Capabilities.SensorOnly = true
@@ -96,56 +74,84 @@ func resolveCapabilities(p schema.ProtocolProfile) schema.CapabilityDescriptor {
 	}
 }
 
-// discoverPhysical probes power & voltage
+// discoverPhysical probes power & voltage, cross-platform
 func discoverPhysical() (schema.PhysicalProfile, error) {
 	phy := schema.PhysicalProfile{}
 
-	if runtime.GOOS != "linux" {
-		return phy, nil
-	}
-
-	if data, err := os.ReadFile("/sys/class/power_supply/AC/online"); err == nil {
-		phy.PowerPresent = strings.TrimSpace(string(data)) == "1"
-	}
-	if data, err := os.ReadFile("/sys/class/power_supply/BAT0/voltage_now"); err == nil {
-		if v, err := strconv.ParseFloat(strings.TrimSpace(string(data)), 64); err == nil {
-			phy.BaseVoltage = v / 1e6
+	switch runtime.GOOS {
+	case "linux":
+		// AC power
+		if data, err := os.ReadFile("/sys/class/power_supply/AC/online"); err == nil {
+			phy.PowerPresent = strings.TrimSpace(string(data)) == "1"
 		}
+		// Battery voltage
+		if data, err := os.ReadFile("/sys/class/power_supply/BAT0/voltage_now"); err == nil {
+			if v, err := strconv.ParseFloat(strings.TrimSpace(string(data)), 64); err == nil {
+				phy.BaseVoltage = v / 1e6
+			}
+		}
+
+	case "windows":
+		// On Windows, use registry or WMI defaults (simplified)
+		phy.PowerPresent = true // assume AC plugged in
+		phy.BaseVoltage = 12.0  // default placeholder voltage
+
+	case "darwin":
+		// macOS: assume normal AC + battery present
+		phy.PowerPresent = true
+		phy.BaseVoltage = 12.0
+
+	default:
+		phy.PowerPresent = true
+		phy.BaseVoltage = 12.0
 	}
 
 	return phy, nil
 }
 
-// discoverSignal probes bus type and basic signal properties
+// discoverSignal probes bus type and basic signal properties, cross-platform
 func discoverSignal() (schema.SignalProfile, error) {
 	sig := schema.SignalProfile{}
-	if runtime.GOOS != "linux" {
-		return sig, nil
-	}
 
-	out, err := exec.Command("ip", "-details", "link", "show").Output()
-	if err != nil {
-		return sig, err
-	}
-	text := string(out)
-	if !strings.Contains(text, "can state") {
-		return sig, nil
-	}
-
-	sig.BusType = "CAN"
-	sig.StableClock = true
-
-	for _, l := range strings.Split(text, "\n") {
-		if strings.Contains(l, "bitrate") {
-			parts := strings.Fields(l)
-			for i, p := range parts {
-				if p == "bitrate" && i+1 < len(parts) {
-					if br, err := strconv.Atoi(parts[i+1]); err == nil {
-						sig.BaudRate = br
+	switch runtime.GOOS {
+	case "linux":
+		out, err := exec.Command("ip", "-details", "link", "show").Output()
+		if err != nil {
+			return sig, err
+		}
+		text := string(out)
+		if strings.Contains(text, "can state") {
+			sig.BusType = "CAN"
+			sig.StableClock = true
+			for _, l := range strings.Split(text, "\n") {
+				if strings.Contains(l, "bitrate") {
+					parts := strings.Fields(l)
+					for i, p := range parts {
+						if p == "bitrate" && i+1 < len(parts) {
+							if br, err := strconv.Atoi(parts[i+1]); err == nil {
+								sig.BaudRate = br
+							}
+						}
 					}
 				}
 			}
 		}
+
+	case "windows":
+		// No CAN bus typically; fallback defaults
+		sig.BusType = "ETHERNET"
+		sig.StableClock = true
+		sig.BaudRate = 1000_000_000 // assume 1 Gbps Ethernet
+
+	case "darwin":
+		// macOS fallback
+		sig.BusType = "ETHERNET"
+		sig.StableClock = true
+		sig.BaudRate = 1000_000_000
+
+	default:
+		sig.BusType = "UNKNOWN"
+		sig.StableClock = true
 	}
 
 	return sig, nil

@@ -19,6 +19,7 @@ type BootSequence struct {
 	UserSession  *UserSession
 }
 
+// Use EntityType (uint8) internally for speed and clarity. Use TierType (string) externally for readability and compatibility.
 type EntityType uint8
 
 const (
@@ -27,11 +28,6 @@ const (
 	EntityStranger
 	EntityTester
 )
-
-type DiscoveryDiagnostics struct {
-	DiscoveryDuration time.Duration
-	ProbeErrors       []string
-}
 
 func (m *MachineIdentity) BindHardware(env *EnvConfig) {
 	m.Hardware = env.Hardware
@@ -45,20 +41,21 @@ type MachineIdentity struct {
 	Arch         string        `json:"arch"`
 	Hardware     HardwareProfile
 	EntityType   EntityType
-	TierType     TierType
+	TierType     TierType //Use TierType (string) externally for readability and compatibility. Use EntityType (uint8) internally for speed and clarity.
+	Password     string   `json:"password,omitempty"` // For authentication during cold boot. Should be securely handled and not stored in plaintext in production.
 }
 
 type HardwareProfile struct {
 	Processors []Processor     `json:"processors"`
 	Buses      []BusCapability `json:"buses"`
-	HasBattery bool `json:"has_battery"`
+	HasBattery bool            `json:"has_battery"`
 }
 
 type BusCapability struct {
-	ID         string  `json:"id"`
-	Type       string  `json:"type"` // can, usb, i2c
-	Confidence float64 `json:"confidence"`
-	Source     string  `json:"source"`
+	ID         string       `json:"id"`
+	Type       string       `json:"type"` // can, usb, i2c
+	Confidence mathutil.Q16 `json:"confidence"`
+	Source     string       `json:"source"`
 }
 
 type Processor struct {
@@ -66,7 +63,6 @@ type Processor struct {
 	Count   int     `json:"count"`
 	Version float64 `json:"version"`
 }
-
 
 type EnvConfig struct {
 	SchemaVersion int                `json:"schema_version"`
@@ -112,11 +108,12 @@ type BusEntry struct {
 }
 
 type DiscoveryProfile struct {
-	Physical     PhysicalProfile      `json:"physical"`
-	Signal       SignalProfile        `json:"signal"`
-	Nodes        []NodeDescriptor     `json:"nodes"`
-	Protocol     ProtocolProfile      `json:"protocol"`
-	Capabilities CapabilityDescriptor `json:"capabilities"`
+	Physical          PhysicalProfile      `json:"physical"`
+	Signal            SignalProfile        `json:"signal"`
+	Nodes             []NodeDescriptor     `json:"nodes"`
+	Protocol          ProtocolProfile      `json:"protocol"`
+	Capabilities      CapabilityDescriptor `json:"capabilities"`
+	DiscoveryDuration time.Duration        `json:"discovery_duration"`
 }
 
 type PhysicalProfile struct {

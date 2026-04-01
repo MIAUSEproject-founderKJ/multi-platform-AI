@@ -9,6 +9,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
 	"go.uber.org/zap"
@@ -48,7 +49,8 @@ type PredictionRequest struct {
 type PredictionResult struct {
 	DeviceID   string
 	Timestamp  time.Time
-	Confidence float64
+	Confidence mathutil.Q16
+	Prediction float64
 }
 
 // --- InferenceModule ---
@@ -170,7 +172,7 @@ func (m *InferenceModule) processBatch(ctx context.Context, batch []PredictionRe
 		infResult := InferenceResult{
 			DeviceID:   result.DeviceID,
 			Timestamp:  result.Timestamp.Unix(),
-			Prediction: result.Confidence,
+			Prediction: result.Prediction,
 		}
 
 		m.totalPredictions.Add(1)

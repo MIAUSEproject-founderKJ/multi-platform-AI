@@ -32,9 +32,9 @@ func main() {
 	defer stop()
 
 	logger, err := zap.NewProduction()
-if err != nil {
-	panic(err)
-}	
+	if err != nil {
+		panic(err)
+	}
 	defer func() { _ = logger.Sync() }()
 
 	// --- PHASE 1: BOOT ---
@@ -44,7 +44,7 @@ if err != nil {
 	}
 
 	// --- PHASE 2: RUNTIME ---
-	app, err := BuildRuntime(logger, sysCtx.Boot)
+	app, err := BuildRuntime(logger, sysCtx)
 	if err != nil {
 		logger.Fatal("runtime build failure", zap.Error(err))
 	}
@@ -66,8 +66,8 @@ if err != nil {
 }
 
 type SystemContext struct {
-	Boot *schema.BootContext
-	Exec *boot.ExecutionContext
+	Boot    *schema.BootContext
+	Exec    *boot.ExecutionContext
 	Session *schema.UserSession
 }
 
@@ -216,4 +216,3 @@ func (a *App) startHTTPServer() {
 		}
 	}()
 }
-

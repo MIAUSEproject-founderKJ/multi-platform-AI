@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
 )
@@ -38,7 +39,7 @@ func (m *CognitionModule) Init(ctx *schema.BootContext) error {
 // Handle processes incoming payloads and publishes tasks
 func (m *CognitionModule) Handle(ctx context.Context, payload []byte) error {
 	intent := parseIntent(payload)
-	if intent.Confidence < 0.75 {
+	if intent.Confidence < mathutil.FromFloat64(0.75) {
 		return nil
 	}
 

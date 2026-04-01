@@ -2,9 +2,11 @@
 
 package modules
 
+import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
+
 type Intent struct {
 	Name       string
-	Confidence float64
+	Confidence mathutil.Q16
 	Domain     string // add this if other code expects it
 }
 

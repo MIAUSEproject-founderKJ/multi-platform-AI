@@ -13,6 +13,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
 )
@@ -36,10 +37,6 @@ type DomainModule interface {
 // All modules that need DB/Bus access implement this
 type RuntimeAware interface {
 	SetRuntime(*runtime.RuntimeContext)
-}
-
-func (defaultPolicy) Allowed(*schema.BootContext, Intent) bool {
-	return true
 }
 
 type ModuleCategory int
@@ -90,7 +87,7 @@ func (a *AgentRuntime) HandleInput(input string) error {
 		return err
 	}
 
-	if intent.Confidence < 0.75 {
+	if intent.Confidence < mathutil.FromFloat64(0.75) {
 		return fmt.Errorf("low confidence intent")
 	}
 
@@ -128,10 +125,8 @@ type PolicyEngine interface {
 
 type defaultPolicy struct{}
 
-var policy = struct {
-	Allowed func(*schema.BootContext, Intent) bool
-}{
-	Allowed: func(*schema.BootContext, Intent) bool {
-		return true
-	},
+func (defaultPolicy) Allowed(*schema.BootContext, Intent) bool {
+	return true
 }
+
+var policy PolicyEngine = defaultPolicy{}

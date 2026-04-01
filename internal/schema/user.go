@@ -18,7 +18,7 @@ type UserSession struct {
 // ------------------------------------------------------------
 // Tier System
 // ------------------------------------------------------------
-
+//Use TierType (string) externally for readability and compatibility. Use EntityType (uint8) internally for speed and clarity.
 type TierType string
 
 const (
@@ -59,7 +59,7 @@ type Attestation struct {
 	Level        TrustLevel
 }
 
-type TrustLevel int
+type TrustLevel uint8
 
 const (
 	TrustUntrusted TrustLevel = iota

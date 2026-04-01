@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 )
 
@@ -27,16 +28,16 @@ type Session struct {
 	ExpiresAt time.Time
 }
 
-type AuthManager struct {
-	Vault *security.IsolatedVault
+func NewAuthManager(v security.VaultStore) *auth.AuthManager {
+	return &auth.AuthManager{Vault: v}
 }
 
-func NewAuthManager(v *security.IsolatedVault) *AuthManager {
-	return &AuthManager{Vault: v}
+type MyAuthManager struct {
+	*auth.AuthManager
 }
 
 // Login verifies credentials and returns a session
-func (am *AuthManager) Login(username, password string) (*Session, error) {
+func (am *MyAuthManager) Login(username, password string) (*Session, error) {
 	// 1. Fetch user from Vault
 	var user UserProfile
 	found, err := am.Vault.Read("users", username, &user)
@@ -59,7 +60,7 @@ func (am *AuthManager) Login(username, password string) (*Session, error) {
 }
 
 // Signup creates a new user in the Vault
-func (am *AuthManager) Signup(username, password string, role string) error {
+func (am *MyAuthManager) Signup(username, password string, role string) error {
 	// Check if user exists
 	exists, _ := am.Vault.Exists("users", username)
 	if exists {

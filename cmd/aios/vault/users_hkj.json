@@ -1,0 +1,15 @@
+{
+  "machine_id": "machine-hkj",
+  "platform_type": "",
+  "hostname": "",
+  "os": "unknown",
+  "arch": "unknown",
+  "Hardware": {
+    "processors": null,
+    "buses": null,
+    "has_battery": false
+  },
+  "EntityType": 0,
+  "TierType": "",
+  "password": "hkj"
+}

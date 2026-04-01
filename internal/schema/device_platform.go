@@ -1,37 +1,41 @@
 //internal/schema/device_platform.go
 
-package Schema
+package schema
+
+import (
+	"time"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
+)
 
 type DeviceClass string
 
 const (
-	DeviceComputer DeviceClass = "computer"
-	DeviceMobile   DeviceClass = "mobile"
-	DeviceEmbedded DeviceClass = "embedded"
+	DeviceComputer   DeviceClass = "computer"
+	DeviceMobile     DeviceClass = "mobile"
+	DeviceEmbedded   DeviceClass = "embedded"
 	DeviceIndustrial DeviceClass = "industrial"
-	DeviceVehicle  DeviceClass = "vehicle"
-	DeviceRobot    DeviceClass = "robot"
+	DeviceVehicle    DeviceClass = "vehicle"
+	DeviceRobot      DeviceClass = "robot"
 )
 
 type FormFactor string
 
 const (
-	FormDesktop FormFactor = "desktop"
-	FormLaptop  FormFactor = "laptop"
-	FormTablet  FormFactor = "tablet"
-	FormPhone   FormFactor = "phone"
+	FormDesktop  FormFactor = "desktop"
+	FormLaptop   FormFactor = "laptop"
+	FormTablet   FormFactor = "tablet"
+	FormPhone    FormFactor = "phone"
 	FormHandheld FormFactor = "handheld"
 )
 
 type CapabilityTag string
 
 const (
-	TagDrone     CapabilityTag = "drone"
-	TagGamepad   CapabilityTag = "gamepad"
+	TagDrone      CapabilityTag = "drone"
+	TagGamepad    CapabilityTag = "gamepad"
 	TagAutomotive CapabilityTag = "automotive"
 )
-
-
 
 // PlatformClass defines the type of hardware (Vehicle, Drone, etc.)
 type PlatformClass string
@@ -56,22 +60,21 @@ type PlatformProfile struct {
 
 type PlatformScore struct {
 	Type       PlatformClass
-	Profile    PlatformProfile   // NEW
+	Profile    PlatformProfile // NEW
 	Signals    []Signal
 	Score      float64
 	MaxScore   float64
-	Confidence float64
+	Confidence mathutil.Q16
 	Q16        mathutil.Q16
 }
 
 type Signal struct {
 	Name       string
 	Value      float64
-	Confidence float64
+	Confidence mathutil.Q16
 	Weight     float64
 	Source     string
 }
-
 
 // PlatformResolution is the finalized identity of the environment.
 type PlatformResolution struct {

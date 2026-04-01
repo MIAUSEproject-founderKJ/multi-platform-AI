@@ -12,38 +12,21 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
-func collectHardwareProfile() schema.HardwareProfile {
-
-	fp := CollectHardwareFingerprint()
-
+// ConvertHardwareFingerprint converts HardwareFingerprint to schema.HardwareProfile
+func ConvertFingerprintToProfile(fp HardwareFingerprint) schema.HardwareProfile {
 	var buses []schema.BusCapability
-
-
-if len(fp.PCI) > 0 {
-	buses = append(buses, schema.BusCapability{
-		ID:         "pci-root",
-		Type:       "pci",
-		Confidence: mathutil.Q16(60000).ToFloat64(),
-		Source:     "lspci",
-	})
-}
-
-if len(fp.MAC) > 0 {
-	buses = append(buses, schema.BusCapability{
-		ID:         "ethernet",
-		Type:       "network",
-		Confidence: mathutil.Q16(60000).ToFloat64(),
-		Source:     "net-iface",
-	})
-}
+	for bus := range fp.Buses {
+		buses = append(buses, schema.BusCapability{
+			ID:         bus + "-bus",
+			Type:       bus,
+			Confidence: mathutil.FromFloat64(0.9),
+			Source:     "fingerprint",
+		})
+	}
 
 	return schema.HardwareProfile{
 		Processors: []schema.Processor{
-			{
-				Type:    "CPU",
-				Count:   1,
-				Version: 1.0,
-			},
+			{Type: "CPU", Count: runtime.NumCPU(), Version: 1.0},
 		},
 		Buses:      buses,
 		HasBattery: detectBattery(),
@@ -74,7 +57,6 @@ func detectBuses(fp *HardwareFingerprint) {
 		}
 	}
 }
-
 
 func detectBattery() bool {
 	switch runtime.GOOS {

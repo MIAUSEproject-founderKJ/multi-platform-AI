@@ -3,6 +3,8 @@
 package security
 
 import (
+	"crypto/rand"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -24,6 +26,10 @@ type VaultStore interface {
 
 	LoadFirstBootMarker() (*schema.FirstBootMarker, error)
 	SaveFirstBootMarker(*schema.FirstBootMarker) error
+
+	Read(key, id string, out interface{}) (bool, error)
+	Write(key, id string, value interface{}) error
+	Exists(key, id string) (bool, error)
 }
 
 type IsolatedVault struct {
@@ -31,22 +37,42 @@ type IsolatedVault struct {
 	Key     []byte // Reserved for AES-GCM (Hardware-bound)
 }
 
+func GenerateSecureKeyBase64() (string, error) {
+	key := make([]byte, 32)
+
+	_, err := rand.Read(key)
+	if err != nil {
+		return "", err
+	}
+
+	return base64.StdEncoding.EncodeToString(key), nil
+}
+
 // LoadSecureKey fetches the encryption key from environment variables.
 // It ensures the key meets the 32-byte requirement for AES-256.
 func LoadSecureKey() []byte {
-	// 1. Retrieve the key from an environment variable named 'APP_ENCRYPTION_KEY'
 	keyStr := os.Getenv("APP_ENCRYPTION_KEY")
 
-	// 2. Check if the key is empty
 	if keyStr == "" {
-		log.Fatal("PRODUCTION ERROR: APP_ENCRYPTION_KEY environment variable is not set.")
+		// Auto-generate (dev or first boot)
+		gen, err := GenerateSecureKeyBase64()
+		if err != nil {
+			log.Fatal("Failed to generate encryption key:", err)
+		}
+
+		log.Println("[SECURITY] Generated ephemeral encryption key")
+
+		keyBytes, _ := base64.StdEncoding.DecodeString(gen)
+		return keyBytes
 	}
 
-	key := []byte(keyStr)
+	key, err := base64.StdEncoding.DecodeString(keyStr)
+	if err != nil {
+		log.Fatal("Invalid base64 key")
+	}
 
-	// 3. Validate length (AES-256 requires exactly 32 bytes)
 	if len(key) != 32 {
-		log.Fatalf("PRODUCTION ERROR: Encryption key must be exactly 32 bytes. Current length: %d", len(key))
+		log.Fatalf("Key must decode to 32 bytes, got %d", len(key))
 	}
 
 	return key

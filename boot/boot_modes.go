@@ -9,6 +9,7 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
@@ -18,7 +19,7 @@ func (bm *BootManager) DecideBootPath() (*schema.BootSequence, error) {
 	lastkey := security.LastKnownEnvKey(bm.Identity.MachineID)
 	env, err := bm.Vault.LoadConfig(lastkey)
 	if err != nil {
-		return bm.runColdBoot()
+		return bm.runColdBoot(bm.Identity)
 	}
 
 	if env.SchemaVersion < schema.CurrentVersion {
@@ -28,30 +29,43 @@ func (bm *BootManager) DecideBootPath() (*schema.BootSequence, error) {
 
 	// Verify golden baseline
 	if _, err := bm.Vault.LoadGoldenHash(bm.Identity.MachineID); err != nil {
-		return bm.runColdBoot()
+		return bm.runColdBoot(bm.Identity)
 	}
 
-	// Perform fast boot
+	// Fast boot
 	return bm.runFastBoot(env)
 }
 
 // ------------------------------------------------------------
 // Cold Boot: full hardware discovery and provisioning
 // ------------------------------------------------------------
-func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
-	// 1. Active hardware discovery
-
+func (bm *BootManager) runColdBoot(identity *schema.MachineIdentity) (*schema.BootSequence, error) {
+	// Use the discovered platform + identity info
 	env := &schema.EnvConfig{
-		Platform: schema.PlatformResolution{},
-		Identity: schema.MachineIdentity{},
-		Hardware: bm.Identity.Hardware,
+		Platform: schema.PlatformResolution{
+			Final:      identity.PlatformType, // << propagate platform
+			Locked:     false,
+			Source:     "discovery",
+			ResolvedAt: time.Now(),
+		},
+		Identity: *identity,
+		Hardware: identity.Hardware,
 	}
+
+	logging.Info(
+		"[func (bm *BootManager) runColdBoot()] Platform: %s | OS: %s | Arch: %s | EntityType: %v",
+		env.Platform.Final,
+		env.Identity.OS,
+		env.Identity.Arch,
+		env.Identity.EntityType,
+	)
 
 	fullProfile, err := probe.ActiveDiscovery(env)
 	if err != nil {
 		return nil, fmt.Errorf("hardware discovery failed: %w", err)
 	}
 
+	// Update identity with discovered hardware
 	bm.Identity.BindHardware(fullProfile)
 
 	// 2. Provision golden baseline
@@ -75,46 +89,51 @@ func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
 
 	// 4. Platform-specific auth
 	authMgr := &auth.AuthManager{
+		Vault:    bm.Vault,
 		Platform: fullProfile.Platform.Final,
-		Entity:   bm.Identity.EntityType,
-		Tier:     bm.Identity.TierType,
 	}
-	session, err := authMgr.LoginOrSignUp()
+
+	// Credential container
+	type credential struct {
+		UserID   string
+		Password string
+	}
+
+	var cred credential
+
+	found, err := bm.Vault.Read("credentials", bm.Identity.MachineID, &cred)
+	if err != nil {
+		return nil, fmt.Errorf("vault read failed: %w", err)
+	}
+
+	if !found {
+		cred.UserID = bm.Identity.MachineID
+
+		cred.Password, err = security.GenerateSecureKeyBase64()
+		if err != nil {
+			return nil, err
+		}
+
+		if err := bm.Vault.Write("credentials", cred.UserID, cred); err != nil {
+			return nil, err
+		}
+	}
+
+	// Authenticate
+	session, err := authMgr.LoginOrSignUpInteractive()
 	if err != nil {
 		return nil, fmt.Errorf("auth failed during cold boot: %w", err)
 	}
 
-	// 6. Attach session token
-	fullProfile.Attestation.SessionToken = session.SessionID
-	fullProfile.Attestation.Valid = true
-	fullProfile.Attestation.Level = schema.TrustStrong
-	err = bm.Vault.SaveConfig(
-		security.LastKnownEnvKey(bm.Identity.MachineID),
-		fullProfile,
-	)
-	if err != nil {
-		return nil, fmt.Errorf("failed to save last known environment: %w", err)
-	}
-
-	serviceType := resolveServiceProfile(fullProfile.Platform.Final)
-	tierType := resolveTier(authMgr.Entity)
-
-	capSet := BuildCapabilitySet(
-		fullProfile.Platform.Final,
-		tierType,
-		serviceType,
-	)
-
 	return &schema.BootSequence{
-		Env:          fullProfile,
-		Mode:         schema.BootCold,
-		Attested:     true,
-		Capabilities: capSet,
-		Service:      serviceType.Name,
-		Tier:         tierType.Name,
-		Entity:       authMgr.Entity,
+		Env:         env,
+		Mode:        schema.BootCold,
+		Attested:    true,
+		UserSession: session,
+		Service:     resolveServiceProfile(env.Platform.Final).Name,
+		Tier:        resolveTier(authMgr.Entity).Name,
+		Entity:      authMgr.Entity,
 	}, nil
-
 }
 
 // ------------------------------------------------------------
@@ -122,60 +141,61 @@ func (bm *BootManager) runColdBoot() (*schema.BootSequence, error) {
 // ------------------------------------------------------------
 func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence, error) {
 	// 1. Verify against golden
+
+	logging.Info(
+		"[runFastBoot] Platform: %s | OS: %s | Arch: %s | EntityType: %v",
+		env.Platform.Final,
+		env.Identity.OS,
+		env.Identity.Arch,
+		bm.Identity.EntityType,
+	)
+
 	marker, err := bm.Vault.LoadFirstBootMarker()
 	if err != nil || marker.SchemaVersion != schema.CurrentVersion {
-		return bm.runColdBoot()
+		return bm.runColdBoot(bm.Identity)
 	}
 	if err := security.VerifyAgainstGolden(bm.Vault, marker.MachineID); err != nil {
-		return bm.runColdBoot()
+		return bm.runColdBoot(bm.Identity)
 	}
 
 	// 2. Passive sanity scan
 	raw, err := probe.IdentityProbe()
 	if err != nil || raw.Identity.MachineID != env.Identity.MachineID || raw.Identity.OS != env.Identity.OS {
-		return bm.runColdBoot()
+		return bm.runColdBoot(bm.Identity)
 	}
 
 	// 3. Silent login
 	authMgr := &auth.AuthManager{
+		Vault:    bm.Vault,
 		Platform: env.Platform.Final,
-		Entity:   bm.Identity.EntityType,
-		Tier:     bm.Identity.TierType,
 	}
-	session, err := authMgr.LoginOrSignUp()
+
+	// Load credentials from Vault
+	var cred struct {
+		UserID   string
+		Password string
+	}
+	found, err := bm.Vault.Read("credentials", bm.Identity.MachineID, &cred)
+	if !found || err != nil {
+		return bm.runColdBoot(bm.Identity) // fallback if missing
+	}
+
+	// Authenticate silently
+	session, err := authMgr.LoginOrSignUpInteractive()
 	if err != nil {
-		return nil, fmt.Errorf("auth failed during fast boot: %w", err)
+		return bm.runColdBoot(bm.Identity)
 	}
 
-	// 4. Assign dynamic service & tier
-	serviceType := resolveServiceProfile(env.Platform.Final)
-	tierType := resolveTier(authMgr.Entity)
-
-	permList := security.DerivePermissions(
-		env.Platform.Final,
-		authMgr.Entity,
-		authMgr.Tier,
-	)
-
-	permMap := make(map[schema.Permission]bool)
-	for _, p := range permList {
-		permMap[p] = true
-	}
-
-	session.Permissions = permMap
+	// Update session & attestation
 	env.Attestation.SessionToken = session.SessionID
-	capSet := BuildCapabilitySet(
-		env.Platform.Final,
-		tierType,
-		serviceType,
-	)
+	capSet := BuildCapabilitySet(env.Platform.Final, resolveTier(authMgr.Entity), resolveServiceProfile(env.Platform.Final))
 	return &schema.BootSequence{
 		Env:          env,
 		Mode:         schema.BootFast,
 		Attested:     true,
 		Capabilities: capSet,
-		Service:      serviceType.Name,
-		Tier:         tierType.Name,
+		Service:      resolveServiceProfile(env.Platform.Final).Name,
+		Tier:         resolveTier(authMgr.Entity).Name,
 		Entity:       authMgr.Entity,
 	}, nil
 }
@@ -200,7 +220,7 @@ func resolveServiceProfile(platform schema.PlatformClass) *schema.ServiceProfile
 
 	switch platform {
 
-	case schema.PlatformMobile, schema.PlatformTablet:
+	case schema.PlatformMobile:
 		return &schema.ServiceProfile{Name: schema.ServicePersonal}
 
 	case schema.PlatformVehicle:
@@ -209,7 +229,7 @@ func resolveServiceProfile(platform schema.PlatformClass) *schema.ServiceProfile
 	case schema.PlatformIndustrial:
 		return &schema.ServiceProfile{Name: schema.ServiceIndustrial}
 
-	case schema.PlatformComputer, schema.PlatformLaptop:
+	case schema.PlatformComputer:
 		return &schema.ServiceProfile{Name: schema.ServicePersonal}
 
 	default:
@@ -231,7 +251,7 @@ func BuildCapabilitySet(
 		caps |= schema.CapCANBus | schema.CapSecureEnclave
 	case schema.PlatformIndustrial:
 		caps |= schema.CapIndustrialIO | schema.CapNetwork
-	case schema.PlatformComputer, schema.PlatformLaptop:
+	case schema.PlatformComputer:
 		caps |= schema.CapLocalStorage | schema.CapNetwork | schema.CapBiometric
 	}
 

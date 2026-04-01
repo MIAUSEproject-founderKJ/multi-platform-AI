@@ -14,17 +14,13 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
-// ------------------------------------------------------------
-// Types
-// ------------------------------------------------------------
-
+// HardwareFingerprint represents low-level device identifiers.
 type HardwareFingerprint struct {
 	TPM     string
 	CPU     string
+	GPU     string
 	DMI     string
 	PCI     []string
 	MAC     []string
@@ -49,22 +45,19 @@ func (b *fingerprintBuilder) setSlice(target *[]string, val []string) {
 	b.mu.Unlock()
 }
 
-// ------------------------------------------------------------
-// Public Entry
-// ------------------------------------------------------------
-
+// CollectHardwareFingerprint gathers basic hardware info with a timeout.
 func CollectHardwareFingerprint(ctx context.Context) (HardwareFingerprint, []string) {
 	var probeErrors []string
 	ctx, cancel := context.WithTimeout(ctx, 3*time.Second)
 	defer cancel()
 
 	builder := &fingerprintBuilder{
-    fp: HardwareFingerprint{
-        Buses: make(map[string]bool),
-    	},
+		fp: HardwareFingerprint{
+			Buses: make(map[string]bool),
+		},
 	}
-	var wg sync.WaitGroup
 
+	var wg sync.WaitGroup
 	run := func(fn func(context.Context)) {
 		wg.Add(1)
 		go func() {
@@ -73,53 +66,32 @@ func CollectHardwareFingerprint(ctx context.Context) (HardwareFingerprint, []str
 		}()
 	}
 
+	// Core identifiers
+	run(func(c context.Context) { builder.setString(&builder.fp.TPM, readTPM()) })
+	run(func(c context.Context) { builder.setString(&builder.fp.CPU, readCPUModel(c)) })
+	run(func(c context.Context) { builder.setString(&builder.fp.DMI, readDMIUUID(c)) })
+
+	// PCI devices
 	run(func(c context.Context) {
-		builder.setString(&builder.fp.TPM, readTPM(c))
+		pci := readPCITopology(c)
+		builder.setSlice(&builder.fp.PCI, pci)
 	})
 
-	run(func(c context.Context) {
-		builder.setString(&builder.fp.CPU, readCPUModel(c))
-	})
+	// MAC addresses
+	run(func(c context.Context) { builder.setSlice(&builder.fp.MAC, readMACs()) })
 
-	run(func(c context.Context) {
-		builder.setString(&builder.fp.DMI, readDMIUUID(c))
-	})
-
-	var errMu sync.Mutex
-
-	run(func(c context.Context) {
-
-	run(func(c context.Context) {
-	builder.mu.Lock()
-	builder.fp.Buses = detectBuses(c)
-	builder.mu.Unlock()
-	})
-
-	//func runProbe[T any](ctx context.Context, name string, fn func(context.Context) (T, error)) ProbeResult[T]
-    res := runProbe(c, "pci_scan", func(ctx context.Context) ([]string, error) {
-        return readPCITopology(ctx), nil
-    })
-
-    if res.Error != nil {
-        errMu.Lock()
-        probeErrors = append(probeErrors, fmt.Sprintf("%s: %v", res.Source, res.Error))
-        errMu.Unlock()
-    } else {
-        builder.setSlice(&builder.fp.PCI, res.Value)
-    }
-	})
-
-	run(func(c context.Context) {
-		builder.setSlice(&builder.fp.MAC, readMACs(c))
-	})
-
-	run(func(c context.Context) {
-		builder.setSlice(&builder.fp.Storage, readDiskSerials(c))
-	})
+	// Storage
+	run(func(c context.Context) { builder.setSlice(&builder.fp.Storage, readDiskSerials(c)) })
 
 	wg.Wait()
+
+	// Detect buses
+	detectBuses(&builder.fp)
+
 	return builder.fp, probeErrors
 }
+
+// Utilities like TPM, CPU, DMI, PCI, MAC, Storage (same as your previous code)...
 
 //
 // ------------------------------------------------------------
@@ -130,8 +102,6 @@ func CollectHardwareFingerprint(ctx context.Context) (HardwareFingerprint, []str
 // MaxCommandOutput defines a safety limit (1MB) to prevent a bugged or
 // malicious tool from exhausting system memory.
 const MaxCommandOutput = 1024 * 1024
-
-
 
 type limitedBuffer struct {
 	buf       *bytes.Buffer
@@ -211,7 +181,7 @@ func runCommand(ctx context.Context, name string, args ...string) (string, error
 
 // TPM
 
-func readTPM(ctx context.Context) string {
+func readTPM() string {
 	if runtime.GOOS != "linux" {
 		return ""
 	}
@@ -308,7 +278,7 @@ func readPCITopology(ctx context.Context) []string {
 
 // MAC
 
-func readMACs(ctx context.Context) []string {
+func readMACs() []string {
 
 	ifaces, err := net.Interfaces()
 	if err != nil {
@@ -372,32 +342,4 @@ func readDiskSerials(ctx context.Context) []string {
 
 func normalize(s string) string {
 	return strings.TrimSpace(strings.ToLower(s))
-}
-
-//
-// ------------------------------------------------------------
-// Hardware Profile Conversion
-// ------------------------------------------------------------
-//
-
-func convertFingerprintToProfile(fp HardwareFingerprint) schema.HardwareProfile {
-
-	var buses []schema.BusCapability
-
-	for bus := range fp.Buses {
-		buses = append(buses, schema.BusCapability{
-			ID:         bus + "-bus",
-			Type:       bus,
-			Confidence: 0.9,
-			Source:     "fingerprint",
-		})
-	}
-
-	return schema.HardwareProfile{
-		Processors: []schema.Processor{
-			{Type: "CPU", Count: runtime.NumCPU(), Version: 1.0},
-		},
-		Buses:      buses,
-		HasBattery: detectBattery(),
-	}
 }

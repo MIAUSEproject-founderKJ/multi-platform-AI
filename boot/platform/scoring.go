@@ -36,7 +36,7 @@ func RunResolution(env *schema.EnvConfig) {
 			if ratio > 1.0 {
 				ratio = 1.0
 			}
-			c.Confidence = mathutil.Q16(mathutil.FromFloat64(ratio))
+			c.Confidence = mathutil.FromFloat64(ratio)
 		} else {
 			c.Confidence = 0
 		}
