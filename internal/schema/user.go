@@ -5,15 +5,27 @@ package schema
 import "time"
 
 type UserSession struct {
-	SessionID   string
-	Platform    PlatformClass
-	Entity      EntityType
-	Tier        TierType
-	Service     ServiceType
+	SessionID string
+
+	Platform PlatformClass
+	Entity   EntityType
+	Tier     TierType
+	Service  ServiceType
+
 	Permissions map[Permission]bool
-	CreatedAt   time.Time
-	ExpiresAt   time.Time
-	Config      *UserConfig
+
+	Config       *CustomizedConfig
+	Capabilities CapabilitySet
+	Mode         string
+
+	CreatedAt time.Time
+	ExpiresAt time.Time
+
+	Capabilities  CapabilitySet
+	CapProfile    *CapabilityProfile
+	Mode          string
+
+	Orchestrator interface{} // runtime binding
 }
 
 // ------------------------------------------------------------
@@ -89,4 +101,6 @@ type UserConfig struct {
 	AIStyle         string // "concise", "balanced", "verbose"
 	AutoSave        bool
 	EnableTelemetry bool
+
+	Runtime CustomizedConfig
 }

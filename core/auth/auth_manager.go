@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	runtimectx "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/runtime"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
@@ -137,9 +138,9 @@ func (am *AuthManager) verifyUserCredentials(userID, password string) (bool, *sc
 	}
 
 	// Validate password (simplified: plaintext match for demo; ideally hashed)
-	if stored.Password != password {
-		fmt.Println("[verifyUserCredentials] Invalid password")
-		return false, nil
+	hash := hashPassword(password)
+	if user.PasswordHash != hash {
+		return nil, errors.New("invalid credentials")
 	}
 
 	fmt.Println("[verifyUserCredentials] User verified from vault:", userID)
@@ -162,51 +163,46 @@ func (am *AuthManager) RegisterUser(userID, password string, entityType schema.E
 	return am.Vault.Write("users", userID, identity)
 }
 
-func PromptForUserConfig() *schema.UserConfig {
+func PromptForUserConfig() *schema.CustomizedConfig {
+	cfg := DefaultCustomizedConfig()
 	reader := bufio.NewReader(os.Stdin)
 
-	fmt.Println("\n=== Initial Configuration ===")
+	fmt.Println("\n=== User Configuration ===")
+	fmt.Println("Press ENTER to keep default")
 
-	fmt.Print("Display name (optional): ")
-	name, _ := reader.ReadString('\n')
-	name = strings.TrimSpace(name)
-
-	fmt.Print("Preferred mode (cli / voice / hybrid) [cli]: ")
-	mode, _ := reader.ReadString('\n')
-	mode = strings.TrimSpace(mode)
-	if mode == "" {
-		mode = "cli"
+	fmt.Printf("Main language [%s]: ", cfg.MainLang)
+	if v, _ := reader.ReadString('\n'); strings.TrimSpace(v) != "" {
+		cfg.MainLang = strings.TrimSpace(v)
 	}
 
-	fmt.Print("AI response style (concise / balanced / verbose) [balanced]: ")
-	style, _ := reader.ReadString('\n')
-	style = strings.TrimSpace(style)
-	if style == "" {
-		style = "balanced"
+	fmt.Printf("Power mode (low/balanced/high) [%s]: ", cfg.PowerMode)
+	if v, _ := reader.ReadString('\n'); strings.TrimSpace(v) != "" {
+		cfg.PowerMode = strings.TrimSpace(v)
 	}
 
-	fmt.Print("Enable autosave? (y/n) [y]: ")
-	auto, _ := reader.ReadString('\n')
-	auto = strings.TrimSpace(auto)
-	autoSave := auto != "n"
-
-	fmt.Print("Enable telemetry? (y/n) [n]: ")
-	tel, _ := reader.ReadString('\n')
-	tel = strings.TrimSpace(tel)
-	telemetry := tel == "y"
-
-	cfg := &schema.UserConfig{
-		Username:        name,
-		PreferredMode:   mode,
-		AIStyle:         style,
-		AutoSave:        autoSave,
-		EnableTelemetry: telemetry,
+	fmt.Printf("Privacy mode (standard/strict/offline) [%s]: ", cfg.PrivacyMode)
+	if v, _ := reader.ReadString('\n'); strings.TrimSpace(v) != "" {
+		cfg.PrivacyMode = strings.TrimSpace(v)
 	}
 
-	fmt.Println("[CONFIG] User configuration initialized")
+	fmt.Printf("Update mode (auto/manual) [%s]: ", cfg.UpdateMode)
+	if v, _ := reader.ReadString('\n'); strings.TrimSpace(v) != "" {
+		cfg.UpdateMode = strings.TrimSpace(v)
+	}
+
+	fmt.Println("[CONFIG] Completed")
 
 	return cfg
 }
+
+
+func DefaultCustomizedConfig() *CustomizedConfig {
+	return &CustomizedConfig{
+		Version:      "v1",
+		LastModified: time.Now(),
+	}
+}
+
 
 func (am *AuthManager) LoginOrSignUpInteractive() (*schema.UserSession, error) {
 	for {
@@ -389,38 +385,116 @@ func (am *AuthManager) enableDebugLogin() error {
 // ------------------------------------------------------------
 
 func (am *AuthManager) createSession(service schema.ServiceType) (*schema.UserSession, error) {
-	// Derive permissions dynamically from platform, entity, and tier
+
 	permList := security.DerivePermissions(
 		am.Platform,
 		am.Entity,
 		am.Tier,
 	)
 
-	// Use map[schema.Permission]bool to match UserSession type
 	permMap := make(map[schema.Permission]bool)
 	for _, p := range permList {
 		permMap[p] = true
 	}
-
-	// Ensure the session has at least basic user permission
 	permMap[schema.PermUser] = true
 
-	// Build the UserSession struct dynamically
 	session := &schema.UserSession{
-		SessionID:   fmt.Sprintf("%d", time.Now().UnixNano()), // unique session ID
+		SessionID:   fmt.Sprintf("%d", time.Now().UnixNano()),
 		Platform:    am.Platform,
 		Entity:      am.Entity,
 		Tier:        am.Tier,
 		Service:     service,
 		Permissions: permMap,
 		CreatedAt:   time.Now(),
-		ExpiresAt:   time.Now().Add(24 * time.Hour), // default 24h expiration
+		ExpiresAt:   time.Now().Add(24 * time.Hour),
 	}
 
-	fmt.Printf("[SESSION] Created: %s | Platform: %s | Entity: %x | Tier: %s | Service: %s\n",
-		session.SessionID, session.Platform, session.Entity, session.Tier, session.Service)
-	// 🔥 NEW: attach config
-	session.Config = PromptForUserConfig()
+	// ---- CONFIG LOAD ----
+	cfg, err := LoadUserConfig(am.Vault, am.Identity.MachineID)
+	if err != nil {
+		return nil, err
+	}
+
+if cfg == nil {
+	fmt.Println("[CONFIG] First-time setup required")
+	cfg = PromptForUserConfig()
+	_ = SaveUserConfig(am.Vault, am.Identity.MachineID, cfg)
+} else {
+	fmt.Println("[CONFIG] Loaded existing configuration")
+}
+
+	cfg.FillDefaults()
+
+// ---- CAPABILITY PROFILE ----
+cp := runtimectx.DetectCapabilityProfile()
+
+// ---- ORCHESTRATOR ----
+orch := runtimectx.BuildOrchestrator(cp)
+orch.StartAll()
+
+// ---- MODE (informational now) ----
+mode := runtimectx.ResolveInteractionMode(cfg, cp.Set)
+
+session.Config = cfg
+session.Capabilities = cp.Set
+session.CapProfile = cp
+session.Mode = string(mode)
+session.Orchestrator = orch
+
+orch.Broadcast("Session initialized successfully")
+
+	fmt.Printf("[RUNTIME] Capabilities: %v\n", cap)
+	fmt.Printf("[RUNTIME] Mode: %s\n", mode)
 
 	return session, nil
+}
+
+func LoadUserConfig(vault security.VaultStore, userID string) (*schema.CustomizedConfig, error) {
+	var cfg schema.CustomizedConfig
+
+	found, err := vault.Read("configs", userID, &cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	if !found {
+		return nil, nil
+	}
+
+	cfg.FillDefaults()
+	cfg.Migrate()
+
+	return &cfg, nil
+}
+
+func SaveUserConfig(vault security.VaultStore, userID string, cfg *schema.CustomizedConfig) error {
+	cfg.LastModified = time.Now()
+	return vault.Write("configs", userID, cfg)
+}
+
+
+
+func (c CapabilitySet) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`"%d"`, c)), nil
+}
+
+func (am *AuthManager) HandleConfigUpdate(session *schema.UserSession) {
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Print("[CONFIG] Enter command: ")
+	cmd, _ := reader.ReadString('\n')
+	cmd = strings.TrimSpace(cmd)
+
+	if cmd == "update config" {
+		fmt.Println("[CONFIG] Updating configuration...")
+		newCfg := PromptForUserConfig()
+
+		_ = SaveUserConfig(am.Vault, am.Identity.MachineID, newCfg)
+
+		session.Config = newCfg
+
+		if orch, ok := session.Orchestrator.(*runtimectx.Orchestrator); ok {
+			orch.Broadcast("Configuration updated successfully")
+		}
+	}
 }

@@ -50,8 +50,10 @@ func populateCompute(cfg *schema.EnvConfig) {
 // populateEmbedded probes layers 0–4 for embedded/vehicle/robot
 func populateEmbedded(cfg *schema.EnvConfig) {
 	if phy, err := discoverPhysical(); err == nil {
-		cfg.Discovery.Physical = phy
-	}
+	cfg.Discovery.Physical = phy
+} else {
+	logging.Warn("physical discovery failed: %v", err)
+}
 	if sig, err := discoverSignal(); err == nil {
 		cfg.Discovery.Signal = sig
 	}

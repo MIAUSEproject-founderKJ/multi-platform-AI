@@ -39,10 +39,13 @@ type MachineIdentity struct {
 	Hostname     string        `json:"hostname"`
 	OS           string        `json:"os"`
 	Arch         string        `json:"arch"`
-	Hardware     HardwareProfile
-	EntityType   EntityType
-	TierType     TierType //Use TierType (string) externally for readability and compatibility. Use EntityType (uint8) internally for speed and clarity.
-	Password     string   `json:"password,omitempty"` // For authentication during cold boot. Should be securely handled and not stored in plaintext in production.
+	Hardware     HardwareProfile `json:"hardware"`
+
+	EntityType EntityType `json:"entity_type"`
+	TierType   TierType   `json:"tier_type"`
+
+	PasswordHash string    `json:"password_hash,omitempty"`
+	CreatedAt    time.Time `json:"created_at"`
 }
 
 type HardwareProfile struct {

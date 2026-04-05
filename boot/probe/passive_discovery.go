@@ -78,10 +78,9 @@ func extractProcessors(fp HardwareFingerprint) []schema.Processor {
 	// CPU
 	if n, err := strconv.Atoi(fp.CPU); err == nil && n > 0 {
 		processors = append(processors, schema.Processor{
-			Type:    "CPU",
-			Count:   n,
-			Version: 0.0,
-		})
+	Type:  "CPU",
+	Count: runtime.NumCPU(),
+})
 	}
 
 	// GPU
@@ -278,7 +277,8 @@ func runPlatformInference(env *schema.EnvConfig, fp HardwareFingerprint) {
 	var results []schema.PlatformScore
 	var best schema.PlatformClass = schema.PlatformUnknown
 	var bestScore float64
-	const minConfidence = 0.5
+	const minConfidence = 0.65
+const delta = 0.1 // margin between top candidates
 
 	for _, def := range platformRegistry {
 		ps := buildPlatformScore(def, fp, env)
