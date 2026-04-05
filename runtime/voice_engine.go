@@ -8,6 +8,8 @@ import (
 )
 
 type VoiceEngine struct {
+	audio *AudioVAD
+
 	inputChan     chan string
 	outputChan    chan string
 	interruptChan chan struct{}
@@ -18,6 +20,7 @@ type VoiceEngine struct {
 
 func NewVoiceEngine() *VoiceEngine {
 	return &VoiceEngine{
+		audio:         NewAudioVAD(),
 		inputChan:     make(chan string),
 		outputChan:    make(chan string),
 		interruptChan: make(chan struct{}, 1),
@@ -33,12 +36,17 @@ func (ve *VoiceEngine) Start() {
 
 //====Simulated Microphone (replace later with real STT)
 func (ve *VoiceEngine) listenLoop() {
-	for {
-		var input string
-		fmt.Print("[MIC] > ")
-		fmt.Scanln(&input)
+	err := ve.audio.Start()
+	if err != nil {
+		fmt.Println("[VOICE] Audio init failed:", err)
+		return
+	}
 
-		// interrupt if currently speaking
+	buffer := make([]byte, 0, 16000)
+
+	for frame := range ve.audio.outChan {
+
+		// interrupt if speaking
 		ve.mu.Lock()
 		if ve.speaking {
 			select {
@@ -48,9 +56,21 @@ func (ve *VoiceEngine) listenLoop() {
 		}
 		ve.mu.Unlock()
 
-		ve.inputChan <- input
+		buffer = append(buffer, frame...)
+
+		// simple segmentation heuristic
+		if len(buffer) > sampleRate*2 { // ~1 second speech
+			text := fakeSTT(buffer)
+			ve.inputChan <- text
+			buffer = buffer[:0]
+		}
 	}
 }
+
+func fakeSTT(audio []byte) string {
+	return "[speech detected]"
+}
+
 //========Processing Layer
 func (ve *VoiceEngine) processLoop() {
 	for input := range ve.inputChan {

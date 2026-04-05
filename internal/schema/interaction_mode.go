@@ -53,10 +53,6 @@ func (g *GUIAdapter) Start(session *schema.UserSession) error {
 	return nil
 }
 //=========================================
-type VoiceEngine struct {
-	STT SpeechToText
-	TTS TextToSpeech
-}
 
 type SpeechToText interface {
 	Listen() (string, error)
