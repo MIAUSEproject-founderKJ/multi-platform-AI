@@ -13,6 +13,7 @@ type UserSession struct {
 	Permissions map[Permission]bool
 	CreatedAt   time.Time
 	ExpiresAt   time.Time
+	Config      *UserConfig
 }
 
 // ------------------------------------------------------------
@@ -81,3 +82,11 @@ const (
 	PermHardwareIO     Permission = "hardware_io"
 	PermSafetyOverride Permission = "safety_override"
 )
+
+type UserConfig struct {
+	Username        string
+	PreferredMode   string // "cli", "voice", "hybrid"
+	AIStyle         string // "concise", "balanced", "verbose"
+	AutoSave        bool
+	EnableTelemetry bool
+}

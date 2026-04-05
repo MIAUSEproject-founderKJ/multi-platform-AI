@@ -6,11 +6,14 @@
 package main
 
 import (
+	"bufio"
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -128,6 +131,24 @@ func BuildRuntime(logger *zap.Logger, sys *SystemContext) (*App, error) {
 	if err != nil {
 		return nil, err
 	}
+	// 🔥 attach session + config
+	rtx.Session = sys.Session
+	rtx.Config = sys.Session.Config
+
+	go func() {
+		reader := bufio.NewReader(os.Stdin)
+		for {
+			fmt.Print("> ")
+			input, _ := reader.ReadString('\n')
+			input = strings.TrimSpace(input)
+
+			if input == "exit" {
+				os.Exit(0)
+			}
+
+			logger.Info("user_input", zap.String("input", input))
+		}
+	}()
 
 	// --- MODULE GRAPH ---
 	registry := modules.DefaultRegistry()

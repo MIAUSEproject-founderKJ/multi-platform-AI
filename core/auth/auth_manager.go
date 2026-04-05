@@ -46,35 +46,27 @@ func (am *AuthManager) detectEntityAndTier() {
 	}
 }
 
-func PromptForCredentials() (string, string) {
+func PromptForCredentials(vault security.VaultStore) (string, string) {
 	reader := bufio.NewReader(os.Stdin)
 
-	// Prompt if first-time login
-	fmt.Print("[PromptForCredentials] Is this your first time logging in? (y/n): ")
-	firstTime, _ := reader.ReadString('\n')
-	firstTime = strings.TrimSpace(firstTime)
-
-	if strings.ToLower(firstTime) == "y" {
-		fmt.Println("[PromptForCredentials] Starting registration process...")
-		vault, err := security.OpenVault()
-		if err != nil {
-			fmt.Println("[PromptForCredentials] Failed to open vault:", err)
-			os.Exit(1)
-		}
-
-		_, err = PromptForRegistration(vault)
-		if err != nil {
-			fmt.Println("[PromptForCredentials] Registration failed:", err)
-			os.Exit(1)
-		}
-	} // <- close the if block here
-
-	// Now prompt for login credentials
-	fmt.Print("[PromptForCredentials] Enter User ID: ")
+	fmt.Print("[AUTH] Enter User ID: ")
 	userID, _ := reader.ReadString('\n')
 	userID = strings.TrimSpace(userID)
 
-	fmt.Print("[PromptForCredentials] Enter Password: ")
+	// Check if user exists
+	var existing schema.MachineIdentity
+	found, _ := vault.Read("users", userID, &existing)
+
+	if !found {
+		fmt.Println("[AUTH] User not found. Starting registration...")
+		_, err := PromptForRegistration(vault)
+		if err != nil {
+			fmt.Println("[AUTH] Registration failed:", err)
+			os.Exit(1)
+		}
+	}
+
+	fmt.Print("[AUTH] Enter Password: ")
 	password, _ := reader.ReadString('\n')
 	password = strings.TrimSpace(password)
 
@@ -170,15 +162,61 @@ func (am *AuthManager) RegisterUser(userID, password string, entityType schema.E
 	return am.Vault.Write("users", userID, identity)
 }
 
+func PromptForUserConfig() *schema.UserConfig {
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Println("\n=== Initial Configuration ===")
+
+	fmt.Print("Display name (optional): ")
+	name, _ := reader.ReadString('\n')
+	name = strings.TrimSpace(name)
+
+	fmt.Print("Preferred mode (cli / voice / hybrid) [cli]: ")
+	mode, _ := reader.ReadString('\n')
+	mode = strings.TrimSpace(mode)
+	if mode == "" {
+		mode = "cli"
+	}
+
+	fmt.Print("AI response style (concise / balanced / verbose) [balanced]: ")
+	style, _ := reader.ReadString('\n')
+	style = strings.TrimSpace(style)
+	if style == "" {
+		style = "balanced"
+	}
+
+	fmt.Print("Enable autosave? (y/n) [y]: ")
+	auto, _ := reader.ReadString('\n')
+	auto = strings.TrimSpace(auto)
+	autoSave := auto != "n"
+
+	fmt.Print("Enable telemetry? (y/n) [n]: ")
+	tel, _ := reader.ReadString('\n')
+	tel = strings.TrimSpace(tel)
+	telemetry := tel == "y"
+
+	cfg := &schema.UserConfig{
+		Username:        name,
+		PreferredMode:   mode,
+		AIStyle:         style,
+		AutoSave:        autoSave,
+		EnableTelemetry: telemetry,
+	}
+
+	fmt.Println("[CONFIG] User configuration initialized")
+
+	return cfg
+}
+
 func (am *AuthManager) LoginOrSignUpInteractive() (*schema.UserSession, error) {
 	for {
-		userID, password := PromptForCredentials()
+		userID, password := PromptForCredentials(am.Vault)
 
 		verified, identity := am.verifyUserCredentials(userID, password)
 		if verified {
 			am.Identity = identity
 			am.detectEntityAndTier()
-			return am.platformLoginFlow()
+			return am.platformLoginFlow() // ✅ exits loop
 		}
 
 		fmt.Println("[AUTH] Invalid credentials or user not found. Try again.")
@@ -381,6 +419,8 @@ func (am *AuthManager) createSession(service schema.ServiceType) (*schema.UserSe
 
 	fmt.Printf("[SESSION] Created: %s | Platform: %s | Entity: %x | Tier: %s | Service: %s\n",
 		session.SessionID, session.Platform, session.Entity, session.Tier, session.Service)
+	// 🔥 NEW: attach config
+	session.Config = PromptForUserConfig()
 
 	return session, nil
 }

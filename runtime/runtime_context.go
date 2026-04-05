@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/router"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"go.uber.org/zap"
 )
 
@@ -18,6 +19,8 @@ type RuntimeContext struct {
 	DB       *sql.DB
 	Logger   *zap.Logger
 	BasePath string
+	Session  *schema.UserSession
+	Config   *schema.UserConfig
 }
 
 func (r *RuntimeContext) SafePath(rel string) string {
