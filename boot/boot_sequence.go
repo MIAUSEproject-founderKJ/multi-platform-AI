@@ -22,15 +22,17 @@ func RunBootSequence(ctx BootContext) (*schema.BootSequence, *schema.UserSession
 
 	bootSeq, err := PhaseContext(ctx.Vault, identity)
 	if err != nil {
-		return nil, nil, err
+    return nil, nil, err
 	}
 
-	caps, err := DetectDeviceCapabilities(bootSeq.Env)
+	// Merge capabilities
+	capSet := BuildCapabilitySet(bootSeq.Env.Platform.Final, resolveTier(bootSeq.Entity), resolveServiceProfile(bootSeq.Env.Platform.Final))
+	caps, err := DetectDeviceCapabilities(bootSeq.Env, capSet)
 	if err != nil {
-		return nil, nil, err
+    	return nil, nil, err
 	}
-
-	bootSeq.Env.Capabilities = caps
+	bootSeq.Env.Discovery.Capabilities = *caps
+	bootSeq.Capabilities = capSet
 
 	// 🔹 PRE-AUTH INTERFACE
 	session, err := PhaseAuthInterface(ctx, caps)
