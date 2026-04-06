@@ -1,14 +1,15 @@
 //runtime/audio_vad.go
 
-package runtimectx
+package runtime
 
 import (
 	"encoding/binary"
 	"fmt"
 	"log"
-
+	"strings"
 	"github.com/gordonklaus/portaudio"
 	"github.com/maxhawkins/go-webrtcvad"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
 const (
@@ -21,9 +22,11 @@ type AudioVAD struct {
 	vad         *webrtcvad.VAD
 	frameBuf    []int16
 	outChan     chan []byte
-	wakeWordOn  bool
+	WakeDetector *WakeWordDetector
+	wakeWordOn   bool
 	wakeBuffer  []int16
 }
+
 
 func detectWakeWord(text string) bool {
 	// lowercase match for demo
@@ -32,7 +35,10 @@ func detectWakeWord(text string) bool {
 }
 
 func NewAudioVAD() *AudioVAD {
-	vad := webrtcvad.New()
+	vad, err := webrtcvad.New()
+if err != nil {
+	log.Fatal(err)
+}
 	vad.SetMode(3) // aggressive
 
 	return &AudioVAD{
@@ -69,8 +75,8 @@ detector, err := NewWakeWordDetector("<ACCESS_KEY>", "hey_system.ppn")
 if err != nil {
     log.Fatal(err)
 }
-vad.WakeDetector = detector
-defer detector.Close()
+	vad.WakeDetector = detector
+	defer detector.Close()
 
 	go a.loop()
 
@@ -99,7 +105,8 @@ func (a *AudioVAD) loop() {
         }
 
         // VAD processing
-        active, err := a.vad.Process(sampleRate, a.frameBuf)
+        buf := schema.Int16ToBytes(a.frameBuf)
+		active, err := a.vad.Process(sampleRate, buf)
         if err != nil {
             continue
         }

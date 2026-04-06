@@ -8,17 +8,7 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
-type Capability string
 
-const (
-	CapCANBus              Capability = "CAN_BUS"
-	CapBiometric           Capability = "BIOMETRIC"
-	CapHighFreqSensor      Capability = "HIGH_FREQ_SENSOR"
-	CapFileSystem          Capability = "FILE_SYSTEM"
-	CapMicrophone          Capability = "MICROPHONE"
-	CapSafetyCritical      Capability = "SAFETY_CRITICAL"
-	CapPersistentCloudLink Capability = "PERSISTENT_CLOUD"
-)
 
 type BootProfile struct {
 	Type string // FirstBoot | FastBoot | RecoveryBoot

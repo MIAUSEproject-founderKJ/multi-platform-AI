@@ -248,7 +248,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtimectx and not used",
+	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtime and not used",
 	"source": "compiler",
 	"startLineNumber": 26,
 	"startColumn": 2,
@@ -898,7 +898,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtimectx and not used",
+	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtime and not used",
 	"source": "compiler",
 	"startLineNumber": 13,
 	"startColumn": 2,
@@ -985,7 +985,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtimectx and not used",
+	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtime and not used",
 	"source": "compiler",
 	"startLineNumber": 13,
 	"startColumn": 2,
@@ -1093,7 +1093,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtimectx and not used",
+	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtime and not used",
 	"source": "compiler",
 	"startLineNumber": 8,
 	"startColumn": 2,
@@ -1159,7 +1159,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtimectx and not used",
+	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtime and not used",
 	"source": "compiler",
 	"startLineNumber": 10,
 	"startColumn": 2,
@@ -1228,7 +1228,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtimectx and not used",
+	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtime and not used",
 	"source": "compiler",
 	"startLineNumber": 11,
 	"startColumn": 2,
@@ -1315,7 +1315,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtimectx and not used",
+	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtime and not used",
 	"source": "compiler",
 	"startLineNumber": 16,
 	"startColumn": 2,
@@ -1381,7 +1381,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtimectx and not used",
+	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtime and not used",
 	"source": "compiler",
 	"startLineNumber": 18,
 	"startColumn": 2,
@@ -1416,7 +1416,7 @@
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/file/http_ingestion.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"severity": 8,
-	"message": "found packages runtimectx (audio_vad.go) and runtime (message_bus.go) in C:\\Users\\MIAUSE\\Documents\\GitHub\\Programming\\multi-platform-AI\\runtime",
+	"message": "found packages runtime (audio_vad.go) and runtime (message_bus.go) in C:\\Users\\MIAUSE\\Documents\\GitHub\\Programming\\multi-platform-AI\\runtime",
 	"source": "go list",
 	"startLineNumber": 10,
 	"startColumn": 2,
@@ -1437,7 +1437,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtimectx and not used",
+	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtime and not used",
 	"source": "compiler",
 	"startLineNumber": 10,
 	"startColumn": 2,
@@ -1503,7 +1503,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtimectx and not used",
+	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\" imported as runtime and not used",
 	"source": "compiler",
 	"startLineNumber": 14,
 	"startColumn": 2,
@@ -1764,7 +1764,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "package runtime; expected package runtimectx",
+	"message": "package runtime; expected package runtime",
 	"source": "compiler",
 	"startLineNumber": 3,
 	"startColumn": 1,
@@ -1786,7 +1786,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "package runtime; expected package runtimectx",
+	"message": "package runtime; expected package runtime",
 	"source": "compiler",
 	"startLineNumber": 3,
 	"startColumn": 1,
@@ -1808,7 +1808,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "package runtime; expected package runtimectx",
+	"message": "package runtime; expected package runtime",
 	"source": "compiler",
 	"startLineNumber": 2,
 	"startColumn": 1,
@@ -1851,7 +1851,7 @@ undefined: schema.CapabilityDescriptor
 undefined: schema.CapCANBus
 undefined: schema.CapIndustrialIO
 undefined: schema.CapSafetyCritical
-"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtimectx and not used
+"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtime and not used
 undefined: runtime
 undefined: runtime
 undefined: runtime
@@ -1880,35 +1880,35 @@ Capabilities redeclared (see details)
 Mode redeclared (see details)
 Capabilities redeclared
 Mode redeclared
-"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtimectx and not used
+"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtime and not used
 undefined: runtime
 undefined: runtime
 undefined: runtime
-"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtimectx and not used
+"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtime and not used
 undefined: runtime
 undefined: runtime
 undefined: runtime
 undefined: schema.CapLocalStorage
-"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtimectx and not used
+"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtime and not used
 undefined: runtime
 undefined: runtime
-"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtimectx and not used
+"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtime and not used
 undefined: runtime
 undefined: runtime
-"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtimectx and not used
+"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtime and not used
 undefined: runtime
 undefined: runtime
 undefined: runtime
-"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtimectx and not used
+"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtime and not used
 undefined: runtime
 undefined: runtime
-"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtimectx and not used
+"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtime and not used
 undefined: runtime
-found packages runtimectx (audio_vad.go) and runtime (message_bus.go) in C:\Users\MIAUSE\Documents\GitHub\Programming\multi-platform-AI\runtime
-"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtimectx and not used
+found packages runtime (audio_vad.go) and runtime (message_bus.go) in C:\Users\MIAUSE\Documents\GitHub\Programming\multi-platform-AI\runtime
+"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtime and not used
 undefined: runtime
 undefined: runtime
-"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtimectx and not used
+"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime" imported as runtime and not used
 undefined: runtime
 undefined: runtime
 undefined: runtime
@@ -1920,7 +1920,7 @@ a.WakeDetector undefined (type *AudioVAD has no field or method WakeDetector)
 cannot use a.frameBuf (variable of type []int16) as []byte value in argument to a.vad.Process
 "runtime" imported and not used
 "time" imported and not used
-package runtime; expected package runtimectx
-package runtime; expected package runtimectx
-package runtime; expected package runtimectx
+package runtime; expected package runtime
+package runtime; expected package runtime
+package runtime; expected package runtime
 could not import github.com/Picovoice/porcupine/binding/go/porcupine (no required module provides package "github.com/Picovoice/porcupine/binding/go/porcupine")

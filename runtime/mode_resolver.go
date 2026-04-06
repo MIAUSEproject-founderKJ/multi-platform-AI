@@ -1,6 +1,6 @@
 //runtime/mode_resolver.go
 
-package runtimectx
+package runtime
 
 import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 

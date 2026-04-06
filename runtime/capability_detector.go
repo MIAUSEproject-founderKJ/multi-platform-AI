@@ -1,6 +1,6 @@
 //runtime/capability_detector.go
 
-package runtimectx
+package runtime
 
 import (
 	"os"

@@ -1,5 +1,5 @@
 //runtime/wake_word.go
-package runtimectx
+package runtime
 
 import (
     "github.com/Picovoice/porcupine/binding/go/porcupine"

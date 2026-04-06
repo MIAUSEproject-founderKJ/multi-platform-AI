@@ -1,4 +1,4 @@
-//internal/schema/capabillities.go
+//internal/schema/capabilities.go
 
 package schema
 
@@ -7,8 +7,20 @@ func (c CapabilitySet) HasAll(required CapabilitySet) bool {
 }
 
 
-type Capability uint64
+type Capability string
 
+const (
+	CapCANBus              Capability = "CAN_BUS"
+	CapBiometric           Capability = "BIOMETRIC"
+	CapHighFreqSensor      Capability = "HIGH_FREQ_SENSOR"
+	CapFileSystem          Capability = "FILE_SYSTEM"
+	CapMicrophone          Capability = "MICROPHONE"
+	CapSafetyCritical      Capability = "SAFETY_CRITICAL"
+	CapPersistentCloudLink Capability = "PERSISTENT_CLOUD"
+)
+
+
+type Capability uint64
 type CapabilitySet uint64
 
 const (

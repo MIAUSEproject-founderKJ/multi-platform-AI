@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	runtimectx "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/runtime"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/runtime"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
@@ -104,7 +104,7 @@ func PromptForRegistration(vault security.VaultStore) (*schema.MachineIdentity, 
 		EntityType: entityType,
 		OS:         "unknown",
 		Arch:       "unknown",
-		Password:   password,
+		PasswordHash: hashPassword(password),
 	}
 
 	if vault == nil {
@@ -157,7 +157,7 @@ func (am *AuthManager) RegisterUser(userID, password string, entityType schema.E
 		EntityType: entityType,
 		OS:         "unknown",
 		Arch:       "unknown",
-		Password:   password, // hash in production
+		PasswordHash: hashPassword(password),
 	}
 
 	return am.Vault.Write("users", userID, identity)
@@ -196,8 +196,8 @@ func PromptForUserConfig() *schema.CustomizedConfig {
 }
 
 
-func DefaultCustomizedConfig() *CustomizedConfig {
-	return &CustomizedConfig{
+func DefaultCustomizedConfig() *schema.CustomizedConfig {
+	return &schema.CustomizedConfig{
 		Version:      "v1",
 		LastModified: time.Now(),
 	}
@@ -426,14 +426,14 @@ if cfg == nil {
 	cfg.FillDefaults()
 
 // ---- CAPABILITY PROFILE ----
-cp := runtimectx.DetectCapabilityProfile()
+cp := runtime.DetectCapabilityProfile()
 
 // ---- ORCHESTRATOR ----
-orch := runtimectx.BuildOrchestrator(cp)
+orch := runtime.BuildOrchestrator(cp)
 orch.StartAll()
 
 // ---- MODE (informational now) ----
-mode := runtimectx.ResolveInteractionMode(cfg, cp.Set)
+mode := runtime.ResolveInteractionMode(cfg, cp.Set)
 
 session.Config = cfg
 session.Capabilities = cp.Set
@@ -493,7 +493,7 @@ func (am *AuthManager) HandleConfigUpdate(session *schema.UserSession) {
 
 		session.Config = newCfg
 
-		if orch, ok := session.Orchestrator.(*runtimectx.Orchestrator); ok {
+		if orch, ok := session.Orchestrator.(*runtime.Orchestrator); ok {
 			orch.Broadcast("Configuration updated successfully")
 		}
 	}
