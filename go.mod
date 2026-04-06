@@ -6,6 +6,7 @@ require (
 	github.com/eclipse/paho.mqtt.golang v1.5.1
 	github.com/gordonklaus/portaudio v0.0.0-20260203164431-765aa7dfa631
 	github.com/hashicorp/mdns v1.0.6
+	github.com/maxhawkins/go-webrtcvad v0.0.0-20210121163624-be60036f3083
 	github.com/tetratelabs/wazero v1.11.0
 	github.com/yalue/onnxruntime_go v1.27.0
 	go.uber.org/zap v1.27.1
