@@ -20,8 +20,6 @@ type UserSession struct {
 
 	CreatedAt time.Time
 	ExpiresAt time.Time
-
-	Capabilities  CapabilitySet
 	CapProfile    *CapabilityProfile
 	Mode          string
 

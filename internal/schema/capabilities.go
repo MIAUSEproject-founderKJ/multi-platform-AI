@@ -2,23 +2,7 @@
 
 package schema
 
-func (c CapabilitySet) HasAll(required CapabilitySet) bool {
-	return c&required == required
-}
-
-
-type Capability string
-
-const (
-	CapCANBus              Capability = "CAN_BUS"
-	CapBiometric           Capability = "BIOMETRIC"
-	CapHighFreqSensor      Capability = "HIGH_FREQ_SENSOR"
-	CapFileSystem          Capability = "FILE_SYSTEM"
-	CapMicrophone          Capability = "MICROPHONE"
-	CapSafetyCritical      Capability = "SAFETY_CRITICAL"
-	CapPersistentCloudLink Capability = "PERSISTENT_CLOUD"
-)
-
+import "time"
 
 type Capability uint64
 type CapabilitySet uint64
@@ -33,6 +17,12 @@ const (
 	CapGPU
 	CapSecureEnclave
 	CapNetwork
+	CapCANBus
+	CapBiometric
+	CapHighFreqSensor
+	CapFileSystem
+	CapSafetyCritical
+	CapPersistentCloudLink
 )
 
 func (c *CapabilitySet) Add(cap Capability) {
@@ -45,6 +35,10 @@ func (c *CapabilitySet) Remove(cap Capability) {
 
 func (c CapabilitySet) Has(cap Capability) bool {
 	return (c & CapabilitySet(cap)) != 0
+}
+
+func (c CapabilitySet) HasAll(required CapabilitySet) bool {
+	return c&required == required
 }
 
 type CapabilityStatus int
