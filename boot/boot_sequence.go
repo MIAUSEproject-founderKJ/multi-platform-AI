@@ -26,25 +26,19 @@ func RunBootSequence(ctx BootContext) (*schema.BootSequence, *schema.UserSession
 	}
 
 	// Merge capabilities
-	capSet := BuildCapabilitySet(bootSeq.Env.Platform.Final, resolveTier(bootSeq.Entity), resolveServiceProfile(bootSeq.Env.Platform.Final))
-	caps, err := DetectDeviceCapabilities(bootSeq.Env, capSet)
-	if err != nil {
-    	return nil, nil, err
-	}
-	bootSeq.Env.Discovery.Capabilities = *caps
-	bootSeq.Capabilities = capSet
+capSet := bootSeq.Capabilities
 
-	// 🔹 PRE-AUTH INTERFACE
-	session, err := PhaseAuthInterface(ctx, caps)
-	if err != nil {
-		return nil, nil, err
-	}
+caps, err := DetectDeviceCapabilities(bootSeq.Env, capSet)
+if err != nil {
+    return nil, nil, err
+}
+bootSeq.Env.Discovery.Capabilities = *caps
 
-	// 🔹 ATTESTATION (after login)
-	session, err = PhaseAttestation(ctx.Vault, identity, bootSeq)
-	if err != nil {
-		return nil, nil, err
-	}
+preSession, err := PhaseAuthInterface(ctx, caps)
+if err != nil { return nil, nil, err }
+
+session, err := PhaseAttestation(ctx.Vault, identity, bootSeq)
+if err != nil { return nil, nil, err }
 
 	bootSeq.Env.Attestation.SessionToken = session.SessionID
 
