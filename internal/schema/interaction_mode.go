@@ -94,15 +94,3 @@ func BuildInterface(mode InteractionMode) InterfaceAdapter {
 	}
 }
 
-//=========================================End-to-End Flow (Final Runtime)
-boot := BootEngine{Vault: vault, Logger: logger}
-seq, _ := boot.Initialize(env)
-
-auth := AuthManager{Vault: vault}
-session, _ := auth.Login()
-
-cap := DetectDeviceCapabilities()
-mode := SelectInteractionMode(cap)
-
-ui := BuildInterface(mode)
-ui.Start(session)

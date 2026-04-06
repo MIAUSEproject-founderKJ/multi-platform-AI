@@ -8,7 +8,7 @@ import (
 )
 
 // RunBootSequence performs full boot → verification → session creation
-func RunBootSequence(v security.VaultStore) (*schema.BootSequence, *schema.UserSession, error) {
+func RunBootSequence(ctx BootContext) (*schema.BootSequence, *schema.UserSession, error) {
 
 	discovery, err := PhaseDiscovery()
 	if err != nil {
@@ -20,17 +20,37 @@ func RunBootSequence(v security.VaultStore) (*schema.BootSequence, *schema.UserS
 		return nil, nil, err
 	}
 
-	bootSeq, err := PhaseContext(v, identity)
+	bootSeq, err := PhaseContext(ctx.Vault, identity)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	session, err := PhaseAttestation(v, identity, bootSeq)
+	caps, err := DetectDeviceCapabilities(bootSeq.Env)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	bootSeq.Env.Capabilities = caps
+
+	// 🔹 PRE-AUTH INTERFACE
+	session, err := PhaseAuthInterface(ctx, caps)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	// 🔹 ATTESTATION (after login)
+	session, err = PhaseAttestation(ctx.Vault, identity, bootSeq)
 	if err != nil {
 		return nil, nil, err
 	}
 
 	bootSeq.Env.Attestation.SessionToken = session.SessionID
+
+	// 🔹 FULL INTERFACE
+	err = PhaseMainInterface(session, caps)
+	if err != nil {
+		return nil, nil, err
+	}
 
 	return bootSeq, session, nil
 }

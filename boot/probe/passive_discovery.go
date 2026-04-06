@@ -79,7 +79,7 @@ func extractProcessors(fp HardwareFingerprint) []schema.Processor {
 	if n, err := strconv.Atoi(fp.CPU); err == nil && n > 0 {
 		processors = append(processors, schema.Processor{
 	Type:  "CPU",
-	Count: runtime.NumCPU(),
+    Count: runtime.NumCPU(),
 })
 	}
 
@@ -87,7 +87,7 @@ func extractProcessors(fp HardwareFingerprint) []schema.Processor {
 	if n, err := strconv.Atoi(fp.GPU); err == nil && n > 0 {
 		processors = append(processors, schema.Processor{
 			Type:    "GPU",
-			Count:   n,
+    		Count: runtime.NumGPU(),
 			Version: 1.0,
 		})
 	}
