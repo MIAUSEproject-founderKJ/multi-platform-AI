@@ -7,9 +7,10 @@ import (
 	"fmt"
 	"log"
 	"strings"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"github.com/gordonklaus/portaudio"
 	"github.com/maxhawkins/go-webrtcvad"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
 const (
@@ -18,15 +19,14 @@ const (
 )
 
 type AudioVAD struct {
-	stream      *portaudio.Stream
-	vad         *webrtcvad.VAD
-	frameBuf    []int16
-	outChan     chan []byte
+	stream       *portaudio.Stream
+	vad          *webrtcvad.VAD
+	frameBuf     []int16
+	outChan      chan []byte
 	WakeDetector *WakeWordDetector
 	wakeWordOn   bool
-	wakeBuffer  []int16
+	wakeBuffer   []int16
 }
-
 
 func detectWakeWord(text string) bool {
 	// lowercase match for demo
@@ -36,9 +36,9 @@ func detectWakeWord(text string) bool {
 
 func NewAudioVAD() *AudioVAD {
 	vad, err := webrtcvad.New()
-if err != nil {
-	log.Fatal(err)
-}
+	if err != nil {
+		log.Fatal(err)
+	}
 	vad.SetMode(3) // aggressive
 
 	return &AudioVAD{
@@ -48,7 +48,7 @@ if err != nil {
 	}
 }
 
-//===========Initialize Microphone Stream
+// ===========Initialize Microphone Stream
 func (a *AudioVAD) Start() error {
 	if err := portaudio.Initialize(); err != nil {
 		return err
@@ -71,12 +71,11 @@ func (a *AudioVAD) Start() error {
 	if err := a.stream.Start(); err != nil {
 		return err
 	}
-detector, err := NewWakeWordDetector("<ACCESS_KEY>", "hey_system.ppn")
-if err != nil {
-    log.Fatal(err)
-}
-	vad.WakeDetector = detector
-	defer detector.Close()
+	detector, err := NewWakeWordDetector("<ACCESS_KEY>", "hey_system.ppn")
+	if err != nil {
+		log.Fatal(err)
+	}
+	a.WakeDetector = detector
 
 	go a.loop()
 
@@ -84,42 +83,42 @@ if err != nil {
 	return nil
 }
 
-//===========Core VAD Loop (Speech Detection)
+// ===========Core VAD Loop (Speech Detection)
 func (a *AudioVAD) loop() {
-    wakeDetector := a.WakeDetector // new field in AudioVAD
+	wakeDetector := a.WakeDetector // new field in AudioVAD
 
-    for {
-        err := a.stream.Read()
-        if err != nil {
-            log.Println("[AUDIO] read error:", err)
-            continue
-        }
+	for {
+		err := a.stream.Read()
+		if err != nil {
+			log.Println("[AUDIO] read error:", err)
+			continue
+		}
 
-        if !a.wakeWordOn {
-            // feed frame to Porcupine
-            if wakeDetector.Process(a.frameBuf) {
-                a.wakeWordOn = true
-                fmt.Println("[WAKEWORD] Detected 'Hey system', VAD activated")
-            }
-            continue
-        }
+		if !a.wakeWordOn {
+			// feed frame to Porcupine
+			if wakeDetector.Process(a.frameBuf) {
+				a.wakeWordOn = true
+				fmt.Println("[WAKEWORD] Detected 'Hey system', VAD activated")
+			}
+			continue
+		}
 
-        // VAD processing
-        buf := schema.Int16ToBytes(a.frameBuf)
+		// VAD processing
+		buf := schema.Int16ToBytes(a.frameBuf)
 		active, err := a.vad.Process(sampleRate, buf)
-        if err != nil {
-            continue
-        }
-        if active {
-            select {
-            case a.outChan <- audioInt16ToBytes(a.frameBuf):
-            default:
-            }
-        }
-    }
+		if err != nil {
+			continue
+		}
+		if active {
+			select {
+			case a.outChan <- audioInt16ToBytes(a.frameBuf):
+			default:
+			}
+		}
+	}
 }
 
-//=========Stop / Cleanup
+// =========Stop / Cleanup
 func (a *AudioVAD) Stop() {
 	if a.stream != nil {
 		a.stream.Stop()

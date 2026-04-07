@@ -15,11 +15,12 @@ require (
 )
 
 require (
+	github.com/Picovoice/porcupine/binding/go v1.9.2
 	github.com/gorilla/websocket v1.5.3 // indirect
-	github.com/miekg/dns v1.1.55 // indirect
-	go.uber.org/multierr v1.10.0 // indirect
-	golang.org/x/net v0.44.0 // indirect
-	golang.org/x/sync v0.17.0 // indirect
-	golang.org/x/sys v0.38.0 // indirect
+	github.com/miekg/dns v1.1.72 // indirect
+	go.uber.org/multierr v1.11.0 // indirect
+	golang.org/x/net v0.52.0 // indirect
+	golang.org/x/sync v0.20.0 // indirect
+	golang.org/x/sys v0.42.0 // indirect
 	gonum.org/v1/gonum v0.17.0
 )

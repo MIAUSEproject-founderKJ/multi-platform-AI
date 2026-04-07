@@ -84,8 +84,11 @@ func BuildSystemContext() (*SystemContext, error) {
 	if err != nil {
 		return nil, err
 	}
+	bootCtx := schema.BootContext{
+		Vault: vault,
+	}
 
-	bootSeq, session, err := boot.RunBootSequence(vault)
+	bootSeq, session, err := boot.RunBootSequence(bootCtx)
 	if err != nil {
 		return nil, err
 	}

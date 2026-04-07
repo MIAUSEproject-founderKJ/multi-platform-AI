@@ -4,8 +4,8 @@ package schema
 
 import "time"
 
-type Capability uint64
 type CapabilitySet uint64
+type Capability = CapabilitySet
 
 const (
 	CapDisplay Capability = 1 << iota
@@ -23,22 +23,32 @@ const (
 	CapFileSystem
 	CapSafetyCritical
 	CapPersistentCloudLink
+	CapIndustrialIO
+	CapLocalStorage
 )
 
 func (c *CapabilitySet) Add(cap Capability) {
-	*c |= CapabilitySet(cap)
+	*c |= cap
 }
 
 func (c *CapabilitySet) Remove(cap Capability) {
-	*c &= ^CapabilitySet(cap)
+	*c &= ^cap
 }
 
 func (c CapabilitySet) Has(cap Capability) bool {
-	return (c & CapabilitySet(cap)) != 0
+	return c&cap != 0
 }
 
 func (c CapabilitySet) HasAll(required CapabilitySet) bool {
 	return c&required == required
+}
+
+func (c CapabilitySet) HasAny(mask CapabilitySet) bool {
+	return c&mask != 0
+}
+
+func (c CapabilitySet) IsZero() bool {
+	return c == 0
 }
 
 type CapabilityStatus int
@@ -58,6 +68,16 @@ type CapabilityInfo struct {
 type CapabilityProfile struct {
 	Set   CapabilitySet
 	Stats map[Capability]CapabilityInfo
+}
+
+func (cp *CapabilityProfile) RecomputeSet() {
+	var set CapabilitySet
+	for cap, info := range cp.Stats {
+		if info.Status == CapOK {
+			set |= cap
+		}
+	}
+	cp.Set = set
 }
 
 func NewCapabilityProfile() *CapabilityProfile {

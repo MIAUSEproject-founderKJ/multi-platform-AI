@@ -18,10 +18,9 @@ type UserSession struct {
 	Capabilities CapabilitySet
 	Mode         string
 
-	CreatedAt time.Time
-	ExpiresAt time.Time
-	CapProfile    *CapabilityProfile
-	Mode          string
+	CreatedAt  time.Time
+	ExpiresAt  time.Time
+	CapProfile *CapabilityProfile
 
 	Orchestrator interface{} // runtime binding
 }

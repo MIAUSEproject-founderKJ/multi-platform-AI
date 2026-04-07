@@ -1,32 +1,33 @@
-//runtime/wake_word.go
+// runtime/wake_word.go
 package runtime
 
 import (
-    "github.com/Picovoice/porcupine/binding/go/porcupine"
-    "log"
+	"log"
+
+	porcupine "github.com/Picovoice/porcupine/binding/go"
 )
 
 type WakeWordDetector struct {
-    engine *porcupine.Porcupine
+	engine *porcupine.Porcupine
 }
 
 func NewWakeWordDetector(accessKey, keywordPath string) (*WakeWordDetector, error) {
-    engine, err := porcupine.NewPorcupine(accessKey, []string{keywordPath}, []float32{0.5})
-    if err != nil {
-        return nil, err
-    }
-    return &WakeWordDetector{engine: engine}, nil
+	engine, err := porcupine.NewPorcupine(accessKey, []string{keywordPath}, []float32{0.5})
+	if err != nil {
+		return nil, err
+	}
+	return &WakeWordDetector{engine: engine}, nil
 }
 
 func (w *WakeWordDetector) Process(frame []int16) bool {
-    idx, err := w.engine.Process(frame)
-    if err != nil {
-        log.Println("[WakeWord] process error:", err)
-        return false
-    }
-    return idx == 0 // index of keyword matched
+	idx, err := w.engine.Process(frame)
+	if err != nil {
+		log.Println("[WakeWord] process error:", err)
+		return false
+	}
+	return idx == 0 // index of keyword matched
 }
 
 func (w *WakeWordDetector) Close() {
-    w.engine.Delete()
+	w.engine.Delete()
 }

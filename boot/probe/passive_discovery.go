@@ -78,21 +78,24 @@ func extractProcessors(fp HardwareFingerprint) []schema.Processor {
 	// CPU
 	if n, err := strconv.Atoi(fp.CPU); err == nil && n > 0 {
 		processors = append(processors, schema.Processor{
-	Type:  "CPU",
-    Count: runtime.NumCPU(),
-})
+			Type:  "CPU",
+			Count: runtime.NumCPU(),
+		})
 	}
 
 	// GPU
 	if n, err := strconv.Atoi(fp.GPU); err == nil && n > 0 {
 		processors = append(processors, schema.Processor{
 			Type:    "GPU",
-    		Count: runtime.NumGPU(),
+			Count:   NumGPU(),
 			Version: 1.0,
 		})
 	}
 
 	return processors
+}
+func NumGPU() int {
+	return 0 // placeholder or platform-specific detection
 }
 
 func extractBuses(fp HardwareFingerprint) []schema.BusCapability {
@@ -278,7 +281,7 @@ func runPlatformInference(env *schema.EnvConfig, fp HardwareFingerprint) {
 	var best schema.PlatformClass = schema.PlatformUnknown
 	var bestScore float64
 	const minConfidence = 0.65
-const delta = 0.1 // margin between top candidates
+	const delta = 0.1 // margin between top candidates
 
 	for _, def := range platformRegistry {
 		ps := buildPlatformScore(def, fp, env)

@@ -34,11 +34,11 @@ func (m *MachineIdentity) BindHardware(env *EnvConfig) {
 }
 
 type MachineIdentity struct {
-	MachineID    string        `json:"machine_id"`
-	PlatformType PlatformClass `json:"platform_type"`
-	Hostname     string        `json:"hostname"`
-	OS           string        `json:"os"`
-	Arch         string        `json:"arch"`
+	MachineID    string          `json:"machine_id"`
+	PlatformType PlatformClass   `json:"platform_type"`
+	Hostname     string          `json:"hostname"`
+	OS           string          `json:"os"`
+	Arch         string          `json:"arch"`
 	Hardware     HardwareProfile `json:"hardware"`
 
 	EntityType EntityType `json:"entity_type"`
@@ -117,6 +117,14 @@ type DiscoveryProfile struct {
 	Protocol          ProtocolProfile      `json:"protocol"`
 	Capabilities      CapabilityDescriptor `json:"capabilities"`
 	DiscoveryDuration time.Duration        `json:"discovery_duration"`
+}
+
+type CapabilityDescriptor struct {
+	SensorOnly                 bool
+	SupportsRegisterControl    bool
+	SupportsGoalControl        bool
+	HasSafetyEnvelope          bool
+	SupportsAcceleratedCompute bool
 }
 
 type PhysicalProfile struct {

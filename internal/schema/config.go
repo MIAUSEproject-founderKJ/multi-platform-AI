@@ -2,7 +2,12 @@
 
 package schema
 
-import "time"
+import (
+	"crypto/sha256"
+	"encoding/hex"
+	"encoding/json"
+	"time"
+)
 
 type CustomizedConfig struct {
 	Version      string

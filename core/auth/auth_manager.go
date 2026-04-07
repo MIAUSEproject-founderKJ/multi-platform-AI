@@ -4,14 +4,16 @@ package auth
 
 import (
 	"bufio"
+	"crypto/sha256"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"os"
 	"strings"
 	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/runtime"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
@@ -73,6 +75,10 @@ func PromptForCredentials(vault security.VaultStore) (string, string) {
 
 	return userID, password
 }
+func hashPassword(pw string) string {
+	h := sha256.Sum256([]byte(pw))
+	return hex.EncodeToString(h[:])
+}
 
 func PromptForRegistration(vault security.VaultStore) (*schema.MachineIdentity, error) {
 	reader := bufio.NewReader(os.Stdin)
@@ -100,10 +106,10 @@ func PromptForRegistration(vault security.VaultStore) (*schema.MachineIdentity, 
 	}
 
 	identity := &schema.MachineIdentity{
-		MachineID:  fmt.Sprintf("machine-%s", userID),
-		EntityType: entityType,
-		OS:         "unknown",
-		Arch:       "unknown",
+		MachineID:    fmt.Sprintf("machine-%s", userID),
+		EntityType:   entityType,
+		OS:           "unknown",
+		Arch:         "unknown",
 		PasswordHash: hashPassword(password),
 	}
 
@@ -139,8 +145,8 @@ func (am *AuthManager) verifyUserCredentials(userID, password string) (bool, *sc
 
 	// Validate password (simplified: plaintext match for demo; ideally hashed)
 	hash := hashPassword(password)
-	if user.PasswordHash != hash {
-		return nil, errors.New("invalid credentials")
+	if stored.PasswordHash != hash {
+		return false, nil
 	}
 
 	fmt.Println("[verifyUserCredentials] User verified from vault:", userID)
@@ -153,10 +159,10 @@ func (am *AuthManager) RegisterUser(userID, password string, entityType schema.E
 	}
 
 	identity := &schema.MachineIdentity{
-		MachineID:  fmt.Sprintf("machine-%s", userID),
-		EntityType: entityType,
-		OS:         "unknown",
-		Arch:       "unknown",
+		MachineID:    fmt.Sprintf("machine-%s", userID),
+		EntityType:   entityType,
+		OS:           "unknown",
+		Arch:         "unknown",
 		PasswordHash: hashPassword(password),
 	}
 
@@ -195,14 +201,12 @@ func PromptForUserConfig() *schema.CustomizedConfig {
 	return cfg
 }
 
-
 func DefaultCustomizedConfig() *schema.CustomizedConfig {
 	return &schema.CustomizedConfig{
 		Version:      "v1",
 		LastModified: time.Now(),
 	}
 }
-
 
 func (am *AuthManager) LoginOrSignUpInteractive() (*schema.UserSession, error) {
 	for {
@@ -415,36 +419,36 @@ func (am *AuthManager) createSession(service schema.ServiceType) (*schema.UserSe
 		return nil, err
 	}
 
-if cfg == nil {
-	fmt.Println("[CONFIG] First-time setup required")
-	cfg = PromptForUserConfig()
-	_ = SaveUserConfig(am.Vault, am.Identity.MachineID, cfg)
-} else {
-	fmt.Println("[CONFIG] Loaded existing configuration")
-}
+	if cfg == nil {
+		fmt.Println("[CONFIG] First-time setup required")
+		cfg = PromptForUserConfig()
+		_ = SaveUserConfig(am.Vault, am.Identity.MachineID, cfg)
+	} else {
+		fmt.Println("[CONFIG] Loaded existing configuration")
+	}
 
 	cfg.FillDefaults()
 
-// ---- CAPABILITY PROFILE ----
-cp := runtime.DetectCapabilityProfile()
+	// ---- CAPABILITY PROFILE ----
+	cp := interaction.DetectCapabilityProfile()
 
-// ---- ORCHESTRATOR ----
-orch := runtime.BuildOrchestrator(cp)
-orch.StartAll()
+	// ---- ORCHESTRATOR ----
+	orch := interaction.BuildOrchestrator(cp)
+	orch.StartAll()
 
-// ---- MODE (informational now) ----
-mode := runtime.ResolveInteractionMode(cfg, cp.Set)
+	// ---- MODE (informational now) ----
+	mode := interaction.ResolveInteractionMode(cfg, cp.Set)
 
-session.Config = cfg
-session.Capabilities = cp.Set
-session.CapProfile = cp
-session.Mode = string(mode)
-session.Orchestrator = orch
+	session.Config = cfg
+	session.Capabilities = cp.Set
+	session.CapProfile = cp
+	session.Mode = string(mode)
+	session.Orchestrator = orch
 
-orch.Broadcast("Session initialized successfully")
+	orch.Broadcast("Session initialized successfully")
 
-	fmt.Printf("[RUNTIME] Capabilities: %v\n", cap)
-	fmt.Printf("[RUNTIME] Mode: %s\n", mode)
+	fmt.Printf("[auth/auth_manager]Capabilities: %v\n", session.Capabilities)
+	fmt.Printf("[auth/auth_manager] Mode: %s\n", mode)
 
 	return session, nil
 }
@@ -472,12 +476,6 @@ func SaveUserConfig(vault security.VaultStore, userID string, cfg *schema.Custom
 	return vault.Write("configs", userID, cfg)
 }
 
-
-
-func (c CapabilitySet) MarshalJSON() ([]byte, error) {
-	return []byte(fmt.Sprintf(`"%d"`, c)), nil
-}
-
 func (am *AuthManager) HandleConfigUpdate(session *schema.UserSession) {
 	reader := bufio.NewReader(os.Stdin)
 
@@ -493,7 +491,7 @@ func (am *AuthManager) HandleConfigUpdate(session *schema.UserSession) {
 
 		session.Config = newCfg
 
-		if orch, ok := session.Orchestrator.(*runtime.Orchestrator); ok {
+		if orch, ok := session.Orchestrator.(*interaction.Orchestrator); ok {
 			orch.Broadcast("Configuration updated successfully")
 		}
 	}
