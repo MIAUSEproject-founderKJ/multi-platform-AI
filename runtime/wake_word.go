@@ -12,7 +12,8 @@ type WakeWordDetector struct {
 }
 
 func NewWakeWordDetector(accessKey, keywordPath string) (*WakeWordDetector, error) {
-	engine, err := porcupine.NewPorcupine(accessKey, []string{keywordPath}, []float32{0.5})
+	engine, err := porcupine.New(accessKey,[]string{keywordPath},[]float32{0.5},)
+
 	if err != nil {
 		return nil, err
 	}

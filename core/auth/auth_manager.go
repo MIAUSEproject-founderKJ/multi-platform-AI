@@ -25,6 +25,10 @@ type AuthManager struct {
 	Tier     schema.TierType
 }
 
+type AuthInterface interface {
+	StartAuthFlow(auth auth.AuthManager) (*schema.UserSession, error)
+}
+
 // detectEntityAndTier inspects the user identity to assign entity and tier
 func (am *AuthManager) detectEntityAndTier() {
 	if am.Identity == nil {

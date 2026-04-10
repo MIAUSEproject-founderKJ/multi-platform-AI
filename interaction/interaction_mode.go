@@ -90,7 +90,7 @@ func hasSpeaker() bool {
 }
 
 type InterfaceAdapter interface {
-	Start() error
+	Start(session *schema.UserSession) error
 	Notify(msg string)
 }
 
@@ -183,12 +183,7 @@ func BuildInterface(mode InteractionMode) InterfaceAdapter {
 	case ModeTUI:
 		return &TUIAdapter{}
 	case ModeVoice:
-		return &VoiceAdapter{
-			Engine: &VoiceEngine{
-				STT: &WhisperSTT{},
-				TTS: &SystemTTS{},
-			},
-		}
+		return NewVoiceAdapter()
 	default:
 		return &CLIAdapter{}
 	}
@@ -206,9 +201,9 @@ func (o *Orchestrator) Add(adapter InterfaceAdapter) {
 	o.adapters = append(o.adapters, adapter)
 }
 
-func (o *Orchestrator) StartAll() {
+func (o *Orchestrator) StartAll(session *schema.UserSession) {
 	for _, a := range o.adapters {
-		go a.Start()
+		go a.Start(session)
 	}
 }
 
@@ -247,12 +242,28 @@ type VoiceAdapter struct {
 
 func NewVoiceAdapter() *VoiceAdapter {
 	return &VoiceAdapter{
-		engine: NewVoiceEngine(),
-	}
+	engine: &VoiceEngine{
+		STT: &WhisperSTT{},
+		TTS: &SystemTTS{},
+	},
+}
 }
 
-func (c *CLIAdapter) Start() error {
-	fmt.Println("CLI started")
+func (s *ScreenAdapter) Start(session *schema.UserSession) error {
+	fmt.Println("Screen adapter started")
+	return nil
+}
+
+func (s *ScreenAdapter) Notify(msg string) {
+	fmt.Println("[SCREEN]", msg)
+}
+
+func (v *VoiceAdapter) Notify(msg string) {
+	v.engine.outputChan <- msg
+}
+
+func (v *VoiceAdapter) Start(session *schema.UserSession) error {
+	v.engine.Start()
 	return nil
 }
 
@@ -260,19 +271,11 @@ func (c *CLIAdapter) Notify(msg string) {
 	fmt.Println("[CLI]", msg)
 }
 
-func (c *TUIAdapter) Start() error {
-	fmt.Println("TUI started")
-	return nil
-}
 
 func (c *TUIAdapter) Notify(msg string) {
 	fmt.Println("[TUI]", msg)
 }
 
-func (c *GUIAdapter) Start() error {
-	fmt.Println("GUI started")
-	return nil
-}
 
 func (c *GUIAdapter) Notify(msg string) {
 	fmt.Println("[GUI]", msg)

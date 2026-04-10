@@ -39,9 +39,7 @@ func PhaseAuthInterface(ctx schema.BootContext, caps *schema.CapabilityProfile) 
 	return result, nil
 }
 
-type AuthInterface interface {
-	StartAuthFlow(auth auth.AuthManager) (*schema.UserSession, error)
-}
+
 
 type MainInterface interface {
 	Start(session *schema.UserSession) error
