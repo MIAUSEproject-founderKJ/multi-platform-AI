@@ -4,6 +4,13 @@ package schema
 
 import "time"
 
+func (s *UserSession) HasPermission(p PermissionMask) bool {
+	if s == nil {
+		return false
+	}
+	return s.PermMask&p != 0
+}
+
 type UserSession struct {
 	SessionID string
 
@@ -12,17 +19,18 @@ type UserSession struct {
 	Tier     TierType
 	Service  ServiceType
 
-	Permissions map[Permission]bool
+	Permissions map[Permission]bool   // storage
+	PermMask    PermissionMask        // runtime
 
-	Config       *CustomizedConfig
-	Capabilities CapabilitySet
-	Mode         string
+	Config *UserConfig
 
-	CreatedAt  time.Time
-	ExpiresAt  time.Time
+	Mode       interaction.InteractionMode
 	CapProfile *CapabilityProfile
 
-	Orchestrator interface{} // runtime binding
+	Attestation *Attestation
+
+	CreatedAt time.Time
+	ExpiresAt time.Time
 }
 
 // ------------------------------------------------------------
@@ -94,10 +102,14 @@ const (
 
 type UserConfig struct {
 	Username        string
-	PreferredMode   string // "cli", "voice", "hybrid"
-	AIStyle         string // "concise", "balanced", "verbose"
+	PreferredMode   string
+	AIStyle         string
 	AutoSave        bool
 	EnableTelemetry bool
 
-	Runtime CustomizedConfig
+	// Merge runtime config directly
+	MainLang    string
+	PowerMode   string
+	PrivacyMode string
+	UpdateMode  string
 }

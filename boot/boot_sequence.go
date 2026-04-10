@@ -27,13 +27,9 @@ func RunBootSequence(ctx schema.BootContext) (*schema.BootSequence, *schema.User
 	// Merge capabilities
 	capSet := bootSeq.Capabilities
 
-	caps, err := DetectDeviceCapabilities(bootSeq.Env, capSet)
-	if err != nil {
-		return nil, nil, err
-	}
-	bootSeq.Env.Discovery.Capabilities = *caps
+	capsProfile := interaction.DetectCapabilityProfile()
 
-	preSession, err := PhaseAuthInterface(ctx, caps)
+	preSession, err := PhaseAuthInterface(ctx, capsProfile)
 	if err != nil {
 		return nil, nil, err
 	}

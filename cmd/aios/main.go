@@ -85,8 +85,10 @@ func BuildSystemContext() (*SystemContext, error) {
 		return nil, err
 	}
 	bootCtx := schema.BootContext{
-		Vault: vault,
+	Vault: vault,
 	}
+
+
 
 	bootSeq, session, err := boot.RunBootSequence(bootCtx)
 	if err != nil {
@@ -96,9 +98,9 @@ func BuildSystemContext() (*SystemContext, error) {
 	// Attach session back if not already embedded
 	bootSeq.UserSession = session
 
-	bootCtx, err := boot.ResolveBootContext(bootSeq)
-	if err != nil {
-		return nil, err
+	bootCtxResolved, err := boot.ResolveBootContext(bootSeq)
+	return &SystemContext{
+		Boot: bootCtxResolved,
 	}
 
 	execCtx, err := boot.ResolveExecutionContext(bootSeq)

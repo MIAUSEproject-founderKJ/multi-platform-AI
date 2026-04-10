@@ -17,6 +17,7 @@ type BootContext struct {
 	Tier          TierType
 	BootMode      BootMode
 	Logger        *zap.Logger
-	Permissions   map[Permission]bool
+	Permissions map[Permission]bool   // storage
+	PermMask    PermissionMask        // runtime
 	TrustLevel    TrustLevel
 }

@@ -40,7 +40,25 @@ func (c *CustomizedConfig) FillDefaults() {
 }
 
 func (c *CustomizedConfig) Hash() string {
-	b, _ := json.Marshal(c)
+	type stable struct {
+		Version       string
+		MainLang      string
+		PowerMode     string
+		PrivacyMode   string
+		UpdateMode    string
+		PreferredMode string
+	}
+
+	s := stable{
+		Version:       c.Version,
+		MainLang:      c.MainLang,
+		PowerMode:     c.PowerMode,
+		PrivacyMode:   c.PrivacyMode,
+		UpdateMode:    c.UpdateMode,
+		PreferredMode: c.PreferredMode,
+	}
+
+	b, _ := json.Marshal(s)
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
 }

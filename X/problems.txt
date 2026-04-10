@@ -1,42 +1,5 @@
-declared and not used: preSession
-cannot use caps (variable of type *schema.CapabilityDescriptor) as *schema.CapabilityProfile value in argument to PhaseAuthInterface
-cannot use caps (variable of type *schema.CapabilityDescriptor) as *schema.CapabilityProfile value in argument to PhaseMainInterface
-cp.Has undefined (type *schema.CapabilityProfile has no field or method Has)
-cp.Has undefined (type *schema.CapabilityProfile has no field or method Has)
-cp.Has undefined (type *schema.CapabilityProfile has no field or method Has)
-cp.Has undefined (type *schema.CapabilityProfile has no field or method Has)
-cp.Has undefined (type *schema.CapabilityProfile has no field or method Has)
-undefined: schema.BuildAuthInterface
-undefined: interaction.GUIEngine
-h.promptChoice undefined (type *HybridAuthUI has no field or method promptChoice)
-h.collectCredentials undefined (type *HybridAuthUI has no field or method collectCredentials)
-auth.Login undefined (type auth.AuthManager has no field or method Login)
-h.collectCredentials undefined (type *HybridAuthUI has no field or method collectCredentials)
-auth.Register undefined (type auth.AuthManager has no field or method Register)
-no new variables on left side of :=
-cannot use boot.ResolveBootContext(bootSeq) (value of type *schema.BootContext) as schema.BootContext value in assignment
-cannot use bootCtx (variable of struct type schema.BootContext) as *schema.BootContext value in struct literal
-cannot use sys.Session.Config (variable of type *schema.CustomizedConfig) as *schema.UserConfig value in assignment
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema 
-(missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema")
+cannot use sys.Session.Config (variable of type *schema.CustomizedConfig) 
+as *schema.UserConfig value in assignment
 
 
 
-cannot use &GUIAdapter{} (value of type *GUIAdapter) as InterfaceAdapter value in return statement: *GUIAdapter does not implement InterfaceAdapter (wrong type for method Start)
-		have Start(*schema.UserSession) error
-		want Start() error
-cannot use &TUIAdapter{} (value of type *TUIAdapter) as InterfaceAdapter value in return statement: *TUIAdapter does not implement InterfaceAdapter (wrong type for method Start)
-		have Start(*schema.UserSession) error
-		want Start() error
-cannot use &VoiceAdapter{…} (value of type *VoiceAdapter) as InterfaceAdapter value in return statement: *VoiceAdapter does not implement InterfaceAdapter (missing method Notify)
-unknown field Engine in struct literal of type VoiceAdapter, but does have engine
-cannot use &CLIAdapter{} (value of type *CLIAdapter) as InterfaceAdapter value in return statement: *CLIAdapter does not implement InterfaceAdapter (wrong type for method Start)
-		have Start(*schema.UserSession) error
-		want Start() error
-cannot use NewScreenAdapter() (value of type *ScreenAdapter) as InterfaceAdapter value in argument to orch.Add: *ScreenAdapter does not implement InterfaceAdapter (missing method Notify)
-cannot use NewVoiceAdapter() (value of type *VoiceAdapter) as InterfaceAdapter value in argument to orch.Add: *VoiceAdapter does not implement InterfaceAdapter (missing method Notify)
-method CLIAdapter.Start already declared at C:\Users\MIAUSE\Documents\GitHub\Programming\multi-platform-AI\interaction\interaction_mode.go:133:22
-method TUIAdapter.Start already declared at C:\Users\MIAUSE\Documents\GitHub\Programming\multi-platform-AI\interaction\interaction_mode.go:141:22
-method GUIAdapter.Start already declared at C:\Users\MIAUSE\Documents\GitHub\Programming\multi-platform-AI\interaction\interaction_mode.go:149:22
-import cycle not allowed: import stack: [multi-platform-AI/interaction internal/schema core/security internal/schema]
-undefined: porcupine.NewPorcupine

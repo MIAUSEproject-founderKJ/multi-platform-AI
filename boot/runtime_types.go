@@ -15,6 +15,7 @@ type ExecutionContext struct {
 	Logger      *zap.Logger
 	Session     *schema.UserSession
 	Permissions map[schema.Permission]bool
+	PermMask    schema.PermissionMask
 	TrustLevel  schema.TrustLevel
 }
 

@@ -51,6 +51,10 @@ type HybridAuthUI struct {
 	GUI   interaction.GUIEngine
 }
 
+type GUIEngine interface {
+	Render()
+}
+
 func (h *HybridAuthUI) StartAuthFlow(auth auth.AuthManager) (*schema.UserSession, error) {
 
 	choice := h.promptChoice()
@@ -58,13 +62,39 @@ func (h *HybridAuthUI) StartAuthFlow(auth auth.AuthManager) (*schema.UserSession
 	switch choice {
 	case "login":
 		creds := h.collectCredentials()
-		return auth.Login(creds)
+		return authManager.Login(creds.UserID, creds.Password)
 
 	case "signup":
 		creds := h.collectCredentials()
-		return auth.Register(creds)
+		return authManager.Register(creds.UserID, creds.Password)
 
 	default:
 		return nil, errors.New("invalid choice")
+	}
+}
+
+
+type Credentials struct {
+	UserID   string
+	Password string
+}
+
+func (h *HybridAuthUI) promptChoice() string {
+	fmt.Println("Choose: login / signup")
+	var input string
+	fmt.Scanln(&input)
+	return input
+}
+
+func (h *HybridAuthUI) collectCredentials() Credentials {
+	var user, pass string
+	fmt.Print("User: ")
+	fmt.Scanln(&user)
+	fmt.Print("Pass: ")
+	fmt.Scanln(&pass)
+
+	return Credentials{
+		UserID:   user,
+		Password: pass,
 	}
 }

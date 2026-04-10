@@ -19,7 +19,8 @@ type RuntimeContext struct {
 	DB       *sql.DB
 	Logger   *zap.Logger
 	BasePath string
-	Session  *schema.UserSession
+	Session      *schema.UserSession
+	Orchestrator *interaction.Orchestrator
 	Config   *schema.UserConfig
 }
 
