@@ -2,7 +2,7 @@
 package schema
 
 // CurrentVersion defines the active schema version used by the runtime.
-const CurrentVersion = 1
+const CurrentVersion = 2
 
 type SchemaInfo struct {
 	Version int
@@ -17,16 +17,20 @@ var Current = SchemaInfo{
 }
 
 func Migrate(env *EnvConfig) *EnvConfig {
-
-	switch env.SchemaVersion {
-
-	case 1:
-		return migrateV1toV2(env)
-
+	if env == nil {
+		return nil
 	}
 
-	return env
+	switch env.SchemaVersion {
+	case 1:
+		return migrateV1toV2(env)
+	case 2:
+		return env
+	default:
+		return env
+	}
 }
+
 func migrateV1toV2(env *EnvConfig) *EnvConfig {
 	env.SchemaVersion = 2
 	return env

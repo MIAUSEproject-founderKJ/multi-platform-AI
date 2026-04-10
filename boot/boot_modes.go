@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/keys"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
@@ -15,24 +16,29 @@ import (
 
 // DecideBootPath determines whether to run fast or cold boot
 func (bm *BootManager) DecideBootPath() (*schema.BootSequence, error) {
-	// Load last known environment
-	lastkey := security.LastKnownEnvKey(bm.Identity.MachineID)
-	env, err := bm.Vault.LoadConfig(lastkey)
+
+	if bm.Identity == nil || bm.Identity.MachineID == "" {
+		return nil, errors.New("invalid machine identity")
+	}
+
+	lastEnvKey := keys.LastKnownEnvKey(bm.Identity.MachineID)
+
+	env, err := bm.Vault.LoadConfig(lastEnvKey)
 	if err != nil {
 		return bm.runColdBoot(bm.Identity)
 	}
 
 	if env.SchemaVersion < schema.CurrentVersion {
 		env = schema.Migrate(env)
-		_ = bm.Vault.SaveConfig(lastkey, env)
+		if err := bm.Vault.SaveConfig(lastEnvKey, env); err != nil {
+			return nil, err
+		}
 	}
 
-	// Verify golden baseline
 	if _, err := bm.Vault.LoadGoldenHash(bm.Identity.MachineID); err != nil {
 		return bm.runColdBoot(bm.Identity)
 	}
 
-	// Fast boot
 	return bm.runFastBoot(env)
 }
 

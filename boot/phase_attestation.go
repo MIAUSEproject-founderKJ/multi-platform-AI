@@ -9,9 +9,10 @@ import (
 )
 
 func PhaseAttestation(
-	v security.VaultStore,
+	vault security.VaultStore,
 	identity *schema.MachineIdentity,
-	bs *schema.BootSequence,
+	bootSeq *schema.BootSequence,
+	preSession *schema.UserSession,
 ) (*schema.UserSession, error) {
 	// Load credentials from Vault
 	var cred struct {

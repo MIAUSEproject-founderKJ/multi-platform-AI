@@ -39,10 +39,6 @@ func (c *CustomizedConfig) FillDefaults() {
 	}
 }
 
-func (c *CustomizedConfig) Migrate() {
-	// placeholder for version upgrades
-}
-
 func (c *CustomizedConfig) Hash() string {
 	b, _ := json.Marshal(c)
 	sum := sha256.Sum256(b)

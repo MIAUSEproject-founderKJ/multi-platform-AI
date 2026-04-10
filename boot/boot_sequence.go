@@ -38,7 +38,7 @@ func RunBootSequence(ctx schema.BootContext) (*schema.BootSequence, *schema.User
 		return nil, nil, err
 	}
 
-	session, err := PhaseAttestation(ctx.Vault, identity, bootSeq)
+	session, err := PhaseAttestation(ctx.Vault, identity, bootSeq, preSession)
 	if err != nil {
 		return nil, nil, err
 	}

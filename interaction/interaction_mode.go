@@ -9,6 +9,19 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
+func BuildAuthInterface(mode InteractionMode) AuthInterface {
+	switch mode {
+	case ModeGUI:
+		return NewGUIAuth()
+	case ModeTUI:
+		return NewTUIAuth()
+	case ModeVoice:
+		return NewVoiceAuth()
+	default:
+		return NewCLIAuth()
+	}
+}
+
 func ResolveInteractionMode(
 	cfg *schema.CustomizedConfig,
 	cap schema.CapabilitySet,
@@ -285,20 +298,27 @@ type VoiceEngine struct {
 	STT        SpeechToText
 	TTS        TextToSpeech
 	outputChan chan string
+	stopChan   chan struct{}
 }
 
 func NewVoiceEngine() *VoiceEngine {
 	return &VoiceEngine{
 		STT:        &WhisperSTT{},
 		TTS:        &SystemTTS{},
-		outputChan: make(chan string, 10),
+		outputChan: make(chan string, 32),
+		stopChan:   make(chan struct{}),
 	}
 }
 
 func (v *VoiceEngine) Start() {
 	go func() {
-		for msg := range v.outputChan {
-			v.TTS.Speak(msg)
+		for {
+			select {
+			case msg := <-v.outputChan:
+				_ = v.TTS.Speak(msg)
+			case <-v.stopChan:
+				return
+			}
 		}
 	}()
 }

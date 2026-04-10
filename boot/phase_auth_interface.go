@@ -9,22 +9,11 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
-
-func ToDeviceCapabilities(cp *schema.CapabilityProfile) interaction.DeviceCapabilities {
-	return interaction.DeviceCapabilities{
-		HasDisplay:  cp.Has(schema.CapDisplay),
-		HasKeyboard: cp.Has(schema.CapKeyboard),
-		HasMic:      cp.Has(schema.CapMicrophone),
-		HasSpeaker:  cp.Has(schema.CapSpeaker),
-		GPU:         cp.Has(schema.CapGPU),
-	}
-}
-
 func PhaseAuthInterface(ctx schema.BootContext, caps *schema.CapabilityProfile) (*schema.UserSession, error) {
 
-	mode := interaction.SelectInteractionMode(ToDeviceCapabilities(caps))
+	mode := interaction.SelectInteractionModeFromProfile(caps)
 
-	ui := schema.BuildAuthInterface(mode)
+	ui := interaction.BuildAuthInterface(mode)
 	if ui == nil {
 		return nil, errors.New("failed to build auth interface")
 	}
@@ -38,6 +27,18 @@ func PhaseAuthInterface(ctx schema.BootContext, caps *schema.CapabilityProfile) 
 
 	return result, nil
 }
+
+
+func ToDeviceCapabilities(cp *schema.CapabilityProfile) interaction.DeviceCapabilities {
+	return interaction.DeviceCapabilities{
+		HasDisplay:  cp.Has(schema.CapDisplay),
+		HasKeyboard: cp.Has(schema.CapKeyboard),
+		HasMic:      cp.Has(schema.CapMicrophone),
+		HasSpeaker:  cp.Has(schema.CapSpeaker),
+		GPU:         cp.Has(schema.CapGPU),
+	}
+}
+
 
 
 

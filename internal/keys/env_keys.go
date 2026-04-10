@@ -1,6 +1,6 @@
-//core/security/env_key.go
+//internal/keys/env_keys.go
 
-package security
+package keys
 
 import (
 	"fmt"
