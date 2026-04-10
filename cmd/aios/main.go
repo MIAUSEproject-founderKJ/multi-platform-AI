@@ -16,7 +16,7 @@ import (
 	"strings"
 	"syscall"
 	"time"
-
+"encoding/json"
 	"go.uber.org/zap"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
@@ -38,7 +38,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	defer func() { _ = logger.Sync() }()
+	defer func() {
+	if r := recover(); r != nil {
+		logger.Fatal("panic recovered", zap.Any("error", r))
+	}
+}()
 
 	// --- PHASE 1: BOOT ---
 	sysCtx, err := BuildSystemContext()
@@ -53,9 +57,11 @@ func main() {
 	}
 
 	// --- START ---
-	if err := app.Start(ctx); err != nil {
-		logger.Fatal("startup failure", zap.Error(err))
-	}
+	go app.watchdog(ctx)
+
+if err := app.Start(ctx); err != nil {
+	logger.Fatal("startup failure", zap.Error(err))
+}
 
 	<-ctx.Done()
 
@@ -66,6 +72,12 @@ func main() {
 	if err := app.Stop(shutdownCtx); err != nil {
 		logger.Error("shutdown incomplete", zap.Error(err))
 	}
+
+	logger.Info("boot_complete",
+	zap.String("session_id", sysCtx.Session.SessionID),
+	zap.String("mode", string(sysCtx.Session.Mode)),
+zap.Any("tier", sysCtx.Session.Tier),
+)
 }
 
 type SystemContext struct {
@@ -79,40 +91,18 @@ type SystemContext struct {
 // ============================================================
 
 func BuildSystemContext() (*SystemContext, error) {
+	var lastErr error
 
-	vault, err := security.OpenVault()
-	if err != nil {
-		return nil, err
-	}
-	bootCtx := schema.BootContext{
-	Vault: vault,
-	}
-
-
-
-	bootSeq, session, err := boot.RunBootSequence(bootCtx)
-	if err != nil {
-		return nil, err
+	for i := 0; i < 3; i++ {
+		ctx, err := attemptBoot()
+		if err == nil {
+			return ctx, nil
+		}
+		lastErr = err
+		time.Sleep(time.Duration(i+1) * time.Second)
 	}
 
-	// Attach session back if not already embedded
-	bootSeq.UserSession = session
-
-	bootCtxResolved, err := boot.ResolveBootContext(bootSeq)
-	return &SystemContext{
-		Boot: bootCtxResolved,
-	}
-
-	execCtx, err := boot.ResolveExecutionContext(bootSeq)
-	if err != nil {
-		return nil, err
-	}
-
-	return &SystemContext{
-		Boot:    bootCtx,
-		Exec:    execCtx,
-		Session: session,
-	}, nil
+	return nil, fmt.Errorf("boot failed after retries: %w", lastErr)
 }
 
 // ============================================================
@@ -123,8 +113,9 @@ type App struct {
 	log        *zap.Logger
 	supervisor *runtime.Supervisor
 	server     *http.Server
-}
 
+	degraded bool
+}
 // ============================================================
 // PHASE 2: RUNTIME BUILD
 // ============================================================
@@ -136,39 +127,47 @@ func BuildRuntime(logger *zap.Logger, sys *SystemContext) (*App, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	startCLIInput(rtx.Context, logger)
+
 	// 🔥 attach session + config
-	rtx.Session = sys.Session
+	if sys.Session == nil {
+	return nil, errors.New("nil session from boot")
+}
+
+rtx.Session = sys.Session
+
+if sys.Session.Config != nil {
 	rtx.Config = sys.Session.Config
-
-	go func() {
-		reader := bufio.NewReader(os.Stdin)
-		for {
-			fmt.Print("> ")
-			input, _ := reader.ReadString('\n')
-			input = strings.TrimSpace(input)
-
-			if input == "exit" {
-				os.Exit(0)
-			}
-
-			logger.Info("user_input", zap.String("input", input))
-		}
-	}()
+}
 
 	// --- MODULE GRAPH ---
 	registry := modules.DefaultRegistry()
 
 	filtered := modules.FilterModules(registry, sys.Boot)
 
+if len(filtered) == 0 {
+	logger.Warn("no modules available, falling back to CLI-only mode")
+	filtered = modules.FallbackMinimal()
+}
+
 	ordered, err := modules.ResolveDependencies(filtered)
 	if err != nil {
 		return nil, err
 	}
 
+	
+
 	adapted := modules.AdaptModules(ordered, rtx)
 
+resilient := make([]runtime.Module, 0, len(adapted))
+
+for _, m := range adapted {
+	rresilient = append(resilient, NewRecoverableModule(m, logger))
+}
+
 	// --- SUPERVISOR ---
-	sup := runtime.NewSupervisor(logger, adapted)
+	sup := runtime.NewSupervisor(logger, resilient)
 
 	return &App{
 		log:        logger,
@@ -180,33 +179,332 @@ func BuildRuntime(logger *zap.Logger, sys *SystemContext) (*App, error) {
 // START
 // ============================================================
 
-func (a *App) Start(ctx context.Context) error {
+func (r *recoverableModule) Start(ctx context.Context) error {
+	backoff := time.Second
 
-	// INIT is now explicitly part of runtime start phase
+	for {
+		if ctx.Err() != nil {
+			return ctx.Err()
+		}
+
+		if !r.allowExecution() {
+			time.Sleep(2 * time.Second)
+			continue
+		}
+
+		err := r.safeRun(ctx)
+
+		if err == nil {
+			r.state = stateClosed
+			r.failCount = 0
+			return nil
+		}
+
+		r.predictor.Record()
+		r.failCount++
+		r.lastFailure = time.Now()
+
+		// pre-failure signal
+		if r.predictor.Rate() > r.predictor.threshold*0.7 {
+			r.log.Warn("pre-failure signal detected")
+		}
+
+		if r.predictor.IsUnstable() {
+			r.log.Error("instability spike → cooldown")
+			time.Sleep(10 * time.Second)
+		}
+
+		if r.failCount >= 3 {
+			r.state = stateOpen
+			r.log.Warn("circuit breaker OPEN")
+		}
+
+		time.Sleep(backoff)
+		if backoff < 30*time.Second {
+			backoff *= 2
+		}
+	}
+}
+
+func (a *App) runFallbackLoop(ctx context.Context) {
+	a.log.Warn("running in degraded mode")
+
+	ticker := time.NewTicker(10 * time.Second)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-ticker.C:
+			status := a.supervisor.HealthStatus()
+
+			if status.Healthy && !status.Degraded {
+				a.log.Info("system recovered from degraded mode")
+				a.degraded = false
+				return
+			}
+
+			a.log.Warn("system still degraded",
+				zap.Int("failed_modules", status.Failed),
+				zap.Int("total_modules", status.Total),
+			)
+
+		case <-ctx.Done():
+			return
+		}
+	}
+}
+
+type HealthStatus struct {
+	Healthy   bool
+	Degraded  bool
+	Failed    int
+	Total     int
+}
+
+func attemptBoot() (*SystemContext, error) {
+	vault, err := security.OpenVault()
+	if err != nil {
+		return nil, err
+	}
+
+	bootCtx := schema.BootContext{
+		Vault: vault,
+	}
+
+	bootSeq, session, err := boot.RunBootSequence(bootCtx)
+	if err != nil {
+		return nil, err
+	}
+
+	if session == nil {
+		return nil, errors.New("nil session")
+	}
+
+	bootSeq.UserSession = session
+
+	bootCtxResolved, err := boot.ResolveBootContext(bootSeq)
+	if err != nil {
+		return nil, err
+	}
+
+	execCtx, err := boot.ResolveExecutionContext(bootSeq)
+	if err != nil {
+		return nil, err
+	}
+
+	return &SystemContext{
+		Boot:    bootCtxResolved,
+		Exec:    execCtx,
+		Session: session,
+	}, nil
+}
+
+func (a *App) watchdog(ctx context.Context) {
+	ticker := time.NewTicker(10 * time.Second)
+	defer ticker.Stop()
+if guard.Trip() {
+	a.log.Error("system thrashing → forcing safe mode")
+	a.activateSafeMode()
+}
+	for {
+		select {
+		case <-ticker.C:
+			status := a.supervisor.HealthStatus()
+
+			switch {
+			case status.Failed == 0:
+				continue
+
+			case status.Failed < status.Total/2:
+				a.log.Warn("early degradation")
+				_ = a.supervisor.RestartFailed(ctx)
+
+			case status.Failed >= status.Total/2:
+				a.log.Error("major degradation")
+				a.degraded = true
+				a.activateSafeMode()
+
+			case status.Failed == status.Total:
+				a.log.Error("system collapse")
+				a.activateSafeMode()
+			}
+
+		case <-ctx.Done():
+			return
+		}
+	}
+}
+
+func (r *recoverableModule) safeRun(ctx context.Context) (err error) {
+	defer func() {
+		if rec := recover(); rec != nil {
+			r.log.Error("module panic recovered", zap.Any("panic", rec))
+			err = fmt.Errorf("panic: %v", rec)
+		}
+	}()
+	return r.inner.Start(ctx)
+}
+
+func startCLIInput(ctx context.Context, logger *zap.Logger) {
+	go func() {
+		reader := bufio.NewReader(os.Stdin)
+
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			default:
+				fmt.Print("> ")
+				input, err := reader.ReadString('\n')
+				if err != nil {
+					logger.Warn("stdin read error", zap.Error(err))
+					continue
+				}
+
+				input = strings.TrimSpace(input)
+
+				if input == "exit" {
+					return
+				}
+
+				logger.Info("user_input", zap.String("input", input))
+			}
+		}
+	}()
+}
+
+
+func (f *FailurePredictor) RecordError() {
+	now := time.Now()
+	f.lastErrors = append(f.lastErrors, now)
+
+	// cleanup old
+	cutoff := now.Add(-f.window)
+	filtered := f.lastErrors[:0]
+	for _, t := range f.lastErrors {
+		if t.After(cutoff) {
+			filtered = append(filtered, t)
+		}
+	}
+	f.lastErrors = filtered
+}
+
+
+
+
+type recoverableModule struct {
+	inner      runtime.Module
+	log        *zap.Logger
+
+	// resilience
+	predictor  *FailurePredictor
+	state      circuitState
+	failCount  int
+	lastFailure time.Time
+}
+
+type circuitState int
+
+const (
+	stateClosed circuitState = iota
+	stateOpen
+	stateHalfOpen
+)
+
+func (a *App) activateSafeMode() {
+	a.log.Warn("SAFE MODE ENABLED")
+
+	ctx, cancel := context.WithCancel(context.Background())
+
+	go func() {
+		defer cancel()
+
+		reader := bufio.NewReader(os.Stdin)
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			default:
+				fmt.Print("[SAFE] > ")
+				input, _ := reader.ReadString('\n')
+
+				switch strings.TrimSpace(input) {
+				case "status":
+					fmt.Println("degraded")
+				case "exit":
+					return
+				default:
+					fmt.Println("limited command")
+				}
+			}
+		}
+	}()
+}
+
+func notifyUser(msg string) {
+	fmt.Println("[SYSTEM]", msg)
+}
+
+func (a *App) Start(ctx context.Context) error {
 	if err := a.supervisor.Init(ctx); err != nil {
-		return err
+		return fmt.Errorf("init failed: %w", err)
 	}
 
 	if err := a.supervisor.Start(ctx); err != nil {
-		return err
+		a.log.Error("supervisor start failed", zap.Error(err))
+		a.degraded = true
+		a.activateSafeMode()
+		return nil
 	}
 
 	a.startHTTPServer()
-
 	return nil
 }
 
-// ============================================================
-// STOP
-// ============================================================
+type FailurePredictor struct {
+	window    time.Duration
+	threshold float64 // errors per second
+	events    []time.Time
+}
 
-func (a *App) Stop(ctx context.Context) error {
+func (f *FailurePredictor) Record() {
+	now := time.Now()
+	f.events = append(f.events, now)
 
-	if a.server != nil {
-		_ = a.server.Shutdown(ctx)
+	cutoff := now.Add(-f.window)
+	i := 0
+	for _, t := range f.events {
+		if t.After(cutoff) {
+			f.events[i] = t
+			i++
+		}
 	}
+	f.events = f.events[:i]
+}
 
-	return a.supervisor.Stop(ctx)
+func (f *FailurePredictor) Rate() float64 {
+	return float64(len(f.events)) / f.window.Seconds()
+}
+
+func (f *FailurePredictor) IsUnstable() bool {
+	return f.Rate() > f.threshold
+}
+
+func (r *recoverableModule) allowExecution() bool {
+	switch r.state {
+	case stateOpen:
+		if time.Since(r.lastFailure) > 15*time.Second {
+			r.state = stateHalfOpen
+			return true
+		}
+		return false
+	case stateHalfOpen:
+		return true
+	case stateClosed:
+		return true
+	default:
+		return true
+	}
 }
 
 // ============================================================
@@ -217,28 +515,75 @@ func (a *App) startHTTPServer() {
 
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-	})
+mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
+	status := a.supervisor.HealthStatus()
 
-	mux.HandleFunc("/readyz", func(w http.ResponseWriter, r *http.Request) {
-		if !a.supervisor.AllHealthy() {
-			w.WriteHeader(http.StatusServiceUnavailable)
-			return
-		}
-		w.WriteHeader(http.StatusOK)
-	})
-
-	server := &http.Server{
-		Addr:    ":8080",
-		Handler: mux,
+	resp := map[string]interface{}{
+		"healthy":  status.Healthy,
+		"degraded": status.Degraded,
+		"failed":   status.Failed,
+		"total":    status.Total,
 	}
+
+	code := http.StatusOK
+	if !status.Healthy {
+		code = http.StatusServiceUnavailable
+	}
+
+	w.WriteHeader(code)
+	_ = json.NewEncoder(w).Encode(resp)
+})
+
+
+port := os.Getenv("PORT")
+if port == "" {
+	port = "8080"
+}
+
+server := &http.Server{
+	Addr:              ":" + port,
+	Handler:           mux,
+	ReadTimeout:       5 * time.Second,
+	WriteTimeout:      10 * time.Second,
+	IdleTimeout:       120 * time.Second,
+	ReadHeaderTimeout: 2 * time.Second,
+	MaxHeaderBytes:    1 << 20,
+}
 
 	a.server = server
 
+	
 	go func() {
 		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			a.log.Error("http server error", zap.Error(err))
 		}
 	}()
+}
+
+func NewRecoverableModule(m runtime.Module, log *zap.Logger) runtime.Module {
+	return &recoverableModule{
+		inner: m,
+		log:   log,
+		predictor: &FailurePredictor{
+			threshold: 5,
+			window:    30 * time.Second,
+		},
+		state: stateClosed,
+	}
+}
+
+type SystemGuard struct {
+	failures int
+	last     time.Time
+}
+
+func (g *SystemGuard) Trip() bool {
+	if time.Since(g.last) < 30*time.Second {
+		g.failures++
+	} else {
+		g.failures = 1
+	}
+	g.last = time.Now()
+
+	return g.failures >= 5
 }

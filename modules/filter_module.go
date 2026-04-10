@@ -24,3 +24,4 @@ func FilterModules(all []DomainModule, ctx *schema.BootContext) []DomainModule {
 
 	return out
 }
+
