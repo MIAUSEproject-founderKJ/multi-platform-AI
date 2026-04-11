@@ -19,7 +19,6 @@ import (
 	"time"
 
 	"go.uber.org/zap"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/cli"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
@@ -597,6 +596,6 @@ func (g *SystemGuard) Trip() bool {
 
 func FallbackMinimal() []runtime.Module {
 	return []runtime.Module{
-		cli.NewCLIModule(),
+		runtime.NewCLIModule(),
 	}
 }
