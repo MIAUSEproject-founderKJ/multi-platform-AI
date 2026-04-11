@@ -152,14 +152,6 @@ type DeviceCapabilities struct {
 	HasSpeaker  bool
 	GPU         bool
 }
-type InteractionMode string
-
-const (
-	ModeCLI   InteractionMode = "cli"
-	ModeTUI   InteractionMode = "tui"
-	ModeGUI   InteractionMode = "gui"
-	ModeVoice InteractionMode = "voice"
-)
 
 func SelectInteractionMode(cap DeviceCapabilities) InteractionMode {
 
@@ -252,9 +244,9 @@ func (o *Orchestrator) Add(adapter InterfaceAdapter) {
 	o.adapters = append(o.adapters, adapter)
 }
 
-func (o *Orchestrator) StartAll(session *schema.UserSession) {
+func (o *Orchestrator) StartAll(s *schema.UserSession) {
 	for _, a := range o.adapters {
-		go a.Start(session)
+		go a.Start(s)
 	}
 }
 

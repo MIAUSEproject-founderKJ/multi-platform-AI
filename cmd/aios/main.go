@@ -19,7 +19,7 @@ import (
 	"time"
 
 	"go.uber.org/zap"
-
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/cli"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
@@ -195,6 +195,11 @@ func (r *recoverableModule) Stop(ctx context.Context) error {
 func (r *recoverableModule) Init(ctx context.Context) error {
 	return r.inner.Init(ctx)
 }
+
+func (r *recoverableModule) Name() string {
+	return r.inner.Name()
+}
+
 func (r *recoverableModule) Start(ctx context.Context) error {
 	backoff := time.Second
 
@@ -251,7 +256,7 @@ func (a *App) runFallbackLoop(ctx context.Context) {
 	for {
 		select {
 		case <-ticker.C:
-			status := a.HealthStatus()
+			status := a.supervisor.HealthStatus()
 
 			if status.Healthy && !status.Degraded {
 				a.log.Info("system recovered from degraded mode")
@@ -270,19 +275,7 @@ func (a *App) runFallbackLoop(ctx context.Context) {
 	}
 }
 
-func (a *App) HealthStatus() HealthStatus {
-	return HealthStatus{
-		Healthy: true,
-		Total:   a.supervisor.ModuleCount(),
-	}
-}
 
-type HealthStatus struct {
-	Healthy  bool
-	Degraded bool
-	Failed   int
-	Total    int
-}
 
 func attemptBoot() (*SystemContext, error) {
 	vault, err := security.OpenVault()
@@ -602,8 +595,8 @@ func (g *SystemGuard) Trip() bool {
 	return g.failures >= 5
 }
 
-func FallbackMinimal() []Module {
-	return []Module{
-		NewCLIModule(),
+func FallbackMinimal() []runtime.Module {
+	return []runtime.Module{
+		cli.NewCLIModule(),
 	}
 }

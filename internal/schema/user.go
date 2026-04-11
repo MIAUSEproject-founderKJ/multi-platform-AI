@@ -9,6 +9,22 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
+// Move these from interaction to schema so everyone can see them
+type InteractionMode string
+
+const (
+	ModeCLI   InteractionMode = "cli"
+	ModeTUI   InteractionMode = "tui"
+	ModeGUI   InteractionMode = "gui"
+	ModeVoice InteractionMode = "voice"
+)
+
+// Define what an Orchestrator DOES, not what it IS.
+type Orchestrator interface {
+    StartAll(session *UserSession)
+    Broadcast(msg string)
+}
+
 func (s *UserSession) HasPermission(p PermissionMask) bool {
 	if s == nil {
 		return false
@@ -29,7 +45,7 @@ type UserSession struct {
 
 	Config *UserConfig
 
-	Mode       interaction.InteractionMode
+	Mode       InteractionMode
 	CapProfile *CapabilityProfile
 
 	Attestation *Attestation
@@ -37,8 +53,8 @@ type UserSession struct {
 	CreatedAt time.Time
 	ExpiresAt time.Time
 
-	Capabilities schema.CapabilitySet
-	Orchestrator interaction.Orchestrator
+	Capabilities CapabilitySet
+	Orchestrator Orchestrator
 }
 
 // ------------------------------------------------------------

@@ -214,25 +214,22 @@ func DefaultCustomizedConfig() *schema.CustomizedConfig {
 func (am *AuthManager) Register() (*schema.UserSession, error) {
 	reader := bufio.NewReader(os.Stdin)
 
-	fmt.Println("=== User Registration ===")
-	fmt.Print("Enter new User ID: ")
+	fmt.Print("User ID: ")
 	userID, _ := reader.ReadString('\n')
 	userID = strings.TrimSpace(userID)
-	fmt.Print("Enter Password: ")
+
+	fmt.Print("Password: ")
 	password, _ := reader.ReadString('\n')
 	password = strings.TrimSpace(password)
-	fmt.Print("Select Entity Type (personal / organization / tester): ")
-	entityStr, _ := reader.ReadString('\n')
-	entityStr = strings.TrimSpace(entityStr)
-	entityType := schema.EntityPersonal
-	switch strings.ToLower(entityStr) {
-	case "organization":
-		entityType = schema.EntityOrganization
-	case "tester":
-		entityType = schema.EntityTester
-	}
-	return am.RegisterUser(userID, password, entityType)
 
+	entityType := schema.EntityPersonal
+
+	if err := am.RegisterUser(userID, password, entityType); err != nil {
+		return nil, err
+	}
+
+	// immediately login after registration
+	return am.Login(userID, password)
 }
 
 func (am *AuthManager) Login(userID, password string) (*schema.UserSession, error) {

@@ -23,6 +23,47 @@ type Module interface {
 	Health() error
 }
 
+type HealthStatus struct {
+	Healthy  bool
+	Degraded bool
+	Failed   int
+	Total    int
+}
+
+func (s *Supervisor) HealthStatus() HealthStatus {
+	total := len(s.modules)
+	failed := 0
+
+	for _, m := range s.modules {
+		if err := m.Health(); err != nil {
+			failed++
+		}
+	}
+
+	return HealthStatus{
+		Healthy:  failed == 0,
+		Degraded: failed > 0,
+		Failed:   failed,
+		Total:    total,
+	}
+}
+
+func (s *Supervisor) ModuleCount() int {
+	return len(s.modules)
+}
+
+func (s *Supervisor) RestartFailed(ctx context.Context) error {
+	for _, m := range s.modules {
+		if err := m.Health(); err != nil {
+			_ = m.Stop(ctx)
+			_ = m.Start(ctx)
+		}
+	}
+	return nil
+}
+
+
+
 ///////////////////////////////////////////////////////////////
 // RESTART POLICY
 ///////////////////////////////////////////////////////////////
@@ -57,9 +98,6 @@ type moduleState struct {
 // /////////////////////////////////////////////////////////////
 // SUPERVISOR
 // /////////////////////////////////////////////////////////////
-func (s *Supervisor) ModuleCount() int {
-	return len(s.modules)
-}
 
 type Supervisor struct {
 	log     *zap.Logger
@@ -230,8 +268,4 @@ func (s *Supervisor) AllHealthy() bool {
 		}
 	}
 	return true
-}
-
-func (s *Supervisor) RestartFailed(ctx context.Context) error {
-	return nil
 }

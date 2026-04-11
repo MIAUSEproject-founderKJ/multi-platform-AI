@@ -1,66 +1,135 @@
-This document outlines the production-grade workflows required to transition the Multi-Platform AI system from a conceptual framework into a user-friendly, safety-critical execution environment. The core philosophy is **epistemic humility**: the system must prove where it is running before it decides what it is allowed to do.
+This is a complete, production-grade `README.md` specification for the **Multi-Platform AI (MPAI)** system. It incorporates your workflow logic, technical layers, and safety-first philosophy into a professional documentation format.
 
----
+-----
 
-### **Workflow 1: Deterministic Boot & Platform Lock-In**
-To ensure production stability, the system must follow a prioritized two-stage boot sequence that prevents "AI monolith" failures.
+# Multi-Platform AI (MPAI) Framework
 
-1.  **Stage 1: Cold Boot & Passive Probing**
-    *   **Trigger:** Hardware power-on or manual launch.
-    *   **Passive Identification:** The `core/platform/probe` module performs zero-energy bus-level fingerprinting (CAN, USB, Ethernet) to detect electrical characteristics and vendor IDs without injecting signals.
-    *   **Classification:** `core/platform/classify` matches detected nodes against YAML templates (e.g., `vehicle.yaml` or `laptop.yaml`).
-    *   **Safety Gate:** If required nodes are absent, the system notifies the user via the highest-priority available channel (e.g., system log or emergency audio prompt).
-2.  **Stage 2: Fast Boot & Environment Restoration**
-    *   **State Load:** On subsequent starts, the system uses `LoadPersistedEnvConfig` to skip full discovery and reach "Ready" status in under 2 seconds.
-    *   **Attestation:** The system performs security policy attestation to verify the `SessionToken` and current platform integrity.
+## Overview
 
----
+MPAI is a high-performance, platform-first orchestration framework designed for secure, identity-aware operational logic across diverse environments—from autonomous vehicles and industrial robotics to professional workstations.
 
-### **Workflow 2: Production-Grade Hardware Node Management**
-Production systems must treat unknown nodes as "hostile" until classified through constraint-bounded observation.
+The system operates on the principle of **Epistemic Humility**: the AI must verify its physical environment and its own integrity before assuming authority over hardware actuators.
 
-1.  **Capability Matrix Generation:**
-    *   The system builds a `CapabilityMatrix` (e.g., `LIDAR: True`, `MICROPHONE: True`) based on verified hardware facts, not inferred beliefs.
-    *   **Health Heartbeat:** A `monitor` service continuously runs active self-tests on critical actuators and sensors (especially in `ROLE_TESTER` mode).
-2.  **Actuator Trust Escalation:**
-    *   **Passive Correlation:** The system watches for environmental changes (e.g., a door opening manually) to correlate bus events with physical reality.
-    *   **Capped Authority:** Trust is treated as a confidence score, never exceeding 99%. Physical override paths must always be maintained for critical actuators.
-3.  **Failure Handling:**
-    *   If a primary microphone or robotic actuator fails, the system immediately shifts to a **SafeBoot** or **Paused/Secure** state, notifying the user through alternative modalities.
+-----
 
----
+## 🏗 Architectural Framework: The Four-Layer Model
 
-### **Workflow 3: User-Friendly Interface (GUI & Voice) Setup**
-Accessibility is a core feature, requiring adaptive I/O modalities for diverse user types.
+To maintain a strict separation of concerns, MPAI is divided into four isolated layers:
 
-1.  **Adaptive Onboarding (GUI):**
-    *   **Initial Setup:** The `InitUserConfig` wizard prompts the user to define primary languages and interaction modes (e.g., Text-only vs. Voice-active).
-    *   **Dynamic HMI:** The interface scales based on the user entity. For example, a "Stranger" in a Robotaxi sees a limited "Guidance Mode," while a "Funder" on a PC has full access to customization panels.
-2.  **Multilingual Speech Intelligence (Voice):**
-    *   **STT/TTS Pipeline:** Noise reduction and context injection are applied before Speech-to-Text (STT) conversion to improve intent recognition in loud environments (e.g., industrial farms).
-    *   **Voice-Print Recognition:** For always-on systems like smart houses, passive voice-print recognition identifies family members to restore personalized preferences.
+| Layer | Name | Responsibility | Trust Level |
+| :--- | :--- | :--- | :--- |
+| **Layer I** | **Core/Kernel** | Platform ID, security attestation, safety policy enforcement. | **Root (Deterministic)** |
+| **Layer II** | **Bridge/HAL** | Raw buffer delivery, sensor sync, bus communication (CAN, GPIO). | **Trusted** |
+| **Layer III** | **Plugins** | Sandboxed modules: Visual SLAM, Navigation, STT/TTS. | **Isolated** |
+| **Layer IV** | **Cognition** | Semantic labeling, intent parsing, 3D environment coloring. | **Non-Authoritative** |
 
----
+-----
 
-### **Workflow 4: Intent-to-Action Execution Loop**
-Every user command must pass through a "Harm Assessment Gate" before physical execution.
+## ⚙️ Workflow 1: Deterministic Boot & Platform Lock-In
 
-1.  **Input Pipeline:** User input (Voice/Text) is processed into a semantic intent.
-2.  **Security Gate:** The system verifies the user’s `SecurityTier` (Admin, Operator, Guest) against the `PlatformClass`. **"Who" never overrides "Where"**; an admin user on a restricted platform is still bound by that platform's safety envelope.
-3.  **Constitutional Check:** The action is classified (Harmless, Potentially Harmful, High-risk). High-risk actions require multi-signal corroboration and explicit confidence thresholds.
-4.  **Routing & Dispatch:** The `Router Layer` resolves conflicts and dispatches commands to specific domain modules (e.g., `VehicleControl` or `DesktopProductivity`).
-5.  **HAL Execution:** The Hardware Abstraction Layer (HAL) delivers the command to the physical bus (CAN-bus, GPIO, etc.).
+Ensures the system does not execute high-level logic until the hardware environment is verified.
 
+### Stage 1: Cold Boot & Passive Probing
+
+1.  **Trigger:** Hardware power-on or system reset.
+2.  **Zero-Energy Fingerprinting:** The `core/platform/probe` module performs bus-level observation. It monitors voltage levels, clock rates, and Vendor IDs (VID/PID) without signal injection.
+3.  **Classification:** `core/platform/classify` matches signatures against YAML templates.
+    ```yaml
+    # Example: vehicle.yaml
+    platform: vehicle
+    required_nodes: [can_bus_0, imu_internal, hydraulic_press_ctrl]
+    safety_profile: ultra_high
+    ```
+4.  **Safety Gate:** If required nodes are missing, the system enters `HALT_STATE` and notifies the user via the highest-priority channel (e.g., emergency audio prompt).
+
+### Stage 2: Fast Boot & Integrity Restoration
+
+1.  **State Load:** Uses `LoadPersistedEnvConfig` to reach "Ready" status in **\< 2.0s**.
+2.  **Attestation:** Performs a cryptographic handshake with the TPM (Trusted Platform Module) to verify the `SessionToken`.
+
+-----
+
+## 🛠 Workflow 2: Production Hardware Node Management
+
+Nodes are treated as untrusted entities until verified through constraint-bounded observation.
+
+### 1\. Capability Matrix Generation
+
+The system builds a `CapabilityMatrix` based on verified hardware facts, not inferred beliefs.
+
+  * **Health Heartbeat:** The `monitor` service executes 10Hz active self-tests on critical actuators.
+  * **Feature Parity:** If a module requires `LIDAR` but only `ULTRASONIC` is detected, functionality is automatically downgraded to "Safe Mode."
+
+### 2\. Actuator Trust Escalation (ATE)
+
+  * **Passive Correlation:** The system watches for environmental changes (e.g., a physical door sensor trigger) to correlate bus events with reality.
+  * **Authority Cap:** Actuator confidence scores never exceed **99%**. A physical override path (E-Stop/Manual Brake) is always maintained outside the software logic.
+
+-----
+
+## 🎙 Workflow 3: Adaptive HMI (User Interface)
+
+Accessibility scales based on the user entity and the platform’s safety envelope.
+
+### 1\. Adaptive Onboarding (GUI)
+
+  * **Dynamic Scopes:**
+      * **Stranger (Robotaxi):** Displays "Guidance Mode" (Map + ETA).
+      * **Funder (Workstation):** Displays "Full Access" (Terminal + Kernel Logs).
+  * **Initial Setup:** The `InitUserConfig` wizard handles primary language and modality (Text-vs-Voice) selection.
+
+### 2\. Multilingual Speech Intelligence (Voice)
+
+  * **Pipeline:** `Denoising` -\> `Acoustic Echo Cancellation` -\> `STT` -\> `Intent Extraction`.
+  * **Voice-Print Auth:** Passive identification of authorized users to restore personalized safety preferences.
+
+-----
+
+## 🔐 Workflow 4: Credentials & Data Verification
+
+Every data point and user command must pass through the **Harm Assessment Gate**.
+
+1.  **Secured Login:** Supports GUI/TUI/CLI and Voice-print to prevent hijacking by sophisticated bots.
+2.  **Data Quarantine:** Ingested information from external peers is assigned a confidence score. High-risk data is quarantined until corroborated by two or more internal sensors.
+3.  **Version Sync:** Ensures Layer II (HAL) and Layer III (Plugins) are cryptographically signed and version-matched to prevent "Logic Drift."
+
+-----
+
+## 🔄 Workflow 5: Intent-to-Action Loop
+
+The execution loop follows a strict "Constitutional" pipeline.
+
+1.  **Input Pipeline:** Process Voice/Text into a semantic intent.
+2.  **Security Tier Check:** `"Who" never overrides "Where"`. An Admin user on a Tractor platform is still bound by the Tractor's safety envelope.
+3.  **Constitutional Check:** Actions are categorized:
+      * **Harmless:** Immediate execution.
+      * **Potentially Harmful:** Requires user confirmation.
+      * **High-Risk:** Requires multi-signal corroboration and 95%+ confidence.
+4.  **Routing & HAL:** The `Router Layer` resolves domain conflicts and dispatches commands to the physical bus via the **Hardware Abstraction Layer (HAL)**.
+
+-----
+
+
+### Implementation Guide
+
+To build and deploy a new platform module:
+
+1.  Define the platform signature in `core/templates/`.
+2.  Implement the `IHardwareBridge` interface for your specific bus (CAN, GPIO, etc.).
+3.  Register the capability requirements in the `CapabilityMatrix`.
+4.  Run `make verify-safety` to ensure no illegal execution paths exist.
+
+-----
+
+### **Education: Why we use `BootContext` vs `RuntimeContext`**
+
+In production code, **mutability is the enemy of safety.** If we allow the system to change its safety constraints while it is running (via `RuntimeContext`), a hallucinating AI or a malicious packet could theoretically tell a car that "Brakes are now optional." By forcing a dependency on the **`BootContext`**, we ensure that safety rules are "baked in" at the moment of hardware verification and cannot be altered without a full system reboot.
+
+**Does this structure cover all the technical details you wanted to include for your project?**
 ---
 
 ### **Technical Maintenance & Refinement (Production Stability)**
-To avoid "technical debt" and "logic conflicts," developers must follow these repository and compiler standards:
 
-*   **Resolve Context Mismatches:** Correct the current compiler errors where `RuntimeContext` is being incorrectly used as `BootContext`. All modules must depend on a single, authoritative `BootContext` object.
-*   **Modular Segregation:** Ensure that code sections for different platforms (e.g., Tractor vs. Laptop) are segregated. Only required drivers and modules should be imported once the platform identity is locked.
-*   **Supervisory Constraints:** For robotic nodes, the AI must remain in the **Supervisory Layer**. It should issue "Goal-level intents" (e.g., "Navigate to waypoint") rather than direct joint/torque commands, allowing the robot's native safety controllers to remain the final authority.
-
------------------------------------------------------------------------
 Multi-Platform AI is a high-performance, platform-first orchestration framework designed to provide secure, identity-aware operational logic across diverse environments, including autonomous vehicles, industrial robotics, and professional workstations
 . Unlike traditional AI applications that prioritize intelligence first, this system utilizes a safety-dominant execution environment where AI functions as a constrained workload
 .
@@ -103,8 +172,4 @@ When interacting with robotic systems, the AI shifts from discovering nodes to d
 Supervisory Control: The AI does not issue low-level joint commands (Layer 0); instead, it provides goal-level intents (e.g., "move end-effector to pose X") while the robot's native safety controllers remain the final authority
 .
 Shadow Execution: For "dumb" or low-intelligence machines, the AI uses shadow execution, simulating its intended commands and comparing them to actual motion before gaining any authority
-.
-5. Current Technical Considerations
-Recent development logs indicate that the project is currently addressing architectural debt, specifically resolving compiler errors related to context mismatches
-. Modules are being refactored to depend on a single authoritative BootContext rather than the RuntimeContext to ensure safety constraints are strictly inherited during the boot process
 .
