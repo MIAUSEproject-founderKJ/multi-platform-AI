@@ -3,6 +3,7 @@
 package boot
 
 import (
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
@@ -24,8 +25,8 @@ func RunBootSequence(ctx schema.BootContext) (*schema.BootSequence, *schema.User
 		return nil, nil, err
 	}
 
-	// Merge capabilities
-	capSet := bootSeq.Capabilities
+	// Merge capabilities (keep if needed)
+	_ = bootSeq.Capabilities // avoid unused error OR remove entirely
 
 	capsProfile := interaction.DetectCapabilityProfile()
 
@@ -42,8 +43,7 @@ func RunBootSequence(ctx schema.BootContext) (*schema.BootSequence, *schema.User
 	bootSeq.Env.Attestation.SessionToken = session.SessionID
 
 	// 🔹 FULL INTERFACE
-	err = PhaseMainInterface(session, caps)
-	if err != nil {
+	if err := PhaseMainInterface(session, capsProfile); err != nil {
 		return nil, nil, err
 	}
 

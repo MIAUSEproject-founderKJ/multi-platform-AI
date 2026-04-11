@@ -26,7 +26,7 @@ type AuthManager struct {
 }
 
 type AuthInterface interface {
-	StartAuthFlow(auth auth.AuthManager) (*schema.UserSession, error)
+	StartAuthFlow(auth *AuthManager) (*schema.UserSession, error)
 }
 
 // detectEntityAndTier inspects the user identity to assign entity and tier
@@ -210,6 +210,18 @@ func DefaultCustomizedConfig() *schema.CustomizedConfig {
 		Version:      "v1",
 		LastModified: time.Now(),
 	}
+}
+
+func (am *AuthManager) Login(userID, password string) (*schema.UserSession, error) {
+	verified, identity := am.verifyUserCredentials(userID, password)
+	if !verified {
+		return nil, errors.New("invalid credentials")
+	}
+
+	am.Identity = identity
+	am.detectEntityAndTier()
+
+	return am.platformLoginFlow()
 }
 
 func (am *AuthManager) LoginOrSignUpInteractive() (*schema.UserSession, error) {
@@ -438,7 +450,7 @@ func (am *AuthManager) createSession(service schema.ServiceType) (*schema.UserSe
 
 	// ---- ORCHESTRATOR ----
 	orch := interaction.BuildOrchestrator(cp)
-	orch.StartAll()
+	orch.StartAll(session)
 
 	// ---- MODE (informational now) ----
 	mode := interaction.ResolveInteractionMode(cfg, cp.Set)

@@ -6,10 +6,48 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
 
-func BuildAuthInterface(mode InteractionMode) AuthInterface {
+type CLIAuth struct{}
+type TUIAuth struct{}
+type GUIAuth struct{}
+type VoiceAuth struct{}
+
+func NewCLIAuth() auth.AuthInterface {
+	return &CLIAuth{}
+}
+
+func NewTUIAuth() auth.AuthInterface {
+	return &TUIAuth{}
+}
+
+func NewGUIAuth() auth.AuthInterface {
+	return &GUIAuth{}
+}
+
+func NewVoiceAuth() auth.AuthInterface {
+	return &VoiceAuth{}
+}
+
+func (c *CLIAuth) Authenticate() error {
+	return nil
+}
+
+func (t *TUIAuth) Authenticate() error {
+	return nil
+}
+
+func (g *GUIAuth) Authenticate() error {
+	return nil
+}
+
+func (v *VoiceAuth) Authenticate() error {
+	return nil
+}
+
+func BuildAuthInterface(mode InteractionMode) auth.AuthInterface {
 	switch mode {
 	case ModeGUI:
 		return NewGUIAuth()
@@ -255,11 +293,11 @@ type VoiceAdapter struct {
 
 func NewVoiceAdapter() *VoiceAdapter {
 	return &VoiceAdapter{
-	engine: &VoiceEngine{
-		STT: &WhisperSTT{},
-		TTS: &SystemTTS{},
-	},
-}
+		engine: &VoiceEngine{
+			STT: &WhisperSTT{},
+			TTS: &SystemTTS{},
+		},
+	}
 }
 
 func (s *ScreenAdapter) Start(session *schema.UserSession) error {
@@ -284,14 +322,21 @@ func (c *CLIAdapter) Notify(msg string) {
 	fmt.Println("[CLI]", msg)
 }
 
-
 func (c *TUIAdapter) Notify(msg string) {
 	fmt.Println("[TUI]", msg)
 }
 
-
 func (c *GUIAdapter) Notify(msg string) {
 	fmt.Println("[GUI]", msg)
+}
+
+func (c *CLIAuth) StartAuthFlow(auth *auth.AuthManager) (*schema.UserSession, error) {
+	return auth.LoginOrSignUpInteractive()
+}
+
+// interaction/gui.go
+type GUIEngine interface {
+	Render()
 }
 
 type VoiceEngine struct {

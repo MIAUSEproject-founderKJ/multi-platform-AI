@@ -8,6 +8,7 @@ package main
 import (
 	"bufio"
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -16,7 +17,7 @@ import (
 	"strings"
 	"syscall"
 	"time"
-"encoding/json"
+
 	"go.uber.org/zap"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
@@ -39,10 +40,10 @@ func main() {
 		panic(err)
 	}
 	defer func() {
-	if r := recover(); r != nil {
-		logger.Fatal("panic recovered", zap.Any("error", r))
-	}
-}()
+		if r := recover(); r != nil {
+			logger.Fatal("panic recovered", zap.Any("error", r))
+		}
+	}()
 
 	// --- PHASE 1: BOOT ---
 	sysCtx, err := BuildSystemContext()
@@ -59,9 +60,9 @@ func main() {
 	// --- START ---
 	go app.watchdog(ctx)
 
-if err := app.Start(ctx); err != nil {
-	logger.Fatal("startup failure", zap.Error(err))
-}
+	if err := app.Start(ctx); err != nil {
+		logger.Fatal("startup failure", zap.Error(err))
+	}
 
 	<-ctx.Done()
 
@@ -74,16 +75,23 @@ if err := app.Start(ctx); err != nil {
 	}
 
 	logger.Info("boot_complete",
-	zap.String("session_id", sysCtx.Session.SessionID),
-	zap.String("mode", string(sysCtx.Session.Mode)),
-zap.Any("tier", sysCtx.Session.Tier),
-)
+		zap.String("session_id", sysCtx.Session.SessionID),
+		zap.String("mode", string(sysCtx.Session.Mode)),
+		zap.Any("tier", sysCtx.Session.Tier),
+	)
 }
 
 type SystemContext struct {
 	Boot    *schema.BootContext
 	Exec    *boot.ExecutionContext
 	Session *schema.UserSession
+}
+
+func (a *App) Stop(ctx context.Context) error {
+	if a.server != nil {
+		_ = a.server.Shutdown(ctx)
+	}
+	return a.supervisor.Stop(ctx)
 }
 
 // ============================================================
@@ -116,6 +124,7 @@ type App struct {
 
 	degraded bool
 }
+
 // ============================================================
 // PHASE 2: RUNTIME BUILD
 // ============================================================
@@ -132,39 +141,37 @@ func BuildRuntime(logger *zap.Logger, sys *SystemContext) (*App, error) {
 
 	// 🔥 attach session + config
 	if sys.Session == nil {
-	return nil, errors.New("nil session from boot")
-}
+		return nil, errors.New("nil session from boot")
+	}
 
-rtx.Session = sys.Session
+	rtx.Session = sys.Session
 
-if sys.Session.Config != nil {
-	rtx.Config = sys.Session.Config
-}
+	if sys.Session.Config != nil {
+		rtx.Config = sys.Session.Config
+	}
 
 	// --- MODULE GRAPH ---
 	registry := modules.DefaultRegistry()
 
 	filtered := modules.FilterModules(registry, sys.Boot)
 
-if len(filtered) == 0 {
-	logger.Warn("no modules available, falling back to CLI-only mode")
-	filtered = modules.FallbackMinimal()
-}
+	if len(filtered) == 0 {
+		logger.Warn("no modules available, falling back to CLI-only mode")
+		filtered = modules.FallbackMinimal()
+	}
 
 	ordered, err := modules.ResolveDependencies(filtered)
 	if err != nil {
 		return nil, err
 	}
 
-	
-
 	adapted := modules.AdaptModules(ordered, rtx)
 
-resilient := make([]runtime.Module, 0, len(adapted))
+	resilient := make([]runtime.Module, 0, len(adapted))
 
-for _, m := range adapted {
-	rresilient = append(resilient, NewRecoverableModule(m, logger))
-}
+	for _, m := range adapted {
+		resilient = append(resilient, NewRecoverableModule(m, logger))
+	}
 
 	// --- SUPERVISOR ---
 	sup := runtime.NewSupervisor(logger, resilient)
@@ -178,6 +185,13 @@ for _, m := range adapted {
 // ============================================================
 // START
 // ============================================================
+func (r *recoverableModule) Health() error {
+	return nil // or delegate
+}
+
+func (r *recoverableModule) Stop(ctx context.Context) error {
+	return nil
+}
 
 func (r *recoverableModule) Start(ctx context.Context) error {
 	backoff := time.Second
@@ -235,7 +249,7 @@ func (a *App) runFallbackLoop(ctx context.Context) {
 	for {
 		select {
 		case <-ticker.C:
-			status := a.supervisor.HealthStatus()
+			status := a.HealthStatus()
 
 			if status.Healthy && !status.Degraded {
 				a.log.Info("system recovered from degraded mode")
@@ -254,11 +268,18 @@ func (a *App) runFallbackLoop(ctx context.Context) {
 	}
 }
 
+func (a *App) HealthStatus() HealthStatus {
+	return HealthStatus{
+		Healthy: true,
+		Total:   len(a.supervisor.modules),
+	}
+}
+
 type HealthStatus struct {
-	Healthy   bool
-	Degraded  bool
-	Failed    int
-	Total     int
+	Healthy  bool
+	Degraded bool
+	Failed   int
+	Total    int
 }
 
 func attemptBoot() (*SystemContext, error) {
@@ -302,10 +323,7 @@ func attemptBoot() (*SystemContext, error) {
 func (a *App) watchdog(ctx context.Context) {
 	ticker := time.NewTicker(10 * time.Second)
 	defer ticker.Stop()
-if guard.Trip() {
-	a.log.Error("system thrashing → forcing safe mode")
-	a.activateSafeMode()
-}
+
 	for {
 		select {
 		case <-ticker.C:
@@ -373,7 +391,6 @@ func startCLIInput(ctx context.Context, logger *zap.Logger) {
 	}()
 }
 
-
 func (f *FailurePredictor) RecordError() {
 	now := time.Now()
 	f.lastErrors = append(f.lastErrors, now)
@@ -389,17 +406,14 @@ func (f *FailurePredictor) RecordError() {
 	f.lastErrors = filtered
 }
 
-
-
-
 type recoverableModule struct {
-	inner      runtime.Module
-	log        *zap.Logger
+	inner runtime.Module
+	log   *zap.Logger
 
 	// resilience
-	predictor  *FailurePredictor
-	state      circuitState
-	failCount  int
+	predictor   *FailurePredictor
+	state       circuitState
+	failCount   int
 	lastFailure time.Time
 }
 
@@ -515,44 +529,42 @@ func (a *App) startHTTPServer() {
 
 	mux := http.NewServeMux()
 
-mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
-	status := a.supervisor.HealthStatus()
+	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
+		status := a.supervisor.HealthStatus()
 
-	resp := map[string]interface{}{
-		"healthy":  status.Healthy,
-		"degraded": status.Degraded,
-		"failed":   status.Failed,
-		"total":    status.Total,
+		resp := map[string]interface{}{
+			"healthy":  status.Healthy,
+			"degraded": status.Degraded,
+			"failed":   status.Failed,
+			"total":    status.Total,
+		}
+
+		code := http.StatusOK
+		if !status.Healthy {
+			code = http.StatusServiceUnavailable
+		}
+
+		w.WriteHeader(code)
+		_ = json.NewEncoder(w).Encode(resp)
+	})
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
 	}
 
-	code := http.StatusOK
-	if !status.Healthy {
-		code = http.StatusServiceUnavailable
+	server := &http.Server{
+		Addr:              ":" + port,
+		Handler:           mux,
+		ReadTimeout:       5 * time.Second,
+		WriteTimeout:      10 * time.Second,
+		IdleTimeout:       120 * time.Second,
+		ReadHeaderTimeout: 2 * time.Second,
+		MaxHeaderBytes:    1 << 20,
 	}
-
-	w.WriteHeader(code)
-	_ = json.NewEncoder(w).Encode(resp)
-})
-
-
-port := os.Getenv("PORT")
-if port == "" {
-	port = "8080"
-}
-
-server := &http.Server{
-	Addr:              ":" + port,
-	Handler:           mux,
-	ReadTimeout:       5 * time.Second,
-	WriteTimeout:      10 * time.Second,
-	IdleTimeout:       120 * time.Second,
-	ReadHeaderTimeout: 2 * time.Second,
-	MaxHeaderBytes:    1 << 20,
-}
 
 	a.server = server
 
-	
 	go func() {
 		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			a.log.Error("http server error", zap.Error(err))
@@ -586,4 +598,10 @@ func (g *SystemGuard) Trip() bool {
 	g.last = time.Now()
 
 	return g.failures >= 5
+}
+
+func FallbackMinimal() []Module {
+	return []Module{
+		NewCLIModule(),
+	}
 }

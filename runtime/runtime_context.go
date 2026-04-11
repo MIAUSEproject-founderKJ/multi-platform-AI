@@ -3,25 +3,28 @@
 package runtime
 
 import (
+	"context"
 	"database/sql"
 	"errors"
 	"path/filepath"
 	"strings"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/router"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 	"go.uber.org/zap"
 )
 
 type RuntimeContext struct {
-	Router   router.Router
-	Bus      *MessageBus
-	DB       *sql.DB
-	Logger   *zap.Logger
-	BasePath string
+	Router       router.Router
+	Bus          *MessageBus
+	DB           *sql.DB
+	Logger       *zap.Logger
+	BasePath     string
 	Session      *schema.UserSession
 	Orchestrator *interaction.Orchestrator
-	Config   *schema.UserConfig
+	Config       *schema.UserConfig
+	Context      context.Context
 }
 
 func (r *RuntimeContext) SafePath(rel string) string {

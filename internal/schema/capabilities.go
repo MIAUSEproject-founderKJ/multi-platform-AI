@@ -110,8 +110,8 @@ func (cp *CapabilityProfile) IsHealthy(cap Capability) bool {
 
 //cp.Has(schema.CapDisplay),
 func (cp *CapabilityProfile) Has(cap Capability) bool {
-	if cp == nil {return false}
-	status, exists := cp.caps[cap]
-	if !exists {return false}
-	return status == CapOK
+	if cp == nil {
+		return false
+	}
+	return cp.Set.Has(cap)
 }

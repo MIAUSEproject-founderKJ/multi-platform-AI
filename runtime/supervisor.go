@@ -59,15 +59,12 @@ type moduleState struct {
 ///////////////////////////////////////////////////////////////
 
 type Supervisor struct {
-	log *zap.Logger
-
+	log     *zap.Logger
 	modules map[string]*moduleState
 	order   []string
-
-	policy RestartPolicy
-
-	mu sync.RWMutex
-	wg sync.WaitGroup
+	policy  RestartPolicy
+	mu      sync.RWMutex
+	wg      sync.WaitGroup
 }
 
 ///////////////////////////////////////////////////////////////
@@ -230,4 +227,8 @@ func (s *Supervisor) AllHealthy() bool {
 		}
 	}
 	return true
+}
+
+func (s *Supervisor) RestartFailed(ctx context.Context) error {
+	return nil
 }

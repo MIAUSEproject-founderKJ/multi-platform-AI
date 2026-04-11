@@ -3,13 +3,14 @@
 package boot
 
 import (
+	"errors"
 	"fmt"
 	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/keys"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/keys"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
@@ -130,84 +131,83 @@ func (bm *BootManager) runColdBoot(identity *schema.MachineIdentity) (*schema.Bo
 	if err != nil {
 		return nil, fmt.Errorf("auth failed during cold boot: %w", err)
 	}
-	
-capSet := BuildCapabilitySet(env.Platform.Final, resolveTier(authMgr.Entity), resolveServiceProfile(env.Platform.Final))
 
-caps, err := DetectDeviceCapabilities(env, capSet)
-if err != nil {
-    return nil, fmt.Errorf("device capability detection failed: %w", err)
-}
+	capSet := BuildCapabilitySet(env.Platform.Final, resolveTier(authMgr.Entity), resolveServiceProfile(env.Platform.Final))
 
-env.Discovery.Capabilities = *caps
+	caps, err := DetectDeviceCapabilities(env, capSet)
+	if err != nil {
+		return nil, fmt.Errorf("device capability detection failed: %w", err)
+	}
+
+	env.Discovery.Capabilities = *caps
 
 	return &schema.BootSequence{
-		Env:         env,
-		Mode:        schema.BootCold,
-		Attested:    true,
+		Env:          env,
+		Mode:         schema.BootCold,
+		Attested:     true,
 		Capabilities: capSet,
-		UserSession: session,
-		Service:     resolveServiceProfile(env.Platform.Final).Name,
-		Tier:        resolveTier(authMgr.Entity).Name,
-		Entity:      authMgr.Entity,
+		UserSession:  session,
+		Service:      resolveServiceProfile(env.Platform.Final).Name,
+		Tier:         resolveTier(authMgr.Entity).Name,
+		Entity:       authMgr.Entity,
 	}, nil
 }
-
-
 
 // ------------------------------------------------------------
 // Fast Boot: use cached environment
 // ------------------------------------------------------------
 func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence, error) {
-    logging.Info("[runFastBoot] Platform: %s | OS: %s | Arch: %s | EntityType: %v",
-        env.Platform.Final, env.Identity.OS, env.Identity.Arch, bm.Identity.EntityType)
+	logging.Info("[runFastBoot] Platform: %s | OS: %s | Arch: %s | EntityType: %v",
+		env.Platform.Final, env.Identity.OS, env.Identity.Arch, bm.Identity.EntityType)
 
-    marker, err := bm.Vault.LoadFirstBootMarker()
-    if err != nil || marker.SchemaVersion != schema.CurrentVersion {
-        return bm.runColdBoot(bm.Identity)
-    }
-    if err := security.VerifyAgainstGolden(bm.Vault, marker.MachineID); err != nil {
-        return bm.runColdBoot(bm.Identity)
-    }
+	marker, err := bm.Vault.LoadFirstBootMarker()
+	if err != nil || marker.SchemaVersion != schema.CurrentVersion {
+		return bm.runColdBoot(bm.Identity)
+	}
+	if err := security.VerifyAgainstGolden(bm.Vault, marker.MachineID); err != nil {
+		return bm.runColdBoot(bm.Identity)
+	}
 
-    raw, err := probe.IdentityProbe()
-    if err != nil || raw.Identity.MachineID != env.Identity.MachineID || raw.Identity.OS != env.Identity.OS {
-        return bm.runColdBoot(bm.Identity)
-    }
+	raw, err := probe.IdentityProbe()
+	if err != nil || raw.Identity.MachineID != env.Identity.MachineID || raw.Identity.OS != env.Identity.OS {
+		return bm.runColdBoot(bm.Identity)
+	}
 
-    authMgr := &auth.AuthManager{Vault: bm.Vault, Platform: env.Platform.Final}
+	authMgr := &auth.AuthManager{Vault: bm.Vault, Platform: env.Platform.Final}
 
-    var cred struct { UserID, Password string }
-    found, err := bm.Vault.Read("credentials", bm.Identity.MachineID, &cred)
-    if !found || err != nil {
-        return bm.runColdBoot(bm.Identity)
-    }
+	var cred struct{ UserID, Password string }
+	found, err := bm.Vault.Read("credentials", bm.Identity.MachineID, &cred)
+	if !found || err != nil {
+		return bm.runColdBoot(bm.Identity)
+	}
 
-    session, err := authMgr.LoginOrSignUpInteractive()
-    if err != nil {
-        return bm.runColdBoot(bm.Identity)
-    }
+	session, err := authMgr.LoginOrSignUpInteractive()
+	if err != nil {
+		return bm.runColdBoot(bm.Identity)
+	}
 
-    env.Attestation.SessionToken = session.SessionID
+	env.Attestation.SessionToken = session.SessionID
 
-    // Capability merging
-    capSet := BuildCapabilitySet(env.Platform.Final, resolveTier(authMgr.Entity), resolveServiceProfile(env.Platform.Final))
-    caps, err := DetectDeviceCapabilities(env, capSet)
-    if err != nil {
-        return bm.runColdBoot(bm.Identity)
-    }
-    env.Discovery.Capabilities = *caps
+	// Capability merging
+	capSet := BuildCapabilitySet(env.Platform.Final, resolveTier(authMgr.Entity), resolveServiceProfile(env.Platform.Final))
+	caps, err := DetectDeviceCapabilities(env, capSet)
+	if err != nil {
+		return bm.runColdBoot(bm.Identity)
+	}
+	env.Discovery.Capabilities = *caps
 
-    return &schema.BootSequence{
-        Env:          env,
-        Mode:         schema.BootFast,
-        Attested:     true,
-        Capabilities: capSet,
-		UserSession: session,
-        Service:      resolveServiceProfile(env.Platform.Final).Name,
-        Tier:         resolveTier(authMgr.Entity).Name,
-        Entity:       authMgr.Entity,
-    }, nil
+	return &schema.BootSequence{
+		Env:          env,
+		Mode:         schema.BootFast,
+		Attested:     true,
+		Capabilities: capSet,
+		UserSession:  session,
+		Service:      resolveServiceProfile(env.Platform.Final).Name,
+		Tier:         resolveTier(authMgr.Entity).Name,
+		Entity:       authMgr.Entity,
+	}, nil
 }
+
 // ------------------ Helpers ------------------
 
 func resolveTier(entity schema.EntityType) *schema.TierProfile {
@@ -245,9 +245,9 @@ func resolveServiceProfile(platform schema.PlatformClass) *schema.ServiceProfile
 	}
 }
 
-//capSet := BuildCapabilitySet(bootSeq.Env.Platform.Final, resolveTier(bootSeq.Entity), resolveServiceProfile(bootSeq.Env.Platform.Final))
+// capSet := BuildCapabilitySet(bootSeq.Env.Platform.Final, resolveTier(bootSeq.Entity), resolveServiceProfile(bootSeq.Env.Platform.Final))
 // BuildCapabilitySet computes platform + tier + service capabilities
-func BuildCapabilitySet(platform schema.PlatformClass,tier *schema.TierProfile,service *schema.ServiceProfile,
+func BuildCapabilitySet(platform schema.PlatformClass, tier *schema.TierProfile, service *schema.ServiceProfile,
 ) schema.CapabilitySet {
 	var caps schema.CapabilitySet
 

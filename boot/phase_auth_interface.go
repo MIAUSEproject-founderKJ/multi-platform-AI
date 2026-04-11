@@ -4,14 +4,16 @@ package boot
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
 )
+
 func PhaseAuthInterface(ctx schema.BootContext, caps *schema.CapabilityProfile) (*schema.UserSession, error) {
 
-	mode := interaction.SelectInteractionModeFromProfile(caps)
+	mode := interaction.ResolveInteractionMode(nil, caps.Set)
 
 	ui := interaction.BuildAuthInterface(mode)
 	if ui == nil {
@@ -20,14 +22,13 @@ func PhaseAuthInterface(ctx schema.BootContext, caps *schema.CapabilityProfile) 
 
 	authManager := auth.AuthManager{Vault: ctx.Vault}
 
-	result, err := ui.StartAuthFlow(authManager)
+	result, err := ui.StartAuthFlow(&authManager)
 	if err != nil {
 		return nil, err
 	}
 
 	return result, nil
 }
-
 
 func ToDeviceCapabilities(cp *schema.CapabilityProfile) interaction.DeviceCapabilities {
 	return interaction.DeviceCapabilities{
@@ -39,9 +40,6 @@ func ToDeviceCapabilities(cp *schema.CapabilityProfile) interaction.DeviceCapabi
 	}
 }
 
-
-
-
 type MainInterface interface {
 	Start(session *schema.UserSession) error
 }
@@ -51,28 +49,23 @@ type HybridAuthUI struct {
 	GUI   interaction.GUIEngine
 }
 
-type GUIEngine interface {
-	Render()
-}
-
-func (h *HybridAuthUI) StartAuthFlow(auth auth.AuthManager) (*schema.UserSession, error) {
+func (h *HybridAuthUI) StartAuthFlow(auth *auth.AuthManager) (*schema.UserSession, error) {
 
 	choice := h.promptChoice()
 
 	switch choice {
 	case "login":
 		creds := h.collectCredentials()
-		return authManager.Login(creds.UserID, creds.Password)
+		return auth.Login(creds.UserID, creds.Password)
 
 	case "signup":
 		creds := h.collectCredentials()
-		return authManager.Register(creds.UserID, creds.Password)
+		return auth.Register(creds.UserID, creds.Password)
 
 	default:
 		return nil, errors.New("invalid choice")
 	}
 }
-
 
 type Credentials struct {
 	UserID   string

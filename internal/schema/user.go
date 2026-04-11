@@ -2,7 +2,12 @@
 
 package schema
 
-import "time"
+import (
+	"time"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+)
 
 func (s *UserSession) HasPermission(p PermissionMask) bool {
 	if s == nil {
@@ -19,8 +24,8 @@ type UserSession struct {
 	Tier     TierType
 	Service  ServiceType
 
-	Permissions map[Permission]bool   // storage
-	PermMask    PermissionMask        // runtime
+	Permissions map[Permission]bool // storage
+	PermMask    PermissionMask      // runtime
 
 	Config *UserConfig
 
@@ -31,12 +36,15 @@ type UserSession struct {
 
 	CreatedAt time.Time
 	ExpiresAt time.Time
+
+	Capabilities schema.CapabilitySet
+	Orchestrator interaction.Orchestrator
 }
 
 // ------------------------------------------------------------
 // Tier System
 // ------------------------------------------------------------
-//Use TierType (string) externally for readability and compatibility. Use EntityType (uint8) internally for speed and clarity.
+// Use TierType (string) externally for readability and compatibility. Use EntityType (uint8) internally for speed and clarity.
 type TierType string
 
 const (
