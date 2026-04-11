@@ -211,6 +211,29 @@ func DefaultCustomizedConfig() *schema.CustomizedConfig {
 		LastModified: time.Now(),
 	}
 }
+func (am *AuthManager) Register() (*schema.UserSession, error) {
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Println("=== User Registration ===")
+	fmt.Print("Enter new User ID: ")
+	userID, _ := reader.ReadString('\n')
+	userID = strings.TrimSpace(userID)
+	fmt.Print("Enter Password: ")
+	password, _ := reader.ReadString('\n')
+	password = strings.TrimSpace(password)
+	fmt.Print("Select Entity Type (personal / organization / tester): ")
+	entityStr, _ := reader.ReadString('\n')
+	entityStr = strings.TrimSpace(entityStr)
+	entityType := schema.EntityPersonal
+	switch strings.ToLower(entityStr) {
+	case "organization":
+		entityType = schema.EntityOrganization
+	case "tester":
+		entityType = schema.EntityTester
+	}
+	return am.RegisterUser(userID, password, entityType)
+
+}
 
 func (am *AuthManager) Login(userID, password string) (*schema.UserSession, error) {
 	verified, identity := am.verifyUserCredentials(userID, password)

@@ -157,7 +157,7 @@ func BuildRuntime(logger *zap.Logger, sys *SystemContext) (*App, error) {
 
 	if len(filtered) == 0 {
 		logger.Warn("no modules available, falling back to CLI-only mode")
-		filtered = modules.FallbackMinimal()
+		filtered = FallbackMinimal()
 	}
 
 	ordered, err := modules.ResolveDependencies(filtered)
@@ -192,7 +192,9 @@ func (r *recoverableModule) Health() error {
 func (r *recoverableModule) Stop(ctx context.Context) error {
 	return nil
 }
-
+func (r *recoverableModule) Init(ctx context.Context) error {
+	return r.inner.Init(ctx)
+}
 func (r *recoverableModule) Start(ctx context.Context) error {
 	backoff := time.Second
 
@@ -271,7 +273,7 @@ func (a *App) runFallbackLoop(ctx context.Context) {
 func (a *App) HealthStatus() HealthStatus {
 	return HealthStatus{
 		Healthy: true,
-		Total:   len(a.supervisor.modules),
+		Total:   a.supervisor.ModuleCount(),
 	}
 }
 
@@ -393,17 +395,17 @@ func startCLIInput(ctx context.Context, logger *zap.Logger) {
 
 func (f *FailurePredictor) RecordError() {
 	now := time.Now()
-	f.lastErrors = append(f.lastErrors, now)
+	f.events = append(f.events, now)
 
 	// cleanup old
 	cutoff := now.Add(-f.window)
-	filtered := f.lastErrors[:0]
-	for _, t := range f.lastErrors {
+	filtered := f.events[:0]
+	for _, t := range f.events {
 		if t.After(cutoff) {
 			filtered = append(filtered, t)
 		}
 	}
-	f.lastErrors = filtered
+	f.events = filtered
 }
 
 type recoverableModule struct {

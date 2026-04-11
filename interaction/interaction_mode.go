@@ -333,6 +333,17 @@ func (c *GUIAdapter) Notify(msg string) {
 func (c *CLIAuth) StartAuthFlow(auth *auth.AuthManager) (*schema.UserSession, error) {
 	return auth.LoginOrSignUpInteractive()
 }
+func (t *TUIAuth) StartAuthFlow(am *auth.AuthManager) (*schema.UserSession, error) {
+	return am.LoginOrSignUpInteractive()
+}
+
+func (g *GUIAuth) StartAuthFlow(am *auth.AuthManager) (*schema.UserSession, error) {
+	return am.LoginOrSignUpInteractive()
+}
+
+func (v *VoiceAuth) StartAuthFlow(am *auth.AuthManager) (*schema.UserSession, error) {
+	return am.LoginOrSignUpInteractive()
+}
 
 // interaction/gui.go
 type GUIEngine interface {

@@ -132,7 +132,7 @@ func (bm *BootManager) runColdBoot(identity *schema.MachineIdentity) (*schema.Bo
 		return nil, fmt.Errorf("auth failed during cold boot: %w", err)
 	}
 
-	capSet := BuildCapabilitySet(env.Platform.Final, resolveTier(authMgr.Entity), resolveServiceProfile(env.Platform.Final))
+	capSet := BuildCapabilitySet(env.Platform.Final, resolveTier(session.Entity), resolveServiceProfile(env.Platform.Final))
 
 	caps, err := DetectDeviceCapabilities(env, capSet)
 	if err != nil {
@@ -148,8 +148,8 @@ func (bm *BootManager) runColdBoot(identity *schema.MachineIdentity) (*schema.Bo
 		Capabilities: capSet,
 		UserSession:  session,
 		Service:      resolveServiceProfile(env.Platform.Final).Name,
-		Tier:         resolveTier(authMgr.Entity).Name,
-		Entity:       authMgr.Entity,
+		Tier:         resolveTier(session.Entity).Name,
+		Entity:       session.Entity,
 	}, nil
 }
 
@@ -189,7 +189,7 @@ func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence,
 	env.Attestation.SessionToken = session.SessionID
 
 	// Capability merging
-	capSet := BuildCapabilitySet(env.Platform.Final, resolveTier(authMgr.Entity), resolveServiceProfile(env.Platform.Final))
+	capSet := BuildCapabilitySet(env.Platform.Final, resolveTier(session.Entity), resolveServiceProfile(env.Platform.Final))
 	caps, err := DetectDeviceCapabilities(env, capSet)
 	if err != nil {
 		return bm.runColdBoot(bm.Identity)
@@ -203,8 +203,8 @@ func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence,
 		Capabilities: capSet,
 		UserSession:  session,
 		Service:      resolveServiceProfile(env.Platform.Final).Name,
-		Tier:         resolveTier(authMgr.Entity).Name,
-		Entity:       authMgr.Entity,
+		Tier:         resolveTier(session.Entity).Name,
+		Entity:       session.Entity,
 	}, nil
 }
 

@@ -59,8 +59,7 @@ func (h *HybridAuthUI) StartAuthFlow(auth *auth.AuthManager) (*schema.UserSessio
 		return auth.Login(creds.UserID, creds.Password)
 
 	case "signup":
-		creds := h.collectCredentials()
-		return auth.Register(creds.UserID, creds.Password)
+		return auth.Register()
 
 	default:
 		return nil, errors.New("invalid choice")

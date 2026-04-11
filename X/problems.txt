@@ -1,682 +1,10 @@
-cannot use authMgr.Entity (variable with invalid type) as schema.EntityType value in argument to resolveTier
-// boot/boot_modes.go
-
-package boot
-
-import (
-	"errors"
-	"fmt"
-	"time"
-
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/keys"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-)
-
-// DecideBootPath determines whether to run fast or cold boot
-func (bm *BootManager) DecideBootPath() (*schema.BootSequence, error) {
-
-	if bm.Identity == nil || bm.Identity.MachineID == "" {
-		return nil, errors.New("invalid machine identity")
-	}
-
-	lastEnvKey := keys.LastKnownEnvKey(bm.Identity.MachineID)
-
-	env, err := bm.Vault.LoadConfig(lastEnvKey)
-	if err != nil {
-		return bm.runColdBoot(bm.Identity)
-	}
-
-	if env.SchemaVersion < schema.CurrentVersion {
-		env = schema.Migrate(env)
-		if err := bm.Vault.SaveConfig(lastEnvKey, env); err != nil {
-			return nil, err
-		}
-	}
-
-	if _, err := bm.Vault.LoadGoldenHash(bm.Identity.MachineID); err != nil {
-		return bm.runColdBoot(bm.Identity)
-	}
-
-	return bm.runFastBoot(env)
-}
-
-// ------------------------------------------------------------
-// Cold Boot: full hardware discovery and provisioning
-// ------------------------------------------------------------
-func (bm *BootManager) runColdBoot(identity *schema.MachineIdentity) (*schema.BootSequence, error) {
-	// Use the discovered platform + identity info
-	env := &schema.EnvConfig{
-		Platform: schema.PlatformResolution{
-			Final:      identity.PlatformType, // << propagate platform
-			Locked:     false,
-			Source:     "discovery",
-			ResolvedAt: time.Now(),
-		},
-		Identity: *identity,
-		Hardware: identity.Hardware,
-	}
-
-	logging.Info(
-		"[func (bm *BootManager) runColdBoot()] Platform: %s | OS: %s | Arch: %s | EntityType: %v",
-		env.Platform.Final,
-		env.Identity.OS,
-		env.Identity.Arch,
-		env.Identity.EntityType,
-	)
-
-	fullProfile, err := probe.ActiveDiscovery(env)
-	if err != nil {
-		return nil, fmt.Errorf("hardware discovery failed: %w", err)
-	}
-
-	// Update identity with discovered hardware
-	bm.Identity.BindHardware(fullProfile)
-
-	// 2. Provision golden baseline
-	goldenHash, err := security.ProvisionGolden(bm.Vault, bm.Identity.MachineID)
-	if err != nil {
-		return nil, err
-	}
-
-	// 3. Create first-boot marker
-	marker := &schema.FirstBootMarker{
-		MachineID:     bm.Identity.MachineID,
-		SchemaVersion: schema.CurrentVersion,
-		GoldenHash:    goldenHash,
-		Initialized:   true,
-		CreatedAt:     time.Now(),
-		BootTrust:     schema.TrustStrong,
-	}
-	if err := bm.Vault.SaveFirstBootMarker(marker); err != nil {
-		return nil, err
-	}
-
-	// 4. Platform-specific auth
-	authMgr := &auth.AuthManager{
-		Vault:    bm.Vault,
-		Platform: fullProfile.Platform.Final,
-	}
-
-	// Credential container
-	type credential struct {
-		UserID   string
-		Password string
-	}
-
-	var cred credential
-
-	found, err := bm.Vault.Read("credentials", bm.Identity.MachineID, &cred)
-	if err != nil {
-		return nil, fmt.Errorf("vault read failed: %w", err)
-	}
-
-	if !found {
-		cred.UserID = bm.Identity.MachineID
-
-		cred.Password, err = security.GenerateSecureKeyBase64()
-		if err != nil {
-			return nil, err
-		}
-
-		if err := bm.Vault.Write("credentials", cred.UserID, cred); err != nil {
-			return nil, err
-		}
-	}
-
-	// Authenticate
-	session, err := authMgr.LoginOrSignUpInteractive()
-	if err != nil {
-		return nil, fmt.Errorf("auth failed during cold boot: %w", err)
-	}
-
-	capSet := BuildCapabilitySet(env.Platform.Final, resolveTier(authMgr.Entity), resolveServiceProfile(env.Platform.Final))
-
-	caps, err := DetectDeviceCapabilities(env, capSet)
-	if err != nil {
-		return nil, fmt.Errorf("device capability detection failed: %w", err)
-	}
-
-	env.Discovery.Capabilities = *caps
-
-	return &schema.BootSequence{
-		Env:          env,
-		Mode:         schema.BootCold,
-		Attested:     true,
-		Capabilities: capSet,
-		UserSession:  session,
-		Service:      resolveServiceProfile(env.Platform.Final).Name,
-		Tier:         resolveTier(authMgr.Entity).Name,
-		Entity:       authMgr.Entity,
-	}, nil
-}
-
-// ------------------------------------------------------------
-// Fast Boot: use cached environment
-// ------------------------------------------------------------
-func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence, error) {
-	logging.Info("[runFastBoot] Platform: %s | OS: %s | Arch: %s | EntityType: %v",
-		env.Platform.Final, env.Identity.OS, env.Identity.Arch, bm.Identity.EntityType)
-
-	marker, err := bm.Vault.LoadFirstBootMarker()
-	if err != nil || marker.SchemaVersion != schema.CurrentVersion {
-		return bm.runColdBoot(bm.Identity)
-	}
-	if err := security.VerifyAgainstGolden(bm.Vault, marker.MachineID); err != nil {
-		return bm.runColdBoot(bm.Identity)
-	}
-
-	raw, err := probe.IdentityProbe()
-	if err != nil || raw.Identity.MachineID != env.Identity.MachineID || raw.Identity.OS != env.Identity.OS {
-		return bm.runColdBoot(bm.Identity)
-	}
-
-	authMgr := &auth.AuthManager{Vault: bm.Vault, Platform: env.Platform.Final}
-
-	var cred struct{ UserID, Password string }
-	found, err := bm.Vault.Read("credentials", bm.Identity.MachineID, &cred)
-	if !found || err != nil {
-		return bm.runColdBoot(bm.Identity)
-	}
-
-	session, err := authMgr.LoginOrSignUpInteractive()
-	if err != nil {
-		return bm.runColdBoot(bm.Identity)
-	}
-
-	env.Attestation.SessionToken = session.SessionID
-
-	// Capability merging
-	capSet := BuildCapabilitySet(env.Platform.Final, resolveTier(authMgr.Entity), resolveServiceProfile(env.Platform.Final))
-	caps, err := DetectDeviceCapabilities(env, capSet)
-	if err != nil {
-		return bm.runColdBoot(bm.Identity)
-	}
-	env.Discovery.Capabilities = *caps
-
-	return &schema.BootSequence{
-		Env:          env,
-		Mode:         schema.BootFast,
-		Attested:     true,
-		Capabilities: capSet,
-		UserSession:  session,
-		Service:      resolveServiceProfile(env.Platform.Final).Name,
-		Tier:         resolveTier(authMgr.Entity).Name,
-		Entity:       authMgr.Entity,
-	}, nil
-}
-
-// ------------------ Helpers ------------------
-
-func resolveTier(entity schema.EntityType) *schema.TierProfile {
-
-	switch entity {
-	case schema.EntityOrganization:
-		return &schema.TierProfile{Name: schema.TierEnterprise}
-
-	case schema.EntityTester:
-		return &schema.TierProfile{Name: schema.TierTester}
-
-	default:
-		return &schema.TierProfile{Name: schema.TierPersonal}
-	}
-}
-
-func resolveServiceProfile(platform schema.PlatformClass) *schema.ServiceProfile {
-
-	switch platform {
-
-	case schema.PlatformMobile:
-		return &schema.ServiceProfile{Name: schema.ServicePersonal}
-
-	case schema.PlatformVehicle:
-		return &schema.ServiceProfile{Name: schema.ServiceMobility}
-
-	case schema.PlatformIndustrial:
-		return &schema.ServiceProfile{Name: schema.ServiceIndustrial}
-
-	case schema.PlatformComputer:
-		return &schema.ServiceProfile{Name: schema.ServicePersonal}
-
-	default:
-		return &schema.ServiceProfile{Name: schema.ServiceUnknown}
-	}
-}
-
-// capSet := BuildCapabilitySet(bootSeq.Env.Platform.Final, resolveTier(bootSeq.Entity), resolveServiceProfile(bootSeq.Env.Platform.Final))
-// BuildCapabilitySet computes platform + tier + service capabilities
-func BuildCapabilitySet(platform schema.PlatformClass, tier *schema.TierProfile, service *schema.ServiceProfile,
-) schema.CapabilitySet {
-	var caps schema.CapabilitySet
-
-	// Platform capabilities
-	switch platform {
-	case schema.PlatformVehicle:
-		caps |= schema.CapCANBus | schema.CapSecureEnclave
-	case schema.PlatformIndustrial:
-		caps |= schema.CapIndustrialIO | schema.CapNetwork
-	case schema.PlatformComputer:
-		caps |= schema.CapLocalStorage | schema.CapNetwork | schema.CapBiometric
-	}
-
-	// Tier capabilities
-	if tier.Name == schema.TierEnterprise {
-		caps |= schema.CapPersistentCloudLink
-	}
-
-	if service.Name == schema.ServiceSystem {
-		caps |= schema.CapSafetyCritical
-	}
-	return caps
-}
-
-func BootTrustToString(t schema.BootTrust) string {
-	switch t {
-	case schema.TrustStrong:
-		return "strong"
-	case schema.TrustWeak:
-		return "weak"
-	default:
-		return "invalid"
-	}
-}
-// boot/boot_modes.go
-
-package boot
-
-import (
-	"errors"
-	"fmt"
-	"time"
-
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/keys"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-)
-
-// DecideBootPath determines whether to run fast or cold boot
-func (bm *BootManager) DecideBootPath() (*schema.BootSequence, error) {
-
-	if bm.Identity == nil || bm.Identity.MachineID == "" {
-		return nil, errors.New("invalid machine identity")
-	}
-
-	lastEnvKey := keys.LastKnownEnvKey(bm.Identity.MachineID)
-
-	env, err := bm.Vault.LoadConfig(lastEnvKey)
-	if err != nil {
-		return bm.runColdBoot(bm.Identity)
-	}
-
-	if env.SchemaVersion < schema.CurrentVersion {
-		env = schema.Migrate(env)
-		if err := bm.Vault.SaveConfig(lastEnvKey, env); err != nil {
-			return nil, err
-		}
-	}
-
-	if _, err := bm.Vault.LoadGoldenHash(bm.Identity.MachineID); err != nil {
-		return bm.runColdBoot(bm.Identity)
-	}
-
-	return bm.runFastBoot(env)
-}
-
-// ------------------------------------------------------------
-// Cold Boot: full hardware discovery and provisioning
-// ------------------------------------------------------------
-func (bm *BootManager) runColdBoot(identity *schema.MachineIdentity) (*schema.BootSequence, error) {
-	// Use the discovered platform + identity info
-	env := &schema.EnvConfig{
-		Platform: schema.PlatformResolution{
-			Final:      identity.PlatformType, // << propagate platform
-			Locked:     false,
-			Source:     "discovery",
-			ResolvedAt: time.Now(),
-		},
-		Identity: *identity,
-		Hardware: identity.Hardware,
-	}
-
-	logging.Info(
-		"[func (bm *BootManager) runColdBoot()] Platform: %s | OS: %s | Arch: %s | EntityType: %v",
-		env.Platform.Final,
-		env.Identity.OS,
-		env.Identity.Arch,
-		env.Identity.EntityType,
-	)
-
-	fullProfile, err := probe.ActiveDiscovery(env)
-	if err != nil {
-		return nil, fmt.Errorf("hardware discovery failed: %w", err)
-	}
-
-	// Update identity with discovered hardware
-	bm.Identity.BindHardware(fullProfile)
-
-	// 2. Provision golden baseline
-	goldenHash, err := security.ProvisionGolden(bm.Vault, bm.Identity.MachineID)
-	if err != nil {
-		return nil, err
-	}
-
-	// 3. Create first-boot marker
-	marker := &schema.FirstBootMarker{
-		MachineID:     bm.Identity.MachineID,
-		SchemaVersion: schema.CurrentVersion,
-		GoldenHash:    goldenHash,
-		Initialized:   true,
-		CreatedAt:     time.Now(),
-		BootTrust:     schema.TrustStrong,
-	}
-	if err := bm.Vault.SaveFirstBootMarker(marker); err != nil {
-		return nil, err
-	}
-
-	// 4. Platform-specific auth
-	authMgr := &auth.AuthManager{
-		Vault:    bm.Vault,
-		Platform: fullProfile.Platform.Final,
-	}
-
-	// Credential container
-	type credential struct {
-		UserID   string
-		Password string
-	}
-
-	var cred credential
-
-	found, err := bm.Vault.Read("credentials", bm.Identity.MachineID, &cred)
-	if err != nil {
-		return nil, fmt.Errorf("vault read failed: %w", err)
-	}
-
-	if !found {
-		cred.UserID = bm.Identity.MachineID
-
-		cred.Password, err = security.GenerateSecureKeyBase64()
-		if err != nil {
-			return nil, err
-		}
-
-		if err := bm.Vault.Write("credentials", cred.UserID, cred); err != nil {
-			return nil, err
-		}
-	}
-
-	// Authenticate
-	session, err := authMgr.LoginOrSignUpInteractive()
-	if err != nil {
-		return nil, fmt.Errorf("auth failed during cold boot: %w", err)
-	}
-
-	capSet := BuildCapabilitySet(env.Platform.Final, resolveTier(authMgr.Entity), resolveServiceProfile(env.Platform.Final))
-
-	caps, err := DetectDeviceCapabilities(env, capSet)
-	if err != nil {
-		return nil, fmt.Errorf("device capability detection failed: %w", err)
-	}
-
-	env.Discovery.Capabilities = *caps
-
-	return &schema.BootSequence{
-		Env:          env,
-		Mode:         schema.BootCold,
-		Attested:     true,
-		Capabilities: capSet,
-		UserSession:  session,
-		Service:      resolveServiceProfile(env.Platform.Final).Name,
-		Tier:         resolveTier(authMgr.Entity).Name,
-		Entity:       authMgr.Entity,
-	}, nil
-}
-
-// ------------------------------------------------------------
-// Fast Boot: use cached environment
-// ------------------------------------------------------------
-func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence, error) {
-	logging.Info("[runFastBoot] Platform: %s | OS: %s | Arch: %s | EntityType: %v",
-		env.Platform.Final, env.Identity.OS, env.Identity.Arch, bm.Identity.EntityType)
-
-	marker, err := bm.Vault.LoadFirstBootMarker()
-	if err != nil || marker.SchemaVersion != schema.CurrentVersion {
-		return bm.runColdBoot(bm.Identity)
-	}
-	if err := security.VerifyAgainstGolden(bm.Vault, marker.MachineID); err != nil {
-		return bm.runColdBoot(bm.Identity)
-	}
-
-	raw, err := probe.IdentityProbe()
-	if err != nil || raw.Identity.MachineID != env.Identity.MachineID || raw.Identity.OS != env.Identity.OS {
-		return bm.runColdBoot(bm.Identity)
-	}
-
-	authMgr := &auth.AuthManager{Vault: bm.Vault, Platform: env.Platform.Final}
-
-	var cred struct{ UserID, Password string }
-	found, err := bm.Vault.Read("credentials", bm.Identity.MachineID, &cred)
-	if !found || err != nil {
-		return bm.runColdBoot(bm.Identity)
-	}
-
-	session, err := authMgr.LoginOrSignUpInteractive()
-	if err != nil {
-		return bm.runColdBoot(bm.Identity)
-	}
-
-	env.Attestation.SessionToken = session.SessionID
-
-	// Capability merging
-	capSet := BuildCapabilitySet(env.Platform.Final, resolveTier(authMgr.Entity), resolveServiceProfile(env.Platform.Final))
-	caps, err := DetectDeviceCapabilities(env, capSet)
-	if err != nil {
-		return bm.runColdBoot(bm.Identity)
-	}
-	env.Discovery.Capabilities = *caps
-
-	return &schema.BootSequence{
-		Env:          env,
-		Mode:         schema.BootFast,
-		Attested:     true,
-		Capabilities: capSet,
-		UserSession:  session,
-		Service:      resolveServiceProfile(env.Platform.Final).Name,
-		Tier:         resolveTier(authMgr.Entity).Name,
-		Entity:       authMgr.Entity,
-	}, nil
-}
-
-// ------------------ Helpers ------------------
-
-func resolveTier(entity schema.EntityType) *schema.TierProfile {
-
-	switch entity {
-	case schema.EntityOrganization:
-		return &schema.TierProfile{Name: schema.TierEnterprise}
-
-	case schema.EntityTester:
-		return &schema.TierProfile{Name: schema.TierTester}
-
-	default:
-		return &schema.TierProfile{Name: schema.TierPersonal}
-	}
-}
-
-func resolveServiceProfile(platform schema.PlatformClass) *schema.ServiceProfile {
-
-	switch platform {
-
-	case schema.PlatformMobile:
-		return &schema.ServiceProfile{Name: schema.ServicePersonal}
-
-	case schema.PlatformVehicle:
-		return &schema.ServiceProfile{Name: schema.ServiceMobility}
-
-	case schema.PlatformIndustrial:
-		return &schema.ServiceProfile{Name: schema.ServiceIndustrial}
-
-	case schema.PlatformComputer:
-		return &schema.ServiceProfile{Name: schema.ServicePersonal}
-
-	default:
-		return &schema.ServiceProfile{Name: schema.ServiceUnknown}
-	}
-}
-
-// capSet := BuildCapabilitySet(bootSeq.Env.Platform.Final, resolveTier(bootSeq.Entity), resolveServiceProfile(bootSeq.Env.Platform.Final))
-// BuildCapabilitySet computes platform + tier + service capabilities
-func BuildCapabilitySet(platform schema.PlatformClass, tier *schema.TierProfile, service *schema.ServiceProfile,
-) schema.CapabilitySet {
-	var caps schema.CapabilitySet
-
-	// Platform capabilities
-	switch platform {
-	case schema.PlatformVehicle:
-		caps |= schema.CapCANBus | schema.CapSecureEnclave
-	case schema.PlatformIndustrial:
-		caps |= schema.CapIndustrialIO | schema.CapNetwork
-	case schema.PlatformComputer:
-		caps |= schema.CapLocalStorage | schema.CapNetwork | schema.CapBiometric
-	}
-
-	// Tier capabilities
-	if tier.Name == schema.TierEnterprise {
-		caps |= schema.CapPersistentCloudLink
-	}
-
-	if service.Name == schema.ServiceSystem {
-		caps |= schema.CapSafetyCritical
-	}
-	return caps
-}
-
-func BootTrustToString(t schema.BootTrust) string {
-	switch t {
-	case schema.TrustStrong:
-		return "strong"
-	case schema.TrustWeak:
-		return "weak"
-	default:
-		return "invalid"
-	}
-}
-==============================
-//boot/phase_auth_interface.go
-
-package boot
-
-import (
-	"errors"
-	"fmt"
-
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-)
-
-func PhaseAuthInterface(ctx schema.BootContext, caps *schema.CapabilityProfile) (*schema.UserSession, error) {
-
-	mode := interaction.ResolveInteractionMode(nil, caps.Set)
-
-	ui := interaction.BuildAuthInterface(mode)
-	if ui == nil {
-		return nil, errors.New("failed to build auth interface")
-	}
-
-	authManager := auth.AuthManager{Vault: ctx.Vault}
-
-	result, err := ui.StartAuthFlow(&authManager)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
-}
-
-func ToDeviceCapabilities(cp *schema.CapabilityProfile) interaction.DeviceCapabilities {
-	return interaction.DeviceCapabilities{
-		HasDisplay:  cp.Has(schema.CapDisplay),
-		HasKeyboard: cp.Has(schema.CapKeyboard),
-		HasMic:      cp.Has(schema.CapMicrophone),
-		HasSpeaker:  cp.Has(schema.CapSpeaker),
-		GPU:         cp.Has(schema.CapGPU),
-	}
-}
-
-type MainInterface interface {
-	Start(session *schema.UserSession) error
-}
-
-type HybridAuthUI struct {
-	Voice interaction.VoiceEngine
-	GUI   interaction.GUIEngine
-}
-
-func (h *HybridAuthUI) StartAuthFlow(auth *auth.AuthManager) (*schema.UserSession, error) {
-
-	choice := h.promptChoice()
-
-	switch choice {
-	case "login":
-		creds := h.collectCredentials()
-		return auth.Login(creds.UserID, creds.Password)
-
-	case "signup":
-		creds := h.collectCredentials()
-		return auth.Register(creds.UserID, creds.Password)
-
-	default:
-		return nil, errors.New("invalid choice")
-	}
-}
-
-type Credentials struct {
-	UserID   string
-	Password string
-}
-
-func (h *HybridAuthUI) promptChoice() string {
-	fmt.Println("Choose: login / signup")
-	var input string
-	fmt.Scanln(&input)
-	return input
-}
-
-func (h *HybridAuthUI) collectCredentials() Credentials {
-	var user, pass string
-	fmt.Print("User: ")
-	fmt.Scanln(&user)
-	fmt.Print("Pass: ")
-	fmt.Scanln(&pass)
-
-	return Credentials{
-		UserID:   user,
-		Password: pass,
-	}
-}
-=========================
-
-auth.Register undefined (type *auth.AuthManager has no field or method Register)
-undefined: modules.FallbackMinimal
-a.supervisor.modules undefined (cannot refer to unexported field modules)
 a.supervisor.HealthStatus undefined (type *"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".Supervisor has no field or method HealthStatus)
-f.lastErrors undefined (type *FailurePredictor has no field or method lastErrors)
-f.lastErrors undefined (type *FailurePredictor has no field or method lastErrors)
-f.lastErrors undefined (type *FailurePredictor has no field or method lastErrors)
-f.lastErrors undefined (type *FailurePredictor has no field or method lastErrors)
-f.lastErrors undefined (type *FailurePredictor has no field or method lastErrors)
 a.supervisor.HealthStatus undefined (type *"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".Supervisor has no field or method HealthStatus)
-cannot use &recoverableModule{…} (value of type *recoverableModule) as "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".Module value in return statement: *recoverableModule does not implement "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".Module (missing method Init)
+cannot use &recoverableModule{…} (value of type *recoverableModule) as "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".Module value in return statement: *recoverableModule does not implement "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".Module (missing method Name)
 undefined: Module
 undefined: Module
 undefined: NewCLIModule
+
 // =========================
 // PRODUCTION-GRADE MAIN.GO - cmd/aios/main.go
 // Boot → ExecutionContext → RuntimeContext → Modules → Supervisor → Interfaces
@@ -836,7 +164,7 @@ func BuildRuntime(logger *zap.Logger, sys *SystemContext) (*App, error) {
 
 	if len(filtered) == 0 {
 		logger.Warn("no modules available, falling back to CLI-only mode")
-		filtered = modules.FallbackMinimal()
+		filtered = FallbackMinimal()
 	}
 
 	ordered, err := modules.ResolveDependencies(filtered)
@@ -871,7 +199,9 @@ func (r *recoverableModule) Health() error {
 func (r *recoverableModule) Stop(ctx context.Context) error {
 	return nil
 }
-
+func (r *recoverableModule) Init(ctx context.Context) error {
+	return r.inner.Init(ctx)
+}
 func (r *recoverableModule) Start(ctx context.Context) error {
 	backoff := time.Second
 
@@ -950,7 +280,7 @@ func (a *App) runFallbackLoop(ctx context.Context) {
 func (a *App) HealthStatus() HealthStatus {
 	return HealthStatus{
 		Healthy: true,
-		Total:   len(a.supervisor.modules),
+		Total:   a.supervisor.ModuleCount(),
 	}
 }
 
@@ -1072,17 +402,17 @@ func startCLIInput(ctx context.Context, logger *zap.Logger) {
 
 func (f *FailurePredictor) RecordError() {
 	now := time.Now()
-	f.lastErrors = append(f.lastErrors, now)
+	f.events = append(f.events, now)
 
 	// cleanup old
 	cutoff := now.Add(-f.window)
-	filtered := f.lastErrors[:0]
-	for _, t := range f.lastErrors {
+	filtered := f.events[:0]
+	for _, t := range f.events {
 		if t.After(cutoff) {
 			filtered = append(filtered, t)
 		}
 	}
-	f.lastErrors = filtered
+	f.events = filtered
 }
 
 type recoverableModule struct {
@@ -1284,11 +614,687 @@ func FallbackMinimal() []Module {
 		NewCLIModule(),
 	}
 }
+
 =============================
-cannot use &TUIAuth{} (value of type *TUIAuth) as auth.AuthInterface value in return statement: *TUIAuth does not implement auth.AuthInterface (missing method StartAuthFlow)
-cannot use &GUIAuth{} (value of type *GUIAuth) as auth.AuthInterface value in return statement: *GUIAuth does not implement auth.AuthInterface (missing method StartAuthFlow)
-cannot use &VoiceAuth{} (value of type *VoiceAuth) as auth.AuthInterface value in return statement: *VoiceAuth does not implement auth.AuthInterface (missing method StartAuthFlow)
-//interaction/interaction_mode.go
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction")
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema")
+not enough return values
+	have (error)
+	want (unknown type, error)
+
+
+//boot/phase_auth_interface.go
+
+package boot
+
+import (
+	"errors"
+	"fmt"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+)
+
+func PhaseAuthInterface(ctx schema.BootContext, caps *schema.CapabilityProfile) (*schema.UserSession, error) {
+
+	mode := interaction.ResolveInteractionMode(nil, caps.Set)
+
+	ui := interaction.BuildAuthInterface(mode)
+	if ui == nil {
+		return nil, errors.New("failed to build auth interface")
+	}
+
+	authManager := auth.AuthManager{Vault: ctx.Vault}
+
+	result, err := ui.StartAuthFlow(&authManager)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func ToDeviceCapabilities(cp *schema.CapabilityProfile) interaction.DeviceCapabilities {
+	return interaction.DeviceCapabilities{
+		HasDisplay:  cp.Has(schema.CapDisplay),
+		HasKeyboard: cp.Has(schema.CapKeyboard),
+		HasMic:      cp.Has(schema.CapMicrophone),
+		HasSpeaker:  cp.Has(schema.CapSpeaker),
+		GPU:         cp.Has(schema.CapGPU),
+	}
+}
+
+type MainInterface interface {
+	Start(session *schema.UserSession) error
+}
+
+type HybridAuthUI struct {
+	Voice interaction.VoiceEngine
+	GUI   interaction.GUIEngine
+}
+
+func (h *HybridAuthUI) StartAuthFlow(auth *auth.AuthManager) (*schema.UserSession, error) {
+
+	choice := h.promptChoice()
+
+	switch choice {
+	case "login":
+		creds := h.collectCredentials()
+		return auth.Login(creds.UserID, creds.Password)
+
+	case "signup":
+		return auth.Register()
+
+	default:
+		return nil, errors.New("invalid choice")
+	}
+}
+
+type Credentials struct {
+	UserID   string
+	Password string
+}
+
+func (h *HybridAuthUI) promptChoice() string {
+	fmt.Println("Choose: login / signup")
+	var input string
+	fmt.Scanln(&input)
+	return input
+}
+
+func (h *HybridAuthUI) collectCredentials() Credentials {
+	var user, pass string
+	fmt.Print("User: ")
+	fmt.Scanln(&user)
+	fmt.Print("Pass: ")
+	fmt.Scanln(&pass)
+
+	return Credentials{
+		UserID:   user,
+		Password: pass,
+	}
+}
+//core/auth/auth_manager.go
+
+package auth
+
+import (
+	"bufio"
+	"crypto/sha256"
+	"encoding/hex"
+	"errors"
+	"fmt"
+	"os"
+	"strings"
+	"time"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+)
+
+type AuthManager struct {
+	Vault    security.VaultStore
+	Identity *schema.MachineIdentity
+	Platform schema.PlatformClass
+	Entity   schema.EntityType
+	Tier     schema.TierType
+}
+
+type AuthInterface interface {
+	StartAuthFlow(auth *AuthManager) (*schema.UserSession, error)
+}
+
+// detectEntityAndTier inspects the user identity to assign entity and tier
+func (am *AuthManager) detectEntityAndTier() {
+	if am.Identity == nil {
+		am.Entity = schema.EntityStranger
+		am.Tier = schema.TierUnknown
+		return
+	}
+
+	switch am.Identity.EntityType {
+	case schema.EntityPersonal:
+		am.Entity = schema.EntityPersonal
+		am.Tier = schema.TierPersonal
+	case schema.EntityOrganization:
+		am.Entity = schema.EntityOrganization
+		am.Tier = schema.TierEnterprise
+	case schema.EntityTester:
+		am.Entity = schema.EntityTester
+		am.Tier = schema.TierTester
+	default:
+		am.Entity = schema.EntityStranger
+		am.Tier = schema.TierUnknown
+	}
+}
+
+func PromptForCredentials(vault security.VaultStore) (string, string) {
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Print("[AUTH] Enter User ID: ")
+	userID, _ := reader.ReadString('\n')
+	userID = strings.TrimSpace(userID)
+
+	// Check if user exists
+	var existing schema.MachineIdentity
+	found, _ := vault.Read("users", userID, &existing)
+
+	if !found {
+		fmt.Println("[AUTH] User not found. Starting registration...")
+		_, err := PromptForRegistration(vault)
+		if err != nil {
+			fmt.Println("[AUTH] Registration failed:", err)
+			os.Exit(1)
+		}
+	}
+
+	fmt.Print("[AUTH] Enter Password: ")
+	password, _ := reader.ReadString('\n')
+	password = strings.TrimSpace(password)
+
+	return userID, password
+}
+func hashPassword(pw string) string {
+	h := sha256.Sum256([]byte(pw))
+	return hex.EncodeToString(h[:])
+}
+
+func PromptForRegistration(vault security.VaultStore) (*schema.MachineIdentity, error) {
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Println("=== User Registration ===")
+
+	fmt.Print("Enter new User ID: ")
+	userID, _ := reader.ReadString('\n')
+	userID = strings.TrimSpace(userID)
+
+	fmt.Print("Enter Password: ")
+	password, _ := reader.ReadString('\n')
+	password = strings.TrimSpace(password)
+
+	fmt.Print("Select Entity Type (personal / organization / tester): ")
+	entityStr, _ := reader.ReadString('\n')
+	entityStr = strings.TrimSpace(entityStr)
+
+	entityType := schema.EntityPersonal
+	switch strings.ToLower(entityStr) {
+	case "organization":
+		entityType = schema.EntityOrganization
+	case "tester":
+		entityType = schema.EntityTester
+	}
+
+	identity := &schema.MachineIdentity{
+		MachineID:    fmt.Sprintf("machine-%s", userID),
+		EntityType:   entityType,
+		OS:           "unknown",
+		Arch:         "unknown",
+		PasswordHash: hashPassword(password),
+	}
+
+	if vault == nil {
+		return nil, errors.New("vault not initialized")
+	}
+
+	if err := vault.Write("users", userID, identity); err != nil {
+		return nil, fmt.Errorf("failed to write user to vault: %w", err)
+	}
+
+	fmt.Println("[PromptForRegistration] Registration successful for user:", userID)
+	return identity, nil
+}
+
+// verifyUserCredentials checks the Vault or database for valid credentials
+func (am *AuthManager) verifyUserCredentials(userID, password string) (bool, *schema.MachineIdentity) {
+	if am.Vault == nil {
+		return false, nil
+	}
+
+	// Vault key for the user, e.g., "user_<userID>"
+	var stored schema.MachineIdentity
+	found, err := am.Vault.Read("users", userID, &stored)
+	if err != nil {
+		fmt.Println("[verifyUserCredentials] Vault read error:", err)
+		return false, nil
+	}
+	if !found {
+		fmt.Println("[verifyUserCredentials] User not found in vault")
+		return false, nil
+	}
+
+	// Validate password (simplified: plaintext match for demo; ideally hashed)
+	hash := hashPassword(password)
+	if stored.PasswordHash != hash {
+		return false, nil
+	}
+
+	fmt.Println("[verifyUserCredentials] User verified from vault:", userID)
+	return true, &stored
+}
+
+func (am *AuthManager) RegisterUser(userID, password string, entityType schema.EntityType) error {
+	if am.Vault == nil {
+		return errors.New("vault not initialized")
+	}
+
+	identity := &schema.MachineIdentity{
+		MachineID:    fmt.Sprintf("machine-%s", userID),
+		EntityType:   entityType,
+		OS:           "unknown",
+		Arch:         "unknown",
+		PasswordHash: hashPassword(password),
+	}
+
+	return am.Vault.Write("users", userID, identity)
+}
+
+func PromptForUserConfig() *schema.CustomizedConfig {
+	cfg := DefaultCustomizedConfig()
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Println("\n=== User Configuration ===")
+	fmt.Println("Press ENTER to keep default")
+
+	fmt.Printf("Main language [%s]: ", cfg.MainLang)
+	if v, _ := reader.ReadString('\n'); strings.TrimSpace(v) != "" {
+		cfg.MainLang = strings.TrimSpace(v)
+	}
+
+	fmt.Printf("Power mode (low/balanced/high) [%s]: ", cfg.PowerMode)
+	if v, _ := reader.ReadString('\n'); strings.TrimSpace(v) != "" {
+		cfg.PowerMode = strings.TrimSpace(v)
+	}
+
+	fmt.Printf("Privacy mode (standard/strict/offline) [%s]: ", cfg.PrivacyMode)
+	if v, _ := reader.ReadString('\n'); strings.TrimSpace(v) != "" {
+		cfg.PrivacyMode = strings.TrimSpace(v)
+	}
+
+	fmt.Printf("Update mode (auto/manual) [%s]: ", cfg.UpdateMode)
+	if v, _ := reader.ReadString('\n'); strings.TrimSpace(v) != "" {
+		cfg.UpdateMode = strings.TrimSpace(v)
+	}
+
+	fmt.Println("[CONFIG] Completed")
+
+	return cfg
+}
+
+func DefaultCustomizedConfig() *schema.CustomizedConfig {
+	return &schema.CustomizedConfig{
+		Version:      "v1",
+		LastModified: time.Now(),
+	}
+}
+func (am *AuthManager) Register() (*schema.UserSession, error) {
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Println("=== User Registration ===")
+	fmt.Print("Enter new User ID: ")
+	userID, _ := reader.ReadString('\n')
+	userID = strings.TrimSpace(userID)
+	fmt.Print("Enter Password: ")
+	password, _ := reader.ReadString('\n')
+	password = strings.TrimSpace(password)
+	fmt.Print("Select Entity Type (personal / organization / tester): ")
+	entityStr, _ := reader.ReadString('\n')
+	entityStr = strings.TrimSpace(entityStr)
+	entityType := schema.EntityPersonal
+	switch strings.ToLower(entityStr) {
+	case "organization":
+		entityType = schema.EntityOrganization
+	case "tester":
+		entityType = schema.EntityTester
+	}
+	return am.RegisterUser(userID, password, entityType)
+
+}
+
+func (am *AuthManager) Login(userID, password string) (*schema.UserSession, error) {
+	verified, identity := am.verifyUserCredentials(userID, password)
+	if !verified {
+		return nil, errors.New("invalid credentials")
+	}
+
+	am.Identity = identity
+	am.detectEntityAndTier()
+
+	return am.platformLoginFlow()
+}
+
+func (am *AuthManager) LoginOrSignUpInteractive() (*schema.UserSession, error) {
+	for {
+		userID, password := PromptForCredentials(am.Vault)
+
+		verified, identity := am.verifyUserCredentials(userID, password)
+		if verified {
+			am.Identity = identity
+			am.detectEntityAndTier()
+			return am.platformLoginFlow() // ✅ exits loop
+		}
+
+		fmt.Println("[AUTH] Invalid credentials or user not found. Try again.")
+	}
+}
+
+// platformLoginFlow performs the platform-specific verification and session creation
+func (am *AuthManager) platformLoginFlow() (*schema.UserSession, error) {
+	var err error
+
+	switch am.Platform {
+
+	// ------------------------------
+	// Vehicles / Autonomous Mobility
+	// ------------------------------
+	case schema.PlatformVehicle, schema.PlatformRobot:
+		switch am.Entity {
+		case schema.EntityPersonal:
+			err = am.verifyKeyFobOrBiometrics()
+		case schema.EntityOrganization:
+			err = am.verifyBiometricsAndAppHandshake()
+		case schema.EntityStranger:
+			err = am.guestLoginVehicle()
+		case schema.EntityTester:
+			err = am.verifyMechanicAccess()
+		default:
+			err = fmt.Errorf("unknown vehicle entity type")
+		}
+
+	// ------------------------------
+	// Industrial / Embedded / Factory
+	// ------------------------------
+	case schema.PlatformIndustrial, schema.PlatformEmbedded:
+		err = am.verifyNFCCardOrButton()
+
+	// ------------------------------
+	// PCs / Laptops / Productivity
+	// ------------------------------
+	case schema.PlatformComputer, schema.PlatformMobile:
+		switch am.Entity {
+		case schema.EntityPersonal:
+			err = am.verifyPasswordOrOSBiometrics()
+		case schema.EntityOrganization:
+			err = am.verifyPasswordOrOSBiometrics()
+			if err == nil {
+				err = am.verify2FAEnterprise()
+			}
+		case schema.EntityStranger:
+			err = am.guestLoginPC()
+		case schema.EntityTester:
+			err = am.enableDebugLogin()
+		default:
+			err = fmt.Errorf("unknown PC entity type")
+		}
+
+	// ------------------------------
+	// Fallback / Unknown
+	// ------------------------------
+	default:
+		err = fmt.Errorf("unsupported platform: %s", am.Platform)
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	// Determine default service based on platform
+	service := schema.ServiceUnknown
+	switch am.Platform {
+	case schema.PlatformVehicle, schema.PlatformRobot:
+		service = schema.ServiceEnterprise
+	case schema.PlatformIndustrial, schema.PlatformEmbedded:
+		service = schema.ServiceSystem
+	case schema.PlatformComputer, schema.PlatformMobile:
+		service = schema.ServicePersonal
+	}
+
+	return am.createSession(service)
+}
+
+// ------------------------------------------------------------
+// Vehicle / Autonomous Mobility Auth
+// ------------------------------------------------------------
+
+func (am *AuthManager) verifyKeyFobOrBiometrics() error {
+	// Simulate querying vehicle key-fob API or biometric reader
+	time.Sleep(100 * time.Millisecond) // simulate latency
+	verified := true                   // replace with actual hardware API
+	if !verified {
+		return errors.New("key-fob / biometrics verification failed")
+	}
+	fmt.Println("[func (am *AuthManager) verifyKeyFobOrBiometrics] Vehicle: Key-fob or biometric verified")
+	return nil
+}
+
+func (am *AuthManager) verifyBiometricsAndAppHandshake() error {
+	// Enterprise vehicle: requires both biometrics + companion app handshake
+	time.Sleep(150 * time.Millisecond)
+	success := true // replace with real verification logic
+	if !success {
+		return errors.New("biometric + app handshake failed")
+	}
+	fmt.Println("[func (am *AuthManager) verifyBiometricsAndAppHandshake] Vehicle: Biometric + App handshake verified")
+	return nil
+}
+
+func (am *AuthManager) guestLoginVehicle() error {
+	// Minimal verification for passengers
+	fmt.Println("[AUTH] Vehicle: Guest login activated (limited privileges)")
+	return nil
+}
+
+func (am *AuthManager) verifyMechanicAccess() error {
+	// Mechanic / Tester: full system access in sandbox
+	time.Sleep(50 * time.Millisecond)
+	fmt.Println("[AUTH] Vehicle: Mechanic/Tester full access granted")
+	return nil
+}
+
+// ------------------------------------------------------------
+// Industrial / Embedded / Factory Auth
+// ------------------------------------------------------------
+
+func (am *AuthManager) verifyNFCCardOrButton() error {
+	// NFC card or physical pairing button
+	time.Sleep(80 * time.Millisecond)
+	valid := true
+	if !valid {
+		return errors.New("NFC/button verification failed")
+	}
+	fmt.Println("[func (am *AuthManager) verifyNFCCardOrButton] Industrial: NFC card or pairing button verified")
+	return nil
+}
+
+// ------------------------------------------------------------
+// Personal / Enterprise PC Auth
+// ------------------------------------------------------------
+
+func (am *AuthManager) verifyPasswordOrOSBiometrics() error {
+	// Standard login: password + optional OS-biometrics
+	time.Sleep(50 * time.Millisecond)
+	fmt.Println("[func (am *AuthManager) verifyPasswordOrOSBiometrics] PC: Password/OS-biometrics verified")
+	return nil
+}
+
+func (am *AuthManager) verify2FAEnterprise() error {
+	// Enterprise 2FA: email/code, token, or app approval
+	time.Sleep(100 * time.Millisecond)
+	fmt.Println("[func (am *AuthManager) verify2FAEnterprise] PC: Enterprise 2FA verified")
+	return nil
+}
+
+func (am *AuthManager) guestLoginPC() error {
+	// Local-only guest session
+	fmt.Println("[func (am *AuthManager) guestLoginPC] PC: Guest session started (restricted access)")
+	return nil
+}
+
+// ------------------------------------------------------------
+// Debug / Tester Auth
+// ------------------------------------------------------------
+
+func (am *AuthManager) enableDebugLogin() error {
+	fmt.Println("[AUTH] Debug/Test login granted (sandbox environment)")
+	return nil
+}
+
+// ------------------------------------------------------------
+// Session Creation
+// ------------------------------------------------------------
+
+func (am *AuthManager) createSession(service schema.ServiceType) (*schema.UserSession, error) {
+
+	permList := security.DerivePermissions(
+		am.Platform,
+		am.Entity,
+		am.Tier,
+	)
+
+	permMap := make(map[schema.Permission]bool)
+	for _, p := range permList {
+		permMap[p] = true
+	}
+	permMap[schema.PermUser] = true
+
+	session := &schema.UserSession{
+		SessionID:   fmt.Sprintf("%d", time.Now().UnixNano()),
+		Platform:    am.Platform,
+		Entity:      am.Entity,
+		Tier:        am.Tier,
+		Service:     service,
+		Permissions: permMap,
+		CreatedAt:   time.Now(),
+		ExpiresAt:   time.Now().Add(24 * time.Hour),
+	}
+
+	// ---- CONFIG LOAD ----
+	cfg, err := LoadUserConfig(am.Vault, am.Identity.MachineID)
+	if err != nil {
+		return nil, err
+	}
+
+	if cfg == nil {
+		fmt.Println("[CONFIG] First-time setup required")
+		cfg = PromptForUserConfig()
+		_ = SaveUserConfig(am.Vault, am.Identity.MachineID, cfg)
+	} else {
+		fmt.Println("[CONFIG] Loaded existing configuration")
+	}
+
+	cfg.FillDefaults()
+
+	// ---- CAPABILITY PROFILE ----
+	cp := interaction.DetectCapabilityProfile()
+
+	// ---- ORCHESTRATOR ----
+	orch := interaction.BuildOrchestrator(cp)
+	orch.StartAll(session)
+
+	// ---- MODE (informational now) ----
+	mode := interaction.ResolveInteractionMode(cfg, cp.Set)
+
+	session.Config = cfg
+	session.Capabilities = cp.Set
+	session.CapProfile = cp
+	session.Mode = string(mode)
+	session.Orchestrator = orch
+
+	orch.Broadcast("Session initialized successfully")
+
+	fmt.Printf("[auth/auth_manager]Capabilities: %v\n", session.Capabilities)
+	fmt.Printf("[auth/auth_manager] Mode: %s\n", mode)
+
+	return session, nil
+}
+
+func LoadUserConfig(vault security.VaultStore, userID string) (*schema.CustomizedConfig, error) {
+	var cfg schema.CustomizedConfig
+
+	found, err := vault.Read("configs", userID, &cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	if !found {
+		return nil, nil
+	}
+
+	cfg.FillDefaults()
+	cfg.Migrate()
+
+	return &cfg, nil
+}
+
+func SaveUserConfig(vault security.VaultStore, userID string, cfg *schema.CustomizedConfig) error {
+	cfg.LastModified = time.Now()
+	return vault.Write("configs", userID, cfg)
+}
+
+func (am *AuthManager) HandleConfigUpdate(session *schema.UserSession) {
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Print("[CONFIG] Enter command: ")
+	cmd, _ := reader.ReadString('\n')
+	cmd = strings.TrimSpace(cmd)
+
+	if cmd == "update config" {
+		fmt.Println("[CONFIG] Updating configuration...")
+		newCfg := PromptForUserConfig()
+
+		_ = SaveUserConfig(am.Vault, am.Identity.MachineID, newCfg)
+
+		session.Config = newCfg
+
+		if orch, ok := session.Orchestrator.(*interaction.Orchestrator); ok {
+			orch.Broadcast("Configuration updated successfully")
+		}
+	}
+}
+=================================
+
+undefined: AuthManager
+package authport
+
+import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+
+type AuthInterface interface {
+	StartAuthFlow(AuthManager) (*schema.UserSession, error)
+}
+=========================
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema")
+//core/security/enforcer.go
+
+package security
+
+import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+
+type Enforcer struct {
+	ctx *schema.BootContext
+}
+
+func NewEnforcer(ctx *schema.BootContext) *Enforcer {
+	return &Enforcer{ctx: ctx}
+}
+
+func (e *Enforcer) Allow(p schema.Permission) bool {
+
+	v, ok := e.ctx.Permissions[p]
+	if !ok {
+		return false
+	}
+
+	return v
+}
+
+
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction]
+cannot use &CLIAuth{} (value of type *CLIAuth) as auth.AuthInterface value in return statement: *CLIAuth does not implement auth.AuthInterface (wrong type for method StartAuthFlow)
+		have StartAuthFlow(*auth.AuthManager) (*schema.UserSession, error)
+		want StartAuthFlow(*auth.AuthManager) (invalid type, error)
+
+        //interaction/interaction_mode.go
 
 package interaction
 
@@ -1623,6 +1629,17 @@ func (c *GUIAdapter) Notify(msg string) {
 func (c *CLIAuth) StartAuthFlow(auth *auth.AuthManager) (*schema.UserSession, error) {
 	return auth.LoginOrSignUpInteractive()
 }
+func (t *TUIAuth) StartAuthFlow(am *auth.AuthManager) (*schema.UserSession, error) {
+	return am.LoginOrSignUpInteractive()
+}
+
+func (g *GUIAuth) StartAuthFlow(am *auth.AuthManager) (*schema.UserSession, error) {
+	return am.LoginOrSignUpInteractive()
+}
+
+func (v *VoiceAuth) StartAuthFlow(am *auth.AuthManager) (*schema.UserSession, error) {
+	return am.LoginOrSignUpInteractive()
+}
 
 // interaction/gui.go
 type GUIEngine interface {
@@ -1657,117 +1674,17 @@ func (v *VoiceEngine) Start() {
 		}
 	}()
 }
-==============================================================
-[{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"severity": 8,
-	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction]",
-	"source": "go list",
-	"startLineNumber": 1,
-	"startColumn": 1,
-	"endLineNumber": 1,
-	"endColumn": 1,
-	"modelVersionId": 32,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "BrokenImport",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
-		}
-	},
-	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema\")",
-	"source": "compiler",
-	"startLineNumber": 10,
-	"startColumn": 2,
-	"endLineNumber": 10,
-	"endColumn": 72,
-	"modelVersionId": 32,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "InvalidIfaceAssign",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "InvalidIfaceAssign"
-		}
-	},
-	"severity": 8,
-	"message": "cannot use &TUIAuth{} (value of type *TUIAuth) as auth.AuthInterface value in return statement: *TUIAuth does not implement auth.AuthInterface (missing method StartAuthFlow)",
-	"source": "compiler",
-	"startLineNumber": 23,
-	"startColumn": 9,
-	"endLineNumber": 23,
-	"endColumn": 19,
-	"modelVersionId": 32,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "InvalidIfaceAssign",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "InvalidIfaceAssign"
-		}
-	},
-	"severity": 8,
-	"message": "cannot use &GUIAuth{} (value of type *GUIAuth) as auth.AuthInterface value in return statement: *GUIAuth does not implement auth.AuthInterface (missing method StartAuthFlow)",
-	"source": "compiler",
-	"startLineNumber": 27,
-	"startColumn": 9,
-	"endLineNumber": 27,
-	"endColumn": 19,
-	"modelVersionId": 32,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "InvalidIfaceAssign",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "InvalidIfaceAssign"
-		}
-	},
-	"severity": 8,
-	"message": "cannot use &VoiceAuth{} (value of type *VoiceAuth) as auth.AuthInterface value in return statement: *VoiceAuth does not implement auth.AuthInterface (missing method StartAuthFlow)",
-	"source": "compiler",
-	"startLineNumber": 31,
-	"startColumn": 9,
-	"endLineNumber": 31,
-	"endColumn": 21,
-	"modelVersionId": 32,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/context.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"severity": 8,
-	"message": "import cycle not allowed",
-	"source": "go list",
-	"startLineNumber": 6,
-	"startColumn": 2,
-	"endLineNumber": 6,
-	"endColumn": 70,
-	"modelVersionId": 4,
-	"origin": "extHost1"
-}]
+========================
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction")
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema")
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
