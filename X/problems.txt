@@ -1,10 +1,5 @@
-a.supervisor.HealthStatus undefined (type *"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".Supervisor has no field or method HealthStatus)
-a.supervisor.HealthStatus undefined (type *"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".Supervisor has no field or method HealthStatus)
-cannot use &recoverableModule{…} (value of type *recoverableModule) as "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".Module value in return statement: *recoverableModule does not implement "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".Module (missing method Name)
-undefined: Module
-undefined: Module
-undefined: NewCLIModule
-
+cannot use FallbackMinimal() (value of type []"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".Module) as []modules.DomainModule value in assignment
+cannot use runtime.NewCLIModule() (value of type *"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".CLIModule) as "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".Module value in array or slice literal: *"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".CLIModule does not implement "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".Module (missing method Health)
 // =========================
 // PRODUCTION-GRADE MAIN.GO - cmd/aios/main.go
 // Boot → ExecutionContext → RuntimeContext → Modules → Supervisor → Interfaces
@@ -26,7 +21,6 @@ import (
 	"time"
 
 	"go.uber.org/zap"
-
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
@@ -202,6 +196,11 @@ func (r *recoverableModule) Stop(ctx context.Context) error {
 func (r *recoverableModule) Init(ctx context.Context) error {
 	return r.inner.Init(ctx)
 }
+
+func (r *recoverableModule) Name() string {
+	return r.inner.Name()
+}
+
 func (r *recoverableModule) Start(ctx context.Context) error {
 	backoff := time.Second
 
@@ -258,7 +257,7 @@ func (a *App) runFallbackLoop(ctx context.Context) {
 	for {
 		select {
 		case <-ticker.C:
-			status := a.HealthStatus()
+			status := a.supervisor.HealthStatus()
 
 			if status.Healthy && !status.Degraded {
 				a.log.Info("system recovered from degraded mode")
@@ -277,19 +276,7 @@ func (a *App) runFallbackLoop(ctx context.Context) {
 	}
 }
 
-func (a *App) HealthStatus() HealthStatus {
-	return HealthStatus{
-		Healthy: true,
-		Total:   a.supervisor.ModuleCount(),
-	}
-}
 
-type HealthStatus struct {
-	Healthy  bool
-	Degraded bool
-	Failed   int
-	Total    int
-}
 
 func attemptBoot() (*SystemContext, error) {
 	vault, err := security.OpenVault()
@@ -609,112 +596,17 @@ func (g *SystemGuard) Trip() bool {
 	return g.failures >= 5
 }
 
-func FallbackMinimal() []Module {
-	return []Module{
-		NewCLIModule(),
+func FallbackMinimal() []runtime.Module {
+	return []runtime.Module{
+		runtime.NewCLIModule(),
 	}
 }
+=======================
 
-=============================
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security")
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction")
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema")
-not enough return values
-	have (error)
-	want (unknown type, error)
 
-
-//boot/phase_auth_interface.go
-
-package boot
-
-import (
-	"errors"
-	"fmt"
-
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-)
-
-func PhaseAuthInterface(ctx schema.BootContext, caps *schema.CapabilityProfile) (*schema.UserSession, error) {
-
-	mode := interaction.ResolveInteractionMode(nil, caps.Set)
-
-	ui := interaction.BuildAuthInterface(mode)
-	if ui == nil {
-		return nil, errors.New("failed to build auth interface")
-	}
-
-	authManager := auth.AuthManager{Vault: ctx.Vault}
-
-	result, err := ui.StartAuthFlow(&authManager)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
-}
-
-func ToDeviceCapabilities(cp *schema.CapabilityProfile) interaction.DeviceCapabilities {
-	return interaction.DeviceCapabilities{
-		HasDisplay:  cp.Has(schema.CapDisplay),
-		HasKeyboard: cp.Has(schema.CapKeyboard),
-		HasMic:      cp.Has(schema.CapMicrophone),
-		HasSpeaker:  cp.Has(schema.CapSpeaker),
-		GPU:         cp.Has(schema.CapGPU),
-	}
-}
-
-type MainInterface interface {
-	Start(session *schema.UserSession) error
-}
-
-type HybridAuthUI struct {
-	Voice interaction.VoiceEngine
-	GUI   interaction.GUIEngine
-}
-
-func (h *HybridAuthUI) StartAuthFlow(auth *auth.AuthManager) (*schema.UserSession, error) {
-
-	choice := h.promptChoice()
-
-	switch choice {
-	case "login":
-		creds := h.collectCredentials()
-		return auth.Login(creds.UserID, creds.Password)
-
-	case "signup":
-		return auth.Register()
-
-	default:
-		return nil, errors.New("invalid choice")
-	}
-}
-
-type Credentials struct {
-	UserID   string
-	Password string
-}
-
-func (h *HybridAuthUI) promptChoice() string {
-	fmt.Println("Choose: login / signup")
-	var input string
-	fmt.Scanln(&input)
-	return input
-}
-
-func (h *HybridAuthUI) collectCredentials() Credentials {
-	var user, pass string
-	fmt.Print("User: ")
-	fmt.Scanln(&user)
-	fmt.Print("Pass: ")
-	fmt.Scanln(&pass)
-
-	return Credentials{
-		UserID:   user,
-		Password: pass,
-	}
-}
 //core/auth/auth_manager.go
 
 package auth
@@ -931,25 +823,22 @@ func DefaultCustomizedConfig() *schema.CustomizedConfig {
 func (am *AuthManager) Register() (*schema.UserSession, error) {
 	reader := bufio.NewReader(os.Stdin)
 
-	fmt.Println("=== User Registration ===")
-	fmt.Print("Enter new User ID: ")
+	fmt.Print("User ID: ")
 	userID, _ := reader.ReadString('\n')
 	userID = strings.TrimSpace(userID)
-	fmt.Print("Enter Password: ")
+
+	fmt.Print("Password: ")
 	password, _ := reader.ReadString('\n')
 	password = strings.TrimSpace(password)
-	fmt.Print("Select Entity Type (personal / organization / tester): ")
-	entityStr, _ := reader.ReadString('\n')
-	entityStr = strings.TrimSpace(entityStr)
-	entityType := schema.EntityPersonal
-	switch strings.ToLower(entityStr) {
-	case "organization":
-		entityType = schema.EntityOrganization
-	case "tester":
-		entityType = schema.EntityTester
-	}
-	return am.RegisterUser(userID, password, entityType)
 
+	entityType := schema.EntityPersonal
+
+	if err := am.RegisterUser(userID, password, entityType); err != nil {
+		return nil, err
+	}
+
+	// immediately login after registration
+	return am.Login(userID, password)
 }
 
 func (am *AuthManager) Login(userID, password string) (*schema.UserSession, error) {
@@ -1252,49 +1141,49 @@ func (am *AuthManager) HandleConfigUpdate(session *schema.UserSession) {
 		}
 	}
 }
-=================================
+==========================
+declared and not used: token
+// core/auth/gate.go
+package auth
 
-undefined: AuthManager
-package authport
-
-import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-
-type AuthInterface interface {
-	StartAuthFlow(AuthManager) (*schema.UserSession, error)
-}
-=========================
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema")
-//core/security/enforcer.go
-
-package security
-
-import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-
-type Enforcer struct {
-	ctx *schema.BootContext
+// Auth defines what it needs, but doesn't care WHO provides it.
+type UserPrompter interface {
+    RequestMFA(message string) (string, error)
 }
 
-func NewEnforcer(ctx *schema.BootContext) *Enforcer {
-	return &Enforcer{ctx: ctx}
+type Authenticator struct {
+    Prompter UserPrompter // This will be filled in later
 }
 
-func (e *Enforcer) Allow(p schema.Permission) bool {
-
-	v, ok := e.ctx.Permissions[p]
-	if !ok {
-		return false
-	}
-
-	return v
+func (a *Authenticator) Verify(user string) {
+    // ... logic ...
+    token, _ := a.Prompter.RequestMFA("Enter Code") 
+    // ... logic ...
 }
-
-
+==================
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction]
-cannot use &CLIAuth{} (value of type *CLIAuth) as auth.AuthInterface value in return statement: *CLIAuth does not implement auth.AuthInterface (wrong type for method StartAuthFlow)
-		have StartAuthFlow(*auth.AuthManager) (*schema.UserSession, error)
-		want StartAuthFlow(*auth.AuthManager) (invalid type, error)
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema")
+undefined: InteractionMode
+undefined: ModeGUI
+undefined: ModeTUI
+undefined: ModeVoice
+undefined: InteractionMode
+undefined: InteractionMode
+undefined: ModeGUI
+undefined: ModeTUI
+undefined: ModeVoice
+undefined: ModeCLI
+undefined: InteractionMode
+undefined: ModeGUI
+undefined: ModeTUI
+undefined: ModeVoice
+undefined: ModeCLI
+undefined: InteractionMode
+undefined: ModeGUI
+undefined: ModeTUI
+undefined: ModeVoice
 
-        //interaction/interaction_mode.go
+//interaction/interaction_mode.go
 
 package interaction
 
@@ -1448,14 +1337,6 @@ type DeviceCapabilities struct {
 	HasSpeaker  bool
 	GPU         bool
 }
-type InteractionMode string
-
-const (
-	ModeCLI   InteractionMode = "cli"
-	ModeTUI   InteractionMode = "tui"
-	ModeGUI   InteractionMode = "gui"
-	ModeVoice InteractionMode = "voice"
-)
 
 func SelectInteractionMode(cap DeviceCapabilities) InteractionMode {
 
@@ -1548,9 +1429,9 @@ func (o *Orchestrator) Add(adapter InterfaceAdapter) {
 	o.adapters = append(o.adapters, adapter)
 }
 
-func (o *Orchestrator) StartAll(session *schema.UserSession) {
+func (o *Orchestrator) StartAll(s *schema.UserSession) {
 	for _, a := range o.adapters {
-		go a.Start(session)
+		go a.Start(s)
 	}
 }
 
@@ -1674,17 +1555,295 @@ func (v *VoiceEngine) Start() {
 		}
 	}()
 }
-========================
+=====================
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security")
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction")
+"github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction" imported and not used
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema")
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
+========================================
+m.Health undefined (type *moduleState has no field or method Health)
+m.Health undefined (type *moduleState has no field or method Health)
+m.Stop undefined (type *moduleState has no field or method Stop)
+m.Start undefined (type *moduleState has no field or method Start)
+
+// runtime/supervisor.go
+package runtime
+
+import (
+	"context"
+	"sync"
+	"time"
+
+	"go.uber.org/zap"
+)
+
+///////////////////////////////////////////////////////////////
+// MODULE INTERFACE (EXPECTED CONTRACT)
+///////////////////////////////////////////////////////////////
+
+type Module interface {
+	Name() string
+
+	Init(ctx context.Context) error
+	Start(ctx context.Context) error
+	Stop(ctx context.Context) error
+
+	Health() error
+}
+
+type HealthStatus struct {
+	Healthy  bool
+	Degraded bool
+	Failed   int
+	Total    int
+}
+
+func (s *Supervisor) HealthStatus() HealthStatus {
+	total := len(s.modules)
+	failed := 0
+
+	for _, m := range s.modules {
+		if err := m.Health(); err != nil {
+			failed++
+		}
+	}
+
+	return HealthStatus{
+		Healthy:  failed == 0,
+		Degraded: failed > 0,
+		Failed:   failed,
+		Total:    total,
+	}
+}
+
+func (s *Supervisor) ModuleCount() int {
+	return len(s.modules)
+}
+
+func (s *Supervisor) RestartFailed(ctx context.Context) error {
+	for _, m := range s.modules {
+		if err := m.Health(); err != nil {
+			_ = m.Stop(ctx)
+			_ = m.Start(ctx)
+		}
+	}
+	return nil
+}
+
+
+
+///////////////////////////////////////////////////////////////
+// RESTART POLICY
+///////////////////////////////////////////////////////////////
+
+type RestartPolicy struct {
+	MaxRestarts int
+	Window      time.Duration
+	BackoffMin  time.Duration
+	BackoffMax  time.Duration
+}
+
+var DefaultRestartPolicy = RestartPolicy{
+	MaxRestarts: 5,
+	Window:      60 * time.Second,
+	BackoffMin:  1 * time.Second,
+	BackoffMax:  30 * time.Second,
+}
+
+///////////////////////////////////////////////////////////////
+// INTERNAL STATE
+///////////////////////////////////////////////////////////////
+
+type moduleState struct {
+	module Module
+
+	running bool
+	healthy bool
+
+	restarts []time.Time
+}
+
+// /////////////////////////////////////////////////////////////
+// SUPERVISOR
+// /////////////////////////////////////////////////////////////
+
+type Supervisor struct {
+	log     *zap.Logger
+	modules map[string]*moduleState
+	order   []string
+	policy  RestartPolicy
+	mu      sync.RWMutex
+	wg      sync.WaitGroup
+}
+
+///////////////////////////////////////////////////////////////
+// CONSTRUCTOR
+///////////////////////////////////////////////////////////////
+
+func NewSupervisor(log *zap.Logger, mods []Module) *Supervisor {
+	states := make(map[string]*moduleState)
+	order := make([]string, 0, len(mods))
+
+	for _, m := range mods {
+		name := m.Name()
+		states[name] = &moduleState{
+			module: m,
+		}
+		order = append(order, name)
+	}
+
+	return &Supervisor{
+		log:     log,
+		modules: states,
+		order:   order,
+		policy:  DefaultRestartPolicy,
+	}
+}
+
+///////////////////////////////////////////////////////////////
+// INIT PHASE
+///////////////////////////////////////////////////////////////
+
+func (s *Supervisor) Init(ctx context.Context) error {
+	for _, name := range s.order {
+		m := s.modules[name].module
+
+		s.log.Info("initializing module", zap.String("module", name))
+
+		if err := m.Init(ctx); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+///////////////////////////////////////////////////////////////
+// START PHASE
+///////////////////////////////////////////////////////////////
+
+func (s *Supervisor) Start(ctx context.Context) error {
+	for _, name := range s.order {
+		st := s.modules[name]
+
+		s.wg.Add(1)
+		go s.run(ctx, name, st)
+	}
+	return nil
+}
+
+func (s *Supervisor) run(ctx context.Context, name string, st *moduleState) {
+	defer s.wg.Done()
+
+	backoff := s.policy.BackoffMin
+
+	for {
+		if ctx.Err() != nil {
+			s.log.Info("stopping module due to context cancellation", zap.String("module", name))
+			_ = st.module.Stop(context.Background())
+			return
+		}
+
+		s.log.Info("starting module", zap.String("module", name))
+
+		s.mu.Lock()
+		st.running = true
+		s.mu.Unlock()
+
+		err := st.module.Start(ctx)
+
+		s.mu.Lock()
+		st.running = false
+		st.healthy = err == nil
+		st.restarts = append(st.restarts, time.Now())
+		s.mu.Unlock()
+
+		if err != nil {
+			s.log.Error("module crashed",
+				zap.String("module", name),
+				zap.Error(err),
+			)
+		}
+
+		if !s.allowRestart(st) {
+			s.log.Error("restart limit exceeded, stopping module permanently",
+				zap.String("module", name),
+			)
+			return
+		}
+
+		time.Sleep(backoff)
+
+		backoff *= 2
+		if backoff > s.policy.BackoffMax {
+			backoff = s.policy.BackoffMax
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////
+// RESTART CONTROL
+///////////////////////////////////////////////////////////////
+
+func (s *Supervisor) allowRestart(st *moduleState) bool {
+	now := time.Now()
+	cutoff := now.Add(-s.policy.Window)
+
+	valid := 0
+	for _, t := range st.restarts {
+		if t.After(cutoff) {
+			valid++
+		}
+	}
+
+	return valid <= s.policy.MaxRestarts
+}
+
+///////////////////////////////////////////////////////////////
+// STOP PHASE
+///////////////////////////////////////////////////////////////
+
+func (s *Supervisor) Stop(ctx context.Context) error {
+	done := make(chan struct{})
+
+	go func() {
+		s.wg.Wait()
+		close(done)
+	}()
+
+	select {
+	case <-done:
+		return nil
+	case <-ctx.Done():
+		return ctx.Err()
+	}
+}
+
+///////////////////////////////////////////////////////////////
+// HEALTH CHECK
+///////////////////////////////////////////////////////////////
+
+func (s *Supervisor) AllHealthy() bool {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
+	for name, st := range s.modules {
+		if err := st.module.Health(); err != nil {
+			s.log.Warn("module unhealthy",
+				zap.String("module", name),
+				zap.Error(err),
+			)
+			return false
+		}
+	}
+	return true
+}
