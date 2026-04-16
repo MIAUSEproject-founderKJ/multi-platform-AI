@@ -1,1167 +1,1750 @@
+[{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/orchestrator/boot_orchestrator.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"severity": 8,
+	"message": "found packages orchestrator (boot_orchestrator.go) and boot (boot_sequence.go) in C:\\Users\\MIAUSE\\Documents\\GitHub\\Programming\\multi-platform-AI\\boot\\orchestrator",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"modelVersionId": 19,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/orchestrator/boot_sequence_builder.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"severity": 8,
+	"message": "found packages orchestrator (boot_orchestrator.go) and boot (boot_sequence.go) in C:\\Users\\MIAUSE\\Documents\\GitHub\\Programming\\multi-platform-AI\\boot\\orchestrator",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/orchestrator/boot_sequence_builder.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "bm.DecideBootPath undefined (type *BootManager has no field or method DecideBootPath)",
+	"source": "compiler",
+	"startLineNumber": 29,
+	"startColumn": 16,
+	"endLineNumber": 29,
+	"endColumn": 30,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/orchestrator/boot_sequence.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"severity": 8,
+	"message": "found packages orchestrator (boot_orchestrator.go) and boot (boot_sequence.go) in C:\\Users\\MIAUSE\\Documents\\GitHub\\Programming\\multi-platform-AI\\boot\\orchestrator",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/orchestrator/boot_sequence.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MismatchedPkgName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MismatchedPkgName"
+		}
+	},
+	"severity": 8,
+	"message": "package boot; expected package orchestrator",
+	"source": "compiler",
+	"startLineNumber": 3,
+	"startColumn": 1,
+	"endLineNumber": 3,
+	"endColumn": 8,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/resolver/execution_context_resolver.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: schema.ExecutionContext",
+	"source": "compiler",
+	"startLineNumber": 12,
+	"startColumn": 12,
+	"endLineNumber": 12,
+	"endColumn": 28,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/resolver/execution_context_resolver.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: schema.ExecutionContext",
+	"source": "compiler",
+	"startLineNumber": 43,
+	"startColumn": 17,
+	"endLineNumber": 43,
+	"endColumn": 33,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/types/boot_modes.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: BootManager",
+	"source": "compiler",
+	"startLineNumber": 19,
+	"startColumn": 11,
+	"endLineNumber": 19,
+	"endColumn": 22,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/types/boot_modes.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: BootManager",
+	"source": "compiler",
+	"startLineNumber": 49,
+	"startColumn": 11,
+	"endLineNumber": 49,
+	"endColumn": 22,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/types/boot_modes.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: DetectDeviceCapabilities",
+	"source": "compiler",
+	"startLineNumber": 137,
+	"startColumn": 15,
+	"endLineNumber": 137,
+	"endColumn": 39,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/types/boot_modes.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: BootManager",
+	"source": "compiler",
+	"startLineNumber": 159,
+	"startColumn": 11,
+	"endLineNumber": 159,
+	"endColumn": 22,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/boot/types/boot_modes.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: DetectDeviceCapabilities",
+	"source": "compiler",
+	"startLineNumber": 193,
+	"startColumn": 15,
+	"endLineNumber": 193,
+	"endColumn": 39,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/bootstrap.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: runtime.NewRuntimeContext",
+	"source": "compiler",
+	"startLineNumber": 134,
+	"startColumn": 22,
+	"endLineNumber": 134,
+	"endColumn": 39,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/bootstrap.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: modules.DefaultRegistry",
+	"source": "compiler",
+	"startLineNumber": 153,
+	"startColumn": 22,
+	"endLineNumber": 153,
+	"endColumn": 37,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/bootstrap.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "IncompatibleAssign",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "IncompatibleAssign"
+		}
+	},
+	"severity": 8,
+	"message": "cannot use FallbackMinimal() (value of type []\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\".Module) as []modules.DomainModule value in assignment",
+	"source": "compiler",
+	"startLineNumber": 159,
+	"startColumn": 14,
+	"endLineNumber": 159,
+	"endColumn": 31,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/bootstrap.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: modules.ResolveDependencies",
+	"source": "compiler",
+	"startLineNumber": 162,
+	"startColumn": 26,
+	"endLineNumber": 162,
+	"endColumn": 45,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/bootstrap.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: boot.RunBootSequence",
+	"source": "compiler",
+	"startLineNumber": 287,
+	"startColumn": 32,
+	"endLineNumber": 287,
+	"endColumn": 47,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/bootstrap.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: boot.ResolveBootContext",
+	"source": "compiler",
+	"startLineNumber": 298,
+	"startColumn": 31,
+	"endLineNumber": 298,
+	"endColumn": 49,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/bootstrap.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: boot.ResolveExecutionContext",
+	"source": "compiler",
+	"startLineNumber": 303,
+	"startColumn": 23,
+	"endLineNumber": 303,
+	"endColumn": 46,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/bootstrap.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "InvalidIfaceAssign",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "InvalidIfaceAssign"
+		}
+	},
+	"severity": 8,
+	"message": "cannot use runtime.NewCLIModule() (value of type *\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\".CLIModule) as \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\".Module value in array or slice literal: *\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\".CLIModule does not implement \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime\".Module (missing method Health)",
+	"source": "compiler",
+	"startLineNumber": 597,
+	"startColumn": 3,
+	"endLineNumber": 597,
+	"endColumn": 25,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_gatekeeper.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UnusedVar",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UnusedVar"
+		}
+	},
+	"severity": 8,
+	"message": "declared and not used: token",
+	"source": "compiler",
+	"startLineNumber": 15,
+	"startColumn": 2,
+	"endLineNumber": 15,
+	"endColumn": 7,
+	"tags": [
+		1
+	],
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "BrokenImport",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "BrokenImport"
+		}
+	},
+	"severity": 8,
+	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security\")",
+	"source": "compiler",
+	"startLineNumber": 15,
+	"startColumn": 2,
+	"endLineNumber": 15,
+	"endColumn": 70,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "BrokenImport",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "BrokenImport"
+		}
+	},
+	"severity": 8,
+	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction\")",
+	"source": "compiler",
+	"startLineNumber": 16,
+	"startColumn": 2,
+	"endLineNumber": 16,
+	"endColumn": 68,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "BrokenImport",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "BrokenImport"
+		}
+	},
+	"severity": 8,
+	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema\")",
+	"source": "compiler",
+	"startLineNumber": 17,
+	"startColumn": 2,
+	"endLineNumber": 17,
+	"endColumn": 72,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/attestation_service.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/measured_boot.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/policy_enforcer.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/secure_vault_store.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/token_service.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "BrokenImport",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "BrokenImport"
+		}
+	},
+	"severity": 8,
+	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema\")",
+	"source": "compiler",
+	"startLineNumber": 10,
+	"startColumn": 2,
+	"endLineNumber": 10,
+	"endColumn": 72,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: InteractionMode",
+	"source": "compiler",
+	"startLineNumber": 50,
+	"startColumn": 30,
+	"endLineNumber": 50,
+	"endColumn": 45,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: ModeGUI",
+	"source": "compiler",
+	"startLineNumber": 52,
+	"startColumn": 7,
+	"endLineNumber": 52,
+	"endColumn": 14,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: ModeTUI",
+	"source": "compiler",
+	"startLineNumber": 54,
+	"startColumn": 7,
+	"endLineNumber": 54,
+	"endColumn": 14,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: ModeVoice",
+	"source": "compiler",
+	"startLineNumber": 56,
+	"startColumn": 7,
+	"endLineNumber": 56,
+	"endColumn": 16,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: InteractionMode",
+	"source": "compiler",
+	"startLineNumber": 66,
+	"startColumn": 3,
+	"endLineNumber": 66,
+	"endColumn": 18,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: InteractionMode",
+	"source": "compiler",
+	"startLineNumber": 69,
+	"startColumn": 10,
+	"endLineNumber": 69,
+	"endColumn": 25,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: ModeGUI",
+	"source": "compiler",
+	"startLineNumber": 74,
+	"startColumn": 10,
+	"endLineNumber": 74,
+	"endColumn": 17,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: ModeTUI",
+	"source": "compiler",
+	"startLineNumber": 77,
+	"startColumn": 10,
+	"endLineNumber": 77,
+	"endColumn": 17,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: ModeVoice",
+	"source": "compiler",
+	"startLineNumber": 80,
+	"startColumn": 10,
+	"endLineNumber": 80,
+	"endColumn": 19,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: ModeCLI",
+	"source": "compiler",
+	"startLineNumber": 83,
+	"startColumn": 10,
+	"endLineNumber": 83,
+	"endColumn": 17,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: InteractionMode",
+	"source": "compiler",
+	"startLineNumber": 156,
+	"startColumn": 52,
+	"endLineNumber": 156,
+	"endColumn": 67,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: ModeGUI",
+	"source": "compiler",
+	"startLineNumber": 160,
+	"startColumn": 10,
+	"endLineNumber": 160,
+	"endColumn": 17,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: ModeTUI",
+	"source": "compiler",
+	"startLineNumber": 163,
+	"startColumn": 10,
+	"endLineNumber": 163,
+	"endColumn": 17,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: ModeVoice",
+	"source": "compiler",
+	"startLineNumber": 166,
+	"startColumn": 10,
+	"endLineNumber": 166,
+	"endColumn": 19,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: ModeCLI",
+	"source": "compiler",
+	"startLineNumber": 169,
+	"startColumn": 10,
+	"endLineNumber": 169,
+	"endColumn": 17,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: InteractionMode",
+	"source": "compiler",
+	"startLineNumber": 222,
+	"startColumn": 26,
+	"endLineNumber": 222,
+	"endColumn": 41,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: ModeGUI",
+	"source": "compiler",
+	"startLineNumber": 224,
+	"startColumn": 7,
+	"endLineNumber": 224,
+	"endColumn": 14,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: ModeTUI",
+	"source": "compiler",
+	"startLineNumber": 226,
+	"startColumn": 7,
+	"endLineNumber": 226,
+	"endColumn": 14,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/interaction/interaction_mode_controller.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: ModeVoice",
+	"source": "compiler",
+	"startLineNumber": 228,
+	"startColumn": 7,
+	"endLineNumber": 228,
+	"endColumn": 16,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/logging/reflective_logger.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: hmi.ProgressUpdate",
+	"source": "compiler",
+	"startLineNumber": 16,
+	"startColumn": 22,
+	"endLineNumber": 16,
+	"endColumn": 36,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/logging/reflective_logger.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: hmi.ProgressUpdate",
+	"source": "compiler",
+	"startLineNumber": 40,
+	"startColumn": 21,
+	"endLineNumber": 40,
+	"endColumn": 35,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/context.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "BrokenImport",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "BrokenImport"
+		}
+	},
+	"severity": 8,
+	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security\")",
+	"source": "compiler",
+	"startLineNumber": 6,
+	"startColumn": 2,
+	"endLineNumber": 6,
+	"endColumn": 70,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/context.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"severity": 8,
+	"message": "import cycle not allowed",
+	"source": "go list",
+	"startLineNumber": 6,
+	"startColumn": 2,
+	"endLineNumber": 6,
+	"endColumn": 70,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/user.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UnusedImport",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UnusedImport"
+		}
+	},
+	"severity": 8,
+	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction\" imported and not used",
+	"source": "compiler",
+	"startLineNumber": 8,
+	"startColumn": 2,
+	"endLineNumber": 8,
+	"endColumn": 68,
+	"tags": [
+		1
+	],
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/user.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "BrokenImport",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "BrokenImport"
+		}
+	},
+	"severity": 8,
+	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema\")",
+	"source": "compiler",
+	"startLineNumber": 9,
+	"startColumn": 2,
+	"endLineNumber": 9,
+	"endColumn": 72,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/adapter.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: runtime.RuntimeContext",
+	"source": "compiler",
+	"startLineNumber": 22,
+	"startColumn": 53,
+	"endLineNumber": 22,
+	"endColumn": 67,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/audio/audio_module_entry.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: runtime.RuntimeContext",
+	"source": "compiler",
+	"startLineNumber": 29,
+	"startColumn": 21,
+	"endLineNumber": 29,
+	"endColumn": 35,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/audio/audio_module_entry.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: runtime.RuntimeContext",
+	"source": "compiler",
+	"startLineNumber": 52,
+	"startColumn": 47,
+	"endLineNumber": 52,
+	"endColumn": 61,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/audit_module.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: runtime.RuntimeContext",
+	"source": "compiler",
+	"startLineNumber": 15,
+	"startColumn": 19,
+	"endLineNumber": 15,
+	"endColumn": 33,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/audit_module.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: runtime.RuntimeContext",
+	"source": "compiler",
+	"startLineNumber": 86,
+	"startColumn": 47,
+	"endLineNumber": 86,
+	"endColumn": 61,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/cognition_module.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: runtime.RuntimeContext",
+	"source": "compiler",
+	"startLineNumber": 16,
+	"startColumn": 15,
+	"endLineNumber": 16,
+	"endColumn": 29,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/cognition_module.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: runtime.RuntimeContext",
+	"source": "compiler",
+	"startLineNumber": 25,
+	"startColumn": 51,
+	"endLineNumber": 25,
+	"endColumn": 65,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/database_sink_module.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: runtime.RuntimeContext",
+	"source": "compiler",
+	"startLineNumber": 27,
+	"startColumn": 19,
+	"endLineNumber": 27,
+	"endColumn": 33,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/database_sink_module.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: runtime.RuntimeContext",
+	"source": "compiler",
+	"startLineNumber": 41,
+	"startColumn": 54,
+	"endLineNumber": 41,
+	"endColumn": 68,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain_module.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: runtime.RuntimeContext",
+	"source": "compiler",
+	"startLineNumber": 39,
+	"startColumn": 22,
+	"endLineNumber": 39,
+	"endColumn": 36,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: runtime.RuntimeContext",
+	"source": "compiler",
+	"startLineNumber": 61,
+	"startColumn": 19,
+	"endLineNumber": 61,
+	"endColumn": 33,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/inference_module.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: runtime.RuntimeContext",
+	"source": "compiler",
+	"startLineNumber": 88,
+	"startColumn": 51,
+	"endLineNumber": 88,
+	"endColumn": 65,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/registry/module_dependency_resolver.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: DomainModule",
+	"source": "compiler",
+	"startLineNumber": 15,
+	"startColumn": 33,
+	"endLineNumber": 15,
+	"endColumn": 45,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/registry/module_dependency_resolver.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: DomainModule",
+	"source": "compiler",
+	"startLineNumber": 15,
+	"startColumn": 50,
+	"endLineNumber": 15,
+	"endColumn": 62,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/registry/module_dependency_resolver.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: DomainModule",
+	"source": "compiler",
+	"startLineNumber": 16,
+	"startColumn": 31,
+	"endLineNumber": 16,
+	"endColumn": 43,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/registry/module_dependency_resolver.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: DomainModule",
+	"source": "compiler",
+	"startLineNumber": 43,
+	"startColumn": 16,
+	"endLineNumber": 43,
+	"endColumn": 28,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/registry/module_registry.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: DomainModule",
+	"source": "compiler",
+	"startLineNumber": 4,
+	"startColumn": 26,
+	"endLineNumber": 4,
+	"endColumn": 38,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/registry/module_registry.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: DomainModule",
+	"source": "compiler",
+	"startLineNumber": 5,
+	"startColumn": 11,
+	"endLineNumber": 5,
+	"endColumn": 23,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/registry/module_registry.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: NewIngestionModule",
+	"source": "compiler",
+	"startLineNumber": 6,
+	"startColumn": 3,
+	"endLineNumber": 6,
+	"endColumn": 21,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/registry/module_registry.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: NewTelemetryModule",
+	"source": "compiler",
+	"startLineNumber": 7,
+	"startColumn": 3,
+	"endLineNumber": 7,
+	"endColumn": 21,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/registry/module_registry.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: NewInferenceModule",
+	"source": "compiler",
+	"startLineNumber": 8,
+	"startColumn": 3,
+	"endLineNumber": 8,
+	"endColumn": 21,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/registry/module_registry.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: NewDatabaseSinkModule",
+	"source": "compiler",
+	"startLineNumber": 9,
+	"startColumn": 3,
+	"endLineNumber": 9,
+	"endColumn": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/registry/module_registry.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: NewIndustrialProtocolModule",
+	"source": "compiler",
+	"startLineNumber": 10,
+	"startColumn": 3,
+	"endLineNumber": 10,
+	"endColumn": 30,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/registry/module_registry.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: NewAuditModule",
+	"source": "compiler",
+	"startLineNumber": 11,
+	"startColumn": 3,
+	"endLineNumber": 11,
+	"endColumn": 17,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/runtime/engine/runtime_builder.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: MessageBus",
+	"source": "compiler",
+	"startLineNumber": 20,
+	"startColumn": 16,
+	"endLineNumber": 20,
+	"endColumn": 26,
+	"modelVersionId": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/runtime/engine/runtime_builder.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: NewMessageBus",
+	"source": "compiler",
+	"startLineNumber": 57,
+	"startColumn": 11,
+	"endLineNumber": 57,
+	"endColumn": 24,
+	"modelVersionId": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/runtime/supervisor.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "m.Health undefined (type *moduleState has no field or method Health)",
+	"source": "compiler",
+	"startLineNumber": 38,
+	"startColumn": 15,
+	"endLineNumber": 38,
+	"endColumn": 21,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/runtime/supervisor.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "m.Health undefined (type *moduleState has no field or method Health)",
+	"source": "compiler",
+	"startLineNumber": 57,
+	"startColumn": 15,
+	"endLineNumber": 57,
+	"endColumn": 21,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/runtime/supervisor.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "m.Stop undefined (type *moduleState has no field or method Stop)",
+	"source": "compiler",
+	"startLineNumber": 58,
+	"startColumn": 10,
+	"endLineNumber": 58,
+	"endColumn": 14,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/runtime/supervisor.go",
+	"owner": "_generated_diagnostic_collection_name_#1",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "m.Start undefined (type *moduleState has no field or method Start)",
+	"source": "compiler",
+	"startLineNumber": 59,
+	"startColumn": 10,
+	"endLineNumber": 59,
+	"endColumn": 15,
+	"origin": "extHost1"
+}]
+
+found packages orchestrator (boot_orchestrator.go) and boot (boot_sequence.go) in C:\Users\MIAUSE\Documents\GitHub\Programming\multi-platform-AI\boot\orchestrator
+found packages orchestrator (boot_orchestrator.go) and boot (boot_sequence.go) in C:\Users\MIAUSE\Documents\GitHub\Programming\multi-platform-AI\boot\orchestrator
+bm.DecideBootPath undefined (type *BootManager has no field or method DecideBootPath)
+found packages orchestrator (boot_orchestrator.go) and boot (boot_sequence.go) in C:\Users\MIAUSE\Documents\GitHub\Programming\multi-platform-AI\boot\orchestrator
+package boot; expected package orchestrator
+undefined: schema.ExecutionContext
+undefined: schema.ExecutionContext
+undefined: BootManager
+undefined: BootManager
+undefined: DetectDeviceCapabilities
+undefined: BootManager
+undefined: DetectDeviceCapabilities
+undefined: runtime.NewRuntimeContext
+undefined: modules.DefaultRegistry
 cannot use FallbackMinimal() (value of type []"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".Module) as []modules.DomainModule value in assignment
+undefined: modules.ResolveDependencies
+undefined: boot.RunBootSequence
+undefined: boot.ResolveBootContext
+undefined: boot.ResolveExecutionContext
 cannot use runtime.NewCLIModule() (value of type *"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".CLIModule) as "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".Module value in array or slice literal: *"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".CLIModule does not implement "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime".Module (missing method Health)
-// =========================
-// PRODUCTION-GRADE MAIN.GO - cmd/aios/main.go
-// Boot → ExecutionContext → RuntimeContext → Modules → Supervisor → Interfaces
-// =========================
-
-package main
-
-import (
-	"bufio"
-	"context"
-	"encoding/json"
-	"errors"
-	"fmt"
-	"net/http"
-	"os"
-	"os/signal"
-	"strings"
-	"syscall"
-	"time"
-
-	"go.uber.org/zap"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
-)
-
-// ============================================================
-// ENTRYPOINT
-// ============================================================
-
-func main() {
-	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
-	defer stop()
-
-	logger, err := zap.NewProduction()
-	if err != nil {
-		panic(err)
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			logger.Fatal("panic recovered", zap.Any("error", r))
-		}
-	}()
-
-	// --- PHASE 1: BOOT ---
-	sysCtx, err := BuildSystemContext()
-	if err != nil {
-		logger.Fatal("boot failure", zap.Error(err))
-	}
-
-	// --- PHASE 2: RUNTIME ---
-	app, err := BuildRuntime(logger, sysCtx)
-	if err != nil {
-		logger.Fatal("runtime build failure", zap.Error(err))
-	}
-
-	// --- START ---
-	go app.watchdog(ctx)
-
-	if err := app.Start(ctx); err != nil {
-		logger.Fatal("startup failure", zap.Error(err))
-	}
-
-	<-ctx.Done()
-
-	// --- SHUTDOWN ---
-	shutdownCtx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
-	defer cancel()
-
-	if err := app.Stop(shutdownCtx); err != nil {
-		logger.Error("shutdown incomplete", zap.Error(err))
-	}
-
-	logger.Info("boot_complete",
-		zap.String("session_id", sysCtx.Session.SessionID),
-		zap.String("mode", string(sysCtx.Session.Mode)),
-		zap.Any("tier", sysCtx.Session.Tier),
-	)
-}
-
-type SystemContext struct {
-	Boot    *schema.BootContext
-	Exec    *boot.ExecutionContext
-	Session *schema.UserSession
-}
-
-func (a *App) Stop(ctx context.Context) error {
-	if a.server != nil {
-		_ = a.server.Shutdown(ctx)
-	}
-	return a.supervisor.Stop(ctx)
-}
-
-// ============================================================
-// PHASE 1: BOOT
-// ============================================================
-
-func BuildSystemContext() (*SystemContext, error) {
-	var lastErr error
-
-	for i := 0; i < 3; i++ {
-		ctx, err := attemptBoot()
-		if err == nil {
-			return ctx, nil
-		}
-		lastErr = err
-		time.Sleep(time.Duration(i+1) * time.Second)
-	}
-
-	return nil, fmt.Errorf("boot failed after retries: %w", lastErr)
-}
-
-// ============================================================
-// APP STRUCT
-// ============================================================
-
-type App struct {
-	log        *zap.Logger
-	supervisor *runtime.Supervisor
-	server     *http.Server
-
-	degraded bool
-}
-
-// ============================================================
-// PHASE 2: RUNTIME BUILD
-// ============================================================
-
-func BuildRuntime(logger *zap.Logger, sys *SystemContext) (*App, error) {
-
-	// --- RUNTIME CONTEXT ---
-	rtx, err := runtime.NewRuntimeContext(logger)
-	if err != nil {
-		return nil, err
-	}
-
-	startCLIInput(rtx.Context, logger)
-
-	// 🔥 attach session + config
-	if sys.Session == nil {
-		return nil, errors.New("nil session from boot")
-	}
-
-	rtx.Session = sys.Session
-
-	if sys.Session.Config != nil {
-		rtx.Config = sys.Session.Config
-	}
-
-	// --- MODULE GRAPH ---
-	registry := modules.DefaultRegistry()
-
-	filtered := modules.FilterModules(registry, sys.Boot)
-
-	if len(filtered) == 0 {
-		logger.Warn("no modules available, falling back to CLI-only mode")
-		filtered = FallbackMinimal()
-	}
-
-	ordered, err := modules.ResolveDependencies(filtered)
-	if err != nil {
-		return nil, err
-	}
-
-	adapted := modules.AdaptModules(ordered, rtx)
-
-	resilient := make([]runtime.Module, 0, len(adapted))
-
-	for _, m := range adapted {
-		resilient = append(resilient, NewRecoverableModule(m, logger))
-	}
-
-	// --- SUPERVISOR ---
-	sup := runtime.NewSupervisor(logger, resilient)
-
-	return &App{
-		log:        logger,
-		supervisor: sup,
-	}, nil
-}
-
-// ============================================================
-// START
-// ============================================================
-func (r *recoverableModule) Health() error {
-	return nil // or delegate
-}
-
-func (r *recoverableModule) Stop(ctx context.Context) error {
-	return nil
-}
-func (r *recoverableModule) Init(ctx context.Context) error {
-	return r.inner.Init(ctx)
-}
-
-func (r *recoverableModule) Name() string {
-	return r.inner.Name()
-}
-
-func (r *recoverableModule) Start(ctx context.Context) error {
-	backoff := time.Second
-
-	for {
-		if ctx.Err() != nil {
-			return ctx.Err()
-		}
-
-		if !r.allowExecution() {
-			time.Sleep(2 * time.Second)
-			continue
-		}
-
-		err := r.safeRun(ctx)
-
-		if err == nil {
-			r.state = stateClosed
-			r.failCount = 0
-			return nil
-		}
-
-		r.predictor.Record()
-		r.failCount++
-		r.lastFailure = time.Now()
-
-		// pre-failure signal
-		if r.predictor.Rate() > r.predictor.threshold*0.7 {
-			r.log.Warn("pre-failure signal detected")
-		}
-
-		if r.predictor.IsUnstable() {
-			r.log.Error("instability spike → cooldown")
-			time.Sleep(10 * time.Second)
-		}
-
-		if r.failCount >= 3 {
-			r.state = stateOpen
-			r.log.Warn("circuit breaker OPEN")
-		}
-
-		time.Sleep(backoff)
-		if backoff < 30*time.Second {
-			backoff *= 2
-		}
-	}
-}
-
-func (a *App) runFallbackLoop(ctx context.Context) {
-	a.log.Warn("running in degraded mode")
-
-	ticker := time.NewTicker(10 * time.Second)
-	defer ticker.Stop()
-
-	for {
-		select {
-		case <-ticker.C:
-			status := a.supervisor.HealthStatus()
-
-			if status.Healthy && !status.Degraded {
-				a.log.Info("system recovered from degraded mode")
-				a.degraded = false
-				return
-			}
-
-			a.log.Warn("system still degraded",
-				zap.Int("failed_modules", status.Failed),
-				zap.Int("total_modules", status.Total),
-			)
-
-		case <-ctx.Done():
-			return
-		}
-	}
-}
-
-
-
-func attemptBoot() (*SystemContext, error) {
-	vault, err := security.OpenVault()
-	if err != nil {
-		return nil, err
-	}
-
-	bootCtx := schema.BootContext{
-		Vault: vault,
-	}
-
-	bootSeq, session, err := boot.RunBootSequence(bootCtx)
-	if err != nil {
-		return nil, err
-	}
-
-	if session == nil {
-		return nil, errors.New("nil session")
-	}
-
-	bootSeq.UserSession = session
-
-	bootCtxResolved, err := boot.ResolveBootContext(bootSeq)
-	if err != nil {
-		return nil, err
-	}
-
-	execCtx, err := boot.ResolveExecutionContext(bootSeq)
-	if err != nil {
-		return nil, err
-	}
-
-	return &SystemContext{
-		Boot:    bootCtxResolved,
-		Exec:    execCtx,
-		Session: session,
-	}, nil
-}
-
-func (a *App) watchdog(ctx context.Context) {
-	ticker := time.NewTicker(10 * time.Second)
-	defer ticker.Stop()
-
-	for {
-		select {
-		case <-ticker.C:
-			status := a.supervisor.HealthStatus()
-
-			switch {
-			case status.Failed == 0:
-				continue
-
-			case status.Failed < status.Total/2:
-				a.log.Warn("early degradation")
-				_ = a.supervisor.RestartFailed(ctx)
-
-			case status.Failed >= status.Total/2:
-				a.log.Error("major degradation")
-				a.degraded = true
-				a.activateSafeMode()
-
-			case status.Failed == status.Total:
-				a.log.Error("system collapse")
-				a.activateSafeMode()
-			}
-
-		case <-ctx.Done():
-			return
-		}
-	}
-}
-
-func (r *recoverableModule) safeRun(ctx context.Context) (err error) {
-	defer func() {
-		if rec := recover(); rec != nil {
-			r.log.Error("module panic recovered", zap.Any("panic", rec))
-			err = fmt.Errorf("panic: %v", rec)
-		}
-	}()
-	return r.inner.Start(ctx)
-}
-
-func startCLIInput(ctx context.Context, logger *zap.Logger) {
-	go func() {
-		reader := bufio.NewReader(os.Stdin)
-
-		for {
-			select {
-			case <-ctx.Done():
-				return
-			default:
-				fmt.Print("> ")
-				input, err := reader.ReadString('\n')
-				if err != nil {
-					logger.Warn("stdin read error", zap.Error(err))
-					continue
-				}
-
-				input = strings.TrimSpace(input)
-
-				if input == "exit" {
-					return
-				}
-
-				logger.Info("user_input", zap.String("input", input))
-			}
-		}
-	}()
-}
-
-func (f *FailurePredictor) RecordError() {
-	now := time.Now()
-	f.events = append(f.events, now)
-
-	// cleanup old
-	cutoff := now.Add(-f.window)
-	filtered := f.events[:0]
-	for _, t := range f.events {
-		if t.After(cutoff) {
-			filtered = append(filtered, t)
-		}
-	}
-	f.events = filtered
-}
-
-type recoverableModule struct {
-	inner runtime.Module
-	log   *zap.Logger
-
-	// resilience
-	predictor   *FailurePredictor
-	state       circuitState
-	failCount   int
-	lastFailure time.Time
-}
-
-type circuitState int
-
-const (
-	stateClosed circuitState = iota
-	stateOpen
-	stateHalfOpen
-)
-
-func (a *App) activateSafeMode() {
-	a.log.Warn("SAFE MODE ENABLED")
-
-	ctx, cancel := context.WithCancel(context.Background())
-
-	go func() {
-		defer cancel()
-
-		reader := bufio.NewReader(os.Stdin)
-		for {
-			select {
-			case <-ctx.Done():
-				return
-			default:
-				fmt.Print("[SAFE] > ")
-				input, _ := reader.ReadString('\n')
-
-				switch strings.TrimSpace(input) {
-				case "status":
-					fmt.Println("degraded")
-				case "exit":
-					return
-				default:
-					fmt.Println("limited command")
-				}
-			}
-		}
-	}()
-}
-
-func notifyUser(msg string) {
-	fmt.Println("[SYSTEM]", msg)
-}
-
-func (a *App) Start(ctx context.Context) error {
-	if err := a.supervisor.Init(ctx); err != nil {
-		return fmt.Errorf("init failed: %w", err)
-	}
-
-	if err := a.supervisor.Start(ctx); err != nil {
-		a.log.Error("supervisor start failed", zap.Error(err))
-		a.degraded = true
-		a.activateSafeMode()
-		return nil
-	}
-
-	a.startHTTPServer()
-	return nil
-}
-
-type FailurePredictor struct {
-	window    time.Duration
-	threshold float64 // errors per second
-	events    []time.Time
-}
-
-func (f *FailurePredictor) Record() {
-	now := time.Now()
-	f.events = append(f.events, now)
-
-	cutoff := now.Add(-f.window)
-	i := 0
-	for _, t := range f.events {
-		if t.After(cutoff) {
-			f.events[i] = t
-			i++
-		}
-	}
-	f.events = f.events[:i]
-}
-
-func (f *FailurePredictor) Rate() float64 {
-	return float64(len(f.events)) / f.window.Seconds()
-}
-
-func (f *FailurePredictor) IsUnstable() bool {
-	return f.Rate() > f.threshold
-}
-
-func (r *recoverableModule) allowExecution() bool {
-	switch r.state {
-	case stateOpen:
-		if time.Since(r.lastFailure) > 15*time.Second {
-			r.state = stateHalfOpen
-			return true
-		}
-		return false
-	case stateHalfOpen:
-		return true
-	case stateClosed:
-		return true
-	default:
-		return true
-	}
-}
-
-// ============================================================
-// HTTP (EDGE ADAPTER)
-// ============================================================
-
-func (a *App) startHTTPServer() {
-
-	mux := http.NewServeMux()
-
-	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
-		status := a.supervisor.HealthStatus()
-
-		resp := map[string]interface{}{
-			"healthy":  status.Healthy,
-			"degraded": status.Degraded,
-			"failed":   status.Failed,
-			"total":    status.Total,
-		}
-
-		code := http.StatusOK
-		if !status.Healthy {
-			code = http.StatusServiceUnavailable
-		}
-
-		w.WriteHeader(code)
-		_ = json.NewEncoder(w).Encode(resp)
-	})
-
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-
-	server := &http.Server{
-		Addr:              ":" + port,
-		Handler:           mux,
-		ReadTimeout:       5 * time.Second,
-		WriteTimeout:      10 * time.Second,
-		IdleTimeout:       120 * time.Second,
-		ReadHeaderTimeout: 2 * time.Second,
-		MaxHeaderBytes:    1 << 20,
-	}
-
-	a.server = server
-
-	go func() {
-		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
-			a.log.Error("http server error", zap.Error(err))
-		}
-	}()
-}
-
-func NewRecoverableModule(m runtime.Module, log *zap.Logger) runtime.Module {
-	return &recoverableModule{
-		inner: m,
-		log:   log,
-		predictor: &FailurePredictor{
-			threshold: 5,
-			window:    30 * time.Second,
-		},
-		state: stateClosed,
-	}
-}
-
-type SystemGuard struct {
-	failures int
-	last     time.Time
-}
-
-func (g *SystemGuard) Trip() bool {
-	if time.Since(g.last) < 30*time.Second {
-		g.failures++
-	} else {
-		g.failures = 1
-	}
-	g.last = time.Now()
-
-	return g.failures >= 5
-}
-
-func FallbackMinimal() []runtime.Module {
-	return []runtime.Module{
-		runtime.NewCLIModule(),
-	}
-}
-=======================
-
+declared and not used: token
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security")
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction")
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema")
-
-//core/auth/auth_manager.go
-
-package auth
-
-import (
-	"bufio"
-	"crypto/sha256"
-	"encoding/hex"
-	"errors"
-	"fmt"
-	"os"
-	"strings"
-	"time"
-
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-)
-
-type AuthManager struct {
-	Vault    security.VaultStore
-	Identity *schema.MachineIdentity
-	Platform schema.PlatformClass
-	Entity   schema.EntityType
-	Tier     schema.TierType
-}
-
-type AuthInterface interface {
-	StartAuthFlow(auth *AuthManager) (*schema.UserSession, error)
-}
-
-// detectEntityAndTier inspects the user identity to assign entity and tier
-func (am *AuthManager) detectEntityAndTier() {
-	if am.Identity == nil {
-		am.Entity = schema.EntityStranger
-		am.Tier = schema.TierUnknown
-		return
-	}
-
-	switch am.Identity.EntityType {
-	case schema.EntityPersonal:
-		am.Entity = schema.EntityPersonal
-		am.Tier = schema.TierPersonal
-	case schema.EntityOrganization:
-		am.Entity = schema.EntityOrganization
-		am.Tier = schema.TierEnterprise
-	case schema.EntityTester:
-		am.Entity = schema.EntityTester
-		am.Tier = schema.TierTester
-	default:
-		am.Entity = schema.EntityStranger
-		am.Tier = schema.TierUnknown
-	}
-}
-
-func PromptForCredentials(vault security.VaultStore) (string, string) {
-	reader := bufio.NewReader(os.Stdin)
-
-	fmt.Print("[AUTH] Enter User ID: ")
-	userID, _ := reader.ReadString('\n')
-	userID = strings.TrimSpace(userID)
-
-	// Check if user exists
-	var existing schema.MachineIdentity
-	found, _ := vault.Read("users", userID, &existing)
-
-	if !found {
-		fmt.Println("[AUTH] User not found. Starting registration...")
-		_, err := PromptForRegistration(vault)
-		if err != nil {
-			fmt.Println("[AUTH] Registration failed:", err)
-			os.Exit(1)
-		}
-	}
-
-	fmt.Print("[AUTH] Enter Password: ")
-	password, _ := reader.ReadString('\n')
-	password = strings.TrimSpace(password)
-
-	return userID, password
-}
-func hashPassword(pw string) string {
-	h := sha256.Sum256([]byte(pw))
-	return hex.EncodeToString(h[:])
-}
-
-func PromptForRegistration(vault security.VaultStore) (*schema.MachineIdentity, error) {
-	reader := bufio.NewReader(os.Stdin)
-
-	fmt.Println("=== User Registration ===")
-
-	fmt.Print("Enter new User ID: ")
-	userID, _ := reader.ReadString('\n')
-	userID = strings.TrimSpace(userID)
-
-	fmt.Print("Enter Password: ")
-	password, _ := reader.ReadString('\n')
-	password = strings.TrimSpace(password)
-
-	fmt.Print("Select Entity Type (personal / organization / tester): ")
-	entityStr, _ := reader.ReadString('\n')
-	entityStr = strings.TrimSpace(entityStr)
-
-	entityType := schema.EntityPersonal
-	switch strings.ToLower(entityStr) {
-	case "organization":
-		entityType = schema.EntityOrganization
-	case "tester":
-		entityType = schema.EntityTester
-	}
-
-	identity := &schema.MachineIdentity{
-		MachineID:    fmt.Sprintf("machine-%s", userID),
-		EntityType:   entityType,
-		OS:           "unknown",
-		Arch:         "unknown",
-		PasswordHash: hashPassword(password),
-	}
-
-	if vault == nil {
-		return nil, errors.New("vault not initialized")
-	}
-
-	if err := vault.Write("users", userID, identity); err != nil {
-		return nil, fmt.Errorf("failed to write user to vault: %w", err)
-	}
-
-	fmt.Println("[PromptForRegistration] Registration successful for user:", userID)
-	return identity, nil
-}
-
-// verifyUserCredentials checks the Vault or database for valid credentials
-func (am *AuthManager) verifyUserCredentials(userID, password string) (bool, *schema.MachineIdentity) {
-	if am.Vault == nil {
-		return false, nil
-	}
-
-	// Vault key for the user, e.g., "user_<userID>"
-	var stored schema.MachineIdentity
-	found, err := am.Vault.Read("users", userID, &stored)
-	if err != nil {
-		fmt.Println("[verifyUserCredentials] Vault read error:", err)
-		return false, nil
-	}
-	if !found {
-		fmt.Println("[verifyUserCredentials] User not found in vault")
-		return false, nil
-	}
-
-	// Validate password (simplified: plaintext match for demo; ideally hashed)
-	hash := hashPassword(password)
-	if stored.PasswordHash != hash {
-		return false, nil
-	}
-
-	fmt.Println("[verifyUserCredentials] User verified from vault:", userID)
-	return true, &stored
-}
-
-func (am *AuthManager) RegisterUser(userID, password string, entityType schema.EntityType) error {
-	if am.Vault == nil {
-		return errors.New("vault not initialized")
-	}
-
-	identity := &schema.MachineIdentity{
-		MachineID:    fmt.Sprintf("machine-%s", userID),
-		EntityType:   entityType,
-		OS:           "unknown",
-		Arch:         "unknown",
-		PasswordHash: hashPassword(password),
-	}
-
-	return am.Vault.Write("users", userID, identity)
-}
-
-func PromptForUserConfig() *schema.CustomizedConfig {
-	cfg := DefaultCustomizedConfig()
-	reader := bufio.NewReader(os.Stdin)
-
-	fmt.Println("\n=== User Configuration ===")
-	fmt.Println("Press ENTER to keep default")
-
-	fmt.Printf("Main language [%s]: ", cfg.MainLang)
-	if v, _ := reader.ReadString('\n'); strings.TrimSpace(v) != "" {
-		cfg.MainLang = strings.TrimSpace(v)
-	}
-
-	fmt.Printf("Power mode (low/balanced/high) [%s]: ", cfg.PowerMode)
-	if v, _ := reader.ReadString('\n'); strings.TrimSpace(v) != "" {
-		cfg.PowerMode = strings.TrimSpace(v)
-	}
-
-	fmt.Printf("Privacy mode (standard/strict/offline) [%s]: ", cfg.PrivacyMode)
-	if v, _ := reader.ReadString('\n'); strings.TrimSpace(v) != "" {
-		cfg.PrivacyMode = strings.TrimSpace(v)
-	}
-
-	fmt.Printf("Update mode (auto/manual) [%s]: ", cfg.UpdateMode)
-	if v, _ := reader.ReadString('\n'); strings.TrimSpace(v) != "" {
-		cfg.UpdateMode = strings.TrimSpace(v)
-	}
-
-	fmt.Println("[CONFIG] Completed")
-
-	return cfg
-}
-
-func DefaultCustomizedConfig() *schema.CustomizedConfig {
-	return &schema.CustomizedConfig{
-		Version:      "v1",
-		LastModified: time.Now(),
-	}
-}
-func (am *AuthManager) Register() (*schema.UserSession, error) {
-	reader := bufio.NewReader(os.Stdin)
-
-	fmt.Print("User ID: ")
-	userID, _ := reader.ReadString('\n')
-	userID = strings.TrimSpace(userID)
-
-	fmt.Print("Password: ")
-	password, _ := reader.ReadString('\n')
-	password = strings.TrimSpace(password)
-
-	entityType := schema.EntityPersonal
-
-	if err := am.RegisterUser(userID, password, entityType); err != nil {
-		return nil, err
-	}
-
-	// immediately login after registration
-	return am.Login(userID, password)
-}
-
-func (am *AuthManager) Login(userID, password string) (*schema.UserSession, error) {
-	verified, identity := am.verifyUserCredentials(userID, password)
-	if !verified {
-		return nil, errors.New("invalid credentials")
-	}
-
-	am.Identity = identity
-	am.detectEntityAndTier()
-
-	return am.platformLoginFlow()
-}
-
-func (am *AuthManager) LoginOrSignUpInteractive() (*schema.UserSession, error) {
-	for {
-		userID, password := PromptForCredentials(am.Vault)
-
-		verified, identity := am.verifyUserCredentials(userID, password)
-		if verified {
-			am.Identity = identity
-			am.detectEntityAndTier()
-			return am.platformLoginFlow() // ✅ exits loop
-		}
-
-		fmt.Println("[AUTH] Invalid credentials or user not found. Try again.")
-	}
-}
-
-// platformLoginFlow performs the platform-specific verification and session creation
-func (am *AuthManager) platformLoginFlow() (*schema.UserSession, error) {
-	var err error
-
-	switch am.Platform {
-
-	// ------------------------------
-	// Vehicles / Autonomous Mobility
-	// ------------------------------
-	case schema.PlatformVehicle, schema.PlatformRobot:
-		switch am.Entity {
-		case schema.EntityPersonal:
-			err = am.verifyKeyFobOrBiometrics()
-		case schema.EntityOrganization:
-			err = am.verifyBiometricsAndAppHandshake()
-		case schema.EntityStranger:
-			err = am.guestLoginVehicle()
-		case schema.EntityTester:
-			err = am.verifyMechanicAccess()
-		default:
-			err = fmt.Errorf("unknown vehicle entity type")
-		}
-
-	// ------------------------------
-	// Industrial / Embedded / Factory
-	// ------------------------------
-	case schema.PlatformIndustrial, schema.PlatformEmbedded:
-		err = am.verifyNFCCardOrButton()
-
-	// ------------------------------
-	// PCs / Laptops / Productivity
-	// ------------------------------
-	case schema.PlatformComputer, schema.PlatformMobile:
-		switch am.Entity {
-		case schema.EntityPersonal:
-			err = am.verifyPasswordOrOSBiometrics()
-		case schema.EntityOrganization:
-			err = am.verifyPasswordOrOSBiometrics()
-			if err == nil {
-				err = am.verify2FAEnterprise()
-			}
-		case schema.EntityStranger:
-			err = am.guestLoginPC()
-		case schema.EntityTester:
-			err = am.enableDebugLogin()
-		default:
-			err = fmt.Errorf("unknown PC entity type")
-		}
-
-	// ------------------------------
-	// Fallback / Unknown
-	// ------------------------------
-	default:
-		err = fmt.Errorf("unsupported platform: %s", am.Platform)
-	}
-
-	if err != nil {
-		return nil, err
-	}
-
-	// Determine default service based on platform
-	service := schema.ServiceUnknown
-	switch am.Platform {
-	case schema.PlatformVehicle, schema.PlatformRobot:
-		service = schema.ServiceEnterprise
-	case schema.PlatformIndustrial, schema.PlatformEmbedded:
-		service = schema.ServiceSystem
-	case schema.PlatformComputer, schema.PlatformMobile:
-		service = schema.ServicePersonal
-	}
-
-	return am.createSession(service)
-}
-
-// ------------------------------------------------------------
-// Vehicle / Autonomous Mobility Auth
-// ------------------------------------------------------------
-
-func (am *AuthManager) verifyKeyFobOrBiometrics() error {
-	// Simulate querying vehicle key-fob API or biometric reader
-	time.Sleep(100 * time.Millisecond) // simulate latency
-	verified := true                   // replace with actual hardware API
-	if !verified {
-		return errors.New("key-fob / biometrics verification failed")
-	}
-	fmt.Println("[func (am *AuthManager) verifyKeyFobOrBiometrics] Vehicle: Key-fob or biometric verified")
-	return nil
-}
-
-func (am *AuthManager) verifyBiometricsAndAppHandshake() error {
-	// Enterprise vehicle: requires both biometrics + companion app handshake
-	time.Sleep(150 * time.Millisecond)
-	success := true // replace with real verification logic
-	if !success {
-		return errors.New("biometric + app handshake failed")
-	}
-	fmt.Println("[func (am *AuthManager) verifyBiometricsAndAppHandshake] Vehicle: Biometric + App handshake verified")
-	return nil
-}
-
-func (am *AuthManager) guestLoginVehicle() error {
-	// Minimal verification for passengers
-	fmt.Println("[AUTH] Vehicle: Guest login activated (limited privileges)")
-	return nil
-}
-
-func (am *AuthManager) verifyMechanicAccess() error {
-	// Mechanic / Tester: full system access in sandbox
-	time.Sleep(50 * time.Millisecond)
-	fmt.Println("[AUTH] Vehicle: Mechanic/Tester full access granted")
-	return nil
-}
-
-// ------------------------------------------------------------
-// Industrial / Embedded / Factory Auth
-// ------------------------------------------------------------
-
-func (am *AuthManager) verifyNFCCardOrButton() error {
-	// NFC card or physical pairing button
-	time.Sleep(80 * time.Millisecond)
-	valid := true
-	if !valid {
-		return errors.New("NFC/button verification failed")
-	}
-	fmt.Println("[func (am *AuthManager) verifyNFCCardOrButton] Industrial: NFC card or pairing button verified")
-	return nil
-}
-
-// ------------------------------------------------------------
-// Personal / Enterprise PC Auth
-// ------------------------------------------------------------
-
-func (am *AuthManager) verifyPasswordOrOSBiometrics() error {
-	// Standard login: password + optional OS-biometrics
-	time.Sleep(50 * time.Millisecond)
-	fmt.Println("[func (am *AuthManager) verifyPasswordOrOSBiometrics] PC: Password/OS-biometrics verified")
-	return nil
-}
-
-func (am *AuthManager) verify2FAEnterprise() error {
-	// Enterprise 2FA: email/code, token, or app approval
-	time.Sleep(100 * time.Millisecond)
-	fmt.Println("[func (am *AuthManager) verify2FAEnterprise] PC: Enterprise 2FA verified")
-	return nil
-}
-
-func (am *AuthManager) guestLoginPC() error {
-	// Local-only guest session
-	fmt.Println("[func (am *AuthManager) guestLoginPC] PC: Guest session started (restricted access)")
-	return nil
-}
-
-// ------------------------------------------------------------
-// Debug / Tester Auth
-// ------------------------------------------------------------
-
-func (am *AuthManager) enableDebugLogin() error {
-	fmt.Println("[AUTH] Debug/Test login granted (sandbox environment)")
-	return nil
-}
-
-// ------------------------------------------------------------
-// Session Creation
-// ------------------------------------------------------------
-
-func (am *AuthManager) createSession(service schema.ServiceType) (*schema.UserSession, error) {
-
-	permList := security.DerivePermissions(
-		am.Platform,
-		am.Entity,
-		am.Tier,
-	)
-
-	permMap := make(map[schema.Permission]bool)
-	for _, p := range permList {
-		permMap[p] = true
-	}
-	permMap[schema.PermUser] = true
-
-	session := &schema.UserSession{
-		SessionID:   fmt.Sprintf("%d", time.Now().UnixNano()),
-		Platform:    am.Platform,
-		Entity:      am.Entity,
-		Tier:        am.Tier,
-		Service:     service,
-		Permissions: permMap,
-		CreatedAt:   time.Now(),
-		ExpiresAt:   time.Now().Add(24 * time.Hour),
-	}
-
-	// ---- CONFIG LOAD ----
-	cfg, err := LoadUserConfig(am.Vault, am.Identity.MachineID)
-	if err != nil {
-		return nil, err
-	}
-
-	if cfg == nil {
-		fmt.Println("[CONFIG] First-time setup required")
-		cfg = PromptForUserConfig()
-		_ = SaveUserConfig(am.Vault, am.Identity.MachineID, cfg)
-	} else {
-		fmt.Println("[CONFIG] Loaded existing configuration")
-	}
-
-	cfg.FillDefaults()
-
-	// ---- CAPABILITY PROFILE ----
-	cp := interaction.DetectCapabilityProfile()
-
-	// ---- ORCHESTRATOR ----
-	orch := interaction.BuildOrchestrator(cp)
-	orch.StartAll(session)
-
-	// ---- MODE (informational now) ----
-	mode := interaction.ResolveInteractionMode(cfg, cp.Set)
-
-	session.Config = cfg
-	session.Capabilities = cp.Set
-	session.CapProfile = cp
-	session.Mode = string(mode)
-	session.Orchestrator = orch
-
-	orch.Broadcast("Session initialized successfully")
-
-	fmt.Printf("[auth/auth_manager]Capabilities: %v\n", session.Capabilities)
-	fmt.Printf("[auth/auth_manager] Mode: %s\n", mode)
-
-	return session, nil
-}
-
-func LoadUserConfig(vault security.VaultStore, userID string) (*schema.CustomizedConfig, error) {
-	var cfg schema.CustomizedConfig
-
-	found, err := vault.Read("configs", userID, &cfg)
-	if err != nil {
-		return nil, err
-	}
-
-	if !found {
-		return nil, nil
-	}
-
-	cfg.FillDefaults()
-	cfg.Migrate()
-
-	return &cfg, nil
-}
-
-func SaveUserConfig(vault security.VaultStore, userID string, cfg *schema.CustomizedConfig) error {
-	cfg.LastModified = time.Now()
-	return vault.Write("configs", userID, cfg)
-}
-
-func (am *AuthManager) HandleConfigUpdate(session *schema.UserSession) {
-	reader := bufio.NewReader(os.Stdin)
-
-	fmt.Print("[CONFIG] Enter command: ")
-	cmd, _ := reader.ReadString('\n')
-	cmd = strings.TrimSpace(cmd)
-
-	if cmd == "update config" {
-		fmt.Println("[CONFIG] Updating configuration...")
-		newCfg := PromptForUserConfig()
-
-		_ = SaveUserConfig(am.Vault, am.Identity.MachineID, newCfg)
-
-		session.Config = newCfg
-
-		if orch, ok := session.Orchestrator.(*interaction.Orchestrator); ok {
-			orch.Broadcast("Configuration updated successfully")
-		}
-	}
-}
-==========================
-declared and not used: token
-// core/auth/gate.go
-package auth
-
-// Auth defines what it needs, but doesn't care WHO provides it.
-type UserPrompter interface {
-    RequestMFA(message string) (string, error)
-}
-
-type Authenticator struct {
-    Prompter UserPrompter // This will be filled in later
-}
-
-func (a *Authenticator) Verify(user string) {
-    // ... logic ...
-    token, _ := a.Prompter.RequestMFA("Enter Code") 
-    // ... logic ...
-}
-==================
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction]
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema")
 undefined: InteractionMode
 undefined: ModeGUI
@@ -1182,668 +1765,39 @@ undefined: InteractionMode
 undefined: ModeGUI
 undefined: ModeTUI
 undefined: ModeVoice
-
-//interaction/interaction_mode.go
-
-package interaction
-
-import (
-	"fmt"
-	"os"
-
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-)
-
-type CLIAuth struct{}
-type TUIAuth struct{}
-type GUIAuth struct{}
-type VoiceAuth struct{}
-
-func NewCLIAuth() auth.AuthInterface {
-	return &CLIAuth{}
-}
-
-func NewTUIAuth() auth.AuthInterface {
-	return &TUIAuth{}
-}
-
-func NewGUIAuth() auth.AuthInterface {
-	return &GUIAuth{}
-}
-
-func NewVoiceAuth() auth.AuthInterface {
-	return &VoiceAuth{}
-}
-
-func (c *CLIAuth) Authenticate() error {
-	return nil
-}
-
-func (t *TUIAuth) Authenticate() error {
-	return nil
-}
-
-func (g *GUIAuth) Authenticate() error {
-	return nil
-}
-
-func (v *VoiceAuth) Authenticate() error {
-	return nil
-}
-
-func BuildAuthInterface(mode InteractionMode) auth.AuthInterface {
-	switch mode {
-	case ModeGUI:
-		return NewGUIAuth()
-	case ModeTUI:
-		return NewTUIAuth()
-	case ModeVoice:
-		return NewVoiceAuth()
-	default:
-		return NewCLIAuth()
-	}
-}
-
-func ResolveInteractionMode(
-	cfg *schema.CustomizedConfig,
-	cap schema.CapabilitySet,
-) InteractionMode {
-
-	if cfg != nil && cfg.PreferredMode != "" && cfg.PreferredMode != "auto" {
-		return InteractionMode(cfg.PreferredMode)
-	}
-
-	switch {
-	case cap.Has(schema.CapDisplay) && cap.Has(schema.CapGPU):
-		return ModeGUI
-
-	case cap.Has(schema.CapDisplay) && cap.Has(schema.CapKeyboard):
-		return ModeTUI
-
-	case cap.Has(schema.CapMicrophone) && cap.Has(schema.CapSpeaker):
-		return ModeVoice
-
-	default:
-		return ModeCLI
-	}
-}
-
-func DetectCapabilityProfile() *schema.CapabilityProfile {
-	cp := schema.NewCapabilityProfile()
-
-	// ---- Display ----
-	if !isHeadless() {
-		cp.Mark(schema.CapDisplay, schema.CapOK)
-	} else {
-		cp.Mark(schema.CapDisplay, schema.CapUnavailable)
-	}
-
-	// ---- Keyboard ----
-	cp.Mark(schema.CapKeyboard, schema.CapOK) // assume present
-
-	// ---- Network ----
-	if hasNetwork() {
-		cp.Mark(schema.CapNetwork, schema.CapOK)
-	} else {
-		cp.Mark(schema.CapNetwork, schema.CapDegraded)
-	}
-
-	// ---- Microphone (stub) ----
-	if hasMicrophone() {
-		cp.Mark(schema.CapMicrophone, schema.CapOK)
-	} else {
-		cp.Mark(schema.CapMicrophone, schema.CapUnavailable)
-	}
-
-	// ---- Speaker (stub) ----
-	if hasSpeaker() {
-		cp.Mark(schema.CapSpeaker, schema.CapOK)
-	} else {
-		cp.Mark(schema.CapSpeaker, schema.CapUnavailable)
-	}
-
-	return cp
-}
-
-func isHeadless() bool {
-	return os.Getenv("DISPLAY") == "" &&
-		os.Getenv("WAYLAND_DISPLAY") == ""
-}
-
-func hasNetwork() bool {
-	// simple heuristic
-	return true
-}
-
-func hasMicrophone() bool {
-	// stub → replace with OS API later
-	return true
-}
-
-func hasSpeaker() bool {
-	return true
-}
-
-type InterfaceAdapter interface {
-	Start(session *schema.UserSession) error
-	Notify(msg string)
-}
-
-type DeviceCapabilities struct {
-	HasDisplay  bool
-	HasKeyboard bool
-	HasMic      bool
-	HasSpeaker  bool
-	GPU         bool
-}
-
-func SelectInteractionMode(cap DeviceCapabilities) InteractionMode {
-
-	switch {
-	case cap.HasDisplay && cap.GPU:
-		return ModeGUI
-
-	case cap.HasDisplay && cap.HasKeyboard:
-		return ModeTUI
-
-	case cap.HasMic && cap.HasSpeaker:
-		return ModeVoice
-
-	default:
-		return ModeCLI
-	}
-}
-
-// =========================================
-type CLIAdapter struct{}
-
-func (c *CLIAdapter) Start(session *schema.UserSession) error {
-	fmt.Println("CLI session started:", session.SessionID)
-	return nil
-}
-
-// =========================================
-type TUIAdapter struct{}
-
-func (t *TUIAdapter) Start(session *schema.UserSession) error {
-	// integrate charmbracelet/bubbletea
-	return nil
-}
-
-// =========================================
-type GUIAdapter struct{}
-
-func (g *GUIAdapter) Start(session *schema.UserSession) error {
-	// Launch window
-	return nil
-}
-
-//=========================================
-
-type SpeechToText interface {
-	Listen() (string, error)
-}
-
-type TextToSpeech interface {
-	Speak(string) error
-}
-
-// =========================================Example (Whisper + OS TTS)
-type WhisperSTT struct{}
-
-func (w *WhisperSTT) Listen() (string, error) {
-	return "parsed speech command", nil
-}
-
-type SystemTTS struct{}
-
-func (s *SystemTTS) Speak(text string) error {
-	fmt.Println("[TTS]:", text)
-	return nil
-}
-
-// =========================================Adapter Factory (Core Integration)
-func BuildInterface(mode InteractionMode) InterfaceAdapter {
-	switch mode {
-	case ModeGUI:
-		return &GUIAdapter{}
-	case ModeTUI:
-		return &TUIAdapter{}
-	case ModeVoice:
-		return NewVoiceAdapter()
-	default:
-		return &CLIAdapter{}
-	}
-}
-
-type Orchestrator struct {
-	adapters []InterfaceAdapter
-}
-
-func NewOrchestrator() *Orchestrator {
-	return &Orchestrator{}
-}
-
-func (o *Orchestrator) Add(adapter InterfaceAdapter) {
-	o.adapters = append(o.adapters, adapter)
-}
-
-func (o *Orchestrator) StartAll(s *schema.UserSession) {
-	for _, a := range o.adapters {
-		go a.Start(s)
-	}
-}
-
-func (o *Orchestrator) Broadcast(msg string) {
-	for _, a := range o.adapters {
-		a.Notify(msg)
-	}
-}
-
-func BuildOrchestrator(cp *schema.CapabilityProfile) *Orchestrator {
-	orch := NewOrchestrator()
-
-	if cp.IsHealthy(schema.CapDisplay) {
-		orch.Add(NewScreenAdapter())
-	}
-
-	if cp.IsHealthy(schema.CapMicrophone) &&
-		cp.IsHealthy(schema.CapSpeaker) {
-		orch.Add(NewVoiceAdapter())
-	}
-
-	return orch
-}
-
-// ===================Screen Adapter
-type ScreenAdapter struct{}
-
-func NewScreenAdapter() *ScreenAdapter {
-	return &ScreenAdapter{}
-}
-
-// ============VoiceAdapter
-type VoiceAdapter struct {
-	engine *VoiceEngine
-}
-
-func NewVoiceAdapter() *VoiceAdapter {
-	return &VoiceAdapter{
-		engine: &VoiceEngine{
-			STT: &WhisperSTT{},
-			TTS: &SystemTTS{},
-		},
-	}
-}
-
-func (s *ScreenAdapter) Start(session *schema.UserSession) error {
-	fmt.Println("Screen adapter started")
-	return nil
-}
-
-func (s *ScreenAdapter) Notify(msg string) {
-	fmt.Println("[SCREEN]", msg)
-}
-
-func (v *VoiceAdapter) Notify(msg string) {
-	v.engine.outputChan <- msg
-}
-
-func (v *VoiceAdapter) Start(session *schema.UserSession) error {
-	v.engine.Start()
-	return nil
-}
-
-func (c *CLIAdapter) Notify(msg string) {
-	fmt.Println("[CLI]", msg)
-}
-
-func (c *TUIAdapter) Notify(msg string) {
-	fmt.Println("[TUI]", msg)
-}
-
-func (c *GUIAdapter) Notify(msg string) {
-	fmt.Println("[GUI]", msg)
-}
-
-func (c *CLIAuth) StartAuthFlow(auth *auth.AuthManager) (*schema.UserSession, error) {
-	return auth.LoginOrSignUpInteractive()
-}
-func (t *TUIAuth) StartAuthFlow(am *auth.AuthManager) (*schema.UserSession, error) {
-	return am.LoginOrSignUpInteractive()
-}
-
-func (g *GUIAuth) StartAuthFlow(am *auth.AuthManager) (*schema.UserSession, error) {
-	return am.LoginOrSignUpInteractive()
-}
-
-func (v *VoiceAuth) StartAuthFlow(am *auth.AuthManager) (*schema.UserSession, error) {
-	return am.LoginOrSignUpInteractive()
-}
-
-// interaction/gui.go
-type GUIEngine interface {
-	Render()
-}
-
-type VoiceEngine struct {
-	STT        SpeechToText
-	TTS        TextToSpeech
-	outputChan chan string
-	stopChan   chan struct{}
-}
-
-func NewVoiceEngine() *VoiceEngine {
-	return &VoiceEngine{
-		STT:        &WhisperSTT{},
-		TTS:        &SystemTTS{},
-		outputChan: make(chan string, 32),
-		stopChan:   make(chan struct{}),
-	}
-}
-
-func (v *VoiceEngine) Start() {
-	go func() {
-		for {
-			select {
-			case msg := <-v.outputChan:
-				_ = v.TTS.Speak(msg)
-			case <-v.stopChan:
-				return
-			}
-		}
-	}()
-}
-=====================
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
+undefined: hmi.ProgressUpdate
+undefined: hmi.ProgressUpdate
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security")
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
+import cycle not allowed
 "github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction" imported and not used
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema")
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema]
-========================================
+undefined: runtime.RuntimeContext
+undefined: runtime.RuntimeContext
+undefined: runtime.RuntimeContext
+undefined: runtime.RuntimeContext
+undefined: runtime.RuntimeContext
+undefined: runtime.RuntimeContext
+undefined: runtime.RuntimeContext
+undefined: runtime.RuntimeContext
+undefined: runtime.RuntimeContext
+undefined: runtime.RuntimeContext
+undefined: runtime.RuntimeContext
+undefined: runtime.RuntimeContext
+undefined: DomainModule
+undefined: DomainModule
+undefined: DomainModule
+undefined: DomainModule
+undefined: DomainModule
+undefined: DomainModule
+undefined: NewIngestionModule
+undefined: NewTelemetryModule
+undefined: NewInferenceModule
+undefined: NewDatabaseSinkModule
+undefined: NewIndustrialProtocolModule
+undefined: NewAuditModule
+undefined: MessageBus
+undefined: NewMessageBus
 m.Health undefined (type *moduleState has no field or method Health)
 m.Health undefined (type *moduleState has no field or method Health)
 m.Stop undefined (type *moduleState has no field or method Stop)
 m.Start undefined (type *moduleState has no field or method Start)
-
-// runtime/supervisor.go
-package runtime
-
-import (
-	"context"
-	"sync"
-	"time"
-
-	"go.uber.org/zap"
-)
-
-///////////////////////////////////////////////////////////////
-// MODULE INTERFACE (EXPECTED CONTRACT)
-///////////////////////////////////////////////////////////////
-
-type Module interface {
-	Name() string
-
-	Init(ctx context.Context) error
-	Start(ctx context.Context) error
-	Stop(ctx context.Context) error
-
-	Health() error
-}
-
-type HealthStatus struct {
-	Healthy  bool
-	Degraded bool
-	Failed   int
-	Total    int
-}
-
-func (s *Supervisor) HealthStatus() HealthStatus {
-	total := len(s.modules)
-	failed := 0
-
-	for _, m := range s.modules {
-		if err := m.Health(); err != nil {
-			failed++
-		}
-	}
-
-	return HealthStatus{
-		Healthy:  failed == 0,
-		Degraded: failed > 0,
-		Failed:   failed,
-		Total:    total,
-	}
-}
-
-func (s *Supervisor) ModuleCount() int {
-	return len(s.modules)
-}
-
-func (s *Supervisor) RestartFailed(ctx context.Context) error {
-	for _, m := range s.modules {
-		if err := m.Health(); err != nil {
-			_ = m.Stop(ctx)
-			_ = m.Start(ctx)
-		}
-	}
-	return nil
-}
-
-
-
-///////////////////////////////////////////////////////////////
-// RESTART POLICY
-///////////////////////////////////////////////////////////////
-
-type RestartPolicy struct {
-	MaxRestarts int
-	Window      time.Duration
-	BackoffMin  time.Duration
-	BackoffMax  time.Duration
-}
-
-var DefaultRestartPolicy = RestartPolicy{
-	MaxRestarts: 5,
-	Window:      60 * time.Second,
-	BackoffMin:  1 * time.Second,
-	BackoffMax:  30 * time.Second,
-}
-
-///////////////////////////////////////////////////////////////
-// INTERNAL STATE
-///////////////////////////////////////////////////////////////
-
-type moduleState struct {
-	module Module
-
-	running bool
-	healthy bool
-
-	restarts []time.Time
-}
-
-// /////////////////////////////////////////////////////////////
-// SUPERVISOR
-// /////////////////////////////////////////////////////////////
-
-type Supervisor struct {
-	log     *zap.Logger
-	modules map[string]*moduleState
-	order   []string
-	policy  RestartPolicy
-	mu      sync.RWMutex
-	wg      sync.WaitGroup
-}
-
-///////////////////////////////////////////////////////////////
-// CONSTRUCTOR
-///////////////////////////////////////////////////////////////
-
-func NewSupervisor(log *zap.Logger, mods []Module) *Supervisor {
-	states := make(map[string]*moduleState)
-	order := make([]string, 0, len(mods))
-
-	for _, m := range mods {
-		name := m.Name()
-		states[name] = &moduleState{
-			module: m,
-		}
-		order = append(order, name)
-	}
-
-	return &Supervisor{
-		log:     log,
-		modules: states,
-		order:   order,
-		policy:  DefaultRestartPolicy,
-	}
-}
-
-///////////////////////////////////////////////////////////////
-// INIT PHASE
-///////////////////////////////////////////////////////////////
-
-func (s *Supervisor) Init(ctx context.Context) error {
-	for _, name := range s.order {
-		m := s.modules[name].module
-
-		s.log.Info("initializing module", zap.String("module", name))
-
-		if err := m.Init(ctx); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-///////////////////////////////////////////////////////////////
-// START PHASE
-///////////////////////////////////////////////////////////////
-
-func (s *Supervisor) Start(ctx context.Context) error {
-	for _, name := range s.order {
-		st := s.modules[name]
-
-		s.wg.Add(1)
-		go s.run(ctx, name, st)
-	}
-	return nil
-}
-
-func (s *Supervisor) run(ctx context.Context, name string, st *moduleState) {
-	defer s.wg.Done()
-
-	backoff := s.policy.BackoffMin
-
-	for {
-		if ctx.Err() != nil {
-			s.log.Info("stopping module due to context cancellation", zap.String("module", name))
-			_ = st.module.Stop(context.Background())
-			return
-		}
-
-		s.log.Info("starting module", zap.String("module", name))
-
-		s.mu.Lock()
-		st.running = true
-		s.mu.Unlock()
-
-		err := st.module.Start(ctx)
-
-		s.mu.Lock()
-		st.running = false
-		st.healthy = err == nil
-		st.restarts = append(st.restarts, time.Now())
-		s.mu.Unlock()
-
-		if err != nil {
-			s.log.Error("module crashed",
-				zap.String("module", name),
-				zap.Error(err),
-			)
-		}
-
-		if !s.allowRestart(st) {
-			s.log.Error("restart limit exceeded, stopping module permanently",
-				zap.String("module", name),
-			)
-			return
-		}
-
-		time.Sleep(backoff)
-
-		backoff *= 2
-		if backoff > s.policy.BackoffMax {
-			backoff = s.policy.BackoffMax
-		}
-	}
-}
-
-///////////////////////////////////////////////////////////////
-// RESTART CONTROL
-///////////////////////////////////////////////////////////////
-
-func (s *Supervisor) allowRestart(st *moduleState) bool {
-	now := time.Now()
-	cutoff := now.Add(-s.policy.Window)
-
-	valid := 0
-	for _, t := range st.restarts {
-		if t.After(cutoff) {
-			valid++
-		}
-	}
-
-	return valid <= s.policy.MaxRestarts
-}
-
-///////////////////////////////////////////////////////////////
-// STOP PHASE
-///////////////////////////////////////////////////////////////
-
-func (s *Supervisor) Stop(ctx context.Context) error {
-	done := make(chan struct{})
-
-	go func() {
-		s.wg.Wait()
-		close(done)
-	}()
-
-	select {
-	case <-done:
-		return nil
-	case <-ctx.Done():
-		return ctx.Err()
-	}
-}
-
-///////////////////////////////////////////////////////////////
-// HEALTH CHECK
-///////////////////////////////////////////////////////////////
-
-func (s *Supervisor) AllHealthy() bool {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-
-	for name, st := range s.modules {
-		if err := st.module.Health(); err != nil {
-			s.log.Warn("module unhealthy",
-				zap.String("module", name),
-				zap.Error(err),
-			)
-			return false
-		}
-	}
-	return true
-}

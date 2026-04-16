@@ -6,44 +6,124 @@ Only differences are written at each layer.
 Platform detection first: core/platform handles first boot detection and classification. The system then loads the correct platform type and instance configs.
 Scalability: Adding a new platform only requires a new type or instance YAML, no need to copy common configs.
 
-Intuitive naming:
+multi-platform-ai/
 
-probe, classify, degrade are clear and self-explanatory.
-types vs instances separates templates from deployments.
-Minimal bloat: No duplicated configs per platform; runtime changes handled in a dedicated folder.
+cmd/
+  aios/
+    bootstrap.go                (package main)
 
-/multi-platform-AI
-├── /api                    # Protocols (gRPC/Protobuf)
-├── /bridge                 # Hardware Abstraction (HAL)
-│   ├── /busmap             # "Self-Discovery" Logic
-│   └── /hal                # Interfaces for Motor/Sensor
-├── /build                  # Dockerfiles
-├── /cmd                    # Entry Points
-│   ├── /aios-kernel        # The Nucleus Daemon
-│   └── /aios-node          # Client/Peer Node
-├── /configs                # YAML/JSON only! (No .go files)
-├── /core                   # The System Nucleus
-│   ├── /intent             # (Renamed from Cognition) Agents/Distillation
-│   ├── /platform           # Boot, Identity, Classify
-│   ├── /policy             # Trust, Scheduler
-│   ├── /security           # Vault, TPM
-│   ├── /storage            # (Renamed from core/memory) KV Store/Vault Access
-│   ├── /sim                # Simulation Engine & Interfaces
-│   └── /kernel.go          # Main Kernel Struct
-├── /internal               # Private Library Code (Helpers)
-│   
-│   └── /logging            # Logger
-├── /pkg                    # Public Library Code (Safe imports)
-│   └── /schema             # Shared Types (EnvConfig, TrustScore)
-├── /plugins                # Hot-Swappable Capabilities
-│   ├── /perception         # Vision models (YOLO, etc.)
-│   ├── /navigation         # SLAM, Pathfinding
-│   └── /speech             # STT/TTS
-└── /runtime                # Active Runtime Processes
-    └── /monitor            # Performance & Vitals (Consolidated)
+api/                            (contracts only, no logic)
+  proto/
+    hmi.proto
+    kernel.proto
+    perception.proto
+  gen/                          (generated Go from proto)
+  hmi/
+    hmi_contract.go             (UI interfaces)
+    state_update.go                  (state updates)
+  commands/
+    command_contract.go         (command definitions)
 
+boot/                           (build BootContext ONLY)
+  orchestrator/
+    boot_orchestrator.go
+  phases/
+    discovery_phase.go
+    identity_phase.go
+    attestation_phase.go
+    capability_phase.go
+    module_resolution_phase.go
+  /resolver
+    /execution_context_resolver.go 
+    /boot_policy_resolver.go boot/resolver
+  builder/
+    boot_context_builder.go
+  types/
+    boot_modes.go
 
+runtime/                        (ONLY wiring + execution)
+  supervisor/
+    runtime_supervisor.go
+  engine/
+    runtime_engine.go
+  bus/
+    event_bus.go
+  session/
+    session_manager.go
+  adapter/
+    cli_adapter.go
+    hmi_adapter.go
 
+core/                           (pure logic, no boot/runtime)
+  agent/
+    agent_runtime_engine.go
+    agent_optimization_service.go
+  router/
+    command_router.go
+    command_handler_contract.go
+  security/
+    attestation_service.go
+    policy_enforcer.go
+    token_service.go
+    secure_vault_store.go
+  auth/
+    auth_service.go
+    auth_gatekeeper.go
+  policy/
+    policy_resolver.go
+
+modules/                        (plugins ONLY)
+  registry/
+    module_registry.go
+    module_dependency_resolver.go
+  contracts/
+    module_contract.go
+  audio/
+    audio_module_entry.go
+    audio_feature_service.go
+  file/
+    file_module_entry.go
+  inference/
+    inference_module_entry.go
+  industrial/
+    industrial_module_entry.go
+
+platform/                       (platform adapters)
+  resolver/
+    platform_resolver.go
+    platform_identity_resolver.go
+    platform_scoring_engine.go
+  computer/
+    computer_adapter.go
+  industrial/
+    industrial_adapter.go
+  vehicle/
+    vehicle_adapter.go
+
+drivers/                        (hardware ONLY)
+  can/
+    can_bus_driver.go
+  audio/
+    mic_driver.go
+  camera/
+    camera_driver.go
+
+interaction/                   (user interaction control)
+  interaction_mode_controller.go
+
+internal/                      (leaf-only, no upward deps)
+  schema/
+    env.go                     (SOURCE OF TRUTH)
+    user.go
+    context.go
+  logging/
+    structured_logger.go
+  network/
+    network_discovery_service.go
+  policy/
+    policy_model.go
+  mathutil/
+    q16.go
 
 Audience: external users, integrators, OEMs
 Trust level: high, security-sensitive
