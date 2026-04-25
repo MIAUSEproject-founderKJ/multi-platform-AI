@@ -1,5 +1,5 @@
-// boot\phases\discovery_phase.go
-package boot
+// boot/phases/discovery_phase.go
+package boot_phase
 
 import (
 	"context"
@@ -7,12 +7,12 @@ import (
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 )
 
 type DiscoveryResult struct {
 	InstanceID   string
-	PlatformType schema.PlatformClass
+	PlatformType schema_system.PlatformClass
 	OS           string
 	Architecture string
 }
@@ -29,7 +29,7 @@ func PhaseDiscovery() (*DiscoveryResult, error) {
 
 	// Ensure Platform.Final is set
 	if env.Platform.Final == "" {
-		env.Platform.Final = schema.PlatformComputer // default fallback
+		env.Platform.Final = schema_system.PlatformComputer // default fallback
 		logging.Warn("[DISCOVERY] Platform not detected, defaulting to 'computer'")
 	}
 

@@ -1,6 +1,6 @@
 // runtime/engine/runtime_builder.go
 
-package runtime
+package engine
 
 import (
 	"context"
@@ -9,21 +9,23 @@ import (
 	"path/filepath"
 	"strings"
 
+	boot_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/phases"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/router"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	schema_identity "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/identity"
+	runtime "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
+	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
 	"go.uber.org/zap"
 )
 
 type RuntimeContext struct {
 	Router       router.Router
-	Bus          *MessageBus
+	Bus          *runtime_bus.MessageBus
 	DB           *sql.DB
 	Logger       *zap.Logger
 	BasePath     string
-	Session      *schema.UserSession
-	Orchestrator *interaction.Orchestrator
-	Config       *schema.UserConfig
+	Session      *schema_identity.UserSession
+	Orchestrator *boot_phase.Orchestrator
+	Config       *schema_identity.UserConfig
 	Context      context.Context
 }
 
@@ -54,7 +56,7 @@ func NewRuntimeContext(logger *zap.Logger) (*RuntimeContext, error) {
 	}
 
 	rtx := &RuntimeContext{
-		Bus:    NewMessageBus(),
+		Bus:    runtime.NewMessageBus(),
 		Logger: logger,
 	}
 

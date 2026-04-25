@@ -6,13 +6,15 @@ import (
 	"context"
 	"sync/atomic"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	schema_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
+	schema_security "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/security"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 )
 
 type TelemetryModule struct {
 	BaseModule
 
-	ctx     *schema.BootContext
+	ctx     *schema_boot.BootContext
 	client  TelemetryClient
 	running atomic.Bool
 	healthy atomic.Bool
@@ -32,7 +34,7 @@ func NewTelemetryModule() DomainModule {
 	}
 }
 
-func (m *TelemetryModule) Init(ctx *schema.BootContext) error {
+func (m *TelemetryModule) Init(ctx *schema_boot.BootContext) error {
 	m.ctx = ctx
 	m.healthy.Store(true)
 
@@ -78,16 +80,16 @@ func (m *TelemetryModule) Name() string { return "TelemetryModule" }
 func (m *TelemetryModule) Category() ModuleCategory {
 	return ModuleDomain
 }
-func (m *TelemetryModule) DependsOn() []string                  { return []string{"IngestionModule"} }
-func (m *TelemetryModule) Allowed(ctx *schema.BootContext) bool { return true }
-func (m *TelemetryModule) Start() error                         { return nil }
-func (m *TelemetryModule) Stop() error                          { return nil }
-func (m *TelemetryModule) Healthy() bool                        { return m.healthy.Load() }
-func (m *TelemetryModule) SupportedPlatforms() []schema.PlatformClass {
+func (m *TelemetryModule) DependsOn() []string                       { return []string{"IngestionModule"} }
+func (m *TelemetryModule) Allowed(ctx *schema_boot.BootContext) bool { return true }
+func (m *TelemetryModule) Start() error                              { return nil }
+func (m *TelemetryModule) Stop() error                               { return nil }
+func (m *TelemetryModule) Healthy() bool                             { return m.healthy.Load() }
+func (m *TelemetryModule) SupportedPlatforms() []schema_system.PlatformClass {
 	return nil
 }
 
-func (m *TelemetryModule) RequiredCapabilities() schema.CapabilitySet {
+func (m *TelemetryModule) RequiredCapabilities() schema_security.CapabilitySet {
 	// This module doesn’t require any capabilities, so return 0
 	return 0
 }

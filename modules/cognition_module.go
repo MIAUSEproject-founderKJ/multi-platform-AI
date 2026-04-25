@@ -7,13 +7,16 @@ import (
 	"errors"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
+	schema_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
+	schema_security "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/security"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 )
 
 // CognitionModule handles incoming intents and converts them to tasks.
 type CognitionModule struct {
-	ctx *runtime.RuntimeContext
+	ctx *engine.RuntimeContext
 }
 
 // NewCognitionModule returns a DomainModule instance
@@ -22,12 +25,12 @@ func NewCognitionModule() DomainModule {
 }
 
 // SetRuntime sets the runtime context directly
-func (m *CognitionModule) SetRuntime(rtx *runtime.RuntimeContext) {
+func (m *CognitionModule) SetRuntime(rtx *engine.RuntimeContext) {
 	m.ctx = rtx
 }
 
 // Init subscribes to the "audio.intent" topic
-func (m *CognitionModule) Init(ctx *schema.BootContext) error {
+func (m *CognitionModule) Init(ctx *schema_boot.BootContext) error {
 	if m.ctx == nil {
 		ctx.Logger.Error("runtime context not set")
 		return errors.New("runtime context not set")
@@ -47,7 +50,7 @@ func (m *CognitionModule) Handle(ctx context.Context, payload []byte) error {
 	data, _ := json.Marshal(task)
 
 	// Return the error from Publish
-	m.ctx.Bus.Publish(runtime.Message{
+	m.ctx.Bus.Publish(runtime_bus.Message{
 		Topic: "cognition.task",
 		Data:  data,
 	})
@@ -61,16 +64,16 @@ func (m *CognitionModule) Run(ctx context.Context) error {
 }
 
 // DomainModule interface methods
-func (m *CognitionModule) Name() string                               { return "CognitionModule" }
-func (m *CognitionModule) Category() ModuleCategory                   { return ModuleDomain }
-func (m *CognitionModule) DependsOn() []string                        { return []string{"AudioModule"} }
-func (m *CognitionModule) Allowed(ctx *schema.BootContext) bool       { return true }
-func (m *CognitionModule) Start() error                               { return nil }
-func (m *CognitionModule) Stop() error                                { return nil }
-func (m *CognitionModule) SupportedPlatforms() []schema.PlatformClass { return nil }
+func (m *CognitionModule) Name() string                                      { return "CognitionModule" }
+func (m *CognitionModule) Category() ModuleCategory                          { return ModuleDomain }
+func (m *CognitionModule) DependsOn() []string                               { return []string{"AudioModule"} }
+func (m *CognitionModule) Allowed(ctx *schema_boot.BootContext) bool         { return true }
+func (m *CognitionModule) Start() error                                      { return nil }
+func (m *CognitionModule) Stop() error                                       { return nil }
+func (m *CognitionModule) SupportedPlatforms() []schema_system.PlatformClass { return nil }
 
 // DomainModule implementation
-func (m *CognitionModule) RequiredCapabilities() schema.CapabilitySet {
+func (m *CognitionModule) RequiredCapabilities() schema_security.CapabilitySet {
 	// This module doesn’t require any capabilities, so return 0
 	return 0
 }

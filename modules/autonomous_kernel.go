@@ -5,10 +5,8 @@
 
 package modules
 
-import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-
 type AutonomousKernel struct {
-	ctx schema.BootContext
+	ctx schema_boot.BootContext
 }
 
 func (a *AutonomousKernel) Name() string {
@@ -19,7 +17,7 @@ func (a *AutonomousKernel) RequiredPermissions() []string {
 	return []string{"AUTONOMOUS_EXECUTION"}
 }
 
-func (a *AutonomousKernel) Init(ctx schema.BootContext) error {
+func (a *AutonomousKernel) Init(ctx schema_boot.BootContext) error {
 	a.ctx = ctx
 	return nil
 }

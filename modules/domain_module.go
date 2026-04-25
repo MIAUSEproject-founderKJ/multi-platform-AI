@@ -14,29 +14,31 @@ import (
 	"fmt"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
+	schema_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
+	schema_security "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/security"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 )
 
 type DomainModule interface {
 	Name() string
 	Category() ModuleCategory
 	DependsOn() []string
-	Allowed(*schema.BootContext) bool
-	Init(*schema.BootContext) error
+	Allowed(*schema_boot.BootContext) bool
+	Init(*schema_boot.BootContext) error
 	Start() error
 	Stop() error
 	Run(context.Context) error
 
 	// Capability introspection
-	SupportedPlatforms() []schema.PlatformClass
-	RequiredCapabilities() schema.CapabilitySet
+	SupportedPlatforms() []schema_system.PlatformClass
+	RequiredCapabilities() schema_security.CapabilitySet
 	Optional() bool
 }
 
 // All modules that need DB/Bus access implement this
 type RuntimeAware interface {
-	SetRuntime(*runtime.RuntimeContext)
+	SetRuntime(*engine.RuntimeContext)
 }
 
 type ModuleCategory int
@@ -97,7 +99,7 @@ func (a *AgentRuntime) HandleInput(input string) error {
 }
 
 type DefaultRouter struct {
-	ctx      *schema.BootContext
+	ctx      *schema_boot.BootContext
 	handlers map[string]IntentHandler
 }
 
@@ -120,12 +122,12 @@ func (r *DefaultRouter) ExecuteIntent(i Intent) error {
 }
 
 type PolicyEngine interface {
-	Allowed(*schema.BootContext, Intent) bool
+	Allowed(*schema_boot.BootContext, Intent) bool
 }
 
 type defaultPolicy struct{}
 
-func (defaultPolicy) Allowed(*schema.BootContext, Intent) bool {
+func (defaultPolicy) Allowed(*schema_boot.BootContext, Intent) bool {
 	return true
 }
 

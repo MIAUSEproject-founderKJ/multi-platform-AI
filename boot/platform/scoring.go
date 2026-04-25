@@ -6,25 +6,25 @@ import (
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 )
 
 // Define constants to prevent magic strings
 const (
-	ClassUnknown     schema.PlatformClass = "Unknown"
-	ClassVehicle     schema.PlatformClass = "Automotive"
-	ClassIndustrial  schema.PlatformClass = "Industrial"
-	ClassWorkstation schema.PlatformClass = "Workstation"
+	ClassUnknown     schema_system.PlatformClass = "Unknown"
+	ClassVehicle     schema_system.PlatformClass = "Automotive"
+	ClassIndustrial  schema_system.PlatformClass = "Industrial"
+	ClassWorkstation schema_system.PlatformClass = "Workstation"
 )
 
 // RunResolution determines the Final PlatformClass based on confidence scores.
-func RunResolution(env *schema.EnvConfig) {
+func RunResolution(env *schema_system.EnvConfig) {
 	// Security: If the platform is locked (e.g., by a hardware dongle), do not override.
 	if env.Platform.Locked {
 		return
 	}
 
-	var bestCandidate schema.PlatformScore
+	var bestCandidate schema_system.PlatformScore
 	var highestConf mathutil.Q16
 
 	for i := range env.Platform.Candidates {
@@ -71,6 +71,6 @@ func RunResolution(env *schema.EnvConfig) {
 }
 
 // Helper to prioritize safety-critical platforms during ties
-func isSafetyCritical(pType schema.PlatformClass) bool {
+func isSafetyCritical(pType schema_system.PlatformClass) bool {
 	return pType == ClassVehicle || pType == ClassIndustrial
 }

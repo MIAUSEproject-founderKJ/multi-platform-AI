@@ -1,22 +1,28 @@
-// boot\types\boot_modes.go
+// boot/types/boot_modes.go
 
-package boot
+package boot_types
 
 import (
 	"errors"
 	"fmt"
 	"time"
 
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
+	boot_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/phases"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
+	security_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
+	security_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/verification"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/keys"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	schema_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
+	schema_identity "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/identity"
+	schema_security "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/security"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 )
 
 // DecideBootPath determines whether to run fast or cold boot
-func (bm *BootManager) DecideBootPath() (*schema.BootSequence, error) {
+func (bm *boot_phase.BootManager) DecideBootPath() (*schema_system.BootSequence, error) {
 
 	if bm.Identity == nil || bm.Identity.MachineID == "" {
 		return nil, errors.New("invalid machine identity")
@@ -29,8 +35,8 @@ func (bm *BootManager) DecideBootPath() (*schema.BootSequence, error) {
 		return bm.runColdBoot(bm.Identity)
 	}
 
-	if env.SchemaVersion < schema.CurrentVersion {
-		env = schema.Migrate(env)
+	if env.SchemaVersion < schema_system.CurrentVersion {
+		env = schema_system.Migrate(env)
 		if err := bm.Vault.SaveConfig(lastEnvKey, env); err != nil {
 			return nil, err
 		}
@@ -46,10 +52,10 @@ func (bm *BootManager) DecideBootPath() (*schema.BootSequence, error) {
 // ------------------------------------------------------------
 // Cold Boot: full hardware discovery and provisioning
 // ------------------------------------------------------------
-func (bm *BootManager) runColdBoot(identity *schema.MachineIdentity) (*schema.BootSequence, error) {
+func (bm *boot_phase.BootManager) runColdBoot(identity *schema_system.MachineIdentity) (*schema_system.BootSequence, error) {
 	// Use the discovered platform + identity info
-	env := &schema.EnvConfig{
-		Platform: schema.PlatformResolution{
+	env := &schema_system.EnvConfig{
+		Platform: schema_system.PlatformResolution{
 			Final:      identity.PlatformType, // << propagate platform
 			Locked:     false,
 			Source:     "discovery",
@@ -76,19 +82,19 @@ func (bm *BootManager) runColdBoot(identity *schema.MachineIdentity) (*schema.Bo
 	bm.Identity.BindHardware(fullProfile)
 
 	// 2. Provision golden baseline
-	goldenHash, err := security.ProvisionGolden(bm.Vault, bm.Identity.MachineID)
+	goldenHash, err := security_verification.ProvisionGolden(bm.Vault, bm.Identity.MachineID)
 	if err != nil {
 		return nil, err
 	}
 
 	// 3. Create first-boot marker
-	marker := &schema.FirstBootMarker{
+	marker := &schema_boot.FirstBootMarker{
 		MachineID:     bm.Identity.MachineID,
-		SchemaVersion: schema.CurrentVersion,
+		SchemaVersion: schema_system.CurrentVersion,
 		GoldenHash:    goldenHash,
 		Initialized:   true,
 		CreatedAt:     time.Now(),
-		BootTrust:     schema.TrustStrong,
+		BootTrust:     schema_system.TrustStrong,
 	}
 	if err := bm.Vault.SaveFirstBootMarker(marker); err != nil {
 		return nil, err
@@ -116,7 +122,7 @@ func (bm *BootManager) runColdBoot(identity *schema.MachineIdentity) (*schema.Bo
 	if !found {
 		cred.UserID = bm.Identity.MachineID
 
-		cred.Password, err = security.GenerateSecureKeyBase64()
+		cred.Password, err = security_persistence.GenerateSecureKeyBase64()
 		if err != nil {
 			return nil, err
 		}
@@ -134,16 +140,16 @@ func (bm *BootManager) runColdBoot(identity *schema.MachineIdentity) (*schema.Bo
 
 	capSet := BuildCapabilitySet(env.Platform.Final, resolveTier(session.Entity), resolveServiceProfile(env.Platform.Final))
 
-	caps, err := DetectDeviceCapabilities(env, capSet)
+	caps, err := boot.DetectDeviceCapabilities(env, capSet)
 	if err != nil {
 		return nil, fmt.Errorf("device capability detection failed: %w", err)
 	}
 
 	env.Discovery.Capabilities = *caps
 
-	return &schema.BootSequence{
+	return &schema_system.BootSequence{
 		Env:          env,
-		Mode:         schema.BootCold,
+		Mode:         schema_boot.BootCold,
 		Attested:     true,
 		Capabilities: capSet,
 		UserSession:  session,
@@ -156,15 +162,15 @@ func (bm *BootManager) runColdBoot(identity *schema.MachineIdentity) (*schema.Bo
 // ------------------------------------------------------------
 // Fast Boot: use cached environment
 // ------------------------------------------------------------
-func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence, error) {
+func (bm *boot_phase.BootManager) runFastBoot(env *schema_system.EnvConfig) (*schema_system.BootSequence, error) {
 	logging.Info("[runFastBoot] Platform: %s | OS: %s | Arch: %s | EntityType: %v",
 		env.Platform.Final, env.Identity.OS, env.Identity.Arch, bm.Identity.EntityType)
 
 	marker, err := bm.Vault.LoadFirstBootMarker()
-	if err != nil || marker.SchemaVersion != schema.CurrentVersion {
+	if err != nil || marker.SchemaVersion != schema_system.CurrentVersion {
 		return bm.runColdBoot(bm.Identity)
 	}
-	if err := security.VerifyAgainstGolden(bm.Vault, marker.MachineID); err != nil {
+	if err := security_verification.VerifyAgainstGolden(bm.Vault, marker.MachineID); err != nil {
 		return bm.runColdBoot(bm.Identity)
 	}
 
@@ -190,15 +196,15 @@ func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence,
 
 	// Capability merging
 	capSet := BuildCapabilitySet(env.Platform.Final, resolveTier(session.Entity), resolveServiceProfile(env.Platform.Final))
-	caps, err := DetectDeviceCapabilities(env, capSet)
+	caps, err := boot.DetectDeviceCapabilities(env, capSet)
 	if err != nil {
 		return bm.runColdBoot(bm.Identity)
 	}
 	env.Discovery.Capabilities = *caps
 
-	return &schema.BootSequence{
+	return &schema_system.BootSequence{
 		Env:          env,
-		Mode:         schema.BootFast,
+		Mode:         schema_boot.BootFast,
 		Attested:     true,
 		Capabilities: capSet,
 		UserSession:  session,
@@ -210,73 +216,73 @@ func (bm *BootManager) runFastBoot(env *schema.EnvConfig) (*schema.BootSequence,
 
 // ------------------ Helpers ------------------
 
-func resolveTier(entity schema.EntityType) *schema.TierProfile {
+func resolveTier(entity schema_system.EntityType) *schema_identity.TierProfile {
 
 	switch entity {
-	case schema.EntityOrganization:
-		return &schema.TierProfile{Name: schema.TierEnterprise}
+	case schema_system.EntityOrganization:
+		return &schema_identity.TierProfile{Name: schema_identity.TierEnterprise}
 
-	case schema.EntityTester:
-		return &schema.TierProfile{Name: schema.TierTester}
+	case schema_system.EntityTester:
+		return &schema_identity.TierProfile{Name: schema_identity.TierTester}
 
 	default:
-		return &schema.TierProfile{Name: schema.TierPersonal}
+		return &schema_identity.TierProfile{Name: schema_identity.TierPersonal}
 	}
 }
 
-func resolveServiceProfile(platform schema.PlatformClass) *schema.ServiceProfile {
+func resolveServiceProfile(platform schema_system.PlatformClass) *schema_identity.ServiceProfile {
 
 	switch platform {
 
-	case schema.PlatformMobile:
-		return &schema.ServiceProfile{Name: schema.ServicePersonal}
+	case schema_system.PlatformMobile:
+		return &schema_identity.ServiceProfile{Name: schema_identity.ServicePersonal}
 
-	case schema.PlatformVehicle:
-		return &schema.ServiceProfile{Name: schema.ServiceMobility}
+	case schema_system.PlatformVehicle:
+		return &schema_identity.ServiceProfile{Name: schema_identity.ServiceMobility}
 
-	case schema.PlatformIndustrial:
-		return &schema.ServiceProfile{Name: schema.ServiceIndustrial}
+	case schema_system.PlatformIndustrial:
+		return &schema_identity.ServiceProfile{Name: schema_identity.ServiceIndustrial}
 
-	case schema.PlatformComputer:
-		return &schema.ServiceProfile{Name: schema.ServicePersonal}
+	case schema_system.PlatformComputer:
+		return &schema_identity.ServiceProfile{Name: schema_identity.ServicePersonal}
 
 	default:
-		return &schema.ServiceProfile{Name: schema.ServiceUnknown}
+		return &schema_identity.ServiceProfile{Name: schema_identity.ServiceUnknown}
 	}
 }
 
 // capSet := BuildCapabilitySet(bootSeq.Env.Platform.Final, resolveTier(bootSeq.Entity), resolveServiceProfile(bootSeq.Env.Platform.Final))
 // BuildCapabilitySet computes platform + tier + service capabilities
-func BuildCapabilitySet(platform schema.PlatformClass, tier *schema.TierProfile, service *schema.ServiceProfile,
-) schema.CapabilitySet {
-	var caps schema.CapabilitySet
+func BuildCapabilitySet(platform schema_system.PlatformClass, tier *schema_identity.TierProfile, service *schema_identity.ServiceProfile,
+) schema_security.CapabilitySet {
+	var caps schema_security.CapabilitySet
 
 	// Platform capabilities
 	switch platform {
-	case schema.PlatformVehicle:
-		caps |= schema.CapCANBus | schema.CapSecureEnclave
-	case schema.PlatformIndustrial:
-		caps |= schema.CapIndustrialIO | schema.CapNetwork
-	case schema.PlatformComputer:
-		caps |= schema.CapLocalStorage | schema.CapNetwork | schema.CapBiometric
+	case schema_system.PlatformVehicle:
+		caps |= schema_security.CapCANBus | schema_security.CapSecureEnclave
+	case schema_system.PlatformIndustrial:
+		caps |= schema_security.CapIndustrialIO | schema_security.CapNetwork
+	case schema_system.PlatformComputer:
+		caps |= schema_security.CapLocalStorage | schema_security.CapNetwork | schema_security.CapBiometric
 	}
 
 	// Tier capabilities
-	if tier.Name == schema.TierEnterprise {
-		caps |= schema.CapPersistentCloudLink
+	if tier.Name == schema_identity.TierEnterprise {
+		caps |= schema_security.CapPersistentCloudLink
 	}
 
-	if service.Name == schema.ServiceSystem {
-		caps |= schema.CapSafetyCritical
+	if service.Name == schema_identity.ServiceSystem {
+		caps |= schema_security.CapSafetyCritical
 	}
 	return caps
 }
 
-func BootTrustToString(t schema.BootTrust) string {
+func BootTrustToString(t schema_system.BootTrust) string {
 	switch t {
-	case schema.TrustStrong:
+	case schema_system.TrustStrong:
 		return "strong"
-	case schema.TrustWeak:
+	case schema_system.TrustWeak:
 		return "weak"
 	default:
 		return "invalid"

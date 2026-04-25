@@ -1,4 +1,5 @@
 // internal/apppath/paths.go
+
 package apppath
 
 import (
@@ -10,88 +11,191 @@ import (
 )
 
 var (
-	once           sync.Once
-	isPortable     bool
-	appName        = "multi-platform-AI"
-	// Path Caches
-	cachedConfigDir string
+	once sync.Once
+
+	appName = "multi-platform-AI"
+
+	// resolved paths (immutable after init)
+	cachedRootDir    string
+	cachedConfigDir  string
 	cachedRuntimeDir string
-	cachedLogDir    string
+	cachedLogDir     string
 	cachedVaultDir   string
+
+	// mode flags (deterministic)
+	isPortableMode  bool
+	isDevMode       bool
+	isInstalledMode bool
 )
 
-// Public Getters
-func GetDataDir() string    { once.Do(initPaths); return cachedRuntimeDir }
-func GetConfigDir() string  { once.Do(initPaths); return cachedConfigDir }
-func GetLogDir() string     { once.Do(initPaths); return cachedLogDir }
-func IsPortable() bool      { once.Do(initPaths); return isPortable }
-func GetVaultPath() string { once.Do(initPaths); return cachedVaultDir }
+// =========================
+// Public API (stable access)
+// =========================
 
+func GetRootDir() string    { once.Do(initPaths); return cachedRootDir }
+func GetConfigDir() string  { once.Do(initPaths); return cachedConfigDir }
+func GetRuntimeDir() string { once.Do(initPaths); return cachedRuntimeDir }
+func GetLogDir() string     { once.Do(initPaths); return cachedLogDir }
+func GetVaultPath() string  { once.Do(initPaths); return cachedVaultDir }
+
+func IsPortable() bool  { once.Do(initPaths); return isPortableMode }
+func IsDev() bool       { once.Do(initPaths); return isDevMode }
+func IsInstalled() bool { once.Do(initPaths); return isInstalledMode }
+
+// =========================
+// Initialization (deterministic)
+// =========================
 
 func initPaths() {
-	// 1. Allow Environment Overrides (DevOps/Docker Inclusivity)
-	if envDir := os.Getenv("AIOS_DATA_ROOT"); envDir != "" {
-		setPaths(envDir, false)
+	// 1. Explicit override (HIGHEST PRIORITY, deterministic)
+	if root := os.Getenv("AIOS_DATA_ROOT"); root != "" {
+		resolveAsRoot(root, detectModeFromEnv())
 		return
 	}
 
-	exePath, err := os.Executable()
+	// 2. Portable mode via environment (NOT filesystem-based)
+	if os.Getenv("AIOS_PORTABLE") == "true" {
+		exeDir := mustExecutableDirFallback()
+		resolveAsPortable(exeDir)
+		return
+	}
+
+	// 3. Installed mode (system standard dirs)
+	if runtime.GOOS != "" {
+		if isSystemInstalled() {
+			resolveAsInstalled()
+			return
+		}
+	}
+
+	// 4. Dev fallback (deterministic)
+	exeDir := mustExecutableDirFallback()
+	resolveAsDev(exeDir)
+}
+
+// =========================
+// Mode resolution helpers
+// =========================
+
+func resolveAsRoot(root string, mode string) {
+	cachedRootDir = filepath.Clean(root)
+
+	switch mode {
+	case "portable":
+		isPortableMode = true
+	case "installed":
+		isInstalledMode = true
+	default:
+		isDevMode = true
+	}
+
+	cachedConfigDir = filepath.Join(cachedRootDir, "config")
+	cachedRuntimeDir = filepath.Join(cachedRootDir, "runtime")
+	cachedLogDir = filepath.Join(cachedRootDir, "logs")
+	cachedVaultDir = filepath.Join(cachedRootDir, "vault")
+}
+
+func resolveAsPortable(root string) {
+	isPortableMode = true
+	cachedRootDir = filepath.Clean(root)
+
+	cachedConfigDir = filepath.Join(root, "config")
+	cachedRuntimeDir = filepath.Join(root, "runtime")
+	cachedLogDir = filepath.Join(root, "logs")
+	cachedVaultDir = filepath.Join(root, "vault")
+}
+
+func resolveAsInstalled() {
+	isInstalledMode = true
+
+	userConfigDir, err := os.UserConfigDir()
 	if err != nil {
-		setPaths(".", false) // Fallback to current working dir
-		return
-	}
-	appDir := filepath.Dir(exePath)
-
-	// 2. Portable Mode Check (The ".portable.done" strategy)
-	if _, err := os.Stat(filepath.Join(appDir, ".portable.done")); err == nil {
-		isPortable = true
-		setPaths(appDir, true)
-		return
+		panic("failed to resolve user config dir")
 	}
 
-	// 3. System-Specific Logic (The "Inclusive" expansion)
-	if isInstalled(appDir) {
-		userConfig, _ := os.UserConfigDir()      // Linux: ~/.config, Win: AppData, Mac: AppSupport
-		userCache, _ := os.UserCacheDir()        // Linux: ~/.cache, Win: LocalAppData, Mac: Caches
-		
-		cachedConfigDir = filepath.Join(userConfig, appName)
-		cachedRuntimeDir = filepath.Join(userConfig, appName, "runtime")
-		cachedLogDir = filepath.Join(userCache, appName, "logs")
-	} else {
-		// Fallback for Dev environments
-		setPaths(appDir, true)
+	userCacheDir, err := os.UserCacheDir()
+	if err != nil {
+		panic("failed to resolve user cache dir")
 	}
+
+	root := filepath.Join(userConfigDir, appName)
+	cachedRootDir = filepath.Clean(root)
+
+	cachedConfigDir = root
+	cachedRuntimeDir = filepath.Join(root, "runtime")
+	cachedLogDir = filepath.Join(userCacheDir, appName, "logs")
+	cachedVaultDir = filepath.Join(root, "vault")
 }
 
-// setPaths helper to maintain structure consistency
-func setPaths(root string, isLocal bool) {
-    if isLocal {
-        cachedConfigDir = filepath.Join(root, "configs")
-        cachedRuntimeDir = filepath.Join(root, "runtime")
-        cachedLogDir = filepath.Join(root, "runtime", "logs")
-        cachedVaultDir = filepath.Join(root, "vault") 
-    } else {
-        cachedConfigDir = root
-        cachedRuntimeDir = filepath.Join(root, "runtime")
-        cachedLogDir = filepath.Join(root, "logs")
-        cachedVaultDir = filepath.Join(root, "vault") 
-    }
+func resolveAsDev(root string) {
+	isDevMode = true
+	cachedRootDir = filepath.Clean(root)
+
+	cachedConfigDir = filepath.Join(root, "config")
+	cachedRuntimeDir = filepath.Join(root, "runtime")
+	cachedLogDir = filepath.Join(root, "runtime", "logs")
+	cachedVaultDir = filepath.Join(root, "vault")
 }
 
-// isInstalled determines if the app is running from a protected system location
-func isInstalled(path string) bool {
-	path = strings.ToLower(path)
+// =========================
+// Environment detection
+// =========================
+
+func detectModeFromEnv() string {
+	if os.Getenv("AIOS_PORTABLE") == "true" {
+		return "portable"
+	}
+	if os.Getenv("AIOS_MODE") == "installed" {
+		return "installed"
+	}
+	return "dev"
+}
+
+// =========================
+// System detection (non-authoritative, advisory only)
+// =========================
+
+func isSystemInstalled() bool {
+	// IMPORTANT:
+	// This is NOT used as a primary switch (avoids nondeterminism)
+	// Only used as a hint when no env override exists.
+
+	exe, err := os.Executable()
+	if err != nil {
+		return false
+	}
+
+	exe = strings.ToLower(exe)
+
 	switch runtime.GOOS {
 	case "windows":
-		pf := strings.ToLower(os.Getenv("ProgramFiles"))
-		pf86 := strings.ToLower(os.Getenv("ProgramFiles(x86)"))
-		return strings.HasPrefix(path, pf) || strings.HasPrefix(path, pf86)
-	case "darwin": // macOS Inclusion
-		return strings.HasPrefix(path, "/applications") || strings.HasPrefix(path, "/library")
+		programFiles := strings.ToLower(os.Getenv("ProgramFiles"))
+		programFilesX86 := strings.ToLower(os.Getenv("ProgramFiles(x86)"))
+
+		return strings.HasPrefix(exe, programFiles) ||
+			strings.HasPrefix(exe, programFilesX86)
+
+	case "darwin":
+		return strings.Contains(exe, "/applications")
+
 	case "linux":
-		return strings.HasPrefix(path, "/usr") || strings.HasPrefix(path, "/bin") || 
-			   strings.HasPrefix(path, "/opt") || strings.HasPrefix(path, "/var")
+		return strings.HasPrefix(exe, "/usr") ||
+			strings.HasPrefix(exe, "/opt")
+
 	default:
 		return false
 	}
+}
+
+// =========================
+// Safe fallback
+// =========================
+
+func mustExecutableDirFallback() string {
+	exe, err := os.Executable()
+	if err != nil {
+		// absolute fallback for deterministic behavior
+		return "."
+	}
+	return filepath.Dir(exe)
 }

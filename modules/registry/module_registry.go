@@ -1,14 +1,16 @@
-// modules\registry\module_registry.go
-package modules
+// modules/registry/module_registry.go
+package registry
 
-func DefaultRegistry() []DomainModule {
-	return []DomainModule{
-		NewIngestionModule(),
-		NewTelemetryModule(),
-		NewInferenceModule(),
-		NewDatabaseSinkModule(),
-		NewIndustrialProtocolModule(),
-		NewAuditModule(),
+import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
+
+func DefaultRegistry() []modules.DomainModule {
+	return []modules.DomainModule{
+		modules.NewIngestionModule(),
+		modules.NewTelemetryModule(),
+		modules.NewInferenceModule(),
+		modules.NewDatabaseSinkModule(),
+		modules.NewIndustrialProtocolModule(),
+		modules.NewAuditModule(),
 	}
 }
 

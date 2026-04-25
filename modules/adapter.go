@@ -10,17 +10,18 @@ package modules
 import (
 	"context"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/supervisor"
 )
 
-// Adapter wraps old DomainModule into new runtime.Module
+// Adapter wraps old DomainModule into new supervisor.Module
 type Adapter struct {
 	legacy DomainModule
 }
 
-// AdaptModules converts legacy modules into runtime.Module
-func AdaptModules(mods []DomainModule, rtx *runtime.RuntimeContext) []runtime.Module {
-	out := make([]runtime.Module, 0, len(mods))
+// AdaptModules converts legacy modules into supervisor.Module
+func AdaptModules(mods []DomainModule, rtx *engine.RuntimeContext) []supervisor.Module {
+	out := make([]supervisor.Module, 0, len(mods))
 
 	for _, m := range mods {
 		// Inject runtime if supported

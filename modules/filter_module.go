@@ -1,9 +1,9 @@
 // modules/filter_module.go
 package modules
 
-import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+import schema_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
 
-func FilterModules(all []DomainModule, ctx *schema.BootContext) []DomainModule {
+func FilterModules(all []DomainModule, ctx *schema_boot.BootContext) []DomainModule {
 
 	var out []DomainModule
 
@@ -24,4 +24,3 @@ func FilterModules(all []DomainModule, ctx *schema.BootContext) []DomainModule {
 
 	return out
 }
-

@@ -10,15 +10,15 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/probe"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 )
 
 // Desktop/Laptop scoring using fingerprint
-func collectDesktopSignals(env *schema.EnvConfig, fp probe.HardwareFingerprint, scores map[schema.PlatformClass]*schema.PlatformScore) {
-	s := scores[schema.PlatformComputer]
+func collectDesktopSignals(env *schema_system.EnvConfig, fp probe.HardwareFingerprint, scores map[schema_system.PlatformClass]*schema_system.PlatformScore) {
+	s := scores[schema_system.PlatformComputer]
 	if s == nil {
-		s = &schema.PlatformScore{Type: schema.PlatformComputer, MaxScore: 1.5}
-		scores[schema.PlatformComputer] = s
+		s = &schema_system.PlatformScore{Type: schema_system.PlatformComputer, MaxScore: 1.5}
+		scores[schema_system.PlatformComputer] = s
 	}
 
 	cpu := runtime.NumCPU()
@@ -33,28 +33,28 @@ func collectDesktopSignals(env *schema.EnvConfig, fp probe.HardwareFingerprint, 
 
 	s.Score += scoreFromCPU + scoreFromPCI + scoreFromMAC + scoreFromBattery
 	s.Signals = append(s.Signals,
-		schema.Signal{
+		schema_system.Signal{
 			Name:       "cpu_cores",
 			Value:      minFloat(float64(cpu)/16.0, 1.0),
 			Weight:     0.3,
 			Confidence: mathutil.FromFloat64(0.9),
 			Source:     "runtime",
 		},
-		schema.Signal{
+		schema_system.Signal{
 			Name:       "battery_present",
 			Value:      BoolToFloat(env.Hardware.HasBattery),
 			Weight:     0.3,
 			Confidence: mathutil.FromFloat64(0.95),
 			Source:     "power",
 		},
-		schema.Signal{
+		schema_system.Signal{
 			Name:       "pci_devices",
 			Value:      minFloat(float64(len(fp.PCI))/10.0, 1.0),
 			Weight:     0.3,
 			Confidence: mathutil.FromFloat64(0.9),
 			Source:     "runtime",
 		},
-		schema.Signal{
+		schema_system.Signal{
 			Name:       "mac_addresses",
 			Value:      minFloat(float64(len(fp.MAC))/5.0, 1.0),
 			Weight:     0.2,
@@ -68,7 +68,7 @@ func collectDesktopSignals(env *schema.EnvConfig, fp probe.HardwareFingerprint, 
 }
 
 // ComputeHardwareFingerprint remains unchanged
-func ComputeHardwareFingerprint(env *schema.EnvConfig) []byte {
+func ComputeHardwareFingerprint(env *schema_system.EnvConfig) []byte {
 	payload := fmt.Sprintf("%s|%s|%s|%d|%d",
 		env.Identity.MachineID,
 		env.Identity.OS,

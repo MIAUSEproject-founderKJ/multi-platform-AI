@@ -8,7 +8,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/encoding"
 	"github.com/gordonklaus/portaudio"
 	"github.com/maxhawkins/go-webrtcvad"
 )
@@ -104,7 +104,7 @@ func (a *AudioVAD) loop() {
 		}
 
 		// VAD processing
-		buf := schema.Int16ToBytes(a.frameBuf)
+		buf := encoding.Int16ToBytes(a.frameBuf)
 		active, err := a.vad.Process(sampleRate, buf)
 		if err != nil {
 			continue

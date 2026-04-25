@@ -8,9 +8,13 @@ import (
 	"fmt"
 	"sync/atomic"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	schema_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
+	schema_identity "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/identity"
+	schema_security "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/security"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
+	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 	"go.uber.org/zap"
 )
 
@@ -26,7 +30,7 @@ var (
 type AudioModule struct {
 	modules.BaseModule
 
-	runtime   *runtime.RuntimeContext
+	runtime   *engine.RuntimeContext
 	writer    *WAVWriter
 	extractor *FeatureExtractor
 	repo      *AudioRepository
@@ -49,7 +53,7 @@ func NewAudioModule() modules.DomainModule {
 // Runtime Injection
 // --------------------------------------------------
 
-func (m *AudioModule) SetRuntime(rtx *runtime.RuntimeContext) {
+func (m *AudioModule) SetRuntime(rtx *engine.RuntimeContext) {
 	m.runtime = rtx
 }
 
@@ -57,7 +61,7 @@ func (m *AudioModule) SetRuntime(rtx *runtime.RuntimeContext) {
 // Init (no goroutines here)
 // --------------------------------------------------
 
-func (m *AudioModule) Init(ctx *schema.BootContext) error {
+func (m *AudioModule) Init(ctx *schema_boot.BootContext) error {
 	if m.runtime == nil {
 		return ErrRuntimeNotSet
 	}
@@ -134,7 +138,7 @@ func (m *AudioModule) process(payload []byte) error {
 	}
 
 	// 4. Publish downstream
-	msg := runtime.Message{
+	msg := runtime_bus.Message{
 		Topic: "audio.features",
 		Data:  data,
 	}
@@ -148,23 +152,23 @@ func (m *AudioModule) process(payload []byte) error {
 // Capability Enforcement
 // --------------------------------------------------
 
-func (m *AudioModule) RequiredCapabilities() schema.CapabilitySet {
-	return schema.CapLocalStorage | schema.CapNetwork
+func (m *AudioModule) RequiredCapabilities() schema_security.CapabilitySet {
+	return schema_security.CapLocalStorage | schema_security.CapNetwork
 }
 
 // --------------------------------------------------
 // Policy Enforcement (CRITICAL)
 // --------------------------------------------------
 
-func (m *AudioModule) Allowed(ctx *schema.BootContext) bool {
+func (m *AudioModule) Allowed(ctx *schema_boot.BootContext) bool {
 
 	// Must have runtime execution rights
-	if !ctx.Permissions[schema.PermBasicRuntime] {
+	if !ctx.Permissions[schema_identity.PermBasicRuntime] {
 		return false
 	}
 
 	// Audio capture requires hardware permission
-	if !ctx.Permissions[schema.PermHardwareIO] {
+	if !ctx.Permissions[schema_identity.PermHardwareIO] {
 		return false
 	}
 
@@ -193,7 +197,7 @@ func (m *AudioModule) Category() modules.ModuleCategory {
 	return modules.ModuleDomain
 }
 
-func (m *AudioModule) SupportedPlatforms() []schema.PlatformClass {
+func (m *AudioModule) SupportedPlatforms() []schema_system.PlatformClass {
 	return nil // capability-driven only
 }
 

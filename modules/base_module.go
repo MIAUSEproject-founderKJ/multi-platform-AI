@@ -5,7 +5,7 @@ package modules
 import (
 	"sync/atomic"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	schema_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
 	"go.uber.org/zap"
 )
 
@@ -14,7 +14,7 @@ type BaseModule struct {
 	deps []string
 
 	// Add these fields for InferenceModule
-	ctx     *schema.BootContext
+	ctx     *schema_boot.BootContext
 	logger  *zap.Logger
 	running atomic.Bool
 }
@@ -22,7 +22,7 @@ type BaseModule struct {
 func (b *BaseModule) setRunning(v bool) { b.running.Store(v) }
 func (b *BaseModule) IsRunning() bool   { return b.running.Load() }
 
-func (b *BaseModule) Init(ctx *schema.BootContext) {
+func (b *BaseModule) Init(ctx *schema_boot.BootContext) {
 	b.ctx = ctx
 	b.logger = zap.NewExample() // replace with proper logger
 }

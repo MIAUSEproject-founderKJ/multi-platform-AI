@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
+	security_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
 )
 
 // UserProfile defines the human operator
@@ -28,7 +28,7 @@ type Session struct {
 	ExpiresAt time.Time
 }
 
-func NewAuthManager(v security.VaultStore) *auth.AuthManager {
+func NewAuthManager(v security_persistence.VaultStore) *auth.AuthManager {
 	return &auth.AuthManager{Vault: v}
 }
 

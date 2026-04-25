@@ -2,10 +2,11 @@
 package boot
 
 import (
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	schema_security "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/security"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 )
 
-func DetectDeviceCapabilities(env *schema.EnvConfig, capSet schema.CapabilitySet) (*schema.CapabilityDescriptor, error) {
+func DetectDeviceCapabilities(env *schema_system.EnvConfig, capSet schema_security.CapabilitySet) (*schema_system.CapabilityDescriptor, error) {
 	caps := env.Discovery.Capabilities // start from discovery
 
 	// --------------------------------
@@ -20,15 +21,15 @@ func DetectDeviceCapabilities(env *schema.EnvConfig, capSet schema.CapabilitySet
 	// --------------------------------
 	// 2. Platform / Boot capability merge
 	// --------------------------------
-	if capSet&schema.CapCANBus != 0 {
+	if capSet&schema_security.CapCANBus != 0 {
 		caps.SensorOnly = false
 	}
 
-	if capSet&schema.CapSafetyCritical != 0 {
+	if capSet&schema_security.CapSafetyCritical != 0 {
 		caps.HasSafetyEnvelope = true
 	}
 
-	if capSet&schema.CapLocalStorage != 0 {
+	if capSet&schema_security.CapLocalStorage != 0 {
 		caps.SupportsRegisterControl = true
 	}
 
@@ -37,12 +38,12 @@ func DetectDeviceCapabilities(env *schema.EnvConfig, capSet schema.CapabilitySet
 	// --------------------------------
 	switch env.Platform.Final {
 
-	case schema.PlatformRobot, schema.PlatformVehicle:
+	case schema_system.PlatformRobot, schema_system.PlatformVehicle:
 		caps.SupportsGoalControl =
 			caps.SupportsRegisterControl &&
 				caps.HasSafetyEnvelope
 
-	case schema.PlatformEmbedded:
+	case schema_system.PlatformEmbedded:
 		caps.SensorOnly = !caps.SupportsRegisterControl
 	}
 
@@ -56,7 +57,7 @@ func DetectDeviceCapabilities(env *schema.EnvConfig, capSet schema.CapabilitySet
 	return &caps, nil
 }
 
-func extractPlatformConfidence(env *schema.EnvConfig) float64 {
+func extractPlatformConfidence(env *schema_system.EnvConfig) float64 {
 	for _, c := range env.Platform.Candidates {
 		if c.Type == env.Platform.Final {
 			return c.Confidence.Float64()

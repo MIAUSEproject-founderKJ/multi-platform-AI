@@ -2,18 +2,16 @@
 
 package probe
 
-import (
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-)
+import schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 
 type IdentityProbeResult struct {
-	Identity schema.MachineIdentity
+	Identity schema_system.MachineIdentity
 }
 
 // Passive OS-level probe
 func IdentityProbe() (*IdentityProbeResult, error) {
 
-	id := schema.MachineIdentity{
+	id := schema_system.MachineIdentity{
 		MachineID: "runtime-probe",
 		OS:        "unknown",
 		Arch:      "unknown",

@@ -30,8 +30,10 @@ boot/                           (build BootContext ONLY)
   phases/
     discovery_phase.go
     identity_phase.go
-    attestation_phase.go
     capability_phase.go
+    boot_resolution_phase.go
+    attestation_phase.go
+    interface.go
     module_resolution_phase.go
   /resolver
     /execution_context_resolver.go 
@@ -62,10 +64,23 @@ core/                           (pure logic, no boot/runtime)
     command_router.go
     command_handler_contract.go
   security/
-    attestation_service.go
-    policy_enforcer.go
-    token_service.go
-    secure_vault_store.go
+    core\security
+core\security\decision
+core\security\decision\decision_engine.go
+core\security\identity
+core\security\identity\token_service.go
+core\security\measurement
+core\security\measurement\measured_boot.go
+core\security\persistence
+core\security\persistence\config_store.go
+core\security\persistence\golden_hash_store.go
+core\security\persistence\key_manager.go
+core\security\persistence\kv_store.go
+core\security\persistence\marker_store.go
+core\security\persistence\vault_store.go
+core\security\verification
+core\security\verification\verification_engine.go
+
   auth/
     auth_service.go
     auth_gatekeeper.go
@@ -111,19 +126,42 @@ drivers/                        (hardware ONLY)
 interaction/                   (user interaction control)
   interaction_mode_controller.go
 
-internal/                      (leaf-only, no upward deps)
-  schema/
-    env.go                     (SOURCE OF TRUTH)
-    user.go
-    context.go
-  logging/
-    structured_logger.go
-  network/
-    network_discovery_service.go
-  policy/
-    policy_model.go
-  mathutil/
-    q16.go
+internal
+internal\apppath
+internal\apppath\paths.go
+internal\encoding
+internal\encoding\convert_int_byte.go
+internal\keys
+internal\keys\env_keys.go
+internal\logging
+internal\logging\bloat_guard.go
+internal\logging\logger.go
+internal\logging\reflective_logger.go
+internal\logging\structured_logger.go
+internal\mathutil
+internal\mathutil\q16.go
+internal\network
+internal\network\network_discovery_service.go
+internal\policy
+internal\policy\decision.go
+internal\policy\model.go
+internal\policy\registry.go
+internal\policy\resolver.go
+internal\schema
+internal\schema\boot
+internal\schema\boot\boot_marker.go
+internal\schema\boot\boot.go
+internal\schema\boot\context.go
+internal\schema\identity
+internal\schema\identity\user.go
+internal\schema\security
+internal\schema\security\capabilities.go
+internal\schema\security\config.go
+internal\schema\security\permissions.go
+internal\schema\system
+internal\schema\system\device_platform.go
+internal\schema\system\env.go
+internal\schema\system\version.go
 
 Audience: external users, integrators, OEMs
 Trust level: high, security-sensitive

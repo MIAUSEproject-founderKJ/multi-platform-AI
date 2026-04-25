@@ -1,19 +1,20 @@
-//boot\phases\attestation_phase.go
+//boot/phases/attestation_phase.go
 
-package boot
+package boot_phase
 
 import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	security_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
+	schema_identity "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/identity"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 )
 
 func PhaseAttestation(
-	vault security.VaultStore,
-	identity *schema.MachineIdentity,
-	bootSeq *schema.BootSequence,
-	preSession *schema.UserSession,
-) (*schema.UserSession, error) {
+	vault security_persistence.VaultStore,
+	identity *schema_system.MachineIdentity,
+	bootSeq *schema_system.BootSequence,
+	preSession *schema_identity.UserSession,
+) (*schema_identity.UserSession, error) {
 
 	var cred struct {
 		UserID   string

@@ -4,12 +4,13 @@ package resolver
 import (
 	"fmt"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 )
 
 func ResolveExecutionContext(
-	bs *schema.BootSequence,
-) (*schema.ExecutionContext, error) {
+	bs *schema_system.BootSequence,
+) (*boot.ExecutionContext, error) {
 
 	// ------------------------------------------------------------
 	// 1. Validation
@@ -40,7 +41,7 @@ func ResolveExecutionContext(
 	// 3. Construct ExecutionContext (NO runtime deps)
 	// ------------------------------------------------------------
 
-	ctx := &schema.ExecutionContext{
+	ctx := &boot.ExecutionContext{
 		Session:     bs.UserSession,
 		Permissions: bootCtx.Permissions,
 		TrustLevel:  bootCtx.TrustLevel,

@@ -1,4 +1,4 @@
-//modules\registry\module_dependency_resolver.go
+//modules/registry/module_dependency_resolver.go
 /*Validate module dependency declarations.
 Detect missing or circular dependencies.
 Produce a safe startup order where every module is initialized only after its dependencies.*/
@@ -8,12 +8,16 @@ InferenceModule depends on StorageModule
 ResolveDependencies enforces deterministic startup ordering.
 */
 
-package modules
+package registry
 
-import "fmt"
+import (
+	"fmt"
 
-func ResolveDependencies(mods []DomainModule) ([]DomainModule, error) {
-	nameIndex := make(map[string]DomainModule)
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
+)
+
+func ResolveDependencies(mods []modules.DomainModule) ([]modules.DomainModule, error) {
+	nameIndex := make(map[string]modules.DomainModule)
 	inDegree := make(map[string]int)
 	graph := make(map[string][]string)
 
@@ -40,7 +44,7 @@ func ResolveDependencies(mods []DomainModule) ([]DomainModule, error) {
 		}
 	}
 
-	var ordered []DomainModule
+	var ordered []modules.DomainModule
 
 	for len(queue) > 0 {
 		current := queue[0]

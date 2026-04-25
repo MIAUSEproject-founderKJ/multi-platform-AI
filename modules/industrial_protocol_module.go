@@ -6,13 +6,15 @@ import (
 	"context"
 	"sync/atomic"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	schema_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
+	schema_security "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/security"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 )
 
 type IndustrialProtocolModule struct {
 	BaseModule // embed BaseModule
 	healthy    atomic.Bool
-	ctx        *schema.BootContext // store BootContext locally
+	ctx        *schema_boot.BootContext // store BootContext locally
 }
 
 // Factory function
@@ -25,7 +27,7 @@ func NewIndustrialProtocolModule() DomainModule {
 	}
 }
 
-func (m *IndustrialProtocolModule) Init(ctx *schema.BootContext) error {
+func (m *IndustrialProtocolModule) Init(ctx *schema_boot.BootContext) error {
 	m.ctx = ctx // store for internal use
 	m.healthy.Store(true)
 	return nil
@@ -43,7 +45,7 @@ func (m *IndustrialProtocolModule) DependsOn() []string {
 	return []string{"TelemetryModule"}
 }
 
-func (m *IndustrialProtocolModule) Allowed(ctx *schema.BootContext) bool {
+func (m *IndustrialProtocolModule) Allowed(ctx *schema_boot.BootContext) bool {
 	return true
 }
 
@@ -71,8 +73,8 @@ func (m *IndustrialProtocolModule) Healthy() bool {
 	return m.healthy.Load()
 }
 
-func (m *IndustrialProtocolModule) SupportedPlatforms() []schema.PlatformClass { return nil }
-func (m *IndustrialProtocolModule) RequiredCapabilities() schema.CapabilitySet {
+func (m *IndustrialProtocolModule) SupportedPlatforms() []schema_system.PlatformClass { return nil }
+func (m *IndustrialProtocolModule) RequiredCapabilities() schema_security.CapabilitySet {
 	// This module doesn’t require any capabilities, so return 0
 	return 0
 }

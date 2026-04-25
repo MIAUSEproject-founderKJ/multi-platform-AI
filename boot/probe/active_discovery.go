@@ -10,20 +10,20 @@ import (
 	"strings"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 )
 
 // ActiveDiscovery acts as the "Neurologist" for the machine.
 // boot/probe/active_discovery.go
-func ActiveDiscovery(env *schema.EnvConfig) (*schema.EnvConfig, error) {
+func ActiveDiscovery(env *schema_system.EnvConfig) (*schema_system.EnvConfig, error) {
 
 	logging.Info("[active_discovery] Phase 2: Active Hardware Mapping for %s", env.Platform.Final)
 
 	switch env.Platform.Final {
-	case schema.PlatformComputer, schema.PlatformMobile:
+	case schema_system.PlatformComputer, schema_system.PlatformMobile:
 		populateCompute(env)
-	case schema.PlatformVehicle, schema.PlatformRobot,
-		schema.PlatformIndustrial, schema.PlatformEmbedded:
+	case schema_system.PlatformVehicle, schema_system.PlatformRobot,
+		schema_system.PlatformIndustrial, schema_system.PlatformEmbedded:
 		populateEmbedded(env)
 	default:
 		logging.Warn("[PROBE] Unknown platform %s using sensor-only fallback", env.Platform.Final)
@@ -36,11 +36,11 @@ func ActiveDiscovery(env *schema.EnvConfig) (*schema.EnvConfig, error) {
 }
 
 // populateCompute fills GPU/VRAM info for high-level devices
-func populateCompute(cfg *schema.EnvConfig) {
+func populateCompute(cfg *schema_system.EnvConfig) {
 	count, totalVRAM := ProbeVRAM()
 	if count > 0 {
 		cfg.Hardware.Processors = append(cfg.Hardware.Processors,
-			schema.Processor{Type: "GPU", Count: count, Version: float64(totalVRAM)})
+			schema_system.Processor{Type: "GPU", Count: count, Version: float64(totalVRAM)})
 		if totalVRAM > 1024 {
 			cfg.Discovery.Capabilities.SupportsAcceleratedCompute = true
 		}
@@ -48,12 +48,12 @@ func populateCompute(cfg *schema.EnvConfig) {
 }
 
 // populateEmbedded probes layers 0–4 for embedded/vehicle/robot
-func populateEmbedded(cfg *schema.EnvConfig) {
+func populateEmbedded(cfg *schema_system.EnvConfig) {
 	if phy, err := discoverPhysical(); err == nil {
-	cfg.Discovery.Physical = phy
-} else {
-	logging.Warn("physical discovery failed: %v", err)
-}
+		cfg.Discovery.Physical = phy
+	} else {
+		logging.Warn("physical discovery failed: %v", err)
+	}
 	if sig, err := discoverSignal(); err == nil {
 		cfg.Discovery.Signal = sig
 	}
@@ -67,8 +67,8 @@ func populateEmbedded(cfg *schema.EnvConfig) {
 }
 
 // resolveCapabilities maps protocol profile to capability descriptor
-func resolveCapabilities(p schema.ProtocolProfile) schema.CapabilityDescriptor {
-	return schema.CapabilityDescriptor{
+func resolveCapabilities(p schema_system.ProtocolProfile) schema_system.CapabilityDescriptor {
+	return schema_system.CapabilityDescriptor{
 		SensorOnly:              p.ReadableRegisters > 0,
 		SupportsRegisterControl: p.WritableRegisters > 0,
 		SupportsGoalControl:     p.WritableRegisters > 0 && p.SupportsWatchdog && p.SupportsSafeStop,
@@ -77,8 +77,8 @@ func resolveCapabilities(p schema.ProtocolProfile) schema.CapabilityDescriptor {
 }
 
 // discoverPhysical probes power & voltage, cross-platform
-func discoverPhysical() (schema.PhysicalProfile, error) {
-	phy := schema.PhysicalProfile{}
+func discoverPhysical() (schema_system.PhysicalProfile, error) {
+	phy := schema_system.PhysicalProfile{}
 
 	switch runtime.GOOS {
 	case "linux":
@@ -112,8 +112,8 @@ func discoverPhysical() (schema.PhysicalProfile, error) {
 }
 
 // discoverSignal probes bus type and basic signal properties, cross-platform
-func discoverSignal() (schema.SignalProfile, error) {
-	sig := schema.SignalProfile{}
+func discoverSignal() (schema_system.SignalProfile, error) {
+	sig := schema_system.SignalProfile{}
 
 	switch runtime.GOOS {
 	case "linux":
@@ -160,8 +160,8 @@ func discoverSignal() (schema.SignalProfile, error) {
 }
 
 // discoverBusNodes enumerates nodes on bus interfaces
-func discoverBusNodes() ([]schema.NodeDescriptor, error) {
-	var nodes []schema.NodeDescriptor
+func discoverBusNodes() ([]schema_system.NodeDescriptor, error) {
+	var nodes []schema_system.NodeDescriptor
 	if runtime.GOOS != "linux" {
 		return nodes, nil
 	}
@@ -174,7 +174,7 @@ func discoverBusNodes() ([]schema.NodeDescriptor, error) {
 	nodeID := 1
 	for _, iface := range strings.Split(string(out), "\n") {
 		if strings.HasPrefix(iface, "can") {
-			nodes = append(nodes, schema.NodeDescriptor{
+			nodes = append(nodes, schema_system.NodeDescriptor{
 				NodeID:    nodeID,
 				VendorID:  "UNKNOWN",
 				Class:     "BusInterface",
@@ -187,11 +187,11 @@ func discoverBusNodes() ([]schema.NodeDescriptor, error) {
 }
 
 // discoverProtocol performs conservative protocol inference
-func discoverProtocol(nodes []schema.NodeDescriptor) (schema.ProtocolProfile, error) {
+func discoverProtocol(nodes []schema_system.NodeDescriptor) (schema_system.ProtocolProfile, error) {
 	if len(nodes) == 0 {
-		return schema.ProtocolProfile{}, fmt.Errorf("no bus interfaces detected")
+		return schema_system.ProtocolProfile{}, fmt.Errorf("no bus interfaces detected")
 	}
-	return schema.ProtocolProfile{
+	return schema_system.ProtocolProfile{
 		FirmwareVersion:   "unknown",
 		WritableRegisters: 0,
 		ReadableRegisters: 1,

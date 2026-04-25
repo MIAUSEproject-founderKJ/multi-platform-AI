@@ -1,4 +1,4 @@
-//core\auth\auth_service.go
+//core/auth/auth_service.go
 
 package auth
 
@@ -12,48 +12,51 @@ import (
 	"strings"
 	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/interaction"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	boot_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/phases"
+	security_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
+
+	schema_identity "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/identity"
+	schema_security "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/security"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 )
 
 type AuthManager struct {
-	Vault    security.VaultStore
-	Identity *schema.MachineIdentity
-	Platform schema.PlatformClass
-	Entity   schema.EntityType
-	Tier     schema.TierType
+	Vault    security_persistence.VaultStore
+	Identity *schema_system.MachineIdentity
+	Platform schema_system.PlatformClass
+	Entity   schema_system.EntityType
+	Tier     schema_identity.TierType
 }
 
 type AuthInterface interface {
-	StartAuthFlow(auth *AuthManager) (*schema.UserSession, error)
+	StartAuthFlow(auth *AuthManager) (*schema_identity.UserSession, error)
 }
 
 // detectEntityAndTier inspects the user identity to assign entity and tier
 func (am *AuthManager) detectEntityAndTier() {
 	if am.Identity == nil {
-		am.Entity = schema.EntityStranger
-		am.Tier = schema.TierUnknown
+		am.Entity = schema_system.EntityStranger
+		am.Tier = schema_identity.TierUnknown
 		return
 	}
 
 	switch am.Identity.EntityType {
-	case schema.EntityPersonal:
-		am.Entity = schema.EntityPersonal
-		am.Tier = schema.TierPersonal
-	case schema.EntityOrganization:
-		am.Entity = schema.EntityOrganization
-		am.Tier = schema.TierEnterprise
-	case schema.EntityTester:
-		am.Entity = schema.EntityTester
-		am.Tier = schema.TierTester
+	case schema_system.EntityPersonal:
+		am.Entity = schema_system.EntityPersonal
+		am.Tier = schema_identity.TierPersonal
+	case schema_system.EntityOrganization:
+		am.Entity = schema_system.EntityOrganization
+		am.Tier = schema_identity.TierEnterprise
+	case schema_system.EntityTester:
+		am.Entity = schema_system.EntityTester
+		am.Tier = schema_identity.TierTester
 	default:
-		am.Entity = schema.EntityStranger
-		am.Tier = schema.TierUnknown
+		am.Entity = schema_system.EntityStranger
+		am.Tier = schema_identity.TierUnknown
 	}
 }
 
-func PromptForCredentials(vault security.VaultStore) (string, string) {
+func PromptForCredentials(vault security_persistence.VaultStore) (string, string) {
 	reader := bufio.NewReader(os.Stdin)
 
 	fmt.Print("[AUTH] Enter User ID: ")
@@ -61,7 +64,7 @@ func PromptForCredentials(vault security.VaultStore) (string, string) {
 	userID = strings.TrimSpace(userID)
 
 	// Check if user exists
-	var existing schema.MachineIdentity
+	var existing schema_system.MachineIdentity
 	found, _ := vault.Read("users", userID, &existing)
 
 	if !found {
@@ -84,7 +87,7 @@ func hashPassword(pw string) string {
 	return hex.EncodeToString(h[:])
 }
 
-func PromptForRegistration(vault security.VaultStore) (*schema.MachineIdentity, error) {
+func PromptForRegistration(vault security_persistence.VaultStore) (*schema_system.MachineIdentity, error) {
 	reader := bufio.NewReader(os.Stdin)
 
 	fmt.Println("=== User Registration ===")
@@ -101,15 +104,15 @@ func PromptForRegistration(vault security.VaultStore) (*schema.MachineIdentity, 
 	entityStr, _ := reader.ReadString('\n')
 	entityStr = strings.TrimSpace(entityStr)
 
-	entityType := schema.EntityPersonal
+	entityType := schema_system.EntityPersonal
 	switch strings.ToLower(entityStr) {
 	case "organization":
-		entityType = schema.EntityOrganization
+		entityType = schema_system.EntityOrganization
 	case "tester":
-		entityType = schema.EntityTester
+		entityType = schema_system.EntityTester
 	}
 
-	identity := &schema.MachineIdentity{
+	identity := &schema_system.MachineIdentity{
 		MachineID:    fmt.Sprintf("machine-%s", userID),
 		EntityType:   entityType,
 		OS:           "unknown",
@@ -130,13 +133,13 @@ func PromptForRegistration(vault security.VaultStore) (*schema.MachineIdentity, 
 }
 
 // verifyUserCredentials checks the Vault or database for valid credentials
-func (am *AuthManager) verifyUserCredentials(userID, password string) (bool, *schema.MachineIdentity) {
+func (am *AuthManager) verifyUserCredentials(userID, password string) (bool, *schema_system.MachineIdentity) {
 	if am.Vault == nil {
 		return false, nil
 	}
 
 	// Vault key for the user, e.g., "user_<userID>"
-	var stored schema.MachineIdentity
+	var stored schema_system.MachineIdentity
 	found, err := am.Vault.Read("users", userID, &stored)
 	if err != nil {
 		fmt.Println("[verifyUserCredentials] Vault read error:", err)
@@ -157,12 +160,12 @@ func (am *AuthManager) verifyUserCredentials(userID, password string) (bool, *sc
 	return true, &stored
 }
 
-func (am *AuthManager) RegisterUser(userID, password string, entityType schema.EntityType) error {
+func (am *AuthManager) RegisterUser(userID, password string, entityType schema_system.EntityType) error {
 	if am.Vault == nil {
 		return errors.New("vault not initialized")
 	}
 
-	identity := &schema.MachineIdentity{
+	identity := &schema_system.MachineIdentity{
 		MachineID:    fmt.Sprintf("machine-%s", userID),
 		EntityType:   entityType,
 		OS:           "unknown",
@@ -173,7 +176,7 @@ func (am *AuthManager) RegisterUser(userID, password string, entityType schema.E
 	return am.Vault.Write("users", userID, identity)
 }
 
-func PromptForUserConfig() *schema.CustomizedConfig {
+func PromptForUserConfig() *schema_security.CustomizedConfig {
 	cfg := DefaultCustomizedConfig()
 	reader := bufio.NewReader(os.Stdin)
 
@@ -205,13 +208,13 @@ func PromptForUserConfig() *schema.CustomizedConfig {
 	return cfg
 }
 
-func DefaultCustomizedConfig() *schema.CustomizedConfig {
-	return &schema.CustomizedConfig{
+func DefaultCustomizedConfig() *schema_security.CustomizedConfig {
+	return &schema_security.CustomizedConfig{
 		Version:      "v1",
 		LastModified: time.Now(),
 	}
 }
-func (am *AuthManager) Register() (*schema.UserSession, error) {
+func (am *AuthManager) Register() (*schema_identity.UserSession, error) {
 	reader := bufio.NewReader(os.Stdin)
 
 	fmt.Print("User ID: ")
@@ -222,7 +225,7 @@ func (am *AuthManager) Register() (*schema.UserSession, error) {
 	password, _ := reader.ReadString('\n')
 	password = strings.TrimSpace(password)
 
-	entityType := schema.EntityPersonal
+	entityType := schema_system.EntityPersonal
 
 	if err := am.RegisterUser(userID, password, entityType); err != nil {
 		return nil, err
@@ -232,7 +235,7 @@ func (am *AuthManager) Register() (*schema.UserSession, error) {
 	return am.Login(userID, password)
 }
 
-func (am *AuthManager) Login(userID, password string) (*schema.UserSession, error) {
+func (am *AuthManager) Login(userID, password string) (*schema_identity.UserSession, error) {
 	verified, identity := am.verifyUserCredentials(userID, password)
 	if !verified {
 		return nil, errors.New("invalid credentials")
@@ -244,7 +247,7 @@ func (am *AuthManager) Login(userID, password string) (*schema.UserSession, erro
 	return am.platformLoginFlow()
 }
 
-func (am *AuthManager) LoginOrSignUpInteractive() (*schema.UserSession, error) {
+func (am *AuthManager) LoginOrSignUpInteractive() (*schema_identity.UserSession, error) {
 	for {
 		userID, password := PromptForCredentials(am.Vault)
 
@@ -260,7 +263,7 @@ func (am *AuthManager) LoginOrSignUpInteractive() (*schema.UserSession, error) {
 }
 
 // platformLoginFlow performs the platform-specific verification and session creation
-func (am *AuthManager) platformLoginFlow() (*schema.UserSession, error) {
+func (am *AuthManager) platformLoginFlow() (*schema_identity.UserSession, error) {
 	var err error
 
 	switch am.Platform {
@@ -268,15 +271,15 @@ func (am *AuthManager) platformLoginFlow() (*schema.UserSession, error) {
 	// ------------------------------
 	// Vehicles / Autonomous Mobility
 	// ------------------------------
-	case schema.PlatformVehicle, schema.PlatformRobot:
+	case schema_system.PlatformVehicle, schema_system.PlatformRobot:
 		switch am.Entity {
-		case schema.EntityPersonal:
+		case schema_system.EntityPersonal:
 			err = am.verifyKeyFobOrBiometrics()
-		case schema.EntityOrganization:
+		case schema_system.EntityOrganization:
 			err = am.verifyBiometricsAndAppHandshake()
-		case schema.EntityStranger:
+		case schema_system.EntityStranger:
 			err = am.guestLoginVehicle()
-		case schema.EntityTester:
+		case schema_system.EntityTester:
 			err = am.verifyMechanicAccess()
 		default:
 			err = fmt.Errorf("unknown vehicle entity type")
@@ -285,24 +288,24 @@ func (am *AuthManager) platformLoginFlow() (*schema.UserSession, error) {
 	// ------------------------------
 	// Industrial / Embedded / Factory
 	// ------------------------------
-	case schema.PlatformIndustrial, schema.PlatformEmbedded:
+	case schema_system.PlatformIndustrial, schema_system.PlatformEmbedded:
 		err = am.verifyNFCCardOrButton()
 
 	// ------------------------------
 	// PCs / Laptops / Productivity
 	// ------------------------------
-	case schema.PlatformComputer, schema.PlatformMobile:
+	case schema_system.PlatformComputer, schema_system.PlatformMobile:
 		switch am.Entity {
-		case schema.EntityPersonal:
+		case schema_system.EntityPersonal:
 			err = am.verifyPasswordOrOSBiometrics()
-		case schema.EntityOrganization:
+		case schema_system.EntityOrganization:
 			err = am.verifyPasswordOrOSBiometrics()
 			if err == nil {
 				err = am.verify2FAEnterprise()
 			}
-		case schema.EntityStranger:
+		case schema_system.EntityStranger:
 			err = am.guestLoginPC()
-		case schema.EntityTester:
+		case schema_system.EntityTester:
 			err = am.enableDebugLogin()
 		default:
 			err = fmt.Errorf("unknown PC entity type")
@@ -320,14 +323,14 @@ func (am *AuthManager) platformLoginFlow() (*schema.UserSession, error) {
 	}
 
 	// Determine default service based on platform
-	service := schema.ServiceUnknown
+	service := schema_identity.ServiceUnknown
 	switch am.Platform {
-	case schema.PlatformVehicle, schema.PlatformRobot:
-		service = schema.ServiceEnterprise
-	case schema.PlatformIndustrial, schema.PlatformEmbedded:
-		service = schema.ServiceSystem
-	case schema.PlatformComputer, schema.PlatformMobile:
-		service = schema.ServicePersonal
+	case schema_system.PlatformVehicle, schema_system.PlatformRobot:
+		service = schema_identity.ServiceEnterprise
+	case schema_system.PlatformIndustrial, schema_system.PlatformEmbedded:
+		service = schema_identity.ServiceSystem
+	case schema_system.PlatformComputer, schema_system.PlatformMobile:
+		service = schema_identity.ServicePersonal
 	}
 
 	return am.createSession(service)
@@ -424,7 +427,7 @@ func (am *AuthManager) enableDebugLogin() error {
 // Session Creation
 // ------------------------------------------------------------
 
-func (am *AuthManager) createSession(service schema.ServiceType) (*schema.UserSession, error) {
+func (am *AuthManager) createSession(service schema_identity.ServiceType) (*schema_identity.UserSession, error) {
 
 	permList := security.DerivePermissions(
 		am.Platform,
@@ -432,13 +435,13 @@ func (am *AuthManager) createSession(service schema.ServiceType) (*schema.UserSe
 		am.Tier,
 	)
 
-	permMap := make(map[schema.Permission]bool)
+	permMap := make(map[schema_identity.Permission]bool)
 	for _, p := range permList {
 		permMap[p] = true
 	}
-	permMap[schema.PermUser] = true
+	permMap[schema_identity.PermUser] = true
 
-	session := &schema.UserSession{
+	session := &schema_identity.UserSession{
 		SessionID:   fmt.Sprintf("%d", time.Now().UnixNano()),
 		Platform:    am.Platform,
 		Entity:      am.Entity,
@@ -469,11 +472,11 @@ func (am *AuthManager) createSession(service schema.ServiceType) (*schema.UserSe
 	cp := interaction.DetectCapabilityProfile()
 
 	// ---- ORCHESTRATOR ----
-	orch := interaction.BuildOrchestrator(cp)
+	orch := boot_phase.BuildOrchestrator(cp)
 	orch.StartAll(session)
 
 	// ---- MODE (informational now) ----
-	mode := interaction.ResolveInteractionMode(cfg, cp.Set)
+	mode := boot_phase.ResolveInteractionMode(cfg, cp.Set)
 
 	session.Config = cfg
 	session.Capabilities = cp.Set
@@ -489,8 +492,8 @@ func (am *AuthManager) createSession(service schema.ServiceType) (*schema.UserSe
 	return session, nil
 }
 
-func LoadUserConfig(vault security.VaultStore, userID string) (*schema.CustomizedConfig, error) {
-	var cfg schema.CustomizedConfig
+func LoadUserConfig(vault security_persistence.VaultStore, userID string) (*schema_security.CustomizedConfig, error) {
+	var cfg schema_security.CustomizedConfig
 
 	found, err := vault.Read("configs", userID, &cfg)
 	if err != nil {
@@ -507,12 +510,12 @@ func LoadUserConfig(vault security.VaultStore, userID string) (*schema.Customize
 	return &cfg, nil
 }
 
-func SaveUserConfig(vault security.VaultStore, userID string, cfg *schema.CustomizedConfig) error {
+func SaveUserConfig(vault security_persistence.VaultStore, userID string, cfg *schema_security.CustomizedConfig) error {
 	cfg.LastModified = time.Now()
 	return vault.Write("configs", userID, cfg)
 }
 
-func (am *AuthManager) HandleConfigUpdate(session *schema.UserSession) {
+func (am *AuthManager) HandleConfigUpdate(session *schema_identity.UserSession) {
 	reader := bufio.NewReader(os.Stdin)
 
 	fmt.Print("[CONFIG] Enter command: ")
@@ -527,7 +530,7 @@ func (am *AuthManager) HandleConfigUpdate(session *schema.UserSession) {
 
 		session.Config = newCfg
 
-		if orch, ok := session.Orchestrator.(*interaction.Orchestrator); ok {
+		if orch, ok := session.Orchestrator.(*boot_phase.Orchestrator); ok {
 			orch.Broadcast("Configuration updated successfully")
 		}
 	}

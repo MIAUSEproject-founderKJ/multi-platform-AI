@@ -6,13 +6,16 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
+	schema_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
+	schema_identity "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/identity"
+	schema_security "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/security"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 )
 
 type AuditModule struct {
 	BaseModule
-	runtime *runtime.RuntimeContext
+	runtime *engine.RuntimeContext
 	cancel  context.CancelFunc
 }
 
@@ -27,7 +30,7 @@ func (m *AuditModule) Start() error {
 	return nil
 }
 
-func (m *AuditModule) RequiredCapabilities() schema.CapabilitySet {
+func (m *AuditModule) RequiredCapabilities() schema_security.CapabilitySet {
 	return 0 // no requirement → always eligible
 }
 
@@ -35,15 +38,15 @@ func (m *AuditModule) Optional() bool {
 	return true
 }
 
-func (m *AuditModule) Allowed(ctx *schema.BootContext) bool {
-	return ctx.Permissions[schema.PermDiagnostics]
+func (m *AuditModule) Allowed(ctx *schema_boot.BootContext) bool {
+	return ctx.Permissions[schema_identity.PermDiagnostics]
 }
 
 func (m *AuditModule) Category() ModuleCategory {
 	return ModuleDomain
 }
 
-func (m *AuditModule) SupportedPlatforms() []schema.PlatformClass {
+func (m *AuditModule) SupportedPlatforms() []schema_system.PlatformClass {
 	return nil // capability-driven only
 }
 
@@ -51,7 +54,7 @@ func (m *AuditModule) DependsOn() []string {
 	return nil
 }
 
-func (m *AuditModule) Init(ctx *schema.BootContext) error {
+func (m *AuditModule) Init(ctx *schema_boot.BootContext) error {
 	if m.runtime == nil {
 		return fmt.Errorf("runtime not set")
 	}
@@ -83,6 +86,6 @@ func (m *AuditModule) Stop() error {
 	return nil
 }
 
-func (m *AuditModule) SetRuntime(rtx *runtime.RuntimeContext) {
+func (m *AuditModule) SetRuntime(rtx *engine.RuntimeContext) {
 	m.runtime = rtx
 }

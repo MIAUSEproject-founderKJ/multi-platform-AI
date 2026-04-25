@@ -1,6 +1,6 @@
-//boot\phases\module_resolution_phase.go
+//boot/phases/module_resolution_phase.go
 
-package boot
+package boot_phase
 
 func PhaseModules() error {
 	// Placeholder for module loading logic

@@ -10,8 +10,11 @@ import (
 	"time"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
+	schema_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
+	schema_security "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/security"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 	"go.uber.org/zap"
 )
 
@@ -57,8 +60,8 @@ type PredictionResult struct {
 type InferenceModule struct {
 	BaseModule
 
-	ctx     *schema.BootContext
-	runtime *runtime.RuntimeContext // runtime reference
+	ctx     *schema_boot.BootContext
+	runtime *engine.RuntimeContext // runtime reference
 	logger  *zap.Logger
 	running atomic.Bool
 
@@ -77,7 +80,7 @@ func NewInferenceModule() DomainModule {
 	return m
 }
 
-func (m *InferenceModule) RequiredCapabilities() schema.CapabilitySet {
+func (m *InferenceModule) RequiredCapabilities() schema_security.CapabilitySet {
 	// This module doesn’t require any capabilities, so return 0
 	return 0
 }
@@ -85,12 +88,12 @@ func (m *InferenceModule) Optional() bool {
 	return false
 }
 
-func (m *InferenceModule) SetRuntime(rtx *runtime.RuntimeContext) {
+func (m *InferenceModule) SetRuntime(rtx *engine.RuntimeContext) {
 	m.runtime = rtx
 }
 
 // --- Base Init ---
-func (m *InferenceModule) Init(ctx *schema.BootContext) error {
+func (m *InferenceModule) Init(ctx *schema_boot.BootContext) error {
 	if m.runtime == nil {
 		return errors.New("runtime not set")
 	}
@@ -156,9 +159,9 @@ func (m *InferenceModule) convert(event TelemetryEvent) PredictionRequest {
 	}
 }
 
-func (m *InferenceModule) Start() error                               { m.running.Store(true); return nil }
-func (m *InferenceModule) Stop() error                                { m.running.Store(false); return nil }
-func (m *InferenceModule) SupportedPlatforms() []schema.PlatformClass { return nil }
+func (m *InferenceModule) Start() error                                      { m.running.Store(true); return nil }
+func (m *InferenceModule) Stop() error                                       { m.running.Store(false); return nil }
+func (m *InferenceModule) SupportedPlatforms() []schema_system.PlatformClass { return nil }
 
 func (m *InferenceModule) processBatch(ctx context.Context, batch []PredictionRequest) {
 	for _, req := range batch {
@@ -184,7 +187,7 @@ func (m *InferenceModule) processBatch(ctx context.Context, batch []PredictionRe
 		}
 
 		if m.runtime != nil {
-			msg := runtime.Message{
+			msg := runtime_bus.Message{
 				Topic: "vehicle_control",
 				Data:  resultBytes,
 			}
@@ -217,7 +220,7 @@ func (m *InferenceModule) Handle(ctx context.Context, payload []byte) error {
 	}
 }
 
-func (m *InferenceModule) Allowed(ctx *schema.BootContext) bool {
+func (m *InferenceModule) Allowed(ctx *schema_boot.BootContext) bool {
 	return true
 }
 

@@ -18,11 +18,17 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
+	boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
+	boot_orchestrator "github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/orchestrator"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/resolver"
+	security_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
+	schema_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
+	schema_identity "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/identity"
+	modules "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
+	registry "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/registry"
+	cli "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/adapter"
+	engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
+	supervisor "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/supervisor"
 	"go.uber.org/zap"
 )
 
@@ -81,9 +87,9 @@ func main() {
 }
 
 type SystemContext struct {
-	Boot    *schema.BootContext
+	Boot    *schema_boot.BootContext
 	Exec    *boot.ExecutionContext
-	Session *schema.UserSession
+	Session *schema_identity.UserSession
 }
 
 func (a *App) Stop(ctx context.Context) error {
@@ -118,7 +124,7 @@ func BuildSystemContext() (*SystemContext, error) {
 
 type App struct {
 	log        *zap.Logger
-	supervisor *runtime.Supervisor
+	supervisor *supervisor.Supervisor
 	server     *http.Server
 
 	degraded bool
@@ -131,7 +137,7 @@ type App struct {
 func BuildRuntime(logger *zap.Logger, sys *SystemContext) (*App, error) {
 
 	// --- RUNTIME CONTEXT ---
-	rtx, err := runtime.NewRuntimeContext(logger)
+	rtx, err := engine.NewRuntimeContext(logger)
 	if err != nil {
 		return nil, err
 	}
@@ -150,30 +156,38 @@ func BuildRuntime(logger *zap.Logger, sys *SystemContext) (*App, error) {
 	}
 
 	// --- MODULE GRAPH ---
-	registry := modules.DefaultRegistry()
+	reg := registry.DefaultRegistry()
 
-	filtered := modules.FilterModules(registry, sys.Boot)
+	filtered := modules.FilterModules(reg, sys.Boot)
 
 	if len(filtered) == 0 {
 		logger.Warn("no modules available, falling back to CLI-only mode")
-		filtered = FallbackMinimal()
+
 	}
 
-	ordered, err := modules.ResolveDependencies(filtered)
+	ordered, err := registry.ResolveDependencies(filtered)
 	if err != nil {
 		return nil, err
 	}
 
 	adapted := modules.AdaptModules(ordered, rtx)
 
-	resilient := make([]runtime.Module, 0, len(adapted))
+	if len(adapted) == 0 {
+		logger.Warn("fallback to CLI module")
+
+		adapted = []supervisor.Module{
+			NewRecoverableModule(cli.NewCLIModule(), logger),
+		}
+	}
+
+	resilient := make([]supervisor.Module, 0, len(adapted))
 
 	for _, m := range adapted {
 		resilient = append(resilient, NewRecoverableModule(m, logger))
 	}
 
 	// --- SUPERVISOR ---
-	sup := runtime.NewSupervisor(logger, resilient)
+	sup := supervisor.NewSupervisor(logger, resilient)
 
 	return &App{
 		log:        logger,
@@ -275,16 +289,16 @@ func (a *App) runFallbackLoop(ctx context.Context) {
 }
 
 func attemptBoot() (*SystemContext, error) {
-	vault, err := security.OpenVault()
+	vault, err := security_persistence.OpenVault()
 	if err != nil {
 		return nil, err
 	}
 
-	bootCtx := schema.BootContext{
+	bootCtx := schema_boot.BootContext{
 		Vault: vault,
 	}
 
-	bootSeq, session, err := boot.RunBootSequence(bootCtx)
+	bootSeq, session, err := boot_orchestrator.RunBootSequence(bootCtx)
 	if err != nil {
 		return nil, err
 	}
@@ -295,12 +309,12 @@ func attemptBoot() (*SystemContext, error) {
 
 	bootSeq.UserSession = session
 
-	bootCtxResolved, err := boot.ResolveBootContext(bootSeq)
+	bootCtxResolved, err := resolver.ResolveBootContext(bootSeq)
 	if err != nil {
 		return nil, err
 	}
 
-	execCtx, err := boot.ResolveExecutionContext(bootSeq)
+	execCtx, err := resolver.ResolveExecutionContext(bootSeq)
 	if err != nil {
 		return nil, err
 	}
@@ -399,7 +413,7 @@ func (f *FailurePredictor) RecordError() {
 }
 
 type recoverableModule struct {
-	inner runtime.Module
+	inner supervisor.Module
 	log   *zap.Logger
 
 	// resilience
@@ -564,7 +578,7 @@ func (a *App) startHTTPServer() {
 	}()
 }
 
-func NewRecoverableModule(m runtime.Module, log *zap.Logger) runtime.Module {
+func NewRecoverableModule(m supervisor.Module, log *zap.Logger) supervisor.Module {
 	return &recoverableModule{
 		inner: m,
 		log:   log,
@@ -592,8 +606,8 @@ func (g *SystemGuard) Trip() bool {
 	return g.failures >= 5
 }
 
-func FallbackMinimal() []runtime.Module {
-	return []runtime.Module{
-		runtime.NewCLIModule(),
+func FallbackMinimal() []supervisor.Module {
+	return []supervisor.Module{
+		cli.NewCLIModule(),
 	}
 }

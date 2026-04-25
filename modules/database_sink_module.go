@@ -12,8 +12,10 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
+	schema_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
+	schema_security "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/security"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 	"go.uber.org/zap"
 )
 
@@ -24,7 +26,7 @@ const (
 
 type DatabaseSinkModule struct {
 	BaseModule
-	runtime *runtime.RuntimeContext
+	runtime *engine.RuntimeContext
 	db      *sql.DB
 	queue   chan []byte
 
@@ -38,14 +40,14 @@ type DatabaseSinkModule struct {
 }
 
 // SetRuntime attaches the RuntimeContext
-func (m *DatabaseSinkModule) SetRuntime(rtx *runtime.RuntimeContext) {
+func (m *DatabaseSinkModule) SetRuntime(rtx *engine.RuntimeContext) {
 	m.runtime = rtx
 	m.db = rtx.DB
 	m.logger = rtx.Logger
 }
 
 // Init subscribes to events
-func (m *DatabaseSinkModule) Init(ctx *schema.BootContext) error {
+func (m *DatabaseSinkModule) Init(ctx *schema_boot.BootContext) error {
 	if m.runtime == nil {
 		return errors.New("runtime context not set")
 	}
@@ -120,18 +122,18 @@ func (m *DatabaseSinkModule) setRunning(v bool) {
 }
 
 // DomainModule implementation
-func (m *DatabaseSinkModule) Name() string                         { return "DatabaseSinkModule" }
-func (m *DatabaseSinkModule) Category() ModuleCategory             { return ModuleDomain }
-func (m *DatabaseSinkModule) DependsOn() []string                  { return []string{"TelemetryModule"} }
-func (m *DatabaseSinkModule) Allowed(ctx *schema.BootContext) bool { return true }
-func (m *DatabaseSinkModule) Start() error                         { return nil }
-func (m *DatabaseSinkModule) Stop() error                          { return nil }
-func (m *DatabaseSinkModule) SupportedPlatforms() []schema.PlatformClass {
+func (m *DatabaseSinkModule) Name() string                              { return "DatabaseSinkModule" }
+func (m *DatabaseSinkModule) Category() ModuleCategory                  { return ModuleDomain }
+func (m *DatabaseSinkModule) DependsOn() []string                       { return []string{"TelemetryModule"} }
+func (m *DatabaseSinkModule) Allowed(ctx *schema_boot.BootContext) bool { return true }
+func (m *DatabaseSinkModule) Start() error                              { return nil }
+func (m *DatabaseSinkModule) Stop() error                               { return nil }
+func (m *DatabaseSinkModule) SupportedPlatforms() []schema_system.PlatformClass {
 	return nil
 }
 
 // DomainModule implementation
-func (m *DatabaseSinkModule) RequiredCapabilities() schema.CapabilitySet {
+func (m *DatabaseSinkModule) RequiredCapabilities() schema_security.CapabilitySet {
 	// This module doesn’t require any capabilities, so return 0
 	return 0
 }

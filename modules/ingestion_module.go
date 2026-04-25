@@ -6,14 +6,16 @@ import (
 	"context"
 	"sync/atomic"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	schema_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
+	schema_security "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/security"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/file"
 )
 
 type IngestionModule struct {
 	BaseModule
 	repo file.FileRepository
-	ctx  *schema.BootContext
+	ctx  *schema_boot.BootContext
 
 	running atomic.Bool
 }
@@ -35,9 +37,9 @@ func (m *IngestionModule) Category() ModuleCategory {
 
 func (m *IngestionModule) DependsOn() []string { return m.deps }
 
-func (m *IngestionModule) Allowed(*schema.BootContext) bool { return true }
+func (m *IngestionModule) Allowed(*schema_boot.BootContext) bool { return true }
 
-func (m *IngestionModule) Init(*schema.BootContext) error { return nil }
+func (m *IngestionModule) Init(*schema_boot.BootContext) error { return nil }
 
 func (m *IngestionModule) Start() error { return nil }
 
@@ -48,9 +50,9 @@ func (m *IngestionModule) Run(ctx context.Context) error {
 	return nil
 }
 
-func (m *IngestionModule) SupportedPlatforms() []schema.PlatformClass { return nil }
+func (m *IngestionModule) SupportedPlatforms() []schema_system.PlatformClass { return nil }
 
-func (m *IngestionModule) RequiredCapabilities() schema.CapabilitySet {
+func (m *IngestionModule) RequiredCapabilities() schema_security.CapabilitySet {
 	// This module doesn’t require any capabilities, so return 0
 	return 0
 }

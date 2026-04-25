@@ -9,14 +9,14 @@ import (
 	"strings"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
+	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 )
 
-// ConvertHardwareFingerprint converts HardwareFingerprint to schema.HardwareProfile
-func ConvertFingerprintToProfile(fp HardwareFingerprint) schema.HardwareProfile {
-	var buses []schema.BusCapability
+// ConvertHardwareFingerprint converts HardwareFingerprint to schema_system.HardwareProfile
+func ConvertFingerprintToProfile(fp HardwareFingerprint) schema_system.HardwareProfile {
+	var buses []schema_system.BusCapability
 	for bus := range fp.Buses {
-		buses = append(buses, schema.BusCapability{
+		buses = append(buses, schema_system.BusCapability{
 			ID:         bus + "-bus",
 			Type:       bus,
 			Confidence: mathutil.FromFloat64(0.9),
@@ -24,8 +24,8 @@ func ConvertFingerprintToProfile(fp HardwareFingerprint) schema.HardwareProfile 
 		})
 	}
 
-	return schema.HardwareProfile{
-		Processors: []schema.Processor{
+	return schema_system.HardwareProfile{
+		Processors: []schema_system.Processor{
 			{Type: "CPU", Count: runtime.NumCPU(), Version: 1.0},
 		},
 		Buses:      buses,

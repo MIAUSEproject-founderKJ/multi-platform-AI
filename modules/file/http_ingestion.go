@@ -7,10 +7,10 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
+	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
 )
 
-func FileUploadHandler(bus *runtime.MessageBus) http.HandlerFunc {
+func FileUploadHandler(bus *runtime_bus.MessageBus) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {
 
@@ -27,7 +27,7 @@ func FileUploadHandler(bus *runtime.MessageBus) http.HandlerFunc {
 			n, err := file.Read(buf)
 
 			if n > 0 {
-				bus.Publish(runtime.Message{
+				bus.Publish(runtime_bus.Message{
 					Topic: "file.chunk",
 					Data:  buf[:n],
 				})

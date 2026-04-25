@@ -6,12 +6,12 @@
 package modules
 
 import (
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime"
+	schema_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 )
 
 type ProductivityModule struct {
-	ctx runtime.RuntimeContext
+	ctx engine.RuntimeContext
 }
 
 func (p *ProductivityModule) Name() string {
@@ -22,7 +22,7 @@ func (p *ProductivityModule) RequiredPermissions() []string {
 	return []string{"STANDARD_USE"}
 }
 
-func (p *ProductivityModule) Init(ctx schema.BootContext) error {
+func (p *ProductivityModule) Init(ctx schema_boot.BootContext) error {
 	p.ctx = ctx
 	return nil
 }
