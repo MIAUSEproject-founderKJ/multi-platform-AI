@@ -21,8 +21,8 @@ const (
 
 // Define what an Orchestrator DOES, not what it IS.
 type Orchestrator interface {
-	StartAll(session *UserSession)
-	Broadcast(msg string)
+    StartAll(session *UserSession)
+    Broadcast(msg string)
 }
 
 func (s *UserSession) HasPermission(p schema_security.PermissionMask) bool {
@@ -32,28 +32,34 @@ func (s *UserSession) HasPermission(p schema_security.PermissionMask) bool {
 	return s.PermMask&p != 0
 }
 
-type UserSession struct {
-    Identity    *UserIdentity
-    Config      *SystemConfig
-    Preferences *UserPreferences
+type CoreConfig struct {
+	MainLang      string
+	PowerMode     string
+	PrivacyMode   string
+	UpdateMode    string
+	PreferredMode string
+}
+
+type CustomizedConfig struct {
+	Version      string
+	LastModified time.Time
+	CoreConfig
 }
 
 type UserIdentity struct {
-    Username string
+	Username string
 }
 
 type UserPreferences struct {
-    AIStyle         string
-    AutoSave        bool
-    EnableTelemetry bool
+	AIStyle         string
+	AutoSave        bool
+	EnableTelemetry bool
 }
 
-type SystemConfig struct {
-    MainLang      string
-    PowerMode     string
-    PrivacyMode   string
-    UpdateMode    string
-    PreferredMode string
+type UserSession struct {
+	Identity    *UserIdentity
+	Config      CoreConfig
+	Preferences *UserPreferences
 }
 
 // ------------------------------------------------------------

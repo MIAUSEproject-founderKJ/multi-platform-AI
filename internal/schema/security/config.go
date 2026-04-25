@@ -12,16 +12,10 @@ import (
 type CustomizedConfig struct {
 	Version      string
 	LastModified time.Time
-
-	MainLang    string
-	PowerMode   string
-	PrivacyMode string
-	UpdateMode  string
-
-	PreferredMode string // IMPORTANT for runtime override
+	CoreConfig
 }
 
-func (c *CustomizedConfig) FillDefaults() {
+func (c CustomizedConfig) WithDefaults() CustomizedConfig {
 	if c.MainLang == "" {
 		c.MainLang = "en"
 	}
@@ -37,6 +31,8 @@ func (c *CustomizedConfig) FillDefaults() {
 	if c.PreferredMode == "" {
 		c.PreferredMode = "auto"
 	}
+
+	return c
 }
 
 func (c *CustomizedConfig) Hash() string {
@@ -58,7 +54,10 @@ func (c *CustomizedConfig) Hash() string {
 		PreferredMode: c.PreferredMode,
 	}
 
-	b, _ := json.Marshal(s)
+	b, err := json.Marshal(s)
+if err != nil {
+	return ""
+}
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
 }

@@ -479,7 +479,7 @@ func (am *AuthManager) createSession(service schema_identity.ServiceType) (*sche
         _ = SaveUserConfig(am.Vault, am.Identity.MachineID, cfg)
     }
 
-    cfg.FillDefaults()
+    cfg.WithDefaults()
 
     session.Config = &schema_identity.UserConfig{
         MainLang:      cfg.MainLang,
@@ -511,7 +511,7 @@ func LoadUserConfig(vault security_persistence.VaultStore, userID string) (*sche
 		return nil, nil
 	}
 
-	cfg.FillDefaults()
+	cfg.WithDefaults()
 	cfg.Migrate()
 
 	return &cfg, nil
