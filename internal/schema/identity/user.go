@@ -137,3 +137,30 @@ type UserConfig struct {
 	PrivacyMode string
 	UpdateMode  string
 }
+
+
+type SessionBuilder struct{}
+
+func (b *SessionBuilder) Build(
+    ctx *BuildContext,
+    permissions map[Permission]bool,
+) *UserSession {
+
+    return &UserSession{
+        SessionID:   fmt.Sprintf("%d", time.Now().UnixNano()),
+        Platform:    ctx.Platform,
+        Entity:      ctx.Entity,
+        Tier:        ctx.Tier,
+        Service:     ctx.Service,
+        Permissions: permissions,
+        CreatedAt:   time.Now(),
+        ExpiresAt:   time.Now().Add(24 * time.Hour),
+    }
+}
+
+type BuildContext struct {
+    Platform schema_system.PlatformClass
+    Entity   schema_system.EntityType
+    Tier     schema_identity.TierType
+    Service  schema_identity.ServiceType
+}

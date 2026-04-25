@@ -1,4 +1,4 @@
-//internal/schema/config.go
+//internal/schema/security/config.go
 
 package schema_security
 

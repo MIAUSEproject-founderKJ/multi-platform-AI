@@ -1,3 +1,3 @@
-//core\router\command_router.go
+//core/router/command_handler_contract.go
 
 package router

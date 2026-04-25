@@ -429,67 +429,74 @@ func (am *AuthManager) enableDebugLogin() error {
 
 func (am *AuthManager) createSession(service schema_identity.ServiceType) (*schema_identity.UserSession, error) {
 
-	permList := security.DerivePermissions(
-		am.Platform,
-		am.Entity,
-		am.Tier,
-	)
+    // ----------------------------
+    // 1. AUTHORIZATION
+    // ----------------------------
+    authCtx := &security_decision.AuthorizationContext{
+        Platform: am.Platform,
+        Entity:   am.Entity,
+        Tier:     am.Tier,
+        Service:  service,
+    }
 
-	permMap := make(map[schema_identity.Permission]bool)
-	for _, p := range permList {
-		permMap[p] = true
-	}
-	permMap[schema_identity.PermUser] = true
+    authz := security_decision.AuthorizationService{
+        Resolver: &security_decision.DefaultPermissionResolver{},
+    }
 
-	session := &schema_identity.UserSession{
-		SessionID:   fmt.Sprintf("%d", time.Now().UnixNano()),
-		Platform:    am.Platform,
-		Entity:      am.Entity,
-		Tier:        am.Tier,
-		Service:     service,
-		Permissions: permMap,
-		CreatedAt:   time.Now(),
-		ExpiresAt:   time.Now().Add(24 * time.Hour),
-	}
+    permMap := authz.Authorize(authCtx)
 
-	// ---- CONFIG LOAD ----
-	cfg, err := LoadUserConfig(am.Vault, am.Identity.MachineID)
-	if err != nil {
-		return nil, err
-	}
+    // Build permission mask
+    var permMask schema_security.PermissionMask
+    for p := range permMap {
+        permMask |= schema_security.ToMask(p)
+    }
 
-	if cfg == nil {
-		fmt.Println("[CONFIG] First-time setup required")
-		cfg = PromptForUserConfig()
-		_ = SaveUserConfig(am.Vault, am.Identity.MachineID, cfg)
-	} else {
-		fmt.Println("[CONFIG] Loaded existing configuration")
-	}
+    // ----------------------------
+    // 2. SESSION CONSTRUCTION
+    // ----------------------------
+    builder := schema_identity.SessionBuilder{}
 
-	cfg.FillDefaults()
+    buildCtx := &schema_identity.BuildContext{
+        Platform: am.Platform,
+        Entity:   am.Entity,
+        Tier:     am.Tier,
+        Service:  service,
+    }
 
-	// ---- CAPABILITY PROFILE ----
-	cp := interaction.DetectCapabilityProfile()
+    session := builder.Build(buildCtx, permMap)
+    session.PermMask = permMask
 
-	// ---- ORCHESTRATOR ----
-	orch := boot_phase.BuildOrchestrator(cp)
-	orch.StartAll(session)
+    // ----------------------------
+    // 3. CONFIG
+    // ----------------------------
+    cfg, err := LoadUserConfig(am.Vault, am.Identity.MachineID)
+    if err != nil {
+        return nil, err
+    }
 
-	// ---- MODE (informational now) ----
-	mode := boot_phase.ResolveInteractionMode(cfg, cp.Set)
+    if cfg == nil {
+        cfg = PromptForUserConfig()
+        _ = SaveUserConfig(am.Vault, am.Identity.MachineID, cfg)
+    }
 
-	session.Config = cfg
-	session.Capabilities = cp.Set
-	session.CapProfile = cp
-	session.Mode = string(mode)
-	session.Orchestrator = orch
+    cfg.FillDefaults()
 
-	orch.Broadcast("Session initialized successfully")
+    session.Config = &schema_identity.UserConfig{
+        MainLang:      cfg.MainLang,
+        PowerMode:     cfg.PowerMode,
+        PrivacyMode:   cfg.PrivacyMode,
+        UpdateMode:    cfg.UpdateMode,
+        PreferredMode: cfg.PreferredMode,
+    }
 
-	fmt.Printf("[auth/auth_manager]Capabilities: %v\n", session.Capabilities)
-	fmt.Printf("[auth/auth_manager] Mode: %s\n", mode)
+    // ----------------------------
+    // 4. RUNTIME
+    // ----------------------------
+    if err := am.initializeRuntime(session); err != nil {
+        return nil, err
+    }
 
-	return session, nil
+    return session, nil
 }
 
 func LoadUserConfig(vault security_persistence.VaultStore, userID string) (*schema_security.CustomizedConfig, error) {
@@ -534,4 +541,23 @@ func (am *AuthManager) HandleConfigUpdate(session *schema_identity.UserSession) 
 			orch.Broadcast("Configuration updated successfully")
 		}
 	}
+}
+
+func (am *AuthManager) initializeRuntime(session *schema_identity.UserSession) error {
+
+    cp := interaction.DetectCapabilityProfile()
+
+    orch := boot_phase.BuildOrchestrator(cp)
+    orch.StartAll(session)
+
+    mode := boot_phase.ResolveInteractionMode(session.Config, cp.Set)
+
+    session.Capabilities = cp.Set
+    session.CapProfile = cp
+    session.Mode = string(mode)
+    session.Orchestrator = orch
+
+    orch.Broadcast("Session initialized successfully")
+
+    return nil
 }

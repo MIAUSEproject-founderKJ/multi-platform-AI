@@ -1,6 +1,6 @@
-//core\security\decision\decision_engine.go
+//core/security/decision/decision_engine.go
 
-package security
+package security_decision
 
 import (
 	schema_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
@@ -23,4 +23,19 @@ func (e *Enforcer) Allow(p schema_identity.Permission) bool {
 	}
 
 	return v
+}
+
+type AuthorizationService struct {
+    Resolver PermissionResolver
+}
+
+func (as *AuthorizationService) Authorize(authCtx *AuthorizationContext) map[schema_identity.Permission]bool {
+    perms := as.Resolver.Resolve(authCtx)
+
+    permMap := make(map[schema_identity.Permission]bool)
+    for _, p := range perms {
+        permMap[p] = true
+    }
+
+    return permMap
 }

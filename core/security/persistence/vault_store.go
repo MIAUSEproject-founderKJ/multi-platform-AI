@@ -42,4 +42,6 @@ type VaultStore interface {
 	SaveFirstBootMarker(*schema_boot.FirstBootMarker) error
 	Read(key, id string, out interface{}) (bool, error)
 	Write(key, id string, value interface{}) error
+	Exists(collection string, key string) (bool, error)
+
 }

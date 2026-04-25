@@ -8,17 +8,18 @@ import (
 	"errors"
 	"fmt"
 	"time"
-
+"golang.org/x/crypto/bcrypt"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
 	security_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
 )
 
 // UserProfile defines the human operator
 type UserProfile struct {
-	Username     string    `json:"username"`
-	PasswordHash string    `json:"password_hash"`
-	Role         string    `json:"role"` // "OWNER", "OPERATOR", "GUEST"
-	CreatedAt    time.Time `json:"created_at"`
+    Username     string
+    PasswordHash string
+    Entity       schema_system.EntityType
+    Tier         schema_identity.TierType
+    CreatedAt    time.Time
 }
 
 // Session represents an active login
@@ -60,28 +61,44 @@ func (am *MyAuthManager) Login(username, password string) (*Session, error) {
 }
 
 // Signup creates a new user in the Vault
-func (am *MyAuthManager) Signup(username, password string, role string) error {
-	// Check if user exists
-	exists, _ := am.Vault.Exists("users", username)
-	if exists {
-		return errors.New("username already taken")
-	}
+func (am *AuthManager) Signup(
+    username, password string,
+    entity schema_system.EntityType,
+    tier schema_identity.TierType,
+) error {
 
-	newUser := UserProfile{
-		Username:     username,
-		PasswordHash: hashPassword(password),
-		Role:         role,
-		CreatedAt:    time.Now(),
-	}
+    exists, err := am.Vault.Exists("users", username)
+    if err != nil {
+        return fmt.Errorf("vault check failed: %w", err)
+    }
+    if exists {
+        return errors.New("username already taken")
+    }
 
-	// Save to Vault
-	return am.Vault.Write("users", username, newUser)
+    hash, err := hashPassword(password)
+    if err != nil {
+        return err
+    }
+
+    newUser := UserProfile{
+        Username:     username,
+        PasswordHash: hash,
+        Entity:       entity,
+        Tier:         tier,
+        CreatedAt:    time.Now(),
+    }
+
+    if err := am.Vault.Write("users", username, newUser); err != nil {
+        return fmt.Errorf("vault write failed: %w", err)
+    }
+
+    return nil
 }
 
 // Helpers
-func hashPassword(pw string) string {
-	h := sha256.Sum256([]byte(pw))
-	return hex.EncodeToString(h[:])
+func hashPassword(pw string) (string, error) {
+    b, err := bcrypt.GenerateFromPassword([]byte(pw), bcrypt.DefaultCost)
+    return string(b), err
 }
 
 func generateToken() string {

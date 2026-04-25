@@ -47,8 +47,8 @@ type MainInterface interface {
 }
 
 type HybridAuthUI struct {
-	Voice interaction.VoiceEngine
-	GUI   interaction.GUIEngine
+	Voice runtime.VoiceEngine
+	GUI   runtime.GUIEngine
 }
 
 func (h *HybridAuthUI) StartAuthFlow(auth *auth.AuthManager) (*schema_identity.UserSession, error) {

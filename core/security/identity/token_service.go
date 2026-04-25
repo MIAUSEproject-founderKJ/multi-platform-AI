@@ -1,6 +1,6 @@
-//core\security\secure_vault_store.go
+//core/security/identity/token_service.go
 
-package security
+package security_identity
 
 import (
 	"crypto/rand"

@@ -1,6 +1,6 @@
-//MIAUSEproject-founderKJ/multi-platform-AI/core/security/measured_boot.go
+//core/security/measurement/measured_boot.go
 
-package security
+package security_measurement
 
 import (
 	"crypto/sha256"

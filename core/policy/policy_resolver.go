@@ -1,2 +1,2 @@
-// core\policy\policy_resolver.go
+// core/policy/policy_resolver.go
 package policy

@@ -999,8 +999,6 @@ import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/mult
 ===============================
 //boot/phases/interface_phase.go
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/phases]
-undefined: interaction.VoiceEngine
-undefined: interaction.GUIEngine
 =================================
 //boot/phases/module_resolution_phase.go
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/phases]

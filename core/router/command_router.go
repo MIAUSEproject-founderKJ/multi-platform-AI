@@ -1,4 +1,4 @@
-//core\router\command_router.go
+//core/router/command_handler_contract.go
 
 /*The router is responsible for:
 • Input validation

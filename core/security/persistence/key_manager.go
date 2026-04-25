@@ -1,4 +1,4 @@
-//core\security\persistence\key_manager.go
+//core/security/persistence/key_manager.go
 
 package security_persistence
 
