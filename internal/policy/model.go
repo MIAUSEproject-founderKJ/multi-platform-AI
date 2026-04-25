@@ -1,4 +1,4 @@
-//internal\policy\model.go
+//internal/policy/model.go
 
 package policy
 

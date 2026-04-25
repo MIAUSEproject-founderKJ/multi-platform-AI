@@ -1,4 +1,4 @@
-// internal\encoding\convert_int_byte.go
+// internal/encoding/convert_int_byte.go
 package encoding
 
 import (

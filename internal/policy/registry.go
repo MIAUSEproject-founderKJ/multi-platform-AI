@@ -1,5 +1,4 @@
-//internal\policy\registry.go
-
+//internal/policy/registry.go
 package policy
 
 import (

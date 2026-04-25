@@ -1,4 +1,4 @@
-//internal\network\network_discovery_service.go
+//internal/network/network_discovery_service.go
 
 package network
 

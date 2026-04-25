@@ -1,5 +1,4 @@
-//MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil/q16.go
-// internal/mathutil/q16.go
+//internal/mathutil/q16.go
 
 package mathutil
 

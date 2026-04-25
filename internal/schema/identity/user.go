@@ -33,28 +33,27 @@ func (s *UserSession) HasPermission(p schema_security.PermissionMask) bool {
 }
 
 type UserSession struct {
-	SessionID string
+    Identity    *UserIdentity
+    Config      *SystemConfig
+    Preferences *UserPreferences
+}
 
-	Platform schema_system.PlatformClass
-	Entity   schema_system.EntityType
-	Tier     TierType
-	Service  ServiceType
+type UserIdentity struct {
+    Username string
+}
 
-	Permissions map[Permission]bool            // storage
-	PermMask    schema_security.PermissionMask // runtime
+type UserPreferences struct {
+    AIStyle         string
+    AutoSave        bool
+    EnableTelemetry bool
+}
 
-	Config *UserConfig
-
-	Mode       InteractionMode
-	CapProfile *schema_security.CapabilityProfile
-
-	Attestation *Attestation
-
-	CreatedAt time.Time
-	ExpiresAt time.Time
-
-	Capabilities schema_security.CapabilitySet
-	Orchestrator Orchestrator
+type SystemConfig struct {
+    MainLang      string
+    PowerMode     string
+    PrivacyMode   string
+    UpdateMode    string
+    PreferredMode string
 }
 
 // ------------------------------------------------------------

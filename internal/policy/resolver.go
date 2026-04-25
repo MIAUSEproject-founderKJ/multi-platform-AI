@@ -1,4 +1,4 @@
-// internal\policy\resolver.go
+// internal/policy/resolver.go
 package policy
 
 import (

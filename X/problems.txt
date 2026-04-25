@@ -1045,7 +1045,6 @@ undefined: hmi.ProgressUpdate
 //internal\schema\boot\boot_marker.go
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot]
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
-
 ========================
 //internal\schema\boot\boot.go
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot]
@@ -1063,12 +1062,3 @@ could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/s
 import cycle not allowed
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/identity (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/identity")
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/security (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/security")
-=============================
-//modules/auth/session.go
-am.Vault.Exists undefined (type security_persistence.VaultStore has no field or method Exists)
-==================================
-// runtime/supervisor/runtime_supervisor.go
-m.Health undefined (type *moduleState has no field or method Health)
-m.Health undefined (type *moduleState has no field or method Health)
-m.Stop undefined (type *moduleState has no field or method Stop)
-m.Start undefined (type *moduleState has no field or method Start)

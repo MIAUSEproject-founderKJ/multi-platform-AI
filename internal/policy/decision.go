@@ -1,5 +1,4 @@
-//internal\policy\decision.go
-
+//internal/policy/decision.go
 package policy
 
 type Decision struct {

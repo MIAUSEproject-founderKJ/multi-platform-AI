@@ -31,14 +31,15 @@ type HealthStatus struct {
 }
 
 func (s *Supervisor) HealthStatus() HealthStatus {
-	total := len(s.modules)
-	failed := 0
+    s.mu.RLock()
+    defer s.mu.RUnlock()
 
-	for _, m := range s.modules {
-		if err := m.Health(); err != nil {
-			failed++
-		}
-	}
+    failed := 0
+    for _, st := range s.modules {
+        if !st.healthy {
+            failed++
+        }
+    }
 
 	return HealthStatus{
 		Healthy:  failed == 0,
@@ -53,12 +54,12 @@ func (s *Supervisor) ModuleCount() int {
 }
 
 func (s *Supervisor) RestartFailed(ctx context.Context) error {
-	for _, m := range s.modules {
-		if err := m.Health(); err != nil {
-			_ = m.Stop(ctx)
-			_ = m.Start(ctx)
-		}
-	}
+	for _, st := range s.modules {
+    if err := st.module.Health(); err != nil {
+        _ = st.module.Stop(ctx)
+        _ = st.module.Start(ctx)
+    }
+}
 	return nil
 }
 
