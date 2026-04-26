@@ -101,7 +101,7 @@ func (bm *boot_phase.BootManager) runColdBoot(identity *schema_system.MachineIde
 	}
 
 	// 4. Platform-specific auth
-	authMgr := &auth.AuthManager{
+	am := &auth.AuthManager{
 		Vault:    bm.Vault,
 		Platform: fullProfile.Platform.Final,
 	}
@@ -133,7 +133,7 @@ func (bm *boot_phase.BootManager) runColdBoot(identity *schema_system.MachineIde
 	}
 
 	// Authenticate
-	session, err := authMgr.LoginOrSignUpInteractive()
+	session, err := am.LoginOrSignUpInteractive()
 	if err != nil {
 		return nil, fmt.Errorf("auth failed during cold boot: %w", err)
 	}
@@ -179,7 +179,7 @@ func (bm *boot_phase.BootManager) runFastBoot(env *schema_system.EnvConfig) (*sc
 		return bm.runColdBoot(bm.Identity)
 	}
 
-	authMgr := &auth.AuthManager{Vault: bm.Vault, Platform: env.Platform.Final}
+	am := &auth.AuthManager{Vault: bm.Vault, Platform: env.Platform.Final}
 
 	var cred struct{ UserID, Password string }
 	found, err := bm.Vault.Read("credentials", bm.Identity.MachineID, &cred)
@@ -187,7 +187,7 @@ func (bm *boot_phase.BootManager) runFastBoot(env *schema_system.EnvConfig) (*sc
 		return bm.runColdBoot(bm.Identity)
 	}
 
-	session, err := authMgr.LoginOrSignUpInteractive()
+	session, err := am.LoginOrSignUpInteractive()
 	if err != nil {
 		return bm.runColdBoot(bm.Identity)
 	}

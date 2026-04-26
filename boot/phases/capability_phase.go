@@ -263,8 +263,8 @@ func (c *GUIAdapter) Notify(msg string) {
 	fmt.Println("[GUI]", msg)
 }
 
-func (c *CLIAuth) StartAuthFlow(auth *auth.AuthManager) (*schema_identity.UserSession, error) {
-	return auth.LoginOrSignUpInteractive()
+func (c *CLIAuth) StartAuthFlow(am *auth.AuthManager) (*schema_identity.UserSession, error) {
+	return am.LoginOrSignUpInteractive()
 }
 func (t *TUIAuth) StartAuthFlow(am *auth.AuthManager) (*schema_identity.UserSession, error) {
 	return am.LoginOrSignUpInteractive()
