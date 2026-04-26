@@ -1,5 +1,4 @@
-//internal\schema\boot\boot.go
-
+//internal/schema/boot/boot.go
 package schema_boot
 
 type BootMode string

@@ -9,10 +9,6 @@ import (
 	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 )
 
-type BootProfile struct {
-	Type string // FirstBoot | FastBoot | RecoveryBoot
-}
-
 func PhaseBootResolution(v security_persistence.VaultStore, identity *schema_system.MachineIdentity) (*schema_system.BootSequence, error) {
 	bm := &BootManager{
 		Vault:    v,

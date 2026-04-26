@@ -22,3 +22,4 @@ type Task struct {
 	Priority  int                    `json:"priority"` // 1 (Low) to 10 (Critical)
 	CreatedAt time.Time              `json:"created_at"`
 }
+
