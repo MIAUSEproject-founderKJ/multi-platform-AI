@@ -1,5 +1,0 @@
-{
-  "name": "AnomalyModule",
-  "version": "1.0.0",
-  "entrypoint": "module.wasm"
-}

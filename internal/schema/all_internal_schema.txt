@@ -1,11 +1,505 @@
-//internal/schema/device_platform.go
+internal\schema
+internal\schema\bootstrap
+internal\schema\bootstrap\boot_marker.go
+internal\schema\bootstrap\bootstrap.go
+internal\schema\bootstrap\context.go
+internal\schema\identity
+internal\schema\identity\user.go
+internal\schema\verification
+internal\schema\verification\capabilities.go
+internal\schema\verification\config.go
+internal\schema\verification\permissions.go
+internal\schema\system
+internal\schema\system\device_platform.go
+internal\schema\system\env.go
+internal\schema\system\version.go
+1. Why internal/schema is used
 
-package schema
+In Go, internal/ is a visibility boundary, not just a folder:
+
+Anything inside internal/ cannot be imported by external modules
+This enforces architecture isolation
+“These are internal data contracts used across the system, not part of public API.”
+Canonical data layer (shared types / contracts / state models)
+
+
+//internal/schema/bootstrap/boot_marker.go
+
+package internal_boot
 
 import (
 	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/mathutil"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+)
+
+type FirstBootMarker struct {
+	MachineID     string                  `json:"machine_id"`
+	SchemaVersion int                     `json:"internal_version"`
+	GoldenHash    []byte                  `json:"golden_hash"`
+	Initialized   bool                    `json:"initialized"`
+	CreatedAt     time.Time               `json:"created_at"`
+	BootTrust     internal_environment.BootTrust `json:"boot_trust"`
+}
+========
+//internal/schema/bootstrap/bootstrap.go
+package internal_boot
+
+type BootMode string
+
+const (
+	BootCold BootMode = "cold"
+	BootFast BootMode = "fast"
+)
+=========
+//internal/schema/bootstrap/context.go
+
+package internal_boot
+
+import (
+	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence"
+	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
+	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	"go.uber.org/zap"
+)
+
+type BootContext struct {
+	PlatformClass internal_environment.PlatformClass
+	Capabilities  internal_verification.CapabilitySet
+	Vault         verification_persistence.VaultStore
+	Service       user_setting.ServiceType
+	Entity        internal_environment.EntityType
+	Tier          user_setting.TierType
+	BootMode      BootMode
+	Logger        *zap.Logger
+	Permissions   map[user_setting.Permission]bool // storage
+	PermMask      internal_verification.PermissionMask      // runtime
+	TrustLevel    user_setting.TrustLevel
+}
+============
+//internal/schema/identity/user.go
+
+package user_setting
+
+import (
+	"time"
+
+	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+)
+
+// Move these from interaction to schema so everyone can see them
+type InteractionMode string
+
+const (
+	ModeCLI   InteractionMode = "cli"
+	ModeTUI   InteractionMode = "tui"
+	ModeGUI   InteractionMode = "gui"
+	ModeVoice InteractionMode = "voice"
+)
+
+// Define what an Orchestrator DOES, not what it IS.
+type Orchestrator interface {
+    StartAll(session *UserSession)
+    Broadcast(msg string)
+}
+
+func (s *UserSession) HasPermission(p internal_verification.PermissionMask) bool {
+	if s == nil {
+		return false
+	}
+	return s.PermMask&p != 0
+}
+
+type UserCoreConfig struct {
+	MainLang      string
+	PowerMode     string
+	PrivacyMode   string
+	UpdateMode    string
+	PreferredMode string
+}
+
+type CustomizedConfig struct {
+	Version      string
+	LastModified time.Time
+	UserCoreConfig
+}
+
+type UserIdentity struct {
+	Username string
+}
+
+type UserPreferences struct {
+	AIStyle         string
+	AutoSave        bool
+	EnableTelemetry bool
+}
+
+type UserSession struct {
+	Identity    *UserIdentity
+	Config      UserCoreConfig
+	Preferences *UserPreferences
+}
+
+// ------------------------------------------------------------
+// Tier System
+// ------------------------------------------------------------
+// Use TierType (string) externally for readability and compatibility. Use EntityType (uint8) internally for speed and clarity.
+type TierType string
+
+const (
+	TierUnknown    TierType = "unknown"
+	TierPersonal   TierType = "personal"
+	TierEnterprise TierType = "enterprise"
+	TierTester     TierType = "tester"
+)
+
+// Optional richer structure
+type TierProfile struct {
+	Name TierType
+}
+
+// ------------------------------------------------------------
+// Service System
+// ------------------------------------------------------------
+
+type ServiceType string
+
+const (
+	ServiceUnknown    ServiceType = "unknown"
+	ServicePersonal   ServiceType = "personal_ai"
+	ServiceEnterprise ServiceType = "enterprise_ai"
+	ServiceSystem     ServiceType = "system_runtime"
+	ServiceIndustrial ServiceType = "industrial_control"
+	ServiceMobility   ServiceType = "autonomous_mobility"
+)
+
+// Optional richer structure
+type ServiceProfile struct {
+	Name ServiceType
+}
+
+type Attestation struct {
+	SessionToken string
+	Valid        bool
+	Level        TrustLevel
+}
+
+type TrustLevel uint8
+
+const (
+	TrustUntrusted TrustLevel = iota
+	TrustUser
+	TrustDevice
+	TrustAdmin
+	TrustSystem
+)
+
+type Permission string
+
+const (
+	PermUser  Permission = "user"
+	PermAdmin Permission = "admin"
+
+	PermBasicRuntime   Permission = "basic_runtime"
+	PermConfigEdit     Permission = "config_edit"
+	PermDiagnostics    Permission = "diagnostics"
+	PermHardwareIO     Permission = "hardware_io"
+	PermSafetyOverride Permission = "safety_override"
+)
+
+type UserConfig struct {
+	Username        string
+	PreferredMode   string
+	AIStyle         string
+	AutoSave        bool
+	EnableTelemetry bool
+
+	// Merge runtime config directly
+	MainLang    string
+	PowerMode   string
+	PrivacyMode string
+	UpdateMode  string
+}
+
+
+type SessionBuilder struct{}
+
+func (b *SessionBuilder) Build(
+    ctx *BuildContext,
+    permissions map[Permission]bool,
+) *UserSession {
+
+    return &UserSession{
+        SessionID:   fmt.Sprintf("%d", time.Now().UnixNano()),
+        Platform:    ctx.Platform,
+        Entity:      ctx.Entity,
+        Tier:        ctx.Tier,
+        Service:     ctx.Service,
+        Permissions: permissions,
+        CreatedAt:   time.Now(),
+        ExpiresAt:   time.Now().Add(24 * time.Hour),
+    }
+}
+
+type BuildContext struct {
+    Platform internal_environment.PlatformClass
+    Entity   internal_environment.EntityType
+    Tier     user_setting.TierType
+    Service  user_setting.ServiceType
+}
+
+==============
+//internal/schema/capabilities.go
+
+package internal_verification
+
+import "time"
+
+type CapabilitySet uint64
+type Capability = CapabilitySet
+
+const (
+	CapDisplay Capability = 1 << iota
+	CapKeyboard
+	CapTouch
+	CapMicrophone
+	CapSpeaker
+	CapCamera
+	CapGPU
+	CapSecureEnclave
+	CapNetwork
+	CapCANBus
+	CapBiometric
+	CapHighFreqSensor
+	CapFileSystem
+	CapSafetyCritical
+	CapPersistentCloudLink
+	CapIndustrialIO
+	CapLocalStorage
+)
+
+func (c *CapabilitySet) Add(cap Capability) {
+	*c |= cap
+}
+
+func (c *CapabilitySet) Remove(cap Capability) {
+	*c &= ^cap
+}
+
+func (c CapabilitySet) Has(cap Capability) bool {
+	return c&cap != 0
+}
+
+func (c CapabilitySet) HasAll(required CapabilitySet) bool {
+	return c&required == required
+}
+
+func (c CapabilitySet) HasAny(mask CapabilitySet) bool {
+	return c&mask != 0
+}
+
+func (c CapabilitySet) IsZero() bool {
+	return c == 0
+}
+
+type CapabilityStatus int
+
+const (
+	CapOK CapabilityStatus = iota
+	CapDegraded
+	CapUnavailable
+)
+
+type CapabilityInfo struct {
+	Available bool
+	Status    CapabilityStatus
+	LastCheck int64
+}
+
+type CapabilityProfile struct {
+	Set   CapabilitySet
+	Stats map[Capability]CapabilityInfo
+}
+
+func (cp *CapabilityProfile) RecomputeSet() {
+	var set CapabilitySet
+	for cap, info := range cp.Stats {
+		if info.Status == CapOK {
+			set |= cap
+		}
+	}
+	cp.Set = set
+}
+
+func NewCapabilityProfile() *CapabilityProfile {
+	return &CapabilityProfile{
+		Set:   0,
+		Stats: make(map[Capability]CapabilityInfo),
+	}
+}
+
+func (cp *CapabilityProfile) Mark(cap Capability, status CapabilityStatus) {
+	info := CapabilityInfo{
+		Available: status == CapOK,
+		Status:    status,
+		LastCheck: time.Now().Unix(),
+	}
+
+	cp.Stats[cap] = info
+
+	if status == CapOK {
+		cp.Set.Add(cap)
+	} else {
+		cp.Set.Remove(cap)
+	}
+}
+
+func (cp *CapabilityProfile) IsHealthy(cap Capability) bool {
+	info, ok := cp.Stats[cap]
+	return ok && info.Status == CapOK
+}
+
+//cp.Has(internal_verification.CapDisplay),
+func (cp *CapabilityProfile) Has(cap Capability) bool {
+	if cp == nil {
+		return false
+	}
+	return cp.Set.Has(cap)
+}
+==========
+//internal/schema/verification/config.go
+
+package internal_verification
+
+import (
+	"crypto/sha256"
+	"encoding/hex"
+	"encoding/json"
+	"time"
+)
+
+type CustomizedConfig struct {
+	Version      string
+	LastModified time.Time
+	UserCoreConfig
+}
+
+func (c CustomizedConfig) WithDefaults() CustomizedConfig {
+	if c.MainLang == "" {
+		c.MainLang = "en"
+	}
+	if c.PowerMode == "" {
+		c.PowerMode = "balanced"
+	}
+	if c.PrivacyMode == "" {
+		c.PrivacyMode = "standard"
+	}
+	if c.UpdateMode == "" {
+		c.UpdateMode = "auto"
+	}
+	if c.PreferredMode == "" {
+		c.PreferredMode = "auto"
+	}
+
+	return c
+}
+
+func (c *CustomizedConfig) Hash() string {
+	type stable struct {
+		Version       string
+		MainLang      string
+		PowerMode     string
+		PrivacyMode   string
+		UpdateMode    string
+		PreferredMode string
+	}
+
+	s := stable{
+		Version:       c.Version,
+		MainLang:      c.MainLang,
+		PowerMode:     c.PowerMode,
+		PrivacyMode:   c.PrivacyMode,
+		UpdateMode:    c.UpdateMode,
+		PreferredMode: c.PreferredMode,
+	}
+
+	b, err := json.Marshal(s)
+if err != nil {
+	return ""
+}
+	sum := sha256.Sum256(b)
+	return hex.EncodeToString(sum[:])
+}
+=============
+//internal/schema/verification/permissions.go
+
+package internal_verification
+
+import user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
+
+type PermissionMask uint64
+
+const (
+	PermUserMask PermissionMask = 1 << iota
+	PermAdminMask
+	PermBasicRuntimeMask
+	PermConfigEditMask
+	PermDiagnosticsMask
+	PermHardwareIOMask
+	PermSafetyOverrideMask
+)
+
+var permissionMap = map[user_setting.Permission]PermissionMask{
+	user_setting.PermUser:           PermUserMask,
+	user_setting.PermAdmin:          PermAdminMask,
+	user_setting.PermBasicRuntime:   PermBasicRuntimeMask,
+	user_setting.PermConfigEdit:     PermConfigEditMask,
+	user_setting.PermDiagnostics:    PermDiagnosticsMask,
+	user_setting.PermHardwareIO:     PermHardwareIOMask,
+	user_setting.PermSafetyOverride: PermSafetyOverrideMask,
+}
+
+//MAP TO MASK
+func ToPermissionMask(perms map[user_setting.Permission]bool) PermissionMask {
+	var mask PermissionMask
+
+	for p, enabled := range perms {
+		if !enabled {
+			continue
+		}
+		if bit, ok := permissionMap[p]; ok {
+			mask |= bit
+		}
+	}
+
+	return mask
+}
+
+//MASK TO MAP
+func FromPermissionMask(mask PermissionMask) map[user_setting.Permission]bool {
+	out := make(map[user_setting.Permission]bool)
+
+	for p, bit := range permissionMap {
+		out[p] = (mask & bit) != 0
+	}
+
+	return out
+}
+
+func (m PermissionMask) Has(p PermissionMask) bool {
+	return m&p != 0
+}
+============
+//internal/schema/system/device_platform.go
+
+package internal_environment
+
+import (
+	"time"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
 )
 
 type DeviceClass string
@@ -64,14 +558,14 @@ type PlatformScore struct {
 	Signals    []Signal
 	Score      float64
 	MaxScore   float64
-	Confidence mathutil.Q16
-	Q16        mathutil.Q16
+	Confidence math_convert.Q16
+	Q16        math_convert.Q16
 }
 
 type Signal struct {
 	Name       string
 	Value      float64
-	Confidence mathutil.Q16
+	Confidence math_convert.Q16
 	Weight     float64
 	Source     string
 }
@@ -84,101 +578,200 @@ type PlatformResolution struct {
 	Source     string          `json:"source"` // e.g., "heuristic_v1" or "manual_override"
 	ResolvedAt time.Time       `json:"resolved_at"`
 }
+============
+// internal/schema/system/env.go
+// This is the "Source of Truth" that everyone can safely import.
+package internal_environment
 
-//internal/schema/capabilities.go
+import (
+	"time"
 
-package schema
-
-import "time"
-
-type Capability uint64
-
-type CapabilitySet uint64
-
-const (
-	CapDisplay Capability = 1 << iota
-	CapKeyboard
-	CapTouch
-	CapMicrophone
-	CapSpeaker
-	CapCamera
-	CapGPU
-	CapSecureEnclave
-	CapNetwork
-	CapCANBus
-	CapBiometric
-	CapHighFreqSensor
-	CapFileSystem
-	CapSafetyCritical
-	CapPersistentCloudLink
-	CapIndustrialIO
-	CapLocalStorage
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
+	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
+	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
 )
 
-// inside internal/schema/capabilities.go
-func (c CapabilitySet) Has(cap CapabilitySet) bool {
-	return c&cap != 0
+type BootSequence struct {
+	Env          *EnvConfig
+	Mode         internal_boot.BootMode
+	Attested     bool
+	Capabilities internal_verification.CapabilitySet
+	Service      user_setting.ServiceType
+	Entity       EntityType
+	Tier         user_setting.TierType
+	UserSession  *user_setting.UserSession
 }
 
-func (c *CapabilitySet) Add(cap Capability) {
-	*c |= CapabilitySet(cap)
-}
-
-func (c *CapabilitySet) Remove(cap Capability) {
-	*c &= ^CapabilitySet(cap)
-}
-
-func (c CapabilitySet) Has(cap Capability) bool {
-	return (c & CapabilitySet(cap)) != 0
-}
-
-func (c CapabilitySet) HasAll(required CapabilitySet) bool {
-	return c&required == required
-}
-
-type CapabilityStatus int
+// Use EntityType (uint8) internally for speed and clarity. Use TierType (string) externally for readability and compatibility.
+type EntityType uint8
 
 const (
-	CapOK CapabilityStatus = iota
-	CapDegraded
-	CapUnavailable
+	EntityPersonal EntityType = iota
+	EntityOrganization
+	EntityStranger
+	EntityTester
 )
 
-type CapabilityInfo struct {
-	Available bool
-	Status    CapabilityStatus
-	LastCheck int64
+func (m *MachineIdentity) BindHardware(env *EnvConfig) {
+	m.Hardware = env.Hardware
 }
 
-type CapabilityProfile struct {
-	Set   CapabilitySet
-	Stats map[Capability]CapabilityInfo
+type MachineIdentity struct {
+	MachineID    string          `json:"machine_id"`
+	PlatformType PlatformClass   `json:"platform_type"`
+	Hostname     string          `json:"hostname"`
+	OS           string          `json:"os"`
+	Arch         string          `json:"arch"`
+	Hardware     HardwareProfile `json:"hardware"`
+
+	EntityType EntityType               `json:"entity_type"`
+	TierType   user_setting.TierType `json:"tier_type"`
+
+	PasswordHash string    `json:"password_hash,omitempty"`
+	CreatedAt    time.Time `json:"created_at"`
 }
 
-func NewCapabilityProfile() *CapabilityProfile {
-	return &CapabilityProfile{
-		Set:   0,
-		Stats: make(map[Capability]CapabilityInfo),
+type HardwareProfile struct {
+	Processors []Processor     `json:"processors"`
+	Buses      []BusCapability `json:"buses"`
+	HasBattery bool            `json:"has_battery"`
+}
+
+type BusCapability struct {
+	ID         string       `json:"id"`
+	Type       string       `json:"type"` // can, usb, i2c
+	Confidence math_convert.Q16 `json:"confidence"`
+	Source     string       `json:"source"`
+}
+
+type Processor struct {
+	Type    string  `json:"type"` // CPU, GPU, TPU
+	Count   int     `json:"count"`
+	Version float64 `json:"version"`
+}
+
+type EnvConfig struct {
+	SchemaVersion int                      `json:"internal_version"`
+	Discovery     DiscoveryProfile         `json:"discovery_profile"`
+	GeneratedAt   time.Time                `json:"generated_at"`
+	Identity      MachineIdentity          `json:"identity"`
+	Hardware      HardwareProfile          `json:"hardware"`
+	Platform      PlatformResolution       `json:"platform"`
+	Attestation   EnvAttestation           `json:"attestation"`
+	EntityType    EntityType               `json:"entity_type"`
+	TierType      user_setting.TierType `json:"tier_type"`
+}
+
+// EnvAttestation defines the cryptographic seal of the environment
+type EnvAttestation struct {
+	Locked        bool          `json:"locked"`
+	PlatformClass PlatformClass `json:"platform_class,omitempty"`
+	Valid         bool          `json:"valid"`
+	Level         BootTrust     `json:"level"` // "strong" | "weak" | "invalid"
+	EnvHash       string        `json:"env_hash"`
+	SessionToken  string        `json:"session_token,omitempty"`
+}
+
+type BootTrust uint8
+
+const (
+	TrustInvalid BootTrust = iota
+	TrustWeak
+	TrustStrong
+)
+
+type IdentityProfile struct {
+	MachineID    string
+	MachineName  string
+	OS           string
+	Architecture string
+}
+
+type BusEntry struct {
+	ID         string
+	Type       string
+	Confidence uint16 // Q16 format
+}
+
+type DiscoveryProfile struct {
+	Physical          PhysicalProfile      `json:"physical"`
+	Signal            SignalProfile        `json:"signal"`
+	Nodes             []NodeDescriptor     `json:"nodes"`
+	Protocol          ProtocolProfile      `json:"protocol"`
+	Capabilities      CapabilityDescriptor `json:"capabilities"`
+	DiscoveryDuration time.Duration        `json:"discovery_duration"`
+}
+
+type CapabilityDescriptor struct {
+	SensorOnly                 bool
+	SupportsRegisterControl    bool
+	SupportsGoalControl        bool
+	HasSafetyEnvelope          bool
+	SupportsAcceleratedCompute bool
+}
+
+type PhysicalProfile struct {
+	PowerPresent bool    `json:"power_present"`
+	BaseVoltage  float64 `json:"base_voltage"`
+}
+
+type SignalProfile struct {
+	BusType     string  `json:"bus_type"`
+	BaudRate    int     `json:"baud_rate"`
+	NoiseLevel  float64 `json:"noise_level"`
+	StableClock bool    `json:"stable_clock"`
+}
+
+type NodeDescriptor struct {
+	NodeID    int    `json:"node_id"`
+	VendorID  string `json:"vendor_id"`
+	Class     string `json:"class"` // e.g., "Actuator", "Sensor"
+	Heartbeat int    `json:"heartbeat_ms"`
+}
+
+type ProtocolProfile struct {
+	FirmwareVersion   string `json:"firmware_version"`
+	WritableRegisters int    `json:"writable_registers"`
+	ReadableRegisters int    `json:"readable_registers"`
+	SupportsWatchdog  bool   `json:"supports_watchdog"`
+	SupportsSafeStop  bool   `json:"supports_safe_stop"`
+}
+============
+// internal/schema/system/version.go
+package internal_environment
+
+// CurrentVersion defines the active schema version used by the runtime.
+const CurrentVersion = 2
+
+type SchemaInfo struct {
+	Version int
+	Name    string
+	Created string
+}
+
+var Current = SchemaInfo{
+	Version: 1,
+	Name:    "environment-schema",
+	Created: "2026-03-13",
+}
+
+func Migrate(env *EnvConfig) *EnvConfig {
+	if env == nil {
+		return nil
+	}
+
+	switch env.SchemaVersion {
+	case 1:
+		return migrateV1toV2(env)
+	case 2:
+		return env
+	default:
+		return env
 	}
 }
 
-func (cp *CapabilityProfile) Mark(cap Capability, status CapabilityStatus) {
-	info := CapabilityInfo{
-		Available: status == CapOK,
-		Status:    status,
-		LastCheck: time.Now().Unix(),
-	}
-
-	cp.Stats[cap] = info
-
-	if status == CapOK {
-		cp.Set.Add(cap)
-	} else {
-		cp.Set.Remove(cap)
-	}
-}
-
-func (cp *CapabilityProfile) IsHealthy(cap Capability) bool {
-	info, ok := cp.Stats[cap]
-	return ok && info.Status == CapOK
+func migrateV1toV2(env *EnvConfig) *EnvConfig {
+	env.SchemaVersion = 2
+	return env
 }

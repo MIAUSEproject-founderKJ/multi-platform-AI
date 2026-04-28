@@ -1,5 +1,5 @@
-// core/security/verification/verification_engine.go
-package security_verification
+// core/verification/verification/verification_engine.go
+package verification_verification
 
 import (
 	"crypto/sha256"
@@ -9,7 +9,7 @@ import (
 	"io"
 	"os"
 
-	security_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
+	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
 )
 
@@ -33,7 +33,7 @@ func MeasureSelf() ([]byte, error) {
 	return h.Sum(nil), nil
 }
 
-func VerifyEnvironment(v security_persistence.VaultStore, machineID string) error {
+func VerifyEnvironment(v verification_persistence.VaultStore, machineID string) error {
 
 	hash, err := MeasureSelf()
 	if err != nil {
@@ -54,7 +54,7 @@ func VerifyEnvironment(v security_persistence.VaultStore, machineID string) erro
 	return nil
 }
 
-func VerifyAgainstGolden(v security_persistence.VaultStore, machineID string) error {
+func VerifyAgainstGolden(v verification_persistence.VaultStore, machineID string) error {
 	currentHash, err := MeasureSelf()
 	if err != nil {
 		return fmt.Errorf("failed_to_measure_binary: %w", err)
@@ -70,11 +70,11 @@ func VerifyAgainstGolden(v security_persistence.VaultStore, machineID string) er
 	if subtle.ConstantTimeCompare(currentHash, expectedBytes) != 1 {
 		return errors.New("binary_tamper_detected")
 	}
-	logging.Info("[SECURITY] Binary integrity verified.")
+	logging.Info("[verification] Binary integrity verified.")
 	return nil
 }
 
-func ProvisionGolden(v security_persistence.VaultStore, machineID string) ([]byte, error) {
+func ProvisionGolden(v verification_persistence.VaultStore, machineID string) ([]byte, error) {
 	hash, err := MeasureSelf()
 	if err != nil {
 		return nil, fmt.Errorf("failed_to_measure_binary: %w", err)

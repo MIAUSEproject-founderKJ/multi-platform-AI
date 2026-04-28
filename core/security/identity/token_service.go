@@ -1,6 +1,6 @@
-//core/security/identity/token_service.go
+//core/verification/identity/token_service.go
 
-package security_identity
+package verification_identity
 
 import (
 	"crypto/rand"

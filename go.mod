@@ -9,6 +9,7 @@ require (
 	github.com/maxhawkins/go-webrtcvad v0.0.0-20210121163624-be60036f3083
 	github.com/tetratelabs/wazero v1.11.0
 	go.uber.org/zap v1.27.1
+	golang.org/x/crypto v0.49.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 )
 

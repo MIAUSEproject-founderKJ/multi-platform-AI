@@ -1,6 +1,6 @@
-//core/security/persistence/kv_store.go
+//core/verification/persistence/kv_store.go
 
-package security_persistence
+package verification_persistence
 
 import (
 	"encoding/json"

@@ -6,7 +6,7 @@
 • Confidence filtering
 • Data shaping before dispatch*/
 
-package agent
+package core_agent
 
 import (
 	"context"

@@ -1,7 +1,7 @@
-// core/security/persistence/golden_hash_store.go
-package security_persistence
+// core/verification/persistence/golden_hash_store.go
+package verification_persistence
 
-// GoldenHashStore is a simple in-memory store for golden hashes used in security verification.
+// GoldenHashStore is a simple in-memory store for golden hashes used in verification verification.
 
 import (
 	"os"

@@ -1,21 +1,21 @@
-//core/security/decision/decision_engine.go
+//core/verification/decision/decision_engine.go
 
-package security_decision
+package verification_decision
 
 import (
-	schema_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
-	schema_identity "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/identity"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
+	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 )
 
 type Enforcer struct {
-	ctx *schema_boot.BootContext
+	ctx *internal_boot.BootContext
 }
 
-func NewEnforcer(ctx *schema_boot.BootContext) *Enforcer {
+func NewEnforcer(ctx *internal_boot.BootContext) *Enforcer {
 	return &Enforcer{ctx: ctx}
 }
 
-func (e *Enforcer) Allow(p schema_identity.Permission) bool {
+func (e *Enforcer) Allow(p user_setting.PermissionKey) bool {
 
 	v, ok := e.ctx.Permissions[p]
 	if !ok {
@@ -26,16 +26,16 @@ func (e *Enforcer) Allow(p schema_identity.Permission) bool {
 }
 
 type AuthorizationService struct {
-    Resolver PermissionResolver
+	Resolver PermissionResolver
 }
 
-func (as *AuthorizationService) Authorize(authCtx *AuthorizationContext) map[schema_identity.Permission]bool {
-    perms := as.Resolver.Resolve(authCtx)
+func (as *AuthorizationService) Authorize(authCtx *AuthorizationContext) map[user_setting.PermissionKey]bool {
+	perms := as.Resolver.Resolve(authCtx)
 
-    permMap := make(map[schema_identity.Permission]bool)
-    for _, p := range perms {
-        permMap[p] = true
-    }
+	permMap := make(map[user_setting.PermissionKey]bool)
+	for _, p := range perms {
+		permMap[p] = true
+	}
 
-    return permMap
+	return permMap
 }

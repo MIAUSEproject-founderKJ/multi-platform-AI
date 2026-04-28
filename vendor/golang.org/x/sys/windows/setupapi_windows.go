@@ -864,7 +864,7 @@ const (
 	DN_APM_DRIVER            = 0x10000000        // APM aware driver
 	DN_SILENT_INSTALL        = 0x20000000        // Silent install
 	DN_NO_SHOW_IN_DM         = 0x40000000        // No show in device manager
-	DN_BOOT_LOG_PROB         = 0x80000000        // Had a problem during preassignment of boot log conf
+	DN_BOOT_LOG_PROB         = 0x80000000        // Had a problem during preassignment of bootstrap log conf
 	DN_NEED_RESTART          = DN_LIAR           // System needs to be restarted for this Devnode to work properly
 	DN_DRIVER_BLOCKED        = DN_NOT_FIRST_TIME // One or more drivers are blocked from loading for this Devnode
 	DN_LEGACY_DRIVER         = DN_MOVED          // This device is using a legacy driver

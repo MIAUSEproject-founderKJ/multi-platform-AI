@@ -1,18 +1,18 @@
-//internal\schema\boot\boot_marker.go
+//internal/schema/bootstrap/boot_marker.go
 
-package schema_boot
+package internal_boot
 
 import (
 	"time"
 
-	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 )
 
 type FirstBootMarker struct {
-	MachineID     string                  `json:"machine_id"`
-	SchemaVersion int                     `json:"schema_version"`
-	GoldenHash    []byte                  `json:"golden_hash"`
-	Initialized   bool                    `json:"initialized"`
-	CreatedAt     time.Time               `json:"created_at"`
-	BootTrust     schema_system.BootTrust `json:"boot_trust"`
+	MachineID     string                         `json:"machine_id"`
+	SchemaVersion int                            `json:"internal_version"`
+	GoldenHash    []byte                         `json:"golden_hash"`
+	Initialized   bool                           `json:"initialized"`
+	CreatedAt     time.Time                      `json:"created_at"`
+	BootTrust     internal_environment.BootTrust `json:"boot_trust"`
 }

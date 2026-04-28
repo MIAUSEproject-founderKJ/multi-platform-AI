@@ -1,4 +1,4 @@
-//api/hmi/hmi_contract.go
+//api/hmi/hmi_contract.go - keep contracts only
 
 package hmi
 

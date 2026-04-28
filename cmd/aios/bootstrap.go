@@ -18,17 +18,16 @@ import (
 	"syscall"
 	"time"
 
-	boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot"
-	boot_orchestrator "github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/orchestrator"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/resolver"
-	security_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
-	schema_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
-	schema_identity "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/identity"
+	boot_orchestrator "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator"
+	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
+	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	modules "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
 	registry "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/registry"
 	cli "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/adapter"
 	engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 	supervisor "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/supervisor"
+	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 	"go.uber.org/zap"
 )
 
@@ -53,7 +52,7 @@ func main() {
 	// --- PHASE 1: BOOT ---
 	sysCtx, err := BuildSystemContext()
 	if err != nil {
-		logger.Fatal("boot failure", zap.Error(err))
+		logger.Fatal("bootstrap failure", zap.Error(err))
 	}
 
 	// --- PHASE 2: RUNTIME ---
@@ -87,9 +86,9 @@ func main() {
 }
 
 type SystemContext struct {
-	Boot    *schema_boot.BootContext
-	Exec    *boot.ExecutionContext
-	Session *schema_identity.UserSession
+	Boot    *internal_boot.BootContext
+	Exec    *runtime_types.ExecutionContext
+	Session *user_setting.UserSession
 }
 
 func (a *App) Stop(ctx context.Context) error {
@@ -115,7 +114,7 @@ func BuildSystemContext() (*SystemContext, error) {
 		time.Sleep(time.Duration(i+1) * time.Second)
 	}
 
-	return nil, fmt.Errorf("boot failed after retries: %w", lastErr)
+	return nil, fmt.Errorf("bootstrap failed after retries: %w", lastErr)
 }
 
 // ============================================================
@@ -146,7 +145,7 @@ func BuildRuntime(logger *zap.Logger, sys *SystemContext) (*App, error) {
 
 	// 🔥 attach session + config
 	if sys.Session == nil {
-		return nil, errors.New("nil session from boot")
+		return nil, errors.New("nil session from bootstrap")
 	}
 
 	rtx.Session = sys.Session
@@ -199,12 +198,13 @@ func BuildRuntime(logger *zap.Logger, sys *SystemContext) (*App, error) {
 // START
 // ============================================================
 func (r *recoverableModule) Health() error {
-	return nil // or delegate
+	return r.inner.Health()
 }
 
 func (r *recoverableModule) Stop(ctx context.Context) error {
-	return nil
+	return r.inner.Stop(ctx)
 }
+
 func (r *recoverableModule) Init(ctx context.Context) error {
 	return r.inner.Init(ctx)
 }
@@ -289,12 +289,12 @@ func (a *App) runFallbackLoop(ctx context.Context) {
 }
 
 func attemptBoot() (*SystemContext, error) {
-	vault, err := security_persistence.OpenVault()
+	vault, err := verification_persistence.OpenVault()
 	if err != nil {
 		return nil, err
 	}
 
-	bootCtx := schema_boot.BootContext{
+	bootCtx := internal_boot.BootContext{
 		Vault: vault,
 	}
 
@@ -397,21 +397,6 @@ func startCLIInput(ctx context.Context, logger *zap.Logger) {
 	}()
 }
 
-func (f *FailurePredictor) RecordError() {
-	now := time.Now()
-	f.events = append(f.events, now)
-
-	// cleanup old
-	cutoff := now.Add(-f.window)
-	filtered := f.events[:0]
-	for _, t := range f.events {
-		if t.After(cutoff) {
-			filtered = append(filtered, t)
-		}
-	}
-	f.events = filtered
-}
-
 type recoverableModule struct {
 	inner supervisor.Module
 	log   *zap.Logger
@@ -431,7 +416,7 @@ const (
 	stateHalfOpen
 )
 
-func (a *App) activateSafeMode() {
+func (a *App) activateSafeMode(parent context.Context) {
 	a.log.Warn("SAFE MODE ENABLED")
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -474,7 +459,7 @@ func (a *App) Start(ctx context.Context) error {
 		a.log.Error("supervisor start failed", zap.Error(err))
 		a.degraded = true
 		a.activateSafeMode()
-		return nil
+		return err
 	}
 
 	a.startHTTPServer()

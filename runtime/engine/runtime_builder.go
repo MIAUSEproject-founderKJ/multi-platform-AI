@@ -9,9 +9,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	boot_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/phases"
+	boot_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/router"
-	schema_identity "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/identity"
+	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	runtime "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
 	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
 	"go.uber.org/zap"
@@ -23,9 +23,9 @@ type RuntimeContext struct {
 	DB           *sql.DB
 	Logger       *zap.Logger
 	BasePath     string
-	Session      *schema_identity.UserSession
+	Session      *user_setting.UserSession
 	Orchestrator *boot_phase.Orchestrator
-	Config       *schema_identity.UserConfig
+	Config       *user_setting.UserConfig
 	Context      context.Context
 }
 

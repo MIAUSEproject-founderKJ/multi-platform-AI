@@ -12,51 +12,52 @@ import (
 	"strings"
 	"time"
 
-	boot_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/boot/phases"
-	security_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
+	boot_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases"
+	verification_decision "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision"
+	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence"
 
-	schema_identity "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/identity"
-	schema_security "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/security"
-	schema_system "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
+	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
 )
 
 type AuthManager struct {
-	Vault    security_persistence.VaultStore
-	Identity *schema_system.MachineIdentity
-	Platform schema_system.PlatformClass
-	Entity   schema_system.EntityType
-	Tier     schema_identity.TierType
+	Vault    verification_persistence.VaultStore
+	Identity *internal_environment.MachineIdentity
+	Platform internal_environment.PlatformClass
+	Entity   internal_environment.EntityKind
+	Tier     user_setting.TierType
 }
 
 type AuthInterface interface {
-	StartAuthFlow(auth *AuthManager) (*schema_identity.UserSession, error)
+	StartAuthFlow(auth *AuthManager) (*user_setting.UserSession, error)
 }
 
 // detectEntityAndTier inspects the user identity to assign entity and tier
 func (am *AuthManager) detectEntityAndTier() {
 	if am.Identity == nil {
-		am.Entity = schema_system.EntityStranger
-		am.Tier = schema_identity.TierUnknown
+		am.Entity = internal_environment.EntityStranger
+		am.Tier = user_setting.TierUnknown
 		return
 	}
 
 	switch am.Identity.EntityType {
-	case schema_system.EntityPersonal:
-		am.Entity = schema_system.EntityPersonal
-		am.Tier = schema_identity.TierPersonal
-	case schema_system.EntityOrganization:
-		am.Entity = schema_system.EntityOrganization
-		am.Tier = schema_identity.TierEnterprise
-	case schema_system.EntityTester:
-		am.Entity = schema_system.EntityTester
-		am.Tier = schema_identity.TierTester
+	case internal_environment.EntityPersonal:
+		am.Entity = internal_environment.EntityPersonal
+		am.Tier = user_setting.TierPersonal
+	case internal_environment.EntityOrganization:
+		am.Entity = internal_environment.EntityOrganization
+		am.Tier = user_setting.TierEnterprise
+	case internal_environment.EntityTester:
+		am.Entity = internal_environment.EntityTester
+		am.Tier = user_setting.TierTester
 	default:
-		am.Entity = schema_system.EntityStranger
-		am.Tier = schema_identity.TierUnknown
+		am.Entity = internal_environment.EntityStranger
+		am.Tier = user_setting.TierUnknown
 	}
 }
 
-func PromptForCredentials(vault security_persistence.VaultStore) (string, string) {
+func PromptForCredentials(vault verification_persistence.VaultStore) (string, string) {
 	reader := bufio.NewReader(os.Stdin)
 
 	fmt.Print("[AUTH] Enter User ID: ")
@@ -64,7 +65,7 @@ func PromptForCredentials(vault security_persistence.VaultStore) (string, string
 	userID = strings.TrimSpace(userID)
 
 	// Check if user exists
-	var existing schema_system.MachineIdentity
+	var existing internal_environment.MachineIdentity
 	found, _ := vault.Read("users", userID, &existing)
 
 	if !found {
@@ -87,7 +88,7 @@ func hashPassword(pw string) string {
 	return hex.EncodeToString(h[:])
 }
 
-func PromptForRegistration(vault security_persistence.VaultStore) (*schema_system.MachineIdentity, error) {
+func PromptForRegistration(vault verification_persistence.VaultStore) (*internal_environment.MachineIdentity, error) {
 	reader := bufio.NewReader(os.Stdin)
 
 	fmt.Println("=== User Registration ===")
@@ -104,15 +105,15 @@ func PromptForRegistration(vault security_persistence.VaultStore) (*schema_syste
 	entityStr, _ := reader.ReadString('\n')
 	entityStr = strings.TrimSpace(entityStr)
 
-	entityType := schema_system.EntityPersonal
+	entityType := internal_environment.EntityPersonal
 	switch strings.ToLower(entityStr) {
 	case "organization":
-		entityType = schema_system.EntityOrganization
+		entityType = internal_environment.EntityOrganization
 	case "tester":
-		entityType = schema_system.EntityTester
+		entityType = internal_environment.EntityTester
 	}
 
-	identity := &schema_system.MachineIdentity{
+	identity := &internal_environment.MachineIdentity{
 		MachineID:    fmt.Sprintf("machine-%s", userID),
 		EntityType:   entityType,
 		OS:           "unknown",
@@ -133,13 +134,13 @@ func PromptForRegistration(vault security_persistence.VaultStore) (*schema_syste
 }
 
 // verifyUserCredentials checks the Vault or database for valid credentials
-func (am *AuthManager) verifyUserCredentials(userID, password string) (bool, *schema_system.MachineIdentity) {
+func (am *AuthManager) verifyUserCredentials(userID, password string) (bool, *internal_environment.MachineIdentity) {
 	if am.Vault == nil {
 		return false, nil
 	}
 
 	// Vault key for the user, e.g., "user_<userID>"
-	var stored schema_system.MachineIdentity
+	var stored internal_environment.MachineIdentity
 	found, err := am.Vault.Read("users", userID, &stored)
 	if err != nil {
 		fmt.Println("[verifyUserCredentials] Vault read error:", err)
@@ -160,12 +161,12 @@ func (am *AuthManager) verifyUserCredentials(userID, password string) (bool, *sc
 	return true, &stored
 }
 
-func (am *AuthManager) RegisterUser(userID, password string, entityType schema_system.EntityType) error {
+func (am *AuthManager) RegisterUser(userID, password string, entityType internal_environment.EntityKind) error {
 	if am.Vault == nil {
 		return errors.New("vault not initialized")
 	}
 
-	identity := &schema_system.MachineIdentity{
+	identity := &internal_environment.MachineIdentity{
 		MachineID:    fmt.Sprintf("machine-%s", userID),
 		EntityType:   entityType,
 		OS:           "unknown",
@@ -176,7 +177,7 @@ func (am *AuthManager) RegisterUser(userID, password string, entityType schema_s
 	return am.Vault.Write("users", userID, identity)
 }
 
-func PromptForUserConfig() *schema_security.CustomizedConfig {
+func PromptForUserConfig() *internal_verification.CustomizedConfig {
 	cfg := DefaultCustomizedConfig()
 	reader := bufio.NewReader(os.Stdin)
 
@@ -208,13 +209,13 @@ func PromptForUserConfig() *schema_security.CustomizedConfig {
 	return cfg
 }
 
-func DefaultCustomizedConfig() *schema_security.CustomizedConfig {
-	return &schema_security.CustomizedConfig{
+func DefaultCustomizedConfig() *internal_verification.CustomizedConfig {
+	return &internal_verification.CustomizedConfig{
 		Version:      "v1",
 		LastModified: time.Now(),
 	}
 }
-func (am *AuthManager) Register() (*schema_identity.UserSession, error) {
+func (am *AuthManager) Register() (*user_setting.UserSession, error) {
 	reader := bufio.NewReader(os.Stdin)
 
 	fmt.Print("User ID: ")
@@ -225,7 +226,7 @@ func (am *AuthManager) Register() (*schema_identity.UserSession, error) {
 	password, _ := reader.ReadString('\n')
 	password = strings.TrimSpace(password)
 
-	entityType := schema_system.EntityPersonal
+	entityType := internal_environment.EntityPersonal
 
 	if err := am.RegisterUser(userID, password, entityType); err != nil {
 		return nil, err
@@ -235,7 +236,7 @@ func (am *AuthManager) Register() (*schema_identity.UserSession, error) {
 	return am.Login(userID, password)
 }
 
-func (am *AuthManager) Login(userID, password string) (*schema_identity.UserSession, error) {
+func (am *AuthManager) Login(userID, password string) (*user_setting.UserSession, error) {
 	verified, identity := am.verifyUserCredentials(userID, password)
 	if !verified {
 		return nil, errors.New("invalid credentials")
@@ -247,7 +248,7 @@ func (am *AuthManager) Login(userID, password string) (*schema_identity.UserSess
 	return am.platformLoginFlow()
 }
 
-func (am *AuthManager) LoginOrSignUpInteractive() (*schema_identity.UserSession, error) {
+func (am *AuthManager) LoginOrSignUpInteractive() (*user_setting.UserSession, error) {
 	for {
 		userID, password := PromptForCredentials(am.Vault)
 
@@ -263,7 +264,7 @@ func (am *AuthManager) LoginOrSignUpInteractive() (*schema_identity.UserSession,
 }
 
 // platformLoginFlow performs the platform-specific verification and session creation
-func (am *AuthManager) platformLoginFlow() (*schema_identity.UserSession, error) {
+func (am *AuthManager) platformLoginFlow() (*user_setting.UserSession, error) {
 	var err error
 
 	switch am.Platform {
@@ -271,15 +272,15 @@ func (am *AuthManager) platformLoginFlow() (*schema_identity.UserSession, error)
 	// ------------------------------
 	// Vehicles / Autonomous Mobility
 	// ------------------------------
-	case schema_system.PlatformVehicle, schema_system.PlatformRobot:
+	case internal_environment.PlatformVehicle, internal_environment.PlatformRobot:
 		switch am.Entity {
-		case schema_system.EntityPersonal:
+		case internal_environment.EntityPersonal:
 			err = am.verifyKeyFobOrBiometrics()
-		case schema_system.EntityOrganization:
+		case internal_environment.EntityOrganization:
 			err = am.verifyBiometricsAndAppHandshake()
-		case schema_system.EntityStranger:
+		case internal_environment.EntityStranger:
 			err = am.guestLoginVehicle()
-		case schema_system.EntityTester:
+		case internal_environment.EntityTester:
 			err = am.verifyMechanicAccess()
 		default:
 			err = fmt.Errorf("unknown vehicle entity type")
@@ -288,24 +289,24 @@ func (am *AuthManager) platformLoginFlow() (*schema_identity.UserSession, error)
 	// ------------------------------
 	// Industrial / Embedded / Factory
 	// ------------------------------
-	case schema_system.PlatformIndustrial, schema_system.PlatformEmbedded:
+	case internal_environment.PlatformIndustrial, internal_environment.PlatformEmbedded:
 		err = am.verifyNFCCardOrButton()
 
 	// ------------------------------
 	// PCs / Laptops / Productivity
 	// ------------------------------
-	case schema_system.PlatformComputer, schema_system.PlatformMobile:
+	case internal_environment.PlatformComputer, internal_environment.PlatformMobile:
 		switch am.Entity {
-		case schema_system.EntityPersonal:
+		case internal_environment.EntityPersonal:
 			err = am.verifyPasswordOrOSBiometrics()
-		case schema_system.EntityOrganization:
+		case internal_environment.EntityOrganization:
 			err = am.verifyPasswordOrOSBiometrics()
 			if err == nil {
 				err = am.verify2FAEnterprise()
 			}
-		case schema_system.EntityStranger:
+		case internal_environment.EntityStranger:
 			err = am.guestLoginPC()
-		case schema_system.EntityTester:
+		case internal_environment.EntityTester:
 			err = am.enableDebugLogin()
 		default:
 			err = fmt.Errorf("unknown PC entity type")
@@ -323,14 +324,14 @@ func (am *AuthManager) platformLoginFlow() (*schema_identity.UserSession, error)
 	}
 
 	// Determine default service based on platform
-	service := schema_identity.ServiceUnknown
+	service := user_setting.ServiceUnknown
 	switch am.Platform {
-	case schema_system.PlatformVehicle, schema_system.PlatformRobot:
-		service = schema_identity.ServiceEnterprise
-	case schema_system.PlatformIndustrial, schema_system.PlatformEmbedded:
-		service = schema_identity.ServiceSystem
-	case schema_system.PlatformComputer, schema_system.PlatformMobile:
-		service = schema_identity.ServicePersonal
+	case internal_environment.PlatformVehicle, internal_environment.PlatformRobot:
+		service = user_setting.ServiceEnterprise
+	case internal_environment.PlatformIndustrial, internal_environment.PlatformEmbedded:
+		service = user_setting.ServiceSystem
+	case internal_environment.PlatformComputer, internal_environment.PlatformMobile:
+		service = user_setting.ServicePersonal
 	}
 
 	return am.createSession(service)
@@ -427,80 +428,80 @@ func (am *AuthManager) enableDebugLogin() error {
 // Session Creation
 // ------------------------------------------------------------
 
-func (am *AuthManager) createSession(service schema_identity.ServiceType) (*schema_identity.UserSession, error) {
+func (am *AuthManager) createSession(service user_setting.ServiceType) (*user_setting.UserSession, error) {
 
-    // ----------------------------
-    // 1. AUTHORIZATION
-    // ----------------------------
-    authCtx := &security_decision.AuthorizationContext{
-        Platform: am.Platform,
-        Entity:   am.Entity,
-        Tier:     am.Tier,
-        Service:  service,
-    }
+	// ----------------------------
+	// 1. AUTHORIZATION
+	// ----------------------------
+	authCtx := &verification_decision.AuthorizationContext{
+		Platform: am.Platform,
+		Entity:   am.Entity,
+		Tier:     am.Tier,
+		Service:  service,
+	}
 
-    authz := security_decision.AuthorizationService{
-        Resolver: &security_decision.DefaultPermissionResolver{},
-    }
+	authz := verification_decision.AuthorizationService{
+		Resolver: &verification_decision.DefaultPermissionResolver{},
+	}
 
-    permMap := authz.Authorize(authCtx)
+	permMap := authz.Authorize(authCtx)
 
-    // Build permission mask
-    var permMask schema_security.PermissionMask
-    for p := range permMap {
-        permMask |= schema_security.ToMask(p)
-    }
+	// Build permission mask
+	var permMask internal_verification.PermissionMask
+	for p := range permMap {
+		permMask |= internal_verification.ToMask(p)
+	}
 
-    // ----------------------------
-    // 2. SESSION CONSTRUCTION
-    // ----------------------------
-    builder := schema_identity.SessionBuilder{}
+	// ----------------------------
+	// 2. SESSION CONSTRUCTION
+	// ----------------------------
+	builder := user_setting.SessionBuilder{}
 
-    buildCtx := &schema_identity.BuildContext{
-        Platform: am.Platform,
-        Entity:   am.Entity,
-        Tier:     am.Tier,
-        Service:  service,
-    }
+	buildCtx := &user_setting.BuildContext{
+		Platform: am.Platform,
+		Entity:   am.Entity,
+		Tier:     am.Tier,
+		Service:  service,
+	}
 
-    session := builder.Build(buildCtx, permMap)
-    session.PermMask = permMask
+	session := builder.Build(buildCtx, permMap)
+	session.PermMask = permMask
 
-    // ----------------------------
-    // 3. CONFIG
-    // ----------------------------
-    cfg, err := LoadUserConfig(am.Vault, am.Identity.MachineID)
-    if err != nil {
-        return nil, err
-    }
+	// ----------------------------
+	// 3. CONFIG
+	// ----------------------------
+	cfg, err := LoadUserConfig(am.Vault, am.Identity.MachineID)
+	if err != nil {
+		return nil, err
+	}
 
-    if cfg == nil {
-        cfg = PromptForUserConfig()
-        _ = SaveUserConfig(am.Vault, am.Identity.MachineID, cfg)
-    }
+	if cfg == nil {
+		cfg = PromptForUserConfig()
+		_ = SaveUserConfig(am.Vault, am.Identity.MachineID, cfg)
+	}
 
-    cfg.WithDefaults()
+	cfg.WithDefaults()
 
-    session.Config = &schema_identity.UserConfig{
-        MainLang:      cfg.MainLang,
-        PowerMode:     cfg.PowerMode,
-        PrivacyMode:   cfg.PrivacyMode,
-        UpdateMode:    cfg.UpdateMode,
-        PreferredMode: cfg.PreferredMode,
-    }
+	session.Config = &user_setting.UserConfig{
+		MainLang:      cfg.MainLang,
+		PowerMode:     cfg.PowerMode,
+		PrivacyMode:   cfg.PrivacyMode,
+		UpdateMode:    cfg.UpdateMode,
+		PreferredMode: cfg.PreferredMode,
+	}
 
-    // ----------------------------
-    // 4. RUNTIME
-    // ----------------------------
-    if err := am.initializeRuntime(session); err != nil {
-        return nil, err
-    }
+	// ----------------------------
+	// 4. RUNTIME
+	// ----------------------------
+	if err := am.initializeRuntime(session); err != nil {
+		return nil, err
+	}
 
-    return session, nil
+	return session, nil
 }
 
-func LoadUserConfig(vault security_persistence.VaultStore, userID string) (*schema_security.CustomizedConfig, error) {
-	var cfg schema_security.CustomizedConfig
+func LoadUserConfig(vault verification_persistence.VaultStore, userID string) (*internal_verification.CustomizedConfig, error) {
+	var cfg internal_verification.CustomizedConfig
 
 	found, err := vault.Read("configs", userID, &cfg)
 	if err != nil {
@@ -517,12 +518,12 @@ func LoadUserConfig(vault security_persistence.VaultStore, userID string) (*sche
 	return &cfg, nil
 }
 
-func SaveUserConfig(vault security_persistence.VaultStore, userID string, cfg *schema_security.CustomizedConfig) error {
+func SaveUserConfig(vault verification_persistence.VaultStore, userID string, cfg *internal_verification.CustomizedConfig) error {
 	cfg.LastModified = time.Now()
 	return vault.Write("configs", userID, cfg)
 }
 
-func (am *AuthManager) HandleConfigUpdate(session *schema_identity.UserSession) {
+func (am *AuthManager) HandleConfigUpdate(session *user_setting.UserSession) {
 	reader := bufio.NewReader(os.Stdin)
 
 	fmt.Print("[CONFIG] Enter command: ")
@@ -543,21 +544,21 @@ func (am *AuthManager) HandleConfigUpdate(session *schema_identity.UserSession) 
 	}
 }
 
-func (am *AuthManager) initializeRuntime(session *schema_identity.UserSession) error {
+func (am *AuthManager) initializeRuntime(session *user_setting.UserSession) error {
 
-    cp := interaction.DetectCapabilityProfile()
+	cp := interaction.DetectCapabilityProfile()
 
-    orch := boot_phase.BuildOrchestrator(cp)
-    orch.StartAll(session)
+	orch := boot_phase.BuildOrchestrator(cp)
+	orch.StartAll(session)
 
-    mode := boot_phase.ResolveInteractionMode(session.Config, cp.Set)
+	mode := boot_phase.ResolveInteractionMode(session.Config, cp.Set)
 
-    session.Capabilities = cp.Set
-    session.CapProfile = cp
-    session.Mode = string(mode)
-    session.Orchestrator = orch
+	session.Capabilities = cp.Set
+	session.CapProfile = cp
+	session.Mode = string(mode)
+	session.Orchestrator = orch
 
-    orch.Broadcast("Session initialized successfully")
+	orch.Broadcast("Session initialized successfully")
 
-    return nil
+	return nil
 }

@@ -15,11 +15,9 @@ import (
 
 type Module interface {
 	Name() string
-
 	Init(ctx context.Context) error
 	Start(ctx context.Context) error
 	Stop(ctx context.Context) error
-
 	Health() error
 }
 
@@ -31,15 +29,15 @@ type HealthStatus struct {
 }
 
 func (s *Supervisor) HealthStatus() HealthStatus {
-    s.mu.RLock()
-    defer s.mu.RUnlock()
+	s.mu.RLock()
+	defer s.mu.RUnlock()
 
-    failed := 0
-    for _, st := range s.modules {
-        if !st.healthy {
-            failed++
-        }
-    }
+	failed := 0
+	for _, st := range s.modules {
+		if !st.healthy {
+			failed++
+		}
+	}
 
 	return HealthStatus{
 		Healthy:  failed == 0,
@@ -55,11 +53,11 @@ func (s *Supervisor) ModuleCount() int {
 
 func (s *Supervisor) RestartFailed(ctx context.Context) error {
 	for _, st := range s.modules {
-    if err := st.module.Health(); err != nil {
-        _ = st.module.Stop(ctx)
-        _ = st.module.Start(ctx)
-    }
-}
+		if err := st.module.Health(); err != nil {
+			_ = st.module.Stop(ctx)
+			_ = st.module.Start(ctx)
+		}
+	}
 	return nil
 }
 

@@ -1,6 +1,6 @@
-//core/security/measurement/measured_boot.go
+//core/verification/measurement/measured_boot.go
 
-package security_measurement
+package verification_measurement
 
 import (
 	"crypto/sha256"
@@ -16,25 +16,29 @@ func GenerateEnvHash(machineName string, osName string, busCount int) string {
 	return hex.EncodeToString(hash[:])
 }
 
-// VerifyBinaryIntegrity implements the measured boot check
+// VerifyBinaryIntegrity implements the measured bootstrap check
 func VerifyBinaryIntegrity() (bool, error) {
 	exePath, err := os.Executable()
-	if err != nil { return false, err }
+	if err != nil {
+		return false, err
+	}
 
 	data, err := os.ReadFile(exePath)
-	if err != nil { return false, err }
-	
+	if err != nil {
+		return false, err
+	}
+
 	currentHash := sha256.Sum256(data)
 	// Log the hash for audit trailing
-	fmt.Printf("[SECURITY] Binary Hash: %x\n", currentHash)
-	
-	return true, nil 
+	fmt.Printf("[verification] Binary Hash: %x\n", currentHash)
+
+	return true, nil
 }
 
 func VerifyBoot() {
 	// Combined verification of the environment and binary
 	hash := calculateHash()
-	fmt.Printf("[SECURITY] Measured Boot Sequence Complete. Target: %s\n", hash)
+	fmt.Printf("[verification] Measured Boot Sequence Complete. Target: %s\n", hash)
 }
 
 func calculateHash() string {

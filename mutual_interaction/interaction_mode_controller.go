@@ -1,0 +1,3 @@
+//mutual_interaction/interaction_mode_controller.go
+
+package mutual_interaction

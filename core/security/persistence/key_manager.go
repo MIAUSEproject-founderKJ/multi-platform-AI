@@ -1,6 +1,6 @@
-//core/security/persistence/key_manager.go
+//core/verification/persistence/key_manager.go
 
-package security_persistence
+package verification_persistence
 
 import (
 	"crypto/rand"
@@ -27,13 +27,13 @@ func LoadSecureKey() []byte {
 	keyStr := os.Getenv("APP_ENCRYPTION_KEY")
 
 	if keyStr == "" {
-		// Auto-generate (dev or first boot)
+		// Auto-generate (dev or first bootstrap)
 		gen, err := GenerateSecureKeyBase64()
 		if err != nil {
 			log.Fatal("Failed to generate encryption key:", err)
 		}
 
-		log.Println("[SECURITY] Generated ephemeral encryption key")
+		log.Println("[verification] Generated ephemeral encryption key")
 
 		keyBytes, _ := base64.StdEncoding.DecodeString(gen)
 		return keyBytes
