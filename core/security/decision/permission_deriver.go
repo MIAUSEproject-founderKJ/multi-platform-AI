@@ -1,5 +1,5 @@
-// core/verification/decision/permission_deriver.go
-package verification_decision
+// core/security/decision/permission_deriver.go
+package security_decision
 
 import (
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"

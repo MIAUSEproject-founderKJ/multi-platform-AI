@@ -1,6 +1,6 @@
 //core/verification/decision/decision_engine.go
 
-package verification_decision
+package security_decision
 
 import (
 	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"

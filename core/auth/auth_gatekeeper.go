@@ -1,4 +1,4 @@
-//core/auth/auth_gatekeeper.go
+// core/auth/auth_gatekeeper.go
 package auth
 
 // Auth defines what it needs, but doesn't care WHO provides it.

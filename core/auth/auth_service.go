@@ -13,7 +13,7 @@ import (
 	"time"
 
 	boot_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases"
-	verification_decision "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision"
+	security_decision "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision"
 	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence"
 
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
@@ -433,15 +433,15 @@ func (am *AuthManager) createSession(service user_setting.ServiceType) (*user_se
 	// ----------------------------
 	// 1. AUTHORIZATION
 	// ----------------------------
-	authCtx := &verification_decision.AuthorizationContext{
+	authCtx := &security_decision.AuthorizationContext{
 		Platform: am.Platform,
 		Entity:   am.Entity,
 		Tier:     am.Tier,
 		Service:  service,
 	}
 
-	authz := verification_decision.AuthorizationService{
-		Resolver: &verification_decision.DefaultPermissionResolver{},
+	authz := security_decision.AuthorizationService{
+		Resolver: &security_decision.DefaultPermissionResolver{},
 	}
 
 	permMap := authz.Authorize(authCtx)
