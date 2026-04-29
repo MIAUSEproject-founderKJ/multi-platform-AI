@@ -9,23 +9,23 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
 	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
-	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
+	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
+	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 )
 
 // CognitionModule handles incoming intents and converts them to tasks.
 type CognitionModule struct {
-	ctx *engine.RuntimeContext
+	ctx *runtime_engine.RuntimeContext
 }
 
 // NewCognitionModule returns a DomainModule instance
-func NewCognitionModule() DomainModule {
+func NewCognitionModule() domain_shared.DomainModule {
 	return &CognitionModule{}
 }
 
 // SetRuntime sets the runtime context directly
-func (m *CognitionModule) SetRuntime(rtx *engine.RuntimeContext) {
+func (m *CognitionModule) SetRuntime(rtx *runtime_engine.RuntimeContext) {
 	m.ctx = rtx
 }
 
@@ -73,7 +73,7 @@ func (m *CognitionModule) Stop() error                                          
 func (m *CognitionModule) SupportedPlatforms() []internal_environment.PlatformClass { return nil }
 
 // DomainModule implementation
-func (m *CognitionModule) RequiredCapabilities() internal_verification.CapabilitySet {
+func (m *CognitionModule) RequiredCapabilities() internal_environment.CapabilitySet {
 	// This module doesn’t require any capabilities, so return 0
 	return 0
 }

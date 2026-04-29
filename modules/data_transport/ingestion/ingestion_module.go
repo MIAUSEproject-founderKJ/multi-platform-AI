@@ -8,21 +8,22 @@ import (
 
 	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
-	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
+	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/file"
+	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
 )
 
 type IngestionModule struct {
-	BaseModule
+	kernel_lifecycle.BaseModule
 	repo file.FileRepository
 	ctx  *internal_boot.BootContext
 
 	running atomic.Bool
 }
 
-func NewIngestionModule() DomainModule {
+func NewIngestionModule() domain_shared.DomainModule {
 	return &IngestionModule{
-		BaseModule: BaseModule{
+		BaseModule: kernel_lifecycle.BaseModule{
 			name: "IngestionModule",
 			deps: []string{},
 		},
@@ -52,7 +53,7 @@ func (m *IngestionModule) Run(ctx context.Context) error {
 
 func (m *IngestionModule) SupportedPlatforms() []internal_environment.PlatformClass { return nil }
 
-func (m *IngestionModule) RequiredCapabilities() internal_verification.CapabilitySet {
+func (m *IngestionModule) RequiredCapabilities() internal_environment.CapabilitySet {
 	// This module doesn’t require any capabilities, so return 0
 	return 0
 }

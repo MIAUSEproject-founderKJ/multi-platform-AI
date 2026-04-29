@@ -14,8 +14,9 @@ import (
 
 	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
-	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
+	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
+	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
+	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 	"go.uber.org/zap"
 )
 
@@ -26,7 +27,7 @@ const (
 
 type DatabaseSinkModule struct {
 	BaseModule
-	runtime *engine.RuntimeContext
+	runtime *runtime_engine.RuntimeContext
 	db      *sql.DB
 	queue   chan []byte
 
@@ -40,7 +41,7 @@ type DatabaseSinkModule struct {
 }
 
 // SetRuntime attaches the RuntimeContext
-func (m *DatabaseSinkModule) SetRuntime(rtx *engine.RuntimeContext) {
+func (m *DatabaseSinkModule) SetRuntime(rtx *runtime_engine.RuntimeContext) {
 	m.runtime = rtx
 	m.db = rtx.DB
 	m.logger = rtx.Logger
@@ -133,7 +134,7 @@ func (m *DatabaseSinkModule) SupportedPlatforms() []internal_environment.Platfor
 }
 
 // DomainModule implementation
-func (m *DatabaseSinkModule) RequiredCapabilities() internal_verification.CapabilitySet {
+func (m *DatabaseSinkModule) RequiredCapabilities() internal_environment.CapabilitySet {
 	// This module doesn’t require any capabilities, so return 0
 	return 0
 }
@@ -141,9 +142,9 @@ func (m *DatabaseSinkModule) RequiredCapabilities() internal_verification.Capabi
 func (m *DatabaseSinkModule) Optional() bool { return false }
 
 // constructor
-func NewDatabaseSinkModule() DomainModule {
+func NewDatabaseSinkModule() domain_shared.DomainModule {
 	return &DatabaseSinkModule{
-		BaseModule: BaseModule{name: "DatabaseSinkModule"},
+		BaseModule: kernel_lifecycle.BaseModule{name: "DatabaseSinkModule"},
 		queue:      make(chan []byte, DBQueueSize),
 	}
 }

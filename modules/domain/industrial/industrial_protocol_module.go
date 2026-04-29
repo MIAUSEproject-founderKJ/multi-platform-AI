@@ -7,7 +7,8 @@ import (
 
 	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
-	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
+	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
+	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
 )
 
 type IndustrialProtocolModule struct {
@@ -17,9 +18,9 @@ type IndustrialProtocolModule struct {
 }
 
 // Factory function
-func NewIndustrialProtocolModule() DomainModule {
+func NewIndustrialProtocolModule() domain_shared.DomainModule {
 	return &IndustrialProtocolModule{
-		BaseModule: BaseModule{
+		BaseModule: kernel_lifecycle.BaseModule{
 			name: "IndustrialProtocolModule",
 			deps: []string{"TelemetryModule"},
 		},
@@ -75,7 +76,7 @@ func (m *IndustrialProtocolModule) Healthy() bool {
 func (m *IndustrialProtocolModule) SupportedPlatforms() []internal_environment.PlatformClass {
 	return nil
 }
-func (m *IndustrialProtocolModule) RequiredCapabilities() internal_verification.CapabilitySet {
+func (m *IndustrialProtocolModule) RequiredCapabilities() internal_environment.CapabilitySet {
 	// This module doesn’t require any capabilities, so return 0
 	return 0
 }

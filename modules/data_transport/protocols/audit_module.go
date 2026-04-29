@@ -9,17 +9,18 @@ import (
 	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
-	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
+	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
+	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
+	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 )
 
 type AuditModule struct {
-	BaseModule
-	runtime *engine.RuntimeContext
+	kernel_lifecycle.BaseModule
+	runtime *runtime_engine.RuntimeContext
 	cancel  context.CancelFunc
 }
 
-func NewAuditModule() DomainModule {
+func NewAuditModule() domain_shared.DomainModule {
 	m := &AuditModule{}
 	m.SetName("AuditModule")
 	return m
@@ -30,7 +31,7 @@ func (m *AuditModule) Start() error {
 	return nil
 }
 
-func (m *AuditModule) RequiredCapabilities() internal_verification.CapabilitySet {
+func (m *AuditModule) RequiredCapabilities() internal_environment.CapabilitySet {
 	return 0 // no requirement → always eligible
 }
 
@@ -86,6 +87,6 @@ func (m *AuditModule) Stop() error {
 	return nil
 }
 
-func (m *AuditModule) SetRuntime(rtx *engine.RuntimeContext) {
+func (m *AuditModule) SetRuntime(rtx *runtime_engine.RuntimeContext) {
 	m.runtime = rtx
 }

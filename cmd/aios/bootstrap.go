@@ -19,6 +19,7 @@ import (
 	"time"
 
 	boot_orchestrator "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator"
+	bootstrap_resolver "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/resolver"
 	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence"
 	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
@@ -26,6 +27,7 @@ import (
 	registry "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/registry"
 	cli "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/adapter"
 	engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
+	runtime_supervisor "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/supervisor"
 	supervisor "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/supervisor"
 	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 	"go.uber.org/zap"
@@ -174,12 +176,12 @@ func BuildRuntime(logger *zap.Logger, sys *SystemContext) (*App, error) {
 	if len(adapted) == 0 {
 		logger.Warn("fallback to CLI module")
 
-		adapted = []supervisor.Module{
+		adapted = []runtime_supervisor.Module{
 			NewRecoverableModule(cli.NewCLIModule(), logger),
 		}
 	}
 
-	resilient := make([]supervisor.Module, 0, len(adapted))
+	resilient := make([]runtime_supervisor.Module, 0, len(adapted))
 
 	for _, m := range adapted {
 		resilient = append(resilient, NewRecoverableModule(m, logger))
@@ -309,12 +311,12 @@ func attemptBoot() (*SystemContext, error) {
 
 	bootSeq.UserSession = session
 
-	bootCtxResolved, err := resolver.ResolveBootContext(bootSeq)
+	bootCtxResolved, err := bootstrap_resolver.ResolveBootContext(bootSeq)
 	if err != nil {
 		return nil, err
 	}
 
-	execCtx, err := resolver.ResolveExecutionContext(bootSeq)
+	execCtx, err := bootstrap_resolver.ResolveExecutionContext(bootSeq)
 	if err != nil {
 		return nil, err
 	}
@@ -346,11 +348,11 @@ func (a *App) watchdog(ctx context.Context) {
 			case status.Failed >= status.Total/2:
 				a.log.Error("major degradation")
 				a.degraded = true
-				a.activateSafeMode()
+				a.activateSafeMode(ctx)
 
 			case status.Failed == status.Total:
 				a.log.Error("system collapse")
-				a.activateSafeMode()
+				a.activateSafeMode(ctx)
 			}
 
 		case <-ctx.Done():
@@ -398,7 +400,7 @@ func startCLIInput(ctx context.Context, logger *zap.Logger) {
 }
 
 type recoverableModule struct {
-	inner supervisor.Module
+	inner runtime_supervisor.Module
 	log   *zap.Logger
 
 	// resilience
@@ -458,7 +460,7 @@ func (a *App) Start(ctx context.Context) error {
 	if err := a.supervisor.Start(ctx); err != nil {
 		a.log.Error("supervisor start failed", zap.Error(err))
 		a.degraded = true
-		a.activateSafeMode()
+		a.activateSafeMode(ctx)
 		return err
 	}
 
@@ -563,7 +565,7 @@ func (a *App) startHTTPServer() {
 	}()
 }
 
-func NewRecoverableModule(m supervisor.Module, log *zap.Logger) supervisor.Module {
+func NewRecoverableModule(m runtime_supervisor.Module, log *zap.Logger) runtime_supervisor.Module {
 	return &recoverableModule{
 		inner: m,
 		log:   log,
@@ -591,8 +593,8 @@ func (g *SystemGuard) Trip() bool {
 	return g.failures >= 5
 }
 
-func FallbackMinimal() []supervisor.Module {
-	return []supervisor.Module{
+func FallbackMinimal() []runtime_supervisor.Module {
+	return []runtime_supervisor.Module{
 		cli.NewCLIModule(),
 	}
 }

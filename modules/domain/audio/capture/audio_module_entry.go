@@ -14,7 +14,7 @@ import (
 	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
 	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
+	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 	"go.uber.org/zap"
 )
 
@@ -30,7 +30,7 @@ var (
 type AudioModule struct {
 	modules.BaseModule
 
-	runtime   *engine.RuntimeContext
+	runtime   *runtime_engine.RuntimeContext
 	writer    *WAVWriter
 	extractor *FeatureExtractor
 	repo      *AudioRepository
@@ -53,7 +53,7 @@ func NewAudioModule() modules.DomainModule {
 // Runtime Injection
 // --------------------------------------------------
 
-func (m *AudioModule) SetRuntime(rtx *engine.RuntimeContext) {
+func (m *AudioModule) SetRuntime(rtx *runtime_engine.RuntimeContext) {
 	m.runtime = rtx
 }
 
@@ -152,7 +152,7 @@ func (m *AudioModule) process(payload []byte) error {
 // Capability Enforcement
 // --------------------------------------------------
 
-func (m *AudioModule) RequiredCapabilities() internal_verification.CapabilitySet {
+func (m *AudioModule) RequiredCapabilities() internal_environment.CapabilitySet {
 	return internal_verification.CapLocalStorage | internal_verification.CapNetwork
 }
 

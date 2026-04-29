@@ -6,9 +6,11 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+
+	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 )
 
-func (c CustomizedConfig) WithDefaults() CustomizedConfig {
+func (c user_setting.CustomizedConfig) WithDefaults() user_setting.CustomizedConfig {
 	if c.MainLang == "" {
 		c.MainLang = "en"
 	}
@@ -28,7 +30,7 @@ func (c CustomizedConfig) WithDefaults() CustomizedConfig {
 	return c
 }
 
-func (c *CustomizedConfig) Hash() string {
+func (c *user_setting.CustomizedConfig) Hash() string {
 	type stable struct {
 		Version       string
 		MainLang      string

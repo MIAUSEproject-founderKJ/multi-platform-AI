@@ -2,11 +2,14 @@
 
 package transport_filter
 
-import internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
+import (
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
+	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
+)
 
-func FilterModules(all []DomainModule, ctx *internal_boot.BootContext) []DomainModule {
+func FilterModules(all []domain_shared.DomainModule, ctx *internal_boot.BootContext) []domain_shared.DomainModule {
 
-	var out []DomainModule
+	var out []domain_shared.DomainModule
 
 	for _, m := range all {
 

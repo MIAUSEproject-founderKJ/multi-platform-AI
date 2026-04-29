@@ -6,15 +6,15 @@ import (
 	"time"
 
 	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
-	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
 )
 
 type BootSequence struct {
 	Env          *EnvConfig
 	Mode         internal_boot.BootMode
 	Attested     bool
-	Capabilities internal_verification.CapabilitySet
+	Capabilities internal_environment.CapabilitySet
 	Service      user_setting.ServiceType
 	Entity       EntityKind
 	Tier         user_setting.TierType

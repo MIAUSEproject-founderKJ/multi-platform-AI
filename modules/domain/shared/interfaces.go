@@ -12,5 +12,5 @@ type DomainModule interface {
 
 // Optional runtime injection
 type RuntimeAware interface {
-	SetRuntime(ctx any) // or *engine.RuntimeContext (preferred)
+	SetRuntime(ctx any) // or *runtime_engine.RuntimeContext (preferred)
 }

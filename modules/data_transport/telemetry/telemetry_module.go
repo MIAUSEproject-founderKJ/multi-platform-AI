@@ -8,7 +8,8 @@ import (
 
 	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
-	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
+	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
+	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
 )
 
 type TelemetryModule struct {
@@ -25,9 +26,9 @@ type TelemetryClient interface {
 }
 
 // Factory
-func NewTelemetryModule() DomainModule {
+func NewTelemetryModule() domain_shared.DomainModule {
 	return &TelemetryModule{
-		BaseModule: BaseModule{
+		BaseModule: kernel_lifecycle.BaseModule{
 			name: "TelemetryModule",
 			deps: []string{"IngestionModule"},
 		},
@@ -89,7 +90,7 @@ func (m *TelemetryModule) SupportedPlatforms() []internal_environment.PlatformCl
 	return nil
 }
 
-func (m *TelemetryModule) RequiredCapabilities() internal_verification.CapabilitySet {
+func (m *TelemetryModule) RequiredCapabilities() internal_environment.CapabilitySet {
 	// This module doesn’t require any capabilities, so return 0
 	return 0
 }

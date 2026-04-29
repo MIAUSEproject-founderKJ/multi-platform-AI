@@ -66,7 +66,7 @@ import (
 
 type BootContext struct {
 	PlatformClass internal_environment.PlatformClass
-	Capabilities  internal_verification.CapabilitySet
+	Capabilities  internal_environment.CapabilitySet
 	Vault         verification_persistence.VaultStore
 	Service       user_setting.ServiceType
 	Entity        internal_environment.EntityType
@@ -596,7 +596,7 @@ type BootSequence struct {
 	Env          *EnvConfig
 	Mode         internal_boot.BootMode
 	Attested     bool
-	Capabilities internal_verification.CapabilitySet
+	Capabilities internal_environment.CapabilitySet
 	Service      user_setting.ServiceType
 	Entity       EntityType
 	Tier         user_setting.TierType

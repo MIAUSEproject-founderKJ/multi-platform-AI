@@ -177,7 +177,7 @@ func (am *AuthManager) RegisterUser(userID, password string, entityType internal
 	return am.Vault.Write("users", userID, identity)
 }
 
-func PromptForUserConfig() *internal_verification.CustomizedConfig {
+func PromptForUserConfig() *user_setting.CustomizedConfig {
 	cfg := DefaultCustomizedConfig()
 	reader := bufio.NewReader(os.Stdin)
 
@@ -209,8 +209,8 @@ func PromptForUserConfig() *internal_verification.CustomizedConfig {
 	return cfg
 }
 
-func DefaultCustomizedConfig() *internal_verification.CustomizedConfig {
-	return &internal_verification.CustomizedConfig{
+func DefaultCustomizedConfig() *user_setting.CustomizedConfig {
+	return &user_setting.CustomizedConfig{
 		Version:      "v1",
 		LastModified: time.Now(),
 	}
@@ -500,8 +500,8 @@ func (am *AuthManager) createSession(service user_setting.ServiceType) (*user_se
 	return session, nil
 }
 
-func LoadUserConfig(vault verification_persistence.VaultStore, userID string) (*internal_verification.CustomizedConfig, error) {
-	var cfg internal_verification.CustomizedConfig
+func LoadUserConfig(vault verification_persistence.VaultStore, userID string) (*user_setting.CustomizedConfig, error) {
+	var cfg user_setting.CustomizedConfig
 
 	found, err := vault.Read("configs", userID, &cfg)
 	if err != nil {
@@ -518,7 +518,7 @@ func LoadUserConfig(vault verification_persistence.VaultStore, userID string) (*
 	return &cfg, nil
 }
 
-func SaveUserConfig(vault verification_persistence.VaultStore, userID string, cfg *internal_verification.CustomizedConfig) error {
+func SaveUserConfig(vault verification_persistence.VaultStore, userID string, cfg *user_setting.CustomizedConfig) error {
 	cfg.LastModified = time.Now()
 	return vault.Write("configs", userID, cfg)
 }

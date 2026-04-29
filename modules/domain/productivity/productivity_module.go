@@ -7,11 +7,11 @@ package module_productivity
 
 import (
 	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
+	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 )
 
 type ProductivityModule struct {
-	ctx engine.RuntimeContext
+	ctx runtime_engine.RuntimeContext
 }
 
 func (p *ProductivityModule) Name() string {

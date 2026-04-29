@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
 )
@@ -62,8 +63,8 @@ func BuildAuthInterface(mode user_setting.InteractionMode) auth.AuthInterface {
 }
 
 func ResolveInteractionMode(
-	cfg *internal_verification.CustomizedConfig,
-	cap internal_verification.CapabilitySet,
+	cfg *user_setting.CustomizedConfig,
+	cap internal_environment.CapabilitySet,
 ) user_setting.InteractionMode {
 
 	if cfg != nil && cfg.PreferredMode != "" && cfg.PreferredMode != "auto" {
@@ -71,13 +72,13 @@ func ResolveInteractionMode(
 	}
 
 	switch {
-	case cap.Has(internal_verification.CapDisplay) && cap.Has(internal_verification.CapGPU):
+	case cap.Has(internal_environment.CapDisplay) && cap.Has(internal_environment.CapGPU):
 		return user_setting.ModeGUI
 
-	case cap.Has(internal_verification.CapDisplay) && cap.Has(internal_verification.CapKeyboard):
+	case cap.Has(internal_environment.CapDisplay) && cap.Has(internal_environment.CapKeyboard):
 		return user_setting.ModeTUI
 
-	case cap.Has(internal_verification.CapMicrophone) && cap.Has(internal_verification.CapSpeaker):
+	case cap.Has(internal_environment.CapMicrophone) && cap.Has(internal_environment.CapSpeaker):
 		return user_setting.ModeVoice
 
 	default:
@@ -86,7 +87,7 @@ func ResolveInteractionMode(
 }
 
 func PhaseCapability() *internal_verification.CapabilityProfile {
-	cp := internal_verification.NewCapabilityProfile()
+	cp := internal_environment.NewCapabilityProfile()
 
 	// ---- Display ----
 	if !isHeadless() {

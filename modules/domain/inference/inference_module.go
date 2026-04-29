@@ -12,9 +12,9 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
 	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
-	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
+	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
+	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 	"go.uber.org/zap"
 )
 
@@ -61,7 +61,7 @@ type InferenceModule struct {
 	BaseModule
 
 	ctx     *internal_boot.BootContext
-	runtime *engine.RuntimeContext // runtime reference
+	runtime *runtime_engine.RuntimeContext // runtime reference
 	logger  *zap.Logger
 	running atomic.Bool
 
@@ -73,14 +73,14 @@ type InferenceModule struct {
 	totalErrors      atomic.Uint64
 }
 
-func NewInferenceModule() DomainModule {
+func NewInferenceModule() domain_shared.DomainModule {
 	m := &InferenceModule{}
 	m.SetName("InferenceModule")
 	m.SetDeps([]string{"TelemetryModule"})
 	return m
 }
 
-func (m *InferenceModule) RequiredCapabilities() internal_verification.CapabilitySet {
+func (m *InferenceModule) RequiredCapabilities() internal_environment.CapabilitySet {
 	// This module doesn’t require any capabilities, so return 0
 	return 0
 }
@@ -88,7 +88,7 @@ func (m *InferenceModule) Optional() bool {
 	return false
 }
 
-func (m *InferenceModule) SetRuntime(rtx *engine.RuntimeContext) {
+func (m *InferenceModule) SetRuntime(rtx *runtime_engine.RuntimeContext) {
 	m.runtime = rtx
 }
 

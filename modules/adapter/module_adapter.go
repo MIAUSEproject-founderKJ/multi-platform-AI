@@ -10,22 +10,22 @@ package modules_adapter
 import (
 	"context"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/supervisor"
+	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
+	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
+	runtime_supervisor "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/supervisor"
 )
 
-// Adapter wraps old DomainModule into new supervisor.Module
+// Adapter wraps old DomainModule into new runtime_supervisor.Module
 type Adapter struct {
-	legacy shared.DomainModule
+	legacy domain_shared.DomainModule
 }
 
-func AdaptModules(mods []shared.DomainModule, rtx *engine.RuntimeContext) []supervisor.Module {
-	out := make([]supervisor.Module, 0, len(mods))
+func AdaptModules(mods []domain_shared.DomainModule, rtx *runtime_engine.RuntimeContext) []runtime_supervisor.Module {
+	out := make([]runtime_supervisor.Module, 0, len(mods))
 
 	for _, m := range mods {
 		// Inject runtime if supported
-		if rm, ok := m.(RuntimeAware); ok {
+		if rm, ok := m.(domain_shared.RuntimeAware); ok {
 			rm.SetRuntime(rtx)
 		}
 

@@ -16,7 +16,7 @@ const (
 	PermSafetyOverrideMask
 )
 
-var permissionMap = map[user_setting.Permission]PermissionMask{
+var permissionMap = map[user_setting.PermissionKey]PermissionMask{
 	user_setting.PermUser:           PermUserMask,
 	user_setting.PermAdmin:          PermAdminMask,
 	user_setting.PermBasicRuntime:   PermBasicRuntimeMask,
@@ -27,7 +27,7 @@ var permissionMap = map[user_setting.Permission]PermissionMask{
 }
 
 //MAP TO MASK
-func ToPermissionMask(perms map[user_setting.Permission]bool) PermissionMask {
+func ToPermissionMask(perms map[user_setting.PermissionKey]bool) PermissionMask {
 	var mask PermissionMask
 
 	for p, enabled := range perms {
@@ -43,8 +43,8 @@ func ToPermissionMask(perms map[user_setting.Permission]bool) PermissionMask {
 }
 
 //MASK TO MAP
-func FromPermissionMask(mask PermissionMask) map[user_setting.Permission]bool {
-	out := make(map[user_setting.Permission]bool)
+func FromPermissionMask(mask PermissionMask) map[user_setting.PermissionKey]bool {
+	out := make(map[user_setting.PermissionKey]bool)
 
 	for p, bit := range permissionMap {
 		out[p] = (mask & bit) != 0
