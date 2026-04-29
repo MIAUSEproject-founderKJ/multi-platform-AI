@@ -5,10 +5,11 @@ import (
 	"fmt"
 	"sync"
 	"time"
+	audio_capture "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/audio/capture"
 )
 
 type VoiceEngine struct {
-	audio *AudioVAD
+	audio *audio_capture.AudioVAD
 
 	inputChan     chan string
 	outputChan    chan string
@@ -20,7 +21,7 @@ type VoiceEngine struct {
 
 func NewVoiceEngine() *VoiceEngine {
 	return &VoiceEngine{
-		audio:         NewAudioVAD(),
+		audio:         audio_capture.NewAudioVAD(),
 		inputChan:     make(chan string),
 		outputChan:    make(chan string),
 		interruptChan: make(chan struct{}, 1),

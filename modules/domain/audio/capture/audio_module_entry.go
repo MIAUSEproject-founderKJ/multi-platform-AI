@@ -28,7 +28,7 @@ var (
 // --------------------------------------------------
 
 type AudioModule struct {
-	modules.BaseModule
+	kernel_lifecycle.BaseModule
 
 	runtime   *runtime_engine.RuntimeContext
 	writer    *WAVWriter
@@ -42,7 +42,7 @@ type AudioModule struct {
 // Constructor
 // --------------------------------------------------
 
-func NewAudioModule() modules.DomainModule {
+func NewAudioModule() kernel_lifecycle.DomainModule {
 	m := &AudioModule{}
 	m.SetName("AudioModule")
 	m.SetDeps([]string{"StorageModule"})

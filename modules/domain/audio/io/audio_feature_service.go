@@ -6,7 +6,7 @@ import (
 	"math"
 	"math/cmplx"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/encoding"
+	convert_data "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/convert_data"
 	"gonum.org/v1/gonum/dsp/fourier"
 )
 
@@ -25,7 +25,7 @@ func NewFeatureExtractor(rate int) *FeatureExtractor {
 
 func (f *FeatureExtractor) ProcessPCM(pcm []byte) ([]float64, error) {
 
-	samples := encoding.BytesToFloat64(pcm)
+	samples := convert_data.BytesToFloat64(pcm)
 
 	// 1. Pre-emphasis
 	for i := 1; i < len(samples); i++ {

@@ -16,8 +16,8 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
 )
 
-func ResolveDependencies(mods []modules.DomainModule) ([]modules.DomainModule, error) {
-	nameIndex := make(map[string]modules.DomainModule)
+func ResolveDependencies(mods []kernel_lifecycle.DomainModule) ([]kernel_lifecycle.DomainModule, error) {
+	nameIndex := make(map[string]kernel_lifecycle.DomainModule)
 	inDegree := make(map[string]int)
 	graph := make(map[string][]string)
 
@@ -44,7 +44,7 @@ func ResolveDependencies(mods []modules.DomainModule) ([]modules.DomainModule, e
 		}
 	}
 
-	var ordered []modules.DomainModule
+	var ordered []kernel_lifecycle.DomainModule
 
 	for len(queue) > 0 {
 		current := queue[0]

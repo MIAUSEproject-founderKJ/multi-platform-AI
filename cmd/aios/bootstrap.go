@@ -23,7 +23,7 @@ import (
 	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
 	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
-	modules "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
+	transport_filter "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/data_transport/filter"
 	registry "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/registry"
 	cli "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/adapter"
 	engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
@@ -159,7 +159,7 @@ func BuildRuntime(logger *zap.Logger, sys *SystemContext) (*App, error) {
 	// --- MODULE GRAPH ---
 	reg := registry.DefaultRegistry()
 
-	filtered := modules.FilterModules(reg, sys.Boot)
+	filtered := transport_filter.FilterModules(reg, sys.Boot)
 
 	if len(filtered) == 0 {
 		logger.Warn("no modules available, falling back to CLI-only mode")

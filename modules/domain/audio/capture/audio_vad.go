@@ -7,10 +7,10 @@ import (
 	"fmt"
 	"log"
 	"strings"
-
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/encoding"
+	convert_data "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/convert_data"
 	"github.com/gordonklaus/portaudio"
 	"github.com/maxhawkins/go-webrtcvad"
+	audio_recognition "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/audio/recognition"
 )
 
 const (
@@ -23,7 +23,7 @@ type AudioVAD struct {
 	vad          *webrtcvad.VAD
 	frameBuf     []int16
 	outChan      chan []byte
-	WakeDetector *WakeWordDetector
+	WakeDetector *audio_recognition.WakeWordDetector
 	wakeWordOn   bool
 	wakeBuffer   []int16
 }
@@ -71,7 +71,7 @@ func (a *AudioVAD) Start() error {
 	if err := a.stream.Start(); err != nil {
 		return err
 	}
-	detector, err := NewWakeWordDetector("<ACCESS_KEY>", "hey_system.ppn")
+	detector, err := audio_recognition.NewWakeWordDetector("<ACCESS_KEY>", "hey_system.ppn")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -104,7 +104,7 @@ func (a *AudioVAD) loop() {
 		}
 
 		// VAD processing
-		buf := encoding.Int16ToBytes(a.frameBuf)
+		buf := convert_data.Int16ToBytes(a.frameBuf)
 		active, err := a.vad.Process(sampleRate, buf)
 		if err != nil {
 			continue

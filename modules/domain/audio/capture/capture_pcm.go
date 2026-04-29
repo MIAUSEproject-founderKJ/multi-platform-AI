@@ -4,7 +4,7 @@ package audio_capture
 import (
 	"context"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/encoding"
+	convert_data "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/convert_data"
 	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
 	"github.com/gordonklaus/portaudio"
 )
@@ -36,7 +36,7 @@ func StartMicrophoneStream(ctx context.Context, bus *runtime_bus.MessageBus) err
 			if err := stream.Read(); err != nil {
 				return err
 			}
-			raw := encoding.Int16ToBytes(buffer)
+			raw := convert_data.Int16ToBytes(buffer)
 			bus.Publish(runtime_bus.Message{
 				Topic: "audio.raw",
 				Data:  raw,
