@@ -1,5 +1,5 @@
-// runtime/wake_word.go
-package runtime
+// modules/domain/audio/recognition/wake_word.go
+package audio_recognition
 
 import (
 	"log"

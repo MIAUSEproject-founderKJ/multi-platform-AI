@@ -1,4 +1,4 @@
-//internal/schema/verification/config.go
+//internal/schema/verification/security_config.go
 
 package internal_verification
 

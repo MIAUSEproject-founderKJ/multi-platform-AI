@@ -1,4 +1,4 @@
-//internal/logging/logger.go
+//pkg/logging/logger.go
 
 package logging
 

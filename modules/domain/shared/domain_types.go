@@ -1,6 +1,6 @@
-//modules\domain\shared\domain_types.go
+//modules/domain/shared/domain_types.go
 
-package shared
+package domain_shared
 
 import "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
 

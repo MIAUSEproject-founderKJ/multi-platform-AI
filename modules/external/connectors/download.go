@@ -1,5 +1,5 @@
-// modules/implement_unknown/download.go
-package implement_unknown
+// modules/external/connectors/download.go
+package external_connectors
 
 import (
 	"io"

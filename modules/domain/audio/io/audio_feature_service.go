@@ -1,5 +1,5 @@
-// modules\audio\audio_feature_service.go
-package audio
+// modules/domain/audio/io/audio_feature_service.go
+package audio_io
 
 import (
 	"fmt"

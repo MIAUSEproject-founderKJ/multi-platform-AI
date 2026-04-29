@@ -1,9 +1,9 @@
-//modules/database_sink_module.go
+//modules/data_transport/storage/database_sink_module.go
 /*• Persist telemetry
 • Write inference results
 • Ensure durability*/
 
-package modules
+package transport_storage
 
 import (
 	"context"

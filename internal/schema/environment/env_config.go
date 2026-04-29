@@ -1,4 +1,4 @@
-// internal/schema/system/env_config.go
+// internal/schema/environment/env_config.go
 // This is the "Source of Truth" that everyone can safely import.
 package internal_environment
 

@@ -1,5 +1,5 @@
 // modules/kernel_extension/adapters/legacy/adapter.go
-package module_legacy
+package kernel_adapter_legacy
 
 import (
 	"context"

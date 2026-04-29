@@ -1,5 +1,5 @@
-// modules/cognition_module.go
-package modules
+// modules\domain\cognition\cognition_module.go
+package module_cognition
 
 import (
 	"context"

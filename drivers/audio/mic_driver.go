@@ -1,2 +1,2 @@
-// drivers\audio\mic_driver.go
+// drivers/audio/mic_driver.go
 package audio

@@ -1,6 +1,5 @@
-//modules/industrial_protocol_module.go
-
-package modules
+// modules/domain/industrial/industrial_protocol_module.go
+package module_industrial
 
 import (
 	"context"

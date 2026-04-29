@@ -1,6 +1,6 @@
-//runtime/audio_vad.go
+//modules/domain/audio/capture/audio_vad.go
 
-package runtime
+package audio_capture
 
 import (
 	"encoding/binary"

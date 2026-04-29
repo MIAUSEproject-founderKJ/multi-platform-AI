@@ -1,4 +1,4 @@
-//internal/logging/reflective_logger.go
+//pkg/logging/reflective_logger.go
 
 package logging
 

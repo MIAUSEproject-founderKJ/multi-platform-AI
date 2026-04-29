@@ -1,9 +1,9 @@
 //go:build workstation
 
-//modules/productivity_module.go
+//modules/domain/productivity/productivity_module.go
 //Productivity Module (Workstation)
 
-package modules
+package module_productivity
 
 import (
 	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"

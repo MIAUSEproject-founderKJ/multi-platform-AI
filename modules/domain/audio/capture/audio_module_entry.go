@@ -1,5 +1,5 @@
-// modules\audio\audio_module_entry.go
-package audio
+// modules/domain/audio/capture/audio_module_entry.go
+package audio_capture
 
 import (
 	"context"

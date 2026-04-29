@@ -1,3 +1,3 @@
-//runtime/adapter/hmi_adapter.go - implementation layer only
+//runtime/interface_adapter/hmi_adapter.go - implementation layer only
 
-package cli
+package runtime_interface_adapter

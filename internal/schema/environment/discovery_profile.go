@@ -1,4 +1,4 @@
-//internal/schema/system/discovery_profile.go
+//internal/schema/environment/discovery_profile.go
 
 package internal_environment
 

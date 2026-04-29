@@ -1,5 +1,5 @@
-// modules/inference_module.go performs AI inference and writes results to storage.
-package modules
+// modules/domain/inference/inference_module.go performs AI inference and writes results to storage.
+package module_inference
 
 import (
 	"context"

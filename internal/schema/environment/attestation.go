@@ -1,4 +1,4 @@
-//internal/schema/system/attestation.go
+//internal/schema/environment/attestation.go
 
 package internal_environment
 

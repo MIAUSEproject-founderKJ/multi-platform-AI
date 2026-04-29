@@ -1,5 +1,6 @@
-// modules\data_transport\ingress\interfaces.go
-package ingress
+// modules/data_transport/ingress/interfaces.go
+
+package transport_ingress
 
 import "context"
 

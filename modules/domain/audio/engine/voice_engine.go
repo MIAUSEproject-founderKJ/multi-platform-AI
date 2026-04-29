@@ -1,5 +1,5 @@
-//runtime/voice_engine.go
-package runtime
+// modules/domain/audio/engine/voice_engine.go
+package audio_engine
 
 import (
 	"fmt"
@@ -27,14 +27,14 @@ func NewVoiceEngine() *VoiceEngine {
 	}
 }
 
-//============Start Full Duplex Loop
+// ============Start Full Duplex Loop
 func (ve *VoiceEngine) Start() {
 	go ve.listenLoop()
 	go ve.processLoop()
 	go ve.speakLoop()
 }
 
-//====Simulated Microphone (replace later with real STT)
+// ====Simulated Microphone (replace later with real STT)
 func (ve *VoiceEngine) listenLoop() {
 	err := ve.audio.Start()
 	if err != nil {
@@ -71,7 +71,7 @@ func fakeSTT(audio []byte) string {
 	return "[speech detected]"
 }
 
-//========Processing Layer
+// ========Processing Layer
 func (ve *VoiceEngine) processLoop() {
 	for input := range ve.inputChan {
 
@@ -83,6 +83,7 @@ func (ve *VoiceEngine) processLoop() {
 		ve.outputChan <- response
 	}
 }
+
 //=======Interruptible TTS (Core Feature)
 
 func (ve *VoiceEngine) speakLoop() {
@@ -114,4 +115,3 @@ func (ve *VoiceEngine) speakLoop() {
 		ve.mu.Unlock()
 	}
 }
-

@@ -1,6 +1,6 @@
-//runtime/adapter/cli_adapter.go
+//runtime/interface_adapter/cli_adapter.go
 
-package cli
+package runtime_interface_adapter
 
 import (
 	"context"

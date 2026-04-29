@@ -1,5 +1,5 @@
-// modules/audio/wav_writer.go
-package audio
+// modules/domain/audio/processing/wav_writer.go
+package audio_processing
 
 import (
 	"encoding/binary"

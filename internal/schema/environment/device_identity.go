@@ -1,4 +1,4 @@
-// internal/schema/system/device_identity.go
+//internal/schema/environment/device_identity.go
 
 package internal_environment
 

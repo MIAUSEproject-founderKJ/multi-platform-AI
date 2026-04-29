@@ -1,4 +1,4 @@
-//modules/registry/module_dependency_resolver.go
+//modules/kernel_extension/supervisor/module_dependency_resolver.go
 /*Validate module dependency declarations.
 Detect missing or circular dependencies.
 Produce a safe startup order where every module is initialized only after its dependencies.*/
@@ -8,7 +8,7 @@ InferenceModule depends on StorageModule
 ResolveDependencies enforces deterministic startup ordering.
 */
 
-package registry
+package kernel_supervisor
 
 import (
 	"fmt"

@@ -1,3 +1,3 @@
-//drivers\camera\camera_driver.go
+// drivers/camera/camera_driver.go
 
 package camera

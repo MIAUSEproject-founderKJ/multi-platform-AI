@@ -1,5 +1,6 @@
-// modules/filter_module.go
-package modules
+// modules/data_transport/filter/filter_module.go
+
+package transport_filter
 
 import internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
 

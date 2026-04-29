@@ -1,6 +1,6 @@
-// modules/audit_module.go
+// modules/data_transport/protocols/audit_module.go
 
-package modules
+package transport_audit
 
 import (
 	"context"

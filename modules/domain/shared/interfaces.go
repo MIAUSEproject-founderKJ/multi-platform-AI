@@ -1,5 +1,5 @@
 // modules/domain/shared/interfaces.go
-package shared
+package domain_shared
 
 import "context"
 

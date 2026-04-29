@@ -1,6 +1,6 @@
-//modules/ingestion_module.go
+//modules/data_transport/ingestion/ingestion_module.go
 
-package modules
+package transport_ingestion
 
 import (
 	"context"

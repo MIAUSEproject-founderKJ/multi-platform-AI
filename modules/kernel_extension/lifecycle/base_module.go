@@ -1,6 +1,6 @@
-//modules/base_module.go
+//modules/kernel_extension/lifecycle/base_module.go
 
-package modules
+package kernel_lifecycle
 
 import (
 	"sync/atomic"

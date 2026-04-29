@@ -1,6 +1,6 @@
-// modules/telemetry_module.go exports metrics to network.
+// modules/data_transport/telemetry/telemetry_module.go exports metrics to network.
 
-package modules
+package transport_telemetry
 
 import (
 	"context"

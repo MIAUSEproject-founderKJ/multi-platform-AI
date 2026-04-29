@@ -1,5 +1,5 @@
-// modules/audio/capture_pcm.go
-package audio
+// modules/domain/audio/capture/capture_pcm.go
+package audio_capture
 
 import (
 	"context"

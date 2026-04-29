@@ -1,4 +1,4 @@
-//internal/logging/bloat_guard.go
+//pkg/logging/bloat_guard.go
 
 package logging
 

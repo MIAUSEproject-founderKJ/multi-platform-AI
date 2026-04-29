@@ -1,3 +1,3 @@
-//modules\file\file_module_entry.go
+//modules/data_transport/file/file_module_entry.go
 
-package file
+package transport_file

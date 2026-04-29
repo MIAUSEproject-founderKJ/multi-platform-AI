@@ -1,9 +1,9 @@
 //go:build automotive
 
-//modules/autonomous_kernel.go
+//modules/kernel_extension/lifecycle/autonomous_kernel.go
 //Domain Module. If this binary runs on a laptop: Capabilities won't match → module never loads.
 
-package modules
+package kernel_lifecycle
 
 import internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
 
