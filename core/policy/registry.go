@@ -9,7 +9,7 @@ import (
 var BasePolicies = []Policy{
 	{
 		Name:        "desktop_personal",
-		RequireCaps: internal_verification.CapNetwork,
+		RequireCaps: internal_environment.CapNetwork,
 		Grant: []user_setting.PermissionKey{
 			user_setting.PermBasicRuntime,
 			user_setting.PermConfigEdit,
@@ -18,7 +18,7 @@ var BasePolicies = []Policy{
 
 	{
 		Name:        "safety_critical",
-		RequireCaps: internal_verification.CapSafetyCritical,
+		RequireCaps: internal_environment.CapSafetyCritical,
 		Grant: []user_setting.PermissionKey{
 			user_setting.PermHardwareIO,
 			user_setting.PermDiagnostics,
@@ -30,7 +30,7 @@ var BasePolicies = []Policy{
 
 	{
 		Name:        "secure_enclave",
-		RequireCaps: internal_verification.CapSecureEnclave,
+		RequireCaps: internal_environment.CapSecureEnclave,
 		Grant: []user_setting.PermissionKey{
 			user_setting.PermAdmin,
 		},

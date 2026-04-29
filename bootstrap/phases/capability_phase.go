@@ -86,38 +86,38 @@ func ResolveInteractionMode(
 	}
 }
 
-func PhaseCapability() *internal_verification.CapabilityProfile {
+func PhaseCapability() *internal_environment.CapabilityProfile {
 	cp := internal_environment.NewCapabilityProfile()
 
 	// ---- Display ----
 	if !isHeadless() {
-		cp.Mark(internal_verification.CapDisplay, internal_verification.CapOK)
+		cp.Mark(internal_environment.CapDisplay, internal_environment.CapOK)
 	} else {
-		cp.Mark(internal_verification.CapDisplay, internal_verification.CapUnavailable)
+		cp.Mark(internal_environment.CapDisplay, internal_environment.CapUnavailable)
 	}
 
 	// ---- Keyboard ----
-	cp.Mark(internal_verification.CapKeyboard, internal_verification.CapOK) // assume present
+	cp.Mark(internal_environment.CapKeyboard, internal_environment.CapOK) // assume present
 
 	// ---- Network ----
 	if hasNetwork() {
-		cp.Mark(internal_verification.CapNetwork, internal_verification.CapOK)
+		cp.Mark(internal_environment.CapNetwork, internal_environment.CapOK)
 	} else {
-		cp.Mark(internal_verification.CapNetwork, internal_verification.CapDegraded)
+		cp.Mark(internal_environment.CapNetwork, internal_environment.CapDegraded)
 	}
 
 	// ---- Microphone (stub) ----
 	if hasMicrophone() {
-		cp.Mark(internal_verification.CapMicrophone, internal_verification.CapOK)
+		cp.Mark(internal_environment.CapMicrophone, internal_environment.CapOK)
 	} else {
-		cp.Mark(internal_verification.CapMicrophone, internal_verification.CapUnavailable)
+		cp.Mark(internal_environment.CapMicrophone, internal_environment.CapUnavailable)
 	}
 
 	// ---- Speaker (stub) ----
 	if hasSpeaker() {
-		cp.Mark(internal_verification.CapSpeaker, internal_verification.CapOK)
+		cp.Mark(internal_environment.CapSpeaker, internal_environment.CapOK)
 	} else {
-		cp.Mark(internal_verification.CapSpeaker, internal_verification.CapUnavailable)
+		cp.Mark(internal_environment.CapSpeaker, internal_environment.CapUnavailable)
 	}
 
 	return cp
@@ -176,7 +176,7 @@ func SelectInteractionMode(cap DeviceCapabilities) user_setting.InteractionMode 
 type CLIAdapter struct{}
 
 func (c *CLIAdapter) Start(session *user_setting.UserSession) error {
-	fmt.Println("CLI session started:", session.SessionID)
+	fmt.Println("CLI session started:", user_setting.UserIdentity)
 	return nil
 }
 

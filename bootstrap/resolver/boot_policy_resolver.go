@@ -4,13 +4,13 @@ package bootstrap_resolver
 import (
 	"fmt"
 
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
 )
 
-func ResolveBootContext(bs *internal_environment.BootSequence) (*internal_boot.BootContext, error) {
+func ResolveBootContext(bs *internal_environment.BootSequence) (*bootstrap.BootContext, error) {
 
 	if bs == nil {
 		return nil, fmt.Errorf("bootstrap sequence is nil")
@@ -66,11 +66,11 @@ func ResolveBootContext(bs *internal_environment.BootSequence) (*internal_boot.B
 		perms[user_setting.PermConfigEdit] = true
 	}
 
-	if caps.Has(internal_verification.CapCANBus) || caps.Has(internal_verification.CapIndustrialIO) {
+	if caps.Has(internal_environment.CapCANBus) || caps.Has(internal_environment.CapIndustrialIO) {
 		perms[user_setting.PermHardwareIO] = true
 	}
 
-	if caps.Has(internal_verification.CapSafetyCritical) && trust == internal_environment.TrustStrong {
+	if caps.Has(internal_environment.CapSafetyCritical) && trust == internal_environment.TrustStrong {
 		perms[user_setting.PermSafetyOverride] = true
 	}
 
@@ -85,7 +85,7 @@ func ResolveBootContext(bs *internal_environment.BootSequence) (*internal_boot.B
 		}
 	}
 
-	ctx := &internal_boot.BootContext{
+	ctx := &bootstrap.BootContext{
 		PlatformClass: env.Platform.Final,
 		Capabilities:  caps,
 		Service:       service,

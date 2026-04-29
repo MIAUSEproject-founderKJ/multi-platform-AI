@@ -5,10 +5,10 @@
 
 package kernel_lifecycle
 
-import internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
+import internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 
 type AutonomousKernel struct {
-	ctx internal_boot.BootContext
+	ctx bootstrap.BootContext
 }
 
 func (a *AutonomousKernel) Name() string {
@@ -19,7 +19,7 @@ func (a *AutonomousKernel) RequiredPermissions() []string {
 	return []string{"AUTONOMOUS_EXECUTION"}
 }
 
-func (a *AutonomousKernel) Init(ctx internal_boot.BootContext) error {
+func (a *AutonomousKernel) Init(ctx bootstrap.BootContext) error {
 	a.ctx = ctx
 	return nil
 }

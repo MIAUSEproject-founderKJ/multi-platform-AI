@@ -6,8 +6,8 @@ import (
 	"context"
 	"fmt"
 
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
@@ -39,7 +39,7 @@ func (m *AuditModule) Optional() bool {
 	return true
 }
 
-func (m *AuditModule) Allowed(ctx *internal_boot.BootContext) bool {
+func (m *AuditModule) Allowed(ctx *bootstrap.BootContext) bool {
 	return ctx.Permissions[user_setting.PermDiagnostics]
 }
 
@@ -55,7 +55,7 @@ func (m *AuditModule) DependsOn() []string {
 	return nil
 }
 
-func (m *AuditModule) Init(ctx *internal_boot.BootContext) error {
+func (m *AuditModule) Init(ctx *bootstrap.BootContext) error {
 	if m.runtime == nil {
 		return fmt.Errorf("runtime not set")
 	}

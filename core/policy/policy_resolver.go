@@ -3,7 +3,7 @@
 package policy
 
 import (
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 )
 
@@ -17,7 +17,7 @@ func NewResolver() *Resolver {
 	}
 }
 
-func (r *Resolver) Resolve(ctx *internal_boot.BootContext) Decision {
+func (r *Resolver) Resolve(ctx *bootstrap.BootContext) Decision {
 
 	perms := make(map[user_setting.PermissionKey]bool)
 

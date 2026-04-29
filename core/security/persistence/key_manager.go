@@ -1,4 +1,4 @@
-//core/verification/persistence/key_manager.go
+//core/security/persistence/key_manager.go
 
 package verification_persistence
 

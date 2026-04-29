@@ -14,9 +14,9 @@ import (
 
 	boot_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases"
 	security_decision "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision"
-	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence"
+	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
 
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
 )
@@ -546,7 +546,7 @@ func (am *AuthManager) HandleConfigUpdate(session *user_setting.UserSession) {
 
 func (am *AuthManager) initializeRuntime(session *user_setting.UserSession) error {
 
-	cp := interaction.DetectCapabilityProfile()
+	cp := bootstrap_resolver.DeviceCapabilitiesResolver()
 
 	orch := boot_phase.BuildOrchestrator(cp)
 	orch.StartAll(session)

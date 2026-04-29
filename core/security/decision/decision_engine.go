@@ -3,15 +3,15 @@
 package security_decision
 
 import (
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 )
 
 type Enforcer struct {
-	ctx *internal_boot.BootContext
+	ctx *bootstrap.BootContext
 }
 
-func NewEnforcer(ctx *internal_boot.BootContext) *Enforcer {
+func NewEnforcer(ctx *bootstrap.BootContext) *Enforcer {
 	return &Enforcer{ctx: ctx}
 }
 

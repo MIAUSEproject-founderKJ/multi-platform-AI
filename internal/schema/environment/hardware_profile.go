@@ -1,4 +1,4 @@
-//internal/schema/system/hardware_profile.go
+//internal/schema/environment/hardware_profile.go
 
 package internal_environment
 

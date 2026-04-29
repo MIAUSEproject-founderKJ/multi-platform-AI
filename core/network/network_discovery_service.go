@@ -6,7 +6,7 @@ import (
 	"context"
 	"os"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 	"github.com/hashicorp/mdns"
 )
 

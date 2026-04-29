@@ -2,7 +2,7 @@
 package bootstrap_resolver
 
 import (
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
 )
 
@@ -21,15 +21,15 @@ func DeviceCapabilitiesResolver(env *internal_environment.EnvConfig, capSet inte
 	// --------------------------------
 	// 2. Platform / Boot capability merge
 	// --------------------------------
-	if capSet&internal_verification.CapCANBus != 0 {
+	if capSet&internal_environment.CapCANBus != 0 {
 		caps.SensorOnly = false
 	}
 
-	if capSet&internal_verification.CapSafetyCritical != 0 {
+	if capSet&internal_environment.CapSafetyCritical != 0 {
 		caps.HasSafetyEnvelope = true
 	}
 
-	if capSet&internal_verification.CapLocalStorage != 0 {
+	if capSet&internal_environment.CapLocalStorage != 0 {
 		caps.SupportsRegisterControl = true
 	}
 

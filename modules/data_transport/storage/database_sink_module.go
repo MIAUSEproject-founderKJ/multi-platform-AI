@@ -12,8 +12,8 @@ import (
 	"sync"
 	"sync/atomic"
 
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
 	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
@@ -48,7 +48,7 @@ func (m *DatabaseSinkModule) SetRuntime(rtx *runtime_engine.RuntimeContext) {
 }
 
 // Init subscribes to events
-func (m *DatabaseSinkModule) Init(ctx *internal_boot.BootContext) error {
+func (m *DatabaseSinkModule) Init(ctx *bootstrap.BootContext) error {
 	if m.runtime == nil {
 		return errors.New("runtime context not set")
 	}
@@ -126,7 +126,7 @@ func (m *DatabaseSinkModule) setRunning(v bool) {
 func (m *DatabaseSinkModule) Name() string                                { return "DatabaseSinkModule" }
 func (m *DatabaseSinkModule) Category() ModuleCategory                    { return ModuleDomain }
 func (m *DatabaseSinkModule) DependsOn() []string                         { return []string{"TelemetryModule"} }
-func (m *DatabaseSinkModule) Allowed(ctx *internal_boot.BootContext) bool { return true }
+func (m *DatabaseSinkModule) Allowed(ctx *bootstrap.BootContext) bool { return true }
 func (m *DatabaseSinkModule) Start() error                                { return nil }
 func (m *DatabaseSinkModule) Stop() error                                 { return nil }
 func (m *DatabaseSinkModule) SupportedPlatforms() []internal_environment.PlatformClass {

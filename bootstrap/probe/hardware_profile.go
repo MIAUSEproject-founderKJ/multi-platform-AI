@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 )
 
 // ConvertHardwareFingerprint converts HardwareFingerprint to internal_environment.HardwareProfile

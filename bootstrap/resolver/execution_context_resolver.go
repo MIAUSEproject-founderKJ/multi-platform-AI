@@ -5,12 +5,12 @@ import (
 	"fmt"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 )
 
 func ResolveExecutionContext(
 	bs *internal_environment.BootSequence,
-) (*bootstrap.ExecutionContext, error) {
+) (*runtime_types.ExecutionContext, error) {
 
 	// ------------------------------------------------------------
 	// 1. Validation
@@ -41,7 +41,7 @@ func ResolveExecutionContext(
 	// 3. Construct ExecutionContext (NO runtime deps)
 	// ------------------------------------------------------------
 
-	ctx := &bootstrap.ExecutionContext{
+	ctx := &runtime_types.ExecutionContext{
 		Session:     bs.UserSession,
 		Permissions: bootCtx.Permissions,
 		TrustLevel:  bootCtx.TrustLevel,

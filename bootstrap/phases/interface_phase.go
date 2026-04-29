@@ -7,12 +7,12 @@ import (
 	"fmt"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
 )
 
-func PhaseInterface(ctx internal_boot.BootContext, caps *internal_verification.CapabilityProfile) (*user_setting.UserSession, error) {
+func PhaseInterface(ctx bootstrap.BootContext, caps *internal_environment.CapabilityProfile) (*user_setting.UserSession, error) {
 
 	mode := ResolveInteractionMode(nil, caps.Set)
 
@@ -31,13 +31,13 @@ func PhaseInterface(ctx internal_boot.BootContext, caps *internal_verification.C
 	return result, nil
 }
 
-func ToDeviceCapabilities(cp *internal_verification.CapabilityProfile) DeviceCapabilities {
+func ToDeviceCapabilities(cp *internal_environment.CapabilityProfile) DeviceCapabilities {
 	return DeviceCapabilities{
-		HasDisplay:  cp.Has(internal_verification.CapDisplay),
-		HasKeyboard: cp.Has(internal_verification.CapKeyboard),
-		HasMic:      cp.Has(internal_verification.CapMicrophone),
-		HasSpeaker:  cp.Has(internal_verification.CapSpeaker),
-		GPU:         cp.Has(internal_verification.CapGPU),
+		HasDisplay:  cp.Has(internal_environment.CapDisplay),
+		HasKeyboard: cp.Has(internal_environment.CapKeyboard),
+		HasMic:      cp.Has(internal_environment.CapMicrophone),
+		HasSpeaker:  cp.Has(internal_environment.CapSpeaker),
+		GPU:         cp.Has(internal_environment.CapGPU),
 	}
 }
 
@@ -46,7 +46,7 @@ type MainInterface interface {
 }
 
 type HybridAuthUI struct {
-	Voice runtime.VoiceEngine
+	Voice audio_engine.VoiceEngine
 	GUI   runtime.GUIEngine
 }
 

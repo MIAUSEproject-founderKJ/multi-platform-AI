@@ -6,8 +6,8 @@ import (
 	"context"
 	"sync/atomic"
 
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
 )
@@ -15,7 +15,7 @@ import (
 type TelemetryModule struct {
 	BaseModule
 
-	ctx     *internal_boot.BootContext
+	ctx     *bootstrap.BootContext
 	client  TelemetryClient
 	running atomic.Bool
 	healthy atomic.Bool
@@ -35,7 +35,7 @@ func NewTelemetryModule() domain_shared.DomainModule {
 	}
 }
 
-func (m *TelemetryModule) Init(ctx *internal_boot.BootContext) error {
+func (m *TelemetryModule) Init(ctx *bootstrap.BootContext) error {
 	m.ctx = ctx
 	m.healthy.Store(true)
 
@@ -82,7 +82,7 @@ func (m *TelemetryModule) Category() ModuleCategory {
 	return ModuleDomain
 }
 func (m *TelemetryModule) DependsOn() []string                         { return []string{"IngestionModule"} }
-func (m *TelemetryModule) Allowed(ctx *internal_boot.BootContext) bool { return true }
+func (m *TelemetryModule) Allowed(ctx *bootstrap.BootContext) bool { return true }
 func (m *TelemetryModule) Start() error                                { return nil }
 func (m *TelemetryModule) Stop() error                                 { return nil }
 func (m *TelemetryModule) Healthy() bool                               { return m.healthy.Load() }

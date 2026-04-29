@@ -16,7 +16,7 @@ import (
 	"sync"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/agent"
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 )
 
 type SessionState int
@@ -30,7 +30,7 @@ const (
 )
 
 type Session struct {
-	execCtx *internal_boot.BootContext
+	execCtx *bootstrap.BootContext
 	agent   *agent.AgentRuntime
 
 	stateMu sync.RWMutex
@@ -54,7 +54,7 @@ WaitGroup to track goroutines
 Error channel for async failures
 Idempotent Start/Stop
 */
-func NewSession(ctx *internal_boot.BootContext, agent *agent.AgentRuntime) *Session {
+func NewSession(ctx *bootstrap.BootContext, agent *agent.AgentRuntime) *Session {
 	return &Session{
 		execCtx:    ctx,
 		agent:      agent,

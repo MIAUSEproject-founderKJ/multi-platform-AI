@@ -1,4 +1,4 @@
-//core/verification/persistence/vault_store.go
+//core/security/persistence/vault_store.go
 
 package verification_persistence
 
@@ -7,9 +7,9 @@ import (
 	"os"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/apppath"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 )
 
 type IsolatedVault struct {

@@ -1,51 +1,14 @@
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
-session.SessionID undefined (type *user_setting.UserSession has no field or method SessionID)
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
 bm.DecideBootPath undefined (type *BootManager has no field or method DecideBootPath)
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
-undefined: internal_verification.CapabilityProfile
-undefined: internal_verification.CapDisplay
-undefined: internal_verification.CapOK
-undefined: internal_verification.CapDisplay
-undefined: internal_verification.CapUnavailable
-undefined: internal_verification.CapKeyboard
-undefined: internal_verification.CapOK
-undefined: internal_verification.CapNetwork
-undefined: internal_verification.CapOK
-undefined: internal_verification.CapNetwork
-undefined: internal_verification.CapDegraded
-undefined: internal_verification.CapMicrophone
-undefined: internal_verification.CapOK
-undefined: internal_verification.CapMicrophone
-undefined: internal_verification.CapUnavailable
-undefined: internal_verification.CapSpeaker
-undefined: internal_verification.CapOK
-undefined: internal_verification.CapSpeaker
-undefined: internal_verification.CapUnavailable
-session.SessionID undefined (type *user_setting.UserSession has no field or method SessionID)
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
-undefined: internal_verification.CapabilityProfile
-undefined: internal_verification.CapabilityProfile
-undefined: internal_verification.CapDisplay
-undefined: internal_verification.CapKeyboard
-undefined: internal_verification.CapMicrophone
-undefined: internal_verification.CapSpeaker
-undefined: internal_verification.CapGPU
 undefined: runtime
 undefined: runtime
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
 could not import fmt (missing metadata for import of "fmt")
 could not import os (missing metadata for import of "os")
 could not import os/exec (missing metadata for import of "os/exec")
@@ -54,10 +17,8 @@ could not import strconv (missing metadata for import of "strconv")
 could not import strings (missing metadata for import of "strings")
 cannot find module providing package github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging: module lookup disabled by GOPROXY=off
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging")
 cannot find module providing package github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system: module lookup disabled by GOPROXY=off
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
+
 ps.Signals undefined (type *LocalPlatformScore has no field or method Signals)
 ps.Score undefined (type *LocalPlatformScore has no field or method Score)
 ps.MaxScore undefined (type *LocalPlatformScore has no field or method MaxScore)
@@ -66,18 +27,6 @@ ps.Confidence undefined (type *LocalPlatformScore has no field or method Confide
 ps.Signals undefined (type *LocalPlatformScore has no field or method Signals)
 ps.Confidence undefined (type *LocalPlatformScore has no field or method Confidence)
 ps.Type undefined (type *LocalPlatformScore has no field or method Type)
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
-undefined: internal_verification.CapCANBus
-undefined: internal_verification.CapIndustrialIO
-undefined: internal_verification.CapSafetyCritical
-undefined: internal_verification.CapCANBus
-undefined: internal_verification.CapSafetyCritical
-undefined: internal_verification.CapLocalStorage
-undefined: bootstrap.ExecutionContext
-undefined: bootstrap.ExecutionContext
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules")
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/registry (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/registry")
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/adapter (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/adapter")
@@ -99,10 +48,10 @@ could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision")
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision")
 cannot find module providing package github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence: module lookup disabled by GOPROXY=off
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
+
+
+
+
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user")
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification")
 undefined: internal_verification.ToMask
@@ -113,27 +62,18 @@ cfg.WithDefaults undefined (type user_setting.CustomizedConfig has no field or m
 cfg.Migrate undefined (type user_setting.CustomizedConfig has no field or method Migrate)
 cannot use newCfg (variable of type *user_setting.CustomizedConfig) as user_setting.UserCoreConfig value in assignment
 session.Orchestrator undefined (type *user_setting.UserSession has no field or method Orchestrator)
-undefined: interaction
+
 undefined: boot_phase.BuildOrchestrator
 cannot use session.Config (variable of struct type user_setting.UserCoreConfig) as *user_setting.CustomizedConfig value in argument to boot_phase.ResolveInteractionMode
 session.Capabilities undefined (type *user_setting.UserSession has no field or method Capabilities)
 session.CapProfile undefined (type *user_setting.UserSession has no field or method CapProfile)
 session.Mode undefined (type *user_setting.UserSession has no field or method Mode)
 session.Orchestrator undefined (type *user_setting.UserSession has no field or method Orchestrator)
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
-undefined: internal_verification.CapNetwork
-undefined: internal_verification.CapSafetyCritical
-undefined: internal_verification.CapSecureEnclave
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
+
+
 undefined: DerivePermissions
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
+
+
 invalid operation: *c |= cap (mismatched types CapabilitySet and Capability)
 invalid operation: *c &= ^cap (mismatched types CapabilitySet and Capability)
 invalid operation: c & cap (mismatched types CapabilitySet and Capability)
@@ -141,12 +81,12 @@ invalid operation: set |= cap (mismatched types CapabilitySet and Capability)
 could not import time (missing metadata for import of "time")
 cannot find module providing package github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap: module lookup disabled by GOPROXY=off
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
+
 import cycle not allowed
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment")
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user")
 undefined: MachineIdentity
-undefined: DiscoveryProfile
+
 undefined: MachineIdentity
 undefined: HardwareProfile
 undefined: PlatformResolution
@@ -163,11 +103,11 @@ unknown field Permissions in struct literal of type UserSession
 unknown field CreatedAt in struct literal of type UserSession
 unknown field ExpiresAt in struct literal of type UserSession
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
+
 m.RequiredCapabilities undefined (type domain_shared.DomainModule has no field or method RequiredCapabilities)
 m.Allowed undefined (type domain_shared.DomainModule has no field or method Allowed)
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
+
+
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/file (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/file")
 cannot refer to unexported field name in struct literal of type kernel_lifecycle.BaseModule
 cannot refer to unexported field deps in struct literal of type kernel_lifecycle.BaseModule
@@ -175,25 +115,25 @@ m.name undefined (type *IngestionModule has no field or method name, but does ha
 undefined: ModuleCategory
 undefined: ModuleDomain
 m.deps undefined (cannot refer to unexported field deps)
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
+
+
 undefined: ModuleCategory
 undefined: ModuleDomain
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
+
+
 undefined: BaseModule
 undefined: ModuleCategory
 undefined: ModuleDomain
 cannot refer to unexported field name in struct literal of type kernel_lifecycle.BaseModule
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
+
+
 undefined: BaseModule
 cannot refer to unexported field name in struct literal of type kernel_lifecycle.BaseModule
 cannot refer to unexported field deps in struct literal of type kernel_lifecycle.BaseModule
 undefined: ModuleCategory
 undefined: ModuleDomain
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
+
+
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules")
 undefined: WAVWriter
 undefined: FeatureExtractor
@@ -201,8 +141,8 @@ m.SetName undefined (type *AudioModule has no field or method SetName)
 m.SetDeps undefined (type *AudioModule has no field or method SetDeps)
 undefined: NewWAVWriter
 undefined: NewFeatureExtractor
-undefined: internal_verification.CapLocalStorage
-undefined: internal_verification.CapNetwork
+
+
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/encoding (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/encoding")
 undefined: WakeWordDetector
 undefined: NewWakeWordDetector
@@ -210,8 +150,8 @@ undefined: AudioVAD
 undefined: NewAudioVAD
 undefined: sampleRate
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/encoding (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/encoding")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
+
+
 undefined: ModuleCategory
 undefined: ModuleDomain
 undefined: Intent
@@ -219,15 +159,15 @@ undefined: Intent
 undefined: Intent
 undefined: Task
 undefined: Task
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
+
+
 undefined: BaseModule
 cannot refer to unexported field name in struct literal of type kernel_lifecycle.BaseModule
 cannot refer to unexported field deps in struct literal of type kernel_lifecycle.BaseModule
 undefined: ModuleCategory
 undefined: ModuleDomain
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
+
+
 undefined: BaseModule
 m.SetName undefined (type *InferenceModule has no field or method SetName)
 m.SetDeps undefined (type *InferenceModule has no field or method SetDeps)
@@ -238,16 +178,16 @@ undefined: ModuleDomain
 "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/data_transport/ingress" imported as transport_ingress and not used
 mem.Allocate undefined (type api.Memory has no field or method Allocate)
 undefined: ingress
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
+
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules")
 undefined: hmi.ProgressUpdate
 undefined: hmi.ProgressUpdate
 "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/agent" imported as core_agent and not used
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
+
 undefined: agent
 undefined: agent
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system")
+
+
 assignment mismatch: 1 variable but hashPassword returns 2 values
 undefined: AuthManager
 undefined: total
@@ -519,7 +459,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapabilityProfile",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 89,
 	"startColumn": 47,
@@ -541,7 +481,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapDisplay",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 94,
 	"startColumn": 33,
@@ -563,7 +503,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapOK",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 94,
 	"startColumn": 67,
@@ -585,7 +525,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapDisplay",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 96,
 	"startColumn": 33,
@@ -607,7 +547,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapUnavailable",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 96,
 	"startColumn": 67,
@@ -629,7 +569,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapKeyboard",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 100,
 	"startColumn": 32,
@@ -651,7 +591,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapOK",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 100,
 	"startColumn": 67,
@@ -673,7 +613,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapNetwork",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 104,
 	"startColumn": 33,
@@ -695,7 +635,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapOK",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 104,
 	"startColumn": 67,
@@ -717,7 +657,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapNetwork",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 106,
 	"startColumn": 33,
@@ -739,7 +679,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapDegraded",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 106,
 	"startColumn": 67,
@@ -761,7 +701,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapMicrophone",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 111,
 	"startColumn": 33,
@@ -783,7 +723,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapOK",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 111,
 	"startColumn": 70,
@@ -805,7 +745,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapMicrophone",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 113,
 	"startColumn": 33,
@@ -827,7 +767,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapUnavailable",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 113,
 	"startColumn": 70,
@@ -849,7 +789,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapSpeaker",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 118,
 	"startColumn": 33,
@@ -871,7 +811,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapOK",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 118,
 	"startColumn": 67,
@@ -893,7 +833,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapSpeaker",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 120,
 	"startColumn": 33,
@@ -915,7 +855,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapUnavailable",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 120,
 	"startColumn": 67,
@@ -994,7 +934,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapabilityProfile",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 15,
 	"startColumn": 80,
@@ -1016,7 +956,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapabilityProfile",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 34,
 	"startColumn": 53,
@@ -1038,7 +978,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapDisplay",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 36,
 	"startColumn": 45,
@@ -1060,7 +1000,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapKeyboard",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 37,
 	"startColumn": 45,
@@ -1082,7 +1022,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapMicrophone",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 38,
 	"startColumn": 45,
@@ -1104,7 +1044,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapSpeaker",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 39,
 	"startColumn": 45,
@@ -1126,7 +1066,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapGPU",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 40,
 	"startColumn": 45,
@@ -1701,7 +1641,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapCANBus",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 69,
 	"startColumn": 36,
@@ -1722,7 +1662,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapIndustrialIO",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 69,
 	"startColumn": 81,
@@ -1743,7 +1683,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapSafetyCritical",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 73,
 	"startColumn": 36,
@@ -1764,7 +1704,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapCANBus",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 24,
 	"startColumn": 34,
@@ -1785,7 +1725,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapSafetyCritical",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 28,
 	"startColumn": 34,
@@ -1806,7 +1746,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapLocalStorage",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 32,
 	"startColumn": 34,
@@ -1827,7 +1767,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: bootstrap.ExecutionContext",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 13,
 	"startColumn": 15,
@@ -1848,7 +1788,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: bootstrap.ExecutionContext",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 44,
 	"startColumn": 20,
@@ -2662,7 +2602,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: interaction",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 549,
 	"startColumn": 8,
@@ -2858,7 +2798,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapNetwork",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 12,
 	"startColumn": 38,
@@ -2879,7 +2819,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapSafetyCritical",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 21,
 	"startColumn": 38,
@@ -2900,7 +2840,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapSecureEnclave",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 33,
 	"startColumn": 38,
@@ -3346,7 +3286,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: DiscoveryProfile",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 40,
 	"startColumn": 16,
@@ -4531,7 +4471,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapLocalStorage",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 156,
 	"startColumn": 31,
@@ -4552,7 +4492,7 @@ undefined: total
 		}
 	},
 	"severity": 8,
-	"message": "undefined: internal_verification.CapNetwork",
+	"message": "",
 	"source": "compiler",
 	"startLineNumber": 156,
 	"startColumn": 71,

@@ -4,7 +4,7 @@ package platform
 import (
 	"time"
 
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 )
 
 // ResolvePlatform selects the final operational class based on scores and attestation locks.

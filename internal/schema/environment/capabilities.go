@@ -85,7 +85,7 @@ func (cp *CapabilityProfile) IsHealthy(cap Capability) bool {
 	return ok && info.Status == CapOK
 }
 
-//cp.Has(internal_verification.CapDisplay),
+//cp.Has(internal_environment.CapDisplay),
 func (cp *CapabilityProfile) Has(cap Capability) bool {
 	if cp == nil {
 		return false

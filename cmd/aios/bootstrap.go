@@ -20,8 +20,8 @@ import (
 
 	boot_orchestrator "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator"
 	bootstrap_resolver "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/resolver"
-	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence"
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
+	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	modules "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
 	registry "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/registry"
@@ -81,14 +81,14 @@ func main() {
 	}
 
 	logger.Info("boot_complete",
-		zap.String("session_id", sysCtx.Session.SessionID),
+		zap.String("session_id", sysCtx.user_setting.UserIdentity),
 		zap.String("mode", string(sysCtx.Session.Mode)),
 		zap.Any("tier", sysCtx.Session.Tier),
 	)
 }
 
 type SystemContext struct {
-	Boot    *internal_boot.BootContext
+	Boot    *bootstrap.BootContext
 	Exec    *runtime_types.ExecutionContext
 	Session *user_setting.UserSession
 }
@@ -296,7 +296,7 @@ func attemptBoot() (*SystemContext, error) {
 		return nil, err
 	}
 
-	bootCtx := internal_boot.BootContext{
+	bootCtx := bootstrap.BootContext{
 		Vault: vault,
 	}
 

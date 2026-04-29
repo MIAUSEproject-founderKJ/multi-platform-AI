@@ -6,7 +6,7 @@
 package module_productivity
 
 import (
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 )
 
@@ -22,7 +22,7 @@ func (p *ProductivityModule) RequiredPermissions() []string {
 	return []string{"STANDARD_USE"}
 }
 
-func (p *ProductivityModule) Init(ctx internal_boot.BootContext) error {
+func (p *ProductivityModule) Init(ctx bootstrap.BootContext) error {
 	p.ctx = ctx
 	return nil
 }

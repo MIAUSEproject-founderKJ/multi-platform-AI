@@ -8,9 +8,9 @@ import (
 	"runtime"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/probe"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 )
 
 // Desktop/Laptop scoring using fingerprint

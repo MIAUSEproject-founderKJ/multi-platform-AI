@@ -5,8 +5,8 @@ import (
 	"context"
 	"sync/atomic"
 
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
 )
@@ -14,7 +14,7 @@ import (
 type IndustrialProtocolModule struct {
 	BaseModule // embed BaseModule
 	healthy    atomic.Bool
-	ctx        *internal_boot.BootContext // store BootContext locally
+	ctx        *bootstrap.BootContext // store BootContext locally
 }
 
 // Factory function
@@ -27,7 +27,7 @@ func NewIndustrialProtocolModule() domain_shared.DomainModule {
 	}
 }
 
-func (m *IndustrialProtocolModule) Init(ctx *internal_boot.BootContext) error {
+func (m *IndustrialProtocolModule) Init(ctx *bootstrap.BootContext) error {
 	m.ctx = ctx // store for internal use
 	m.healthy.Store(true)
 	return nil
@@ -45,7 +45,7 @@ func (m *IndustrialProtocolModule) DependsOn() []string {
 	return []string{"TelemetryModule"}
 }
 
-func (m *IndustrialProtocolModule) Allowed(ctx *internal_boot.BootContext) bool {
+func (m *IndustrialProtocolModule) Allowed(ctx *bootstrap.BootContext) bool {
 	return true
 }
 

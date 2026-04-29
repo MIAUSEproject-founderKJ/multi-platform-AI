@@ -4,9 +4,9 @@ package platform
 import (
 	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 )
 
 // Define constants to prevent magic strings

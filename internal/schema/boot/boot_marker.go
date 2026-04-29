@@ -1,11 +1,11 @@
-//internal/schema/bootstrap/boot_marker.go
+//internal/schema/boot/boot_marker.go
 
 package internal_boot
 
 import (
 	"time"
 
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 )
 
 type FirstBootMarker struct {

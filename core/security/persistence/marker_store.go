@@ -1,4 +1,4 @@
-//core/verification/persistence/marker_store.go
+//core/security/persistence/marker_store.go
 
 package verification_persistence
 
@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 )
 
 const firstBootVaultKey = "machine_first_boot_marker"

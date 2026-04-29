@@ -6,8 +6,8 @@ import (
 	"context"
 	"sync/atomic"
 
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/file"
 	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
@@ -16,7 +16,7 @@ import (
 type IngestionModule struct {
 	kernel_lifecycle.BaseModule
 	repo file.FileRepository
-	ctx  *internal_boot.BootContext
+	ctx  *bootstrap.BootContext
 
 	running atomic.Bool
 }
@@ -38,9 +38,9 @@ func (m *IngestionModule) Category() ModuleCategory {
 
 func (m *IngestionModule) DependsOn() []string { return m.deps }
 
-func (m *IngestionModule) Allowed(*internal_boot.BootContext) bool { return true }
+func (m *IngestionModule) Allowed(*bootstrap.BootContext) bool { return true }
 
-func (m *IngestionModule) Init(*internal_boot.BootContext) error { return nil }
+func (m *IngestionModule) Init(*bootstrap.BootContext) error { return nil }
 
 func (m *IngestionModule) Start() error { return nil }
 

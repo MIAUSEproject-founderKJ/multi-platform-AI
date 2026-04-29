@@ -2,7 +2,7 @@
 
 package probe
 
-import internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+import internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 
 type IdentityProbeResult struct {
 	Identity internal_environment.MachineIdentity

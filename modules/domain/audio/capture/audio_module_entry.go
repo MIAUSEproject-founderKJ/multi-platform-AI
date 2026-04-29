@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"sync/atomic"
 
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
@@ -61,7 +61,7 @@ func (m *AudioModule) SetRuntime(rtx *runtime_engine.RuntimeContext) {
 // Init (no goroutines here)
 // --------------------------------------------------
 
-func (m *AudioModule) Init(ctx *internal_boot.BootContext) error {
+func (m *AudioModule) Init(ctx *bootstrap.BootContext) error {
 	if m.runtime == nil {
 		return ErrRuntimeNotSet
 	}
@@ -153,14 +153,14 @@ func (m *AudioModule) process(payload []byte) error {
 // --------------------------------------------------
 
 func (m *AudioModule) RequiredCapabilities() internal_environment.CapabilitySet {
-	return internal_verification.CapLocalStorage | internal_verification.CapNetwork
+	return internal_environment.CapLocalStorage | internal_environment.CapNetwork
 }
 
 // --------------------------------------------------
 // Policy Enforcement (CRITICAL)
 // --------------------------------------------------
 
-func (m *AudioModule) Allowed(ctx *internal_boot.BootContext) bool {
+func (m *AudioModule) Allowed(ctx *bootstrap.BootContext) bool {
 
 	// Must have runtime execution rights
 	if !ctx.Permissions[user_setting.PermBasicRuntime] {

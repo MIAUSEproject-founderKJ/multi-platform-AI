@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
 	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
@@ -60,7 +60,7 @@ type PredictionResult struct {
 type InferenceModule struct {
 	BaseModule
 
-	ctx     *internal_boot.BootContext
+	ctx     *bootstrap.BootContext
 	runtime *runtime_engine.RuntimeContext // runtime reference
 	logger  *zap.Logger
 	running atomic.Bool
@@ -93,7 +93,7 @@ func (m *InferenceModule) SetRuntime(rtx *runtime_engine.RuntimeContext) {
 }
 
 // --- Base Init ---
-func (m *InferenceModule) Init(ctx *internal_boot.BootContext) error {
+func (m *InferenceModule) Init(ctx *bootstrap.BootContext) error {
 	if m.runtime == nil {
 		return errors.New("runtime not set")
 	}
@@ -220,7 +220,7 @@ func (m *InferenceModule) Handle(ctx context.Context, payload []byte) error {
 	}
 }
 
-func (m *InferenceModule) Allowed(ctx *internal_boot.BootContext) bool {
+func (m *InferenceModule) Allowed(ctx *bootstrap.BootContext) bool {
 	return true
 }
 

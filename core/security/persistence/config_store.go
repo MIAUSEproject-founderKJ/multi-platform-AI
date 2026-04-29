@@ -1,4 +1,4 @@
-// core/verification/persistence/config_store.go
+// core/security/persistence/config_store.go
 package verification_persistence
 
 import (
@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 )
 
 func (v *IsolatedVault) SaveConfig(name string, config *internal_environment.EnvConfig) error {

@@ -3,13 +3,13 @@ package bootstrap_orchestrator
 
 import (
 	boot_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases"
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 )
 
 // RunBootSequence performs full bootstrap → verification → session creation
-func RunBootSequence(ctx internal_boot.BootContext) (*internal_environment.BootSequence, *user_setting.UserSession, error) {
+func RunBootSequence(ctx bootstrap.BootContext) (*internal_environment.BootSequence, *user_setting.UserSession, error) {
 
 	discovery, err := boot_phase.PhaseDiscovery()
 	if err != nil {
@@ -42,7 +42,7 @@ func RunBootSequence(ctx internal_boot.BootContext) (*internal_environment.BootS
 	}
 	boot_phase.PhaseModules() // Load modules after attestation
 
-	bootSeq.Env.Attestation.SessionToken = session.SessionID
+	bootSeq.Env.Attestation.SessionToken = user_setting.UserIdentity
 
 	return bootSeq, session, nil
 }

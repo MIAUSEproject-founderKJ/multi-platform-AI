@@ -9,8 +9,8 @@ import (
 	"io"
 	"os"
 
-	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
+	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 )
 
 func MeasureSelf() ([]byte, error) {

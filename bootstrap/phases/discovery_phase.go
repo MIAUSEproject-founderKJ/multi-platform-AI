@@ -6,8 +6,8 @@ import (
 	"fmt"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/probe"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 )
 
 type DiscoveryResult struct {

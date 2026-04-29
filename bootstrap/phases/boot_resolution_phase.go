@@ -3,10 +3,10 @@
 package bootstrap_phase
 
 import (
-	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/persistence"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/logging"
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/system"
+	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 )
 
 func PhaseBootResolution(v verification_persistence.VaultStore, identity *internal_environment.MachineIdentity) (*internal_environment.BootSequence, error) {
