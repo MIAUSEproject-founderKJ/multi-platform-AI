@@ -1,3 +1,19 @@
 //runtime/interface_adapter/hmi_adapter.go - implementation layer only
 
-package runtime_interface_adapter
+package interface_adapter
+// ===================Screen Adapter
+type ScreenAdapter struct{}
+
+func NewScreenAdapter() *ScreenAdapter {
+	return &ScreenAdapter{}
+}
+
+
+func (s *ScreenAdapter) Start(session *user_setting.UserSession) error {
+	fmt.Println("Screen adapter started")
+	return nil
+}
+
+func (s *ScreenAdapter) Notify(msg string) {
+	fmt.Println("[SCREEN]", msg)
+}

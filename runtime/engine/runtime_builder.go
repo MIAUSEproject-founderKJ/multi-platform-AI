@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	boot_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases"
+	bootstrap_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/router"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	runtime "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
@@ -24,7 +24,7 @@ type RuntimeContext struct {
 	Logger       *zap.Logger
 	BasePath     string
 	Session      *user_setting.UserSession
-	Orchestrator *boot_phase.Orchestrator
+	Orchestrator *bootstrap_phase.Orchestrator
 	Config       *user_setting.UserConfig
 	Context      context.Context
 }
@@ -50,7 +50,7 @@ func (r *RuntimeContext) SafePath(rel string) string {
 // CONSTRUCTOR
 ///////////////////////////////////////////////////////////////
 
-func NewRuntimeContext(logger *zap.Logger) (*RuntimeContext, error) {
+func Build(exec *runtime_types.ExecutionContext,user *user_setting.UserSession, logger *zap.Logger) (*RuntimeContext, error) {
 	if logger == nil {
 		return nil, errors.New("logger is required")
 	}

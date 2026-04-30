@@ -294,48 +294,6 @@
 	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/bootstrap.go",
 	"owner": "_generated_diagnostic_collection_name_#1",
 	"code": {
-		"value": "BrokenImport",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
-		}
-	},
-	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/registry (no required module provides package \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/registry\")",
-	"source": "compiler",
-	"startLineNumber": 27,
-	"startColumn": 11,
-	"endLineNumber": 27,
-	"endColumn": 82,
-	"origin": "extHost1"
-},{
-	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/bootstrap.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "BrokenImport",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
-		}
-	},
-	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/adapter (no required module provides package \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/adapter\")",
-	"source": "compiler",
-	"startLineNumber": 28,
-	"startColumn": 6,
-	"endLineNumber": 28,
-	"endColumn": 76,
-	"origin": "extHost1"
-},{
-	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/bootstrap.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
 			"$mid": 1,
@@ -436,27 +394,6 @@
 	"startColumn": 16,
 	"endLineNumber": 156,
 	"endColumn": 34,
-	"origin": "extHost1"
-},{
-	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/bootstrap.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: modules",
-	"source": "compiler",
-	"startLineNumber": 174,
-	"startColumn": 13,
-	"endLineNumber": 174,
-	"endColumn": 20,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_gatekeeper.go",

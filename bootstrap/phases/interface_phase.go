@@ -12,6 +12,18 @@ import (
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	audio_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/audio/engine"
 )
+func BuildAuthInterface(mode user_setting.InteractionMode) auth.AuthInterface {
+	switch mode {
+	case user_setting.ModeGUI:
+		return NewGUIAuth()
+	case user_setting.ModeTUI:
+		return NewTUIAuth()
+	case user_setting.ModeVoice:
+		return NewVoiceAuth()
+	default:
+		return NewCLIAuth()
+	}
+}
 
 func PhaseInterface(ctx bootstrap.BootContext, caps *internal_environment.CapabilityProfile) (*user_setting.UserSession, error) {
 

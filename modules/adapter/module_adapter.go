@@ -40,8 +40,7 @@ func (a *Adapter) Name() string {
 }
 
 func (a *Adapter) Init(ctx context.Context) error {
-	// Temporary: BootContext not passed yet
-	return a.legacy.Init(ctx)
+	Init(ctx context.Context, boot *bootstrap.BootContext)
 }
 
 func (a *Adapter) Start(ctx context.Context) error {

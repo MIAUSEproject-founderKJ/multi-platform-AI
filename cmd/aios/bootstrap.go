@@ -11,6 +11,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"math/rand"
 	"net/http"
 	"os"
 	"os/signal"
@@ -19,73 +20,62 @@ import (
 	"time"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
-	boot_orchestrator "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator"
+	bootstrap_orchestrator "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator"
 	bootstrap_resolver "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/resolver"
 	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
+
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
+
 	transport_filter "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/data_transport/filter"
-	registry "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/registry"
-	cli "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/adapter"
+	kernel_registry "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/registry"
+	kernel_supervisor "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/supervisor"
+
+	interface_adapter "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/interface_adapter"
 	engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 	runtime_supervisor "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/supervisor"
-	supervisor "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/supervisor"
 	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
+	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 	"go.uber.org/zap"
 )
-
-// ============================================================
-// ENTRYPOINT
-// ============================================================
 
 func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
-	logger, err := zap.NewProduction()
-	if err != nil {
-		panic(err)
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			logger.Fatal("panic recovered", zap.Any("error", r))
-		}
-	}()
+	logger, _ := zap.NewProduction()
+	defer logger.Sync()
 
-	// --- PHASE 1: BOOT ---
-	sysCtx, err := BuildSystemContext()
+	sysCtx, err := buildSystemContext()
 	if err != nil {
-		logger.Fatal("bootstrap failure", zap.Error(err))
+		logger.Fatal("BOOT_FAILED", zap.Error(err))
 	}
 
-	// --- PHASE 2: RUNTIME ---
-	app, err := BuildRuntime(logger, sysCtx)
+	app, err := buildRuntime(ctx, logger, sysCtx)
 	if err != nil {
-		logger.Fatal("runtime build failure", zap.Error(err))
+		logger.Fatal("RUNTIME_BUILD_FAILED", zap.Error(err))
 	}
-
-	// --- START ---
-	go app.watchdog(ctx)
 
 	if err := app.Start(ctx); err != nil {
-		logger.Fatal("startup failure", zap.Error(err))
+		logger.Fatal("START_FAILED", zap.Error(err))
 	}
+
+	go app.watchdog(ctx)
 
 	<-ctx.Done()
 
-	// --- SHUTDOWN ---
 	shutdownCtx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 
-	if err := app.Stop(shutdownCtx); err != nil {
-		logger.Error("shutdown incomplete", zap.Error(err))
-	}
+	_ = app.Stop(shutdownCtx)
 
-	logger.Info("boot_complete",
-		zap.String("session_id", sysCtx.user_setting.UserIdentity),
-		zap.String("mode", string(sysCtx.Session.Mode)),
-		zap.Any("tier", sysCtx.Session.Tier),
+	logger.Info("SYSTEM_EXIT",
+		zap.String("user", sysCtx.Session.Identity.Username),
 	)
 }
+
+// ============================================================
+// SYSTEM CONTEXT
+// ============================================================
 
 type SystemContext struct {
 	Boot    *bootstrap.BootContext
@@ -93,201 +83,18 @@ type SystemContext struct {
 	Session *user_setting.UserSession
 }
 
-func (a *App) Stop(ctx context.Context) error {
-	if a.server != nil {
-		_ = a.server.Shutdown(ctx)
-	}
-	return a.supervisor.Stop(ctx)
-}
-
-// ============================================================
-// PHASE 1: BOOT
-// ============================================================
-
-func BuildSystemContext() (*SystemContext, error) {
-	var lastErr error
+func buildSystemContext() (*SystemContext, error) {
+	var last error
 
 	for i := 0; i < 3; i++ {
 		ctx, err := attemptBoot()
 		if err == nil {
 			return ctx, nil
 		}
-		lastErr = err
-		time.Sleep(time.Duration(i+1) * time.Second)
+		last = err
+		time.Sleep(time.Second * time.Duration(i+1))
 	}
-
-	return nil, fmt.Errorf("bootstrap failed after retries: %w", lastErr)
-}
-
-// ============================================================
-// APP STRUCT
-// ============================================================
-
-type App struct {
-	log        *zap.Logger
-	supervisor *supervisor.Supervisor
-	server     *http.Server
-
-	degraded bool
-}
-
-// ============================================================
-// PHASE 2: RUNTIME BUILD
-// ============================================================
-
-func BuildRuntime(logger *zap.Logger, sys *SystemContext) (*App, error) {
-
-	// --- RUNTIME CONTEXT ---
-	rtx, err := engine.NewRuntimeContext(logger)
-	if err != nil {
-		return nil, err
-	}
-
-	startCLIInput(rtx.Context, logger)
-
-	// 🔥 attach session + config
-	if sys.Session == nil {
-		return nil, errors.New("nil session from bootstrap")
-	}
-
-	rtx.Session = sys.Session
-
-	if sys.Session.Config != nil {
-		rtx.Config = sys.Session.Config
-	}
-
-	// --- MODULE GRAPH ---
-	reg := registry.DefaultRegistry()
-
-	filtered := transport_filter.FilterModules(reg, sys.Boot)
-
-	if len(filtered) == 0 {
-		logger.Warn("no modules available, falling back to CLI-only mode")
-
-	}
-
-	ordered, err := registry.ResolveDependencies(filtered)
-	if err != nil {
-		return nil, err
-	}
-
-	adapted := modules.AdaptModules(ordered, rtx)
-
-	if len(adapted) == 0 {
-		logger.Warn("fallback to CLI module")
-
-		adapted = []runtime_supervisor.Module{
-			NewRecoverableModule(cli.NewCLIModule(), logger),
-		}
-	}
-
-	resilient := make([]runtime_supervisor.Module, 0, len(adapted))
-
-	for _, m := range adapted {
-		resilient = append(resilient, NewRecoverableModule(m, logger))
-	}
-
-	// --- SUPERVISOR ---
-	sup := supervisor.NewSupervisor(logger, resilient)
-
-	return &App{
-		log:        logger,
-		supervisor: sup,
-	}, nil
-}
-
-// ============================================================
-// START
-// ============================================================
-func (r *recoverableModule) Health() error {
-	return r.inner.Health()
-}
-
-func (r *recoverableModule) Stop(ctx context.Context) error {
-	return r.inner.Stop(ctx)
-}
-
-func (r *recoverableModule) Init(ctx context.Context) error {
-	return r.inner.Init(ctx)
-}
-
-func (r *recoverableModule) Name() string {
-	return r.inner.Name()
-}
-
-func (r *recoverableModule) Start(ctx context.Context) error {
-	backoff := time.Second
-
-	for {
-		if ctx.Err() != nil {
-			return ctx.Err()
-		}
-
-		if !r.allowExecution() {
-			time.Sleep(2 * time.Second)
-			continue
-		}
-
-		err := r.safeRun(ctx)
-
-		if err == nil {
-			r.state = stateClosed
-			r.failCount = 0
-			return nil
-		}
-
-		r.predictor.Record()
-		r.failCount++
-		r.lastFailure = time.Now()
-
-		// pre-failure signal
-		if r.predictor.Rate() > r.predictor.threshold*0.7 {
-			r.log.Warn("pre-failure signal detected")
-		}
-
-		if r.predictor.IsUnstable() {
-			r.log.Error("instability spike → cooldown")
-			time.Sleep(10 * time.Second)
-		}
-
-		if r.failCount >= 3 {
-			r.state = stateOpen
-			r.log.Warn("circuit breaker OPEN")
-		}
-
-		time.Sleep(backoff)
-		if backoff < 30*time.Second {
-			backoff *= 2
-		}
-	}
-}
-
-func (a *App) runFallbackLoop(ctx context.Context) {
-	a.log.Warn("running in degraded mode")
-
-	ticker := time.NewTicker(10 * time.Second)
-	defer ticker.Stop()
-
-	for {
-		select {
-		case <-ticker.C:
-			status := a.supervisor.HealthStatus()
-
-			if status.Healthy && !status.Degraded {
-				a.log.Info("system recovered from degraded mode")
-				a.degraded = false
-				return
-			}
-
-			a.log.Warn("system still degraded",
-				zap.Int("failed_modules", status.Failed),
-				zap.Int("total_modules", status.Total),
-			)
-
-		case <-ctx.Done():
-			return
-		}
-	}
+	return nil, fmt.Errorf("boot failed: %w", last)
 }
 
 func attemptBoot() (*SystemContext, error) {
@@ -296,22 +103,19 @@ func attemptBoot() (*SystemContext, error) {
 		return nil, err
 	}
 
-	bootCtx := bootstrap.BootContext{
-		Vault: vault,
-	}
+	bootCtx := bootstrap.BootContext{Vault: vault}
 
-	bootSeq, session, err := boot_orchestrator.RunBootSequence(bootCtx)
+	bootSeq, session, err := bootstrap_orchestrator.RunBootSequence(bootCtx)
 	if err != nil {
 		return nil, err
 	}
-
 	if session == nil {
 		return nil, errors.New("nil session")
 	}
 
 	bootSeq.UserSession = session
 
-	bootCtxResolved, err := bootstrap_resolver.ResolveBootContext(bootSeq)
+	bootResolved, err := bootstrap_resolver.ResolveBootContext(bootSeq)
 	if err != nil {
 		return nil, err
 	}
@@ -322,19 +126,114 @@ func attemptBoot() (*SystemContext, error) {
 	}
 
 	return &SystemContext{
-		Boot:    bootCtxResolved,
+		Boot:    bootResolved,
 		Exec:    execCtx,
 		Session: session,
 	}, nil
 }
 
+// ============================================================
+// APP
+// ============================================================
+
+type App struct {
+	log        *zap.Logger
+	supervisor *runtime_supervisor.Supervisor
+	server     *http.Server
+
+	degraded bool
+}
+
+func buildRuntime(ctx context.Context, log *zap.Logger, sys *SystemContext) (*App, error) {
+
+	if sys.Exec == nil {
+		return nil, errors.New("missing execution context")
+	}
+
+	// 🔥 STRICT LINEAGE: Runtime derives from ExecutionContext
+	rtx, err := runtime_engine.Build(sys.Exec, sys.Session, log)
+if err != nil {
+    return nil, err
+}
+	rtx.Session = sys.Session
+	if sys.Session.Config != nil {
+		rtx.Config = sys.Session.Config
+	}
+
+	startCLI(ctx, log)
+
+	// --- MODULE GRAPH ---
+	reg := kernel_registry.DefaultRegistry()
+
+	filtered := transport_filter.FilterModules(reg, sys.Boot)
+
+	// 🔥 Capability enforcement hook (critical for your architecture)
+	filtered = enforceCapabilities(filtered, sys.Boot, log)
+
+	ordered, err := kernel_supervisor.ResolveDependencies(filtered)
+	if err != nil {
+		return nil, err
+	}
+
+	adapted := modules_adapter.AdaptModules(ordered, rtx)
+
+	if len(adapted) == 0 {
+		log.Warn("NO_MODULES_FALLBACK")
+		adapted = []runtime_supervisor.Module{
+			interface_adapter.NewCLIModule(),
+		}
+	}
+
+	resilient := wrapModules(adapted, log)
+
+	sup := runtime_supervisor.NewSupervisor(log, resilient)
+
+	return &App{
+		log:        log,
+		supervisor: sup,
+	}, nil
+}
+
+// ============================================================
+// START / STOP
+// ============================================================
+
+func (a *App) Start(ctx context.Context) error {
+
+	if err := a.supervisor.Init(ctx); err != nil {
+		return err
+	}
+
+	if err := a.supervisor.Start(ctx); err != nil {
+		a.degraded = true
+		go a.safeMode(ctx)
+		return err
+	}
+
+	a.startHTTP()
+	return nil
+}
+
+func (a *App) Stop(ctx context.Context) error {
+	if a.server != nil {
+		_ = a.server.Shutdown(ctx)
+	}
+	return a.supervisor.Stop(ctx)
+}
+
+// ============================================================
+// WATCHDOG
+// ============================================================
+
 func (a *App) watchdog(ctx context.Context) {
+
 	ticker := time.NewTicker(10 * time.Second)
 	defer ticker.Stop()
 
 	for {
 		select {
 		case <-ticker.C:
+
 			status := a.supervisor.HealthStatus()
 
 			switch {
@@ -342,17 +241,19 @@ func (a *App) watchdog(ctx context.Context) {
 				continue
 
 			case status.Failed < status.Total/2:
-				a.log.Warn("early degradation")
+				a.log.Warn("DEGRADED",
+					zap.Int("failed", status.Failed),
+					zap.Int("total", status.Total),
+				)
 				_ = a.supervisor.RestartFailed(ctx)
 
-			case status.Failed >= status.Total/2:
-				a.log.Error("major degradation")
+			default:
+				a.log.Error("CRITICAL_DEGRADATION",
+					zap.Int("failed", status.Failed),
+					zap.Int("total", status.Total),
+				)
 				a.degraded = true
-				a.activateSafeMode(ctx)
-
-			case status.Failed == status.Total:
-				a.log.Error("system collapse")
-				a.activateSafeMode(ctx)
+				go a.safeMode(ctx)
 			}
 
 		case <-ctx.Done():
@@ -361,240 +262,323 @@ func (a *App) watchdog(ctx context.Context) {
 	}
 }
 
-func (r *recoverableModule) safeRun(ctx context.Context) (err error) {
+// ============================================================
+// SAFE MODE
+// ============================================================
+
+func (a *App) safeMode(parent context.Context) {
+	a.log.Warn("SAFE_MODE_ACTIVE")
+
+	ctx, cancel := context.WithCancel(parent)
+	defer cancel()
+
+	reader := bufio.NewReader(os.Stdin)
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			fmt.Print("[SAFE]> ")
+			in, _ := reader.ReadString('\n')
+
+			switch strings.TrimSpace(in) {
+			case "status":
+				fmt.Println("degraded")
+			case "exit":
+				return
+			default:
+				fmt.Println("restricted")
+			}
+		}
+	}
+}
+
+// ============================================================
+// MODULE RESILIENCE
+// ============================================================
+
+func wrapModules(in []runtime_supervisor.Module, log *zap.Logger) []runtime_supervisor.Module {
+	out := make([]runtime_supervisor.Module, 0, len(in))
+	for _, m := range in {
+		out = append(out, newRecoverable(m, log))
+	}
+	return out
+}
+
+type recoverable struct {
+	inner runtime_supervisor.Module
+	log   *zap.Logger
+
+	failures int
+	last     time.Time
+}
+
+func newRecoverable(m runtime_supervisor.Module, log *zap.Logger) runtime_supervisor.Module {
+	return &recoverable{inner: m, log: log}
+}
+
+func (r *recoverable) Name() string                   { return r.inner.Name() }
+func (r *recoverable) Init(ctx context.Context) error { return r.inner.Init(ctx) }
+func (r *recoverable) Stop(ctx context.Context) error { return r.inner.Stop(ctx) }
+func (r *recoverable) Health() error                  { return r.inner.Health() }
+
+func (r *recoverable) Start(ctx context.Context) error {
+
+	backoff := time.Second
+
+	for {
+		err := r.safeRun(ctx)
+		if err == nil {
+			r.failures = 0
+			return nil
+		}
+
+		r.failures++
+		r.last = time.Now()
+
+		sleep := backoff + time.Duration(rand.Int63n(int64(backoff)))
+		time.Sleep(sleep)
+
+		if backoff < 30*time.Second {
+			backoff *= 2
+		}
+	}
+}
+
+func (r *recoverable) safeRun(ctx context.Context) (err error) {
 	defer func() {
 		if rec := recover(); rec != nil {
-			r.log.Error("module panic recovered", zap.Any("panic", rec))
+			r.log.Error("MODULE_PANIC", zap.Any("panic", rec))
 			err = fmt.Errorf("panic: %v", rec)
 		}
 	}()
 	return r.inner.Start(ctx)
 }
 
-func startCLIInput(ctx context.Context, logger *zap.Logger) {
-	go func() {
-		reader := bufio.NewReader(os.Stdin)
-
-		for {
-			select {
-			case <-ctx.Done():
-				return
-			default:
-				fmt.Print("> ")
-				input, err := reader.ReadString('\n')
-				if err != nil {
-					logger.Warn("stdin read error", zap.Error(err))
-					continue
-				}
-
-				input = strings.TrimSpace(input)
-
-				if input == "exit" {
-					return
-				}
-
-				logger.Info("user_input", zap.String("input", input))
-			}
-		}
-	}()
-}
-
-type recoverableModule struct {
-	inner runtime_supervisor.Module
-	log   *zap.Logger
-
-	// resilience
-	predictor   *FailurePredictor
-	state       circuitState
-	failCount   int
-	lastFailure time.Time
-}
-
-type circuitState int
-
-const (
-	stateClosed circuitState = iota
-	stateOpen
-	stateHalfOpen
-)
-
-func (a *App) activateSafeMode(parent context.Context) {
-	a.log.Warn("SAFE MODE ENABLED")
-
-	ctx, cancel := context.WithCancel(context.Background())
-
-	go func() {
-		defer cancel()
-
-		reader := bufio.NewReader(os.Stdin)
-		for {
-			select {
-			case <-ctx.Done():
-				return
-			default:
-				fmt.Print("[SAFE] > ")
-				input, _ := reader.ReadString('\n')
-
-				switch strings.TrimSpace(input) {
-				case "status":
-					fmt.Println("degraded")
-				case "exit":
-					return
-				default:
-					fmt.Println("limited command")
-				}
-			}
-		}
-	}()
-}
-
-func notifyUser(msg string) {
-	fmt.Println("[SYSTEM]", msg)
-}
-
-func (a *App) Start(ctx context.Context) error {
-	if err := a.supervisor.Init(ctx); err != nil {
-		return fmt.Errorf("init failed: %w", err)
-	}
-
-	if err := a.supervisor.Start(ctx); err != nil {
-		a.log.Error("supervisor start failed", zap.Error(err))
-		a.degraded = true
-		a.activateSafeMode(ctx)
-		return err
-	}
-
-	a.startHTTPServer()
-	return nil
-}
-
-type FailurePredictor struct {
-	window    time.Duration
-	threshold float64 // errors per second
-	events    []time.Time
-}
-
-func (f *FailurePredictor) Record() {
-	now := time.Now()
-	f.events = append(f.events, now)
-
-	cutoff := now.Add(-f.window)
-	i := 0
-	for _, t := range f.events {
-		if t.After(cutoff) {
-			f.events[i] = t
-			i++
-		}
-	}
-	f.events = f.events[:i]
-}
-
-func (f *FailurePredictor) Rate() float64 {
-	return float64(len(f.events)) / f.window.Seconds()
-}
-
-func (f *FailurePredictor) IsUnstable() bool {
-	return f.Rate() > f.threshold
-}
-
-func (r *recoverableModule) allowExecution() bool {
-	switch r.state {
-	case stateOpen:
-		if time.Since(r.lastFailure) > 15*time.Second {
-			r.state = stateHalfOpen
-			return true
-		}
-		return false
-	case stateHalfOpen:
-		return true
-	case stateClosed:
-		return true
-	default:
-		return true
-	}
-}
-
 // ============================================================
-// HTTP (EDGE ADAPTER)
+// HTTP
 // ============================================================
 
-func (a *App) startHTTPServer() {
+func (a *App) startHTTP() {
 
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/healthz", func(w http.ResponseWriter, _ *http.Request) {
 		status := a.supervisor.HealthStatus()
-
-		resp := map[string]interface{}{
-			"healthy":  status.Healthy,
-			"degraded": status.Degraded,
-			"failed":   status.Failed,
-			"total":    status.Total,
-		}
 
 		code := http.StatusOK
 		if !status.Healthy {
 			code = http.StatusServiceUnavailable
 		}
 
+		
 		w.WriteHeader(code)
-		_ = json.NewEncoder(w).Encode(resp)
+		_ = json.NewEncoder(w).Encode(status)
 	})
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
+	mux.HandleFunc("/readyz", func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
 
 	server := &http.Server{
-		Addr:              ":" + port,
+		Addr:              ":8080",
 		Handler:           mux,
 		ReadTimeout:       5 * time.Second,
 		WriteTimeout:      10 * time.Second,
 		IdleTimeout:       120 * time.Second,
 		ReadHeaderTimeout: 2 * time.Second,
-		MaxHeaderBytes:    1 << 20,
 	}
 
 	a.server = server
 
 	go func() {
 		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
-			a.log.Error("http server error", zap.Error(err))
+			a.log.Error("HTTP_ERROR", zap.Error(err))
 		}
 	}()
 }
 
-func NewRecoverableModule(m runtime_supervisor.Module, log *zap.Logger) runtime_supervisor.Module {
-	return &recoverableModule{
-		inner: m,
-		log:   log,
-		predictor: &FailurePredictor{
-			threshold: 5,
-			window:    30 * time.Second,
-		},
-		state: stateClosed,
-	}
+// ============================================================
+// CLI
+// ============================================================
+
+func startCLI(ctx context.Context, log *zap.Logger) {
+	go func() {
+		reader := bufio.NewReader(os.Stdin)
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			default:
+				fmt.Print("> ")
+				in, err := reader.ReadString('\n')
+				if err != nil {
+					continue
+				}
+				log.Info("INPUT", zap.String("cmd", strings.TrimSpace(in)))
+			}
+		}
+	}()
 }
 
-type SystemGuard struct {
-	failures int
-	last     time.Time
+// ============================================================
+// ADAPTER HOOKS (PRODUCTION IMPLEMENTATION)
+// ============================================================
+
+// ModuleFactory defines a strict contract for module instantiation.
+// Every module in registry SHOULD implement this.
+type ModuleFactory interface {
+	Name() string
+	RequiredCapabilities() []string
+	New(*runtime_engine.RuntimeContext) (runtime_supervisor.Module, error)
 }
 
-func (g *SystemGuard) Trip() bool {
-	if time.Since(g.last) < 30*time.Second {
-		g.failures++
-	} else {
-		g.failures = 1
-	}
-	g.last = time.Now()
-
-	return g.failures >= 5
+// Optional interface for modules that can self-declare compatibility
+type CapabilityAware interface {
+	IsCompatible(map[string]bool) bool
 }
 
-func FallbackMinimal() []runtime_supervisor.Module {
-	return []runtime_supervisor.Module{
-		cli.NewCLIModule(),
+
+
+// ============================================================
+// CAPABILITY ENFORCEMENT
+// ============================================================
+
+func enforceCapabilities(
+	in []interface{},
+	boot *bootstrap.BootContext,
+	log *zap.Logger,
+) []interface{} {
+
+	// 🔥 Build capability matrix from BootContext
+	capMatrix := buildCapabilityMatrix(boot)
+
+	out := make([]interface{}, 0, len(in))
+
+	for _, raw := range in {
+
+		switch m := raw.(type) {
+
+		// Preferred: explicit capability declaration
+		case ModuleFactory:
+
+			if !checkRequiredCapabilities(m.RequiredCapabilities(), capMatrix) {
+				log.Warn("MODULE_CAPABILITY_REJECTED",
+					zap.String("module", m.Name()),
+					zap.Any("required", m.RequiredCapabilities()),
+				)
+				continue
+			}
+
+			out = append(out, m)
+
+		// Secondary: self-checking modules
+		case CapabilityAware:
+
+			if !m.IsCompatible(capMatrix) {
+				log.Warn("MODULE_SELF_REJECTED",
+					zap.String("type", fmt.Sprintf("%T", raw)),
+				)
+				continue
+			}
+
+			out = append(out, raw)
+
+		// Unknown modules → fail closed (IMPORTANT)
+		default:
+			log.Warn("MODULE_NO_CAPABILITY_DECLARATION_DROPPED",
+				zap.String("type", fmt.Sprintf("%T", raw)),
+			)
+			continue
+		}
 	}
+
+	return out
+}
+
+// ============================================================
+// CAPABILITY MATRIX
+// ============================================================
+
+func buildCapabilityMatrix(boot *bootstrap.BootContext) map[string]bool {
+
+	matrix := make(map[string]bool)
+
+	// 🔥 You MUST map real BootContext signals here
+	// Below is a safe baseline pattern
+
+	// Example assumptions — adjust to your real BootContext schema:
+
+	if boot == nil {
+		return matrix
+	}
+
+	// --- Hardware / IO ---
+	if boot.Platform != nil {
+		matrix["platform_detected"] = true
+		matrix["platform_class:"+boot.Platform.Class] = true
+	}
+
+	if boot.Devices != nil {
+
+		for _, d := range boot.Devices {
+
+			switch strings.ToLower(d.Type) {
+
+			case "microphone":
+				matrix["mic"] = true
+
+			case "camera":
+				matrix["camera"] = true
+
+			case "lidar":
+				matrix["lidar"] = true
+
+			case "gpu":
+				matrix["gpu"] = true
+
+			case "network":
+				matrix["network"] = true
+
+			case "storage":
+				matrix["storage"] = true
+			}
+		}
+	}
+
+	// --- Security / Session ---
+	if boot.Vault != nil {
+		matrix["secure_storage"] = true
+	}
+
+	// Extend:
+	// matrix["robotics"]
+	// matrix["vehicle"]
+	// matrix["desktop"]
+	// matrix["voice_enabled"]
+	// matrix["vision_enabled"]
+
+	return matrix
+}
+
+// ============================================================
+// CAPABILITY CHECK
+// ============================================================
+
+func checkRequiredCapabilities(
+	required []string,
+	matrix map[string]bool,
+) bool {
+
+	if len(required) == 0 {
+		return true
+	}
+
+	for _, cap := range required {
+		if !matrix[cap] {
+			return false
+		}
+	}
+	return true
 }

@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	boot_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases"
+	bootstrap_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases"
 	security_decision "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision"
 	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
 
@@ -538,7 +538,7 @@ func (am *AuthManager) HandleConfigUpdate(session *user_setting.UserSession) {
 
 		session.Config = newCfg
 
-		if orch, ok := session.Orchestrator.(*boot_phase.Orchestrator); ok {
+		if orch, ok := session.Orchestrator.(*bootstrap_phase.Orchestrator); ok {
 			orch.Broadcast("Configuration updated successfully")
 		}
 	}
@@ -548,10 +548,10 @@ func (am *AuthManager) initializeRuntime(session *user_setting.UserSession) erro
 
 	cp := bootstrap_resolver.DeviceCapabilitiesResolver()
 
-	orch := boot_phase.BuildOrchestrator(cp)
+	orch := bootstrap_phase.BuildOrchestrator(cp)
 	orch.StartAll(session)
 
-	mode := boot_phase.ResolveInteractionMode(session.Config, cp.Set)
+	mode := bootstrap_phase.ResolveInteractionMode(session.Config, cp.Set)
 
 	session.Capabilities = cp.Set
 	session.CapProfile = cp
