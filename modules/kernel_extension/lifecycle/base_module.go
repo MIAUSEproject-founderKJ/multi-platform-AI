@@ -5,7 +5,7 @@ package kernel_lifecycle
 import (
 	"sync/atomic"
 
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	"go.uber.org/zap"
 )
 

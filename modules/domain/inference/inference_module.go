@@ -9,8 +9,8 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"

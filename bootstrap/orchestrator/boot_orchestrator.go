@@ -3,7 +3,7 @@ package bootstrap_orchestrator
 
 import (
 	boot_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases"
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	bootstrap "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 )

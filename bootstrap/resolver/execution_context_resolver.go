@@ -4,8 +4,8 @@ package bootstrap_resolver
 import (
 	"fmt"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
+	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 )
 
 func ResolveExecutionContext(

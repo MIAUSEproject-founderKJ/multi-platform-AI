@@ -9,7 +9,6 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
-	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
 )
 
 type CLIAuth struct{}

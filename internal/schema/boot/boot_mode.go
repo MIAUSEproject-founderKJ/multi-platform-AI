@@ -1,4 +1,4 @@
-// internal/schema/bootstrap/boot_mode.go
+// internal/schema/boot/boot_mode.go
 
 package internal_boot
 

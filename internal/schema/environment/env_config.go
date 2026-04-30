@@ -1,11 +1,11 @@
-//internal/schema/environment/env_config.go
+// internal/schema/environment/env_config.go
 // This is the "Source of Truth" that everyone can safely import.
 package internal_environment
 
 import (
 	"time"
 
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 )

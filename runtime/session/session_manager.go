@@ -62,7 +62,7 @@ func (am *MyAuthManager) Login(username, password string) (*Session, error) {
 }
 
 // Signup creates a new user in the Vault
-func (am *AuthManager) Signup(
+func (am *auth.AuthManager) Signup(
 	username, password string,
 	entity internal_environment.EntityKind,
 	tier user_setting.TierType,

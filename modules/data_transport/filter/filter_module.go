@@ -3,7 +3,7 @@
 package transport_filter
 
 import (
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 )
 

@@ -12,7 +12,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
@@ -123,12 +123,12 @@ func (m *DatabaseSinkModule) setRunning(v bool) {
 }
 
 // DomainModule implementation
-func (m *DatabaseSinkModule) Name() string                                { return "DatabaseSinkModule" }
-func (m *DatabaseSinkModule) Category() ModuleCategory                    { return ModuleDomain }
-func (m *DatabaseSinkModule) DependsOn() []string                         { return []string{"TelemetryModule"} }
+func (m *DatabaseSinkModule) Name() string                            { return "DatabaseSinkModule" }
+func (m *DatabaseSinkModule) Category() ModuleCategory                { return ModuleDomain }
+func (m *DatabaseSinkModule) DependsOn() []string                     { return []string{"TelemetryModule"} }
 func (m *DatabaseSinkModule) Allowed(ctx *bootstrap.BootContext) bool { return true }
-func (m *DatabaseSinkModule) Start() error                                { return nil }
-func (m *DatabaseSinkModule) Stop() error                                 { return nil }
+func (m *DatabaseSinkModule) Start() error                            { return nil }
+func (m *DatabaseSinkModule) Stop() error                             { return nil }
 func (m *DatabaseSinkModule) SupportedPlatforms() []internal_environment.PlatformClass {
 	return nil
 }

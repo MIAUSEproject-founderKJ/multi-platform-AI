@@ -7,9 +7,9 @@ import (
 	"os"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/apppath"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 )
 
 type IsolatedVault struct {

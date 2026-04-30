@@ -3,7 +3,7 @@
 package security_decision
 
 import (
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 )
 

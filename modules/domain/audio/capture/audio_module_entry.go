@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"sync/atomic"
 
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
-	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
 	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
 	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"

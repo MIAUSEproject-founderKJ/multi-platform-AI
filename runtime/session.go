@@ -15,8 +15,7 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/agent"
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 )
 
 type SessionState int

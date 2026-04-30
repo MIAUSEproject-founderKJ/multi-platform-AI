@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 	"time"
 
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 )
 
 const firstBootVaultKey = "machine_first_boot_marker"

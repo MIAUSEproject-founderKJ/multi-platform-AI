@@ -6,7 +6,7 @@ import (
 	"context"
 	"sync/atomic"
 
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
@@ -81,11 +81,11 @@ func (m *TelemetryModule) Name() string { return "TelemetryModule" }
 func (m *TelemetryModule) Category() ModuleCategory {
 	return ModuleDomain
 }
-func (m *TelemetryModule) DependsOn() []string                         { return []string{"IngestionModule"} }
+func (m *TelemetryModule) DependsOn() []string                     { return []string{"IngestionModule"} }
 func (m *TelemetryModule) Allowed(ctx *bootstrap.BootContext) bool { return true }
-func (m *TelemetryModule) Start() error                                { return nil }
-func (m *TelemetryModule) Stop() error                                 { return nil }
-func (m *TelemetryModule) Healthy() bool                               { return m.healthy.Load() }
+func (m *TelemetryModule) Start() error                            { return nil }
+func (m *TelemetryModule) Stop() error                             { return nil }
+func (m *TelemetryModule) Healthy() bool                           { return m.healthy.Load() }
 func (m *TelemetryModule) SupportedPlatforms() []internal_environment.PlatformClass {
 	return nil
 }

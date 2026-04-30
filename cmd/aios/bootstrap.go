@@ -18,10 +18,10 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	boot_orchestrator "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator"
 	bootstrap_resolver "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/resolver"
 	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
-	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	transport_filter "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/data_transport/filter"
 	registry "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/registry"

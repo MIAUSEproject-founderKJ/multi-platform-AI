@@ -5,8 +5,6 @@
 
 package kernel_lifecycle
 
-import internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
-
 type AutonomousKernel struct {
 	ctx bootstrap.BootContext
 }
