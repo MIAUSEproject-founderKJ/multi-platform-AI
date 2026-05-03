@@ -10,7 +10,7 @@ type Intent struct {
 	Domain     string // add this if other code expects it
 }
 
-type Task struct {
+type DomainTask struct {
 	Intent Intent
 	Action string
 }

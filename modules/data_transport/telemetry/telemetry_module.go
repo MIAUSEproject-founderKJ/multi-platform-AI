@@ -6,16 +6,16 @@ import (
 	"context"
 	"sync/atomic"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
+	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 )
 
 type TelemetryModule struct {
-	BaseModule
+	kernel_lifecycle.BaseModule
 
-	ctx     *bootstrap.BootContext
+	ctx     runtime_types.ExecutionContext
 	client  TelemetryClient
 	running atomic.Bool
 	healthy atomic.Bool
@@ -35,7 +35,7 @@ func NewTelemetryModule() domain_shared.DomainModule {
 	}
 }
 
-func (m *TelemetryModule) Init(ctx *bootstrap.BootContext) error {
+func (m *TelemetryModule) Init(ctx runtime_types.ExecutionContext) error {
 	m.ctx = ctx
 	m.healthy.Store(true)
 
@@ -81,11 +81,11 @@ func (m *TelemetryModule) Name() string { return "TelemetryModule" }
 func (m *TelemetryModule) Category() ModuleCategory {
 	return ModuleDomain
 }
-func (m *TelemetryModule) DependsOn() []string                     { return []string{"IngestionModule"} }
-func (m *TelemetryModule) Allowed(ctx *bootstrap.BootContext) bool { return true }
-func (m *TelemetryModule) Start() error                            { return nil }
-func (m *TelemetryModule) Stop() error                             { return nil }
-func (m *TelemetryModule) Healthy() bool                           { return m.healthy.Load() }
+func (m *TelemetryModule) DependsOn() []string                             { return []string{"IngestionModule"} }
+func (m *TelemetryModule) Allowed(ctx runtime_types.ExecutionContext) bool { return true }
+func (m *TelemetryModule) Start() error                                    { return nil }
+func (m *TelemetryModule) Stop() error                                     { return nil }
+func (m *TelemetryModule) Healthy() bool                                   { return m.healthy.Load() }
 func (m *TelemetryModule) SupportedPlatforms() []internal_environment.PlatformClass {
 	return nil
 }

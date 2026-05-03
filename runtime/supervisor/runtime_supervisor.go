@@ -43,7 +43,6 @@ func (s *Supervisor) HealthStatus() HealthStatus {
 		Healthy:  failed == 0,
 		Degraded: failed > 0,
 		Failed:   failed,
-		Total:    total,
 	}
 }
 

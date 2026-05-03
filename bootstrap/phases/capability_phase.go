@@ -3,14 +3,12 @@
 package bootstrap_phase
 
 import (
-	"fmt"
+	"context"
 	"os"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 )
-
 
 func PhaseCapability() *internal_environment.CapabilityProfile {
 	cp := internal_environment.NewCapabilityProfile()
@@ -70,15 +68,8 @@ func hasSpeaker() bool {
 
 type InterfaceAdapter interface {
 	Start(session *user_setting.UserSession) error
+	Stop(ctx context.Context) error
 	Notify(msg string)
-}
-
-type DeviceCapabilities struct {
-	HasDisplay  bool
-	HasKeyboard bool
-	HasMic      bool
-	HasSpeaker  bool
-	GPU         bool
 }
 
 func SelectInteractionMode(cap DeviceCapabilities) user_setting.InteractionMode {
@@ -98,7 +89,6 @@ func SelectInteractionMode(cap DeviceCapabilities) user_setting.InteractionMode 
 	}
 }
 
-
 type SpeechToText interface {
 	Listen() (string, error)
 }
@@ -106,10 +96,3 @@ type SpeechToText interface {
 type TextToSpeech interface {
 	Speak(string) error
 }
-
-
-
-
-
-
-

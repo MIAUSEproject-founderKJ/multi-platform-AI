@@ -1,0 +1,158 @@
+//cmd\aios\hardware_capabilities.go
+
+package main
+
+import (
+	"fmt"
+	"strings"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	"go.uber.org/zap"
+)
+
+// Optional interface for modules that can self-declare compatibility
+type CapabilityAware interface {
+	IsCompatible(map[string]bool) bool
+}
+
+// ============================================================
+// CAPABILITY MATRIX
+// ============================================================
+
+func buildCapabilityMatrix(boot *bootstrap.BootContext) map[string]bool {
+
+	matrix := make(map[string]bool)
+
+	// 🔥 You MUST map real BootContext signals here
+	// Below is a safe baseline pattern
+
+	// Example assumptions — adjust to your real BootContext schema:
+
+	if boot == nil {
+		return matrix
+	}
+
+	// --- Hardware / IO ---
+	if boot.Platform != nil {
+		matrix["platform_detected"] = true
+		matrix["platform_class:"+boot.Platform.Class] = true
+	}
+
+	if boot.Devices != nil {
+
+		for _, d := range boot.Devices {
+
+			switch strings.ToLower(d.Type) {
+
+			case "microphone":
+				matrix["mic"] = true
+
+			case "camera":
+				matrix["camera"] = true
+
+			case "lidar":
+				matrix["lidar"] = true
+
+			case "gpu":
+				matrix["gpu"] = true
+
+			case "network":
+				matrix["network"] = true
+
+			case "storage":
+				matrix["storage"] = true
+			}
+		}
+	}
+
+	// --- Security / Session ---
+	if boot.Vault != nil {
+		matrix["secure_storage"] = true
+	}
+
+	// Extend:
+	// matrix["robotics"]
+	// matrix["vehicle"]
+	// matrix["desktop"]
+	// matrix["voice_enabled"]
+	// matrix["vision_enabled"]
+
+	return matrix
+}
+
+// ============================================================
+// CAPABILITY CHECK
+// ============================================================
+
+func checkRequiredCapabilities(
+	required []string,
+	matrix map[string]bool,
+) bool {
+
+	if len(required) == 0 {
+		return true
+	}
+
+	for _, cap := range required {
+		if !matrix[cap] {
+			return false
+		}
+	}
+	return true
+}
+
+// ============================================================
+// CAPABILITY ENFORCEMENT
+// ============================================================
+
+func enforceCapabilities(
+	in []interface{},
+	boot *bootstrap.BootContext,
+	log *zap.Logger,
+) []interface{} {
+
+	// 🔥 Build capability matrix from BootContext
+	capMatrix := buildCapabilityMatrix(boot)
+
+	out := make([]interface{}, 0, len(in))
+
+	for _, raw := range in {
+
+		switch m := raw.(type) {
+
+		// Preferred: explicit capability declaration
+		case ModuleFactory:
+
+			if !checkRequiredCapabilities(m.RequiredCapabilities(), capMatrix) {
+				log.Warn("MODULE_CAPABILITY_REJECTED",
+					zap.String("module", m.Name()),
+					zap.Any("required", m.RequiredCapabilities()),
+				)
+				continue
+			}
+
+			out = append(out, m)
+
+		// Secondary: self-checking modules
+		case CapabilityAware:
+
+			if !m.IsCompatible(capMatrix) {
+				log.Warn("MODULE_SELF_REJECTED",
+					zap.String("type", fmt.Sprintf("%T", raw)),
+				)
+				continue
+			}
+
+			out = append(out, raw)
+
+		// Unknown modules → fail closed (IMPORTANT)
+		default:
+			log.Warn("MODULE_NO_CAPABILITY_DECLARATION_DROPPED",
+				zap.String("type", fmt.Sprintf("%T", raw)),
+			)
+			continue
+		}
+	}
+
+	return out
+}

@@ -9,9 +9,8 @@ import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 )
 
-func PhaseBootResolution(v verification_persistence.VaultStore, identity *internal_environment.MachineIdentity) (*internal_environment.BootSequence, error) {
+func PhaseBootResolution(identity *internal_environment.MachineIdentity) (*internal_environment.BootSequence, error) {
 	bm := &BootManager{
-		Vault:    v,
 		Identity: identity,
 	}
 

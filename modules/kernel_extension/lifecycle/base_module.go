@@ -5,7 +5,7 @@ package kernel_lifecycle
 import (
 	"sync/atomic"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 	"go.uber.org/zap"
 )
 
@@ -14,7 +14,7 @@ type BaseModule struct {
 	deps []string
 
 	// Add these fields for InferenceModule
-	ctx     *bootstrap.BootContext
+	bootctx runtime_types.ExecutionContext
 	logger  *zap.Logger
 	running atomic.Bool
 }
@@ -22,8 +22,8 @@ type BaseModule struct {
 func (b *BaseModule) setRunning(v bool) { b.running.Store(v) }
 func (b *BaseModule) IsRunning() bool   { return b.running.Load() }
 
-func (b *BaseModule) Init(ctx *bootstrap.BootContext) {
-	b.ctx = ctx
+func (b *BaseModule) Init(bootctx runtime_types.ExecutionContext) {
+	b.bootctx = bootctx
 	b.logger = zap.NewExample() // replace with proper logger
 }
 

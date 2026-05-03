@@ -15,11 +15,10 @@ const (
 	CmdSync     CommandType = "DATA_SYNC"
 )
 
-type Task struct {
+type IncomingCommand struct {
 	ID        string                 `json:"id"`
 	Type      CommandType            `json:"type"`
 	Params    map[string]interface{} `json:"params"`
 	Priority  int                    `json:"priority"` // 1 (Low) to 10 (Critical)
 	CreatedAt time.Time              `json:"created_at"`
 }
-

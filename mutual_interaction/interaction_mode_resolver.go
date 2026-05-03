@@ -1,5 +1,10 @@
-//mutual_interaction/interaction_mode_resolver.go
+// mutual_interaction/interaction_mode_resolver.go
 package mutual_interaction
+
+import (
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
+	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
+)
 
 func ResolveInteractionMode(
 	cfg *user_setting.CustomizedConfig,

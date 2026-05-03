@@ -12,15 +12,22 @@ import (
 )
 
 type BootContext struct {
-	PlatformClass internal_environment.PlatformClass
-	Capabilities  internal_environment.CapabilitySet
-	Vault         verification_persistence.VaultStore
-	Service       user_setting.ServiceType
-	Entity        internal_environment.EntityKind
-	Tier          user_setting.TierType
-	BootMode      internal_boot.BootMode
-	Logger        *zap.Logger
-	Permissions   map[user_setting.PermissionKey]bool  // storage
-	PermMask      internal_verification.PermissionMask // runtime
-	TrustLevel    user_setting.TrustLevel
+	// ===== Identity / Classification =====
+	platformClass internal_environment.PlatformClass
+	service       user_setting.ServiceType
+	entity        internal_environment.EntityKind
+	tier          user_setting.TierType
+	bootMode      internal_boot.BootMode
+
+	// ===== Security =====
+	trustLevel  user_setting.TrustLevel
+	permissions map[user_setting.PermissionKey]bool
+	permMask    internal_verification.PermissionMask
+
+	// ===== Capability =====
+	capabilities internal_environment.CapabilitySet
+
+	// ===== Infrastructure (INTERNAL ONLY) =====
+	vault  verification_persistence.VaultStore
+	logger *zap.Logger
 }

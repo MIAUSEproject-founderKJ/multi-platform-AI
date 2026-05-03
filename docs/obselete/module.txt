@@ -1,0 +1,83 @@
+//cmd/aios/module.go
+
+package main
+
+import (
+	"context"
+	"fmt"
+	"math/rand"
+	"time"
+
+	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
+	runtime_supervisor "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/supervisor"
+	"go.uber.org/zap"
+)
+
+// ============================================================
+// MODULE RESILIENCE
+// ============================================================
+// ModuleFactory defines a strict contract for module instantiation.
+// Every module in registry SHOULD implement this.
+type ModuleFactory interface {
+	Name() string
+	RequiredCapabilities() []string
+	New(*runtime_engine.RuntimeContext) (runtime_supervisor.Module, error)
+}
+
+func wrapModules(in []runtime_supervisor.Module, log *zap.Logger) []runtime_supervisor.Module {
+	out := make([]runtime_supervisor.Module, 0, len(in))
+	for _, m := range in {
+		out = append(out, newRecoverable(m, log))
+	}
+	return out
+}
+
+type recoverable struct {
+	inner runtime_supervisor.Module
+	log   *zap.Logger
+
+	failures int
+	last     time.Time
+}
+
+func newRecoverable(m runtime_supervisor.Module, log *zap.Logger) runtime_supervisor.Module {
+	return &recoverable{inner: m, log: log}
+}
+
+func (r *recoverable) Name() string                   { return r.inner.Name() }
+func (r *recoverable) Init(ctx context.Context) error { return r.inner.Init(ctx) }
+func (r *recoverable) Stop(ctx context.Context) error { return r.inner.Stop(ctx) }
+func (r *recoverable) Health() error                  { return r.inner.Health() }
+
+func (r *recoverable) Start(ctx context.Context) error {
+
+	backoff := time.Second
+
+	for {
+		err := r.safeRun(ctx)
+		if err == nil {
+			r.failures = 0
+			return nil
+		}
+
+		r.failures++
+		r.last = time.Now()
+
+		sleep := backoff + time.Duration(rand.Int63n(int64(backoff)))
+		time.Sleep(sleep)
+
+		if backoff < 30*time.Second {
+			backoff *= 2
+		}
+	}
+}
+
+func (r *recoverable) safeRun(ctx context.Context) (err error) {
+	defer func() {
+		if rec := recover(); rec != nil {
+			r.log.Error("MODULE_PANIC", zap.Any("panic", rec))
+			err = fmt.Errorf("panic: %v", rec)
+		}
+	}()
+	return r.inner.Start(ctx)
+}

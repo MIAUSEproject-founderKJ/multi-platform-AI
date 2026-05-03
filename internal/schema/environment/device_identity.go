@@ -9,6 +9,7 @@ import (
 )
 
 type IdentityProfile struct {
+	//enriched hardware information
 	MachineID    string
 	MachineName  string
 	OS           string
@@ -27,7 +28,7 @@ const (
 
 type MachineIdentity struct {
 	MachineID    string          `json:"machine_id"`
-	PlatformType PlatformClass   `json:"platform_type"`
+	PlatformType PlatformClass   `json:"platform_type"` // PlatformClass defines the type of hardware (Vehicle, Drone, etc.)
 	Hostname     string          `json:"hostname"`
 	OS           string          `json:"os"`
 	Arch         string          `json:"arch"`

@@ -14,6 +14,7 @@ import (
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	runtime "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
 	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
+	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 	"go.uber.org/zap"
 )
 
@@ -50,7 +51,7 @@ func (r *RuntimeContext) SafePath(rel string) string {
 // CONSTRUCTOR
 ///////////////////////////////////////////////////////////////
 
-func Build(exec *runtime_types.ExecutionContext,user *user_setting.UserSession, logger *zap.Logger) (*RuntimeContext, error) {
+func Build(exec *runtime_types.ExecutionContext, user *user_setting.UserSession, logger *zap.Logger) (*RuntimeContext, error) {
 	if logger == nil {
 		return nil, errors.New("logger is required")
 	}

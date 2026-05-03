@@ -14,3 +14,7 @@ type DisplayProvider interface {
 	PushUpdate(upd Update)
 	GetStatus() string
 }
+type VisualAdapter interface {
+	InterfaceAdapter
+	DisplayProvider
+}

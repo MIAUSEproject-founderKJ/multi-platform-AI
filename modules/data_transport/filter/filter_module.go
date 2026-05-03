@@ -3,11 +3,11 @@
 package transport_filter
 
 import (
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
+	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 )
 
-func FilterModules(all []domain_shared.DomainModule, ctx *bootstrap.BootContext) []domain_shared.DomainModule {
+func FilterModules(all []domain_shared.DomainModule, ctx runtime_types.ExecutionContext) []domain_shared.DomainModule {
 
 	var out []domain_shared.DomainModule
 

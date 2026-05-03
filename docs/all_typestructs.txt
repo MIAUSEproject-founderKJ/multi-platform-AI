@@ -1,0 +1,724 @@
+164 results - 75 files
+
+api\commands\command_contract.go:
+   8  
+   9: type CommandType string
+  10  
+
+  17  
+  18: type Task struct {
+  19  	ID        string                 `json:"id"`
+
+api\hmi\hmi_contract.go:
+   5  // Update represents a visual command sent to the HUD
+   6: type Update struct {
+   7  	Source    string      `json:"source"`
+
+  12  // DisplayProvider allows different UIs (OpenGL, Web, Terminal) to render the AI state
+  13: type DisplayProvider interface {
+  14  	PushUpdate(upd Update)
+
+bootstrap\boot_context.go:
+  13  
+  14: type BootContext struct {
+  15  	PlatformClass internal_environment.PlatformClass
+
+bootstrap\phases\boot_resolution_phase.go:
+  44  
+  45: type BootManager struct {
+  46  	Vault    verification_persistence.VaultStore
+
+bootstrap\phases\capability_phase.go:
+   67  
+   68: type InterfaceAdapter interface {
+   69  	Start(session *user_setting.UserSession) error
+
+   72  
+   73: type DeviceCapabilities struct {
+   74  	HasDisplay  bool
+
+   97  
+   98: type SpeechToText interface {
+   99  	Listen() (string, error)
+
+  101  
+  102: type TextToSpeech interface {
+  103  	Speak(string) error
+
+bootstrap\phases\discovery_phase.go:
+  12  
+  13: type DiscoveryResult struct {
+  14  	InstanceID   string
+
+bootstrap\phases\interface_phase.go:
+  58  
+  59: type MainInterface interface {
+  60  	Start(session *user_setting.UserSession) error
+
+  62  
+  63: type HybridAuthUI struct {
+  64  	Voice audio_engine.VoiceEngine
+
+  84  
+  85: type Credentials struct {
+  86  	UserID   string
+
+bootstrap\platform\vehicle\receivers\mqtt_receiver.go:
+  7  
+  8: type MQTTReceiver struct {
+  9  	client mqtt.Client
+
+bootstrap\probe\active_discovery.go:
+  113  
+  114: // discoverSignal probes bus type and basic signal properties, cross-platform
+  115  func discoverSignal() (internal_environment.SignalProfile, error) {
+
+bootstrap\probe\hardware_fingerprint.go:
+   19  // HardwareFingerprint represents low-level device identifiers.
+   20: type HardwareFingerprint struct {
+   21  	TPM     string
+
+   30  
+   31: type fingerprintBuilder struct {
+   32  	mu sync.Mutex
+
+  105  
+  106: type limitedBuffer struct {
+  107  	buf       *bytes.Buffer
+
+bootstrap\probe\identity_probe.go:
+  6  
+  7: type IdentityProbeResult struct {
+  8  	Identity internal_environment.MachineIdentity
+
+bootstrap\probe\passive_discovery.go:
+   16  
+   17: type SignalBuilder func(fp HardwareFingerprint, env *internal_environment.EnvConfig) []internal_environment.Signal
+   18  
+   19: type PlatformDefinition struct {
+   20  	Type     internal_environment.PlatformClass
+
+  236  // ------------------------------------------------------------
+  237: type LocalPlatformScore struct {
+  238  	internal_environment.PlatformScore
+
+bootstrap\probe\type_struct.go:
+   8  
+   9: type Probe interface {
+  10  	Name() string
+
+  13  
+  14: type ProbeResult[T any] struct {
+  15  	Value    T
+
+cmd\aios\app.go:
+  21  
+  22: type App struct {
+  23  	log        *zap.Logger
+
+cmd\aios\system_context.go:
+  17  
+  18: type SystemContext struct {
+  19  	Boot    *bootstrap.BootContext
+
+core\agent\agent_optimization_service.go:
+  4  
+  5: type Optimizer interface {
+  6  	Distill(input []byte) ([]byte, error)
+
+core\agent\agent_runtime_engine.go:
+  19  
+  20: type AgentRuntime struct {
+  21  	router router.Router
+
+  32  
+  33: type RawInput struct {
+  34  	Type    string          `json:"type"`
+
+core\auth\auth_gatekeeper.go:
+  4  // Auth defines what it needs, but doesn't care WHO provides it.
+  5: type UserPrompter interface {
+  6  	RequestMFA(message string) (string, error)
+
+  8  
+  9: type Authenticator struct {
+  10  	Prompter UserPrompter // This will be filled in later
+
+core\auth\auth_service.go:
+  26  
+  27: type AuthManager struct {
+  28  	Vault    verification_persistence.VaultStore
+
+  34  
+  35: type AuthInterface interface {
+  36  	StartAuthFlow(auth *AuthManager) (*user_setting.UserSession, error)
+
+core\network\network_discovery_service.go:
+  12  
+  13: type DiscoveryService struct {
+  14  	server *mdns.Server
+
+core\policy\decision.go:
+  3  
+  4: type Decision struct {
+  5  	Allowed bool
+
+core\policy\model.go:
+   9  
+  10: type Policy struct {
+  11  	Name string
+
+core\policy\policy_resolver.go:
+   9  
+  10: type Resolver struct {
+  11  	Policies []Policy
+
+core\router\command_router.go:
+  15  
+  16: type MessageType string
+  17  
+
+  23  
+  24: type Envelope struct {
+  25  	Type    MessageType
+
+  29  
+  30: type Router interface {
+  31  	Start(ctx context.Context) error
+
+  36  
+  37: type DefaultRouter struct {
+  38  	queue chan interface{}
+
+core\security\decision\decision_engine.go:
+   9  
+  10: type Enforcer struct {
+  11  	ctx *bootstrap.BootContext
+
+  27  
+  28: type AuthorizationService struct {
+  29  	Resolver PermissionResolver
+
+core\security\decision\permission_deriver.go:
+   8  
+   9: type PermissionResolver interface {
+  10  	Resolve(ctx *AuthorizationContext) []user_setting.PermissionKey
+
+  12  
+  13: type AuthorizationContext struct {
+  14  	Platform internal_environment.PlatformClass
+
+  19  
+  20: type DefaultPermissionResolver struct{}
+  21  
+
+core\security\persistence\vault_store.go:
+  14  
+  15: type IsolatedVault struct {
+  16  	BaseDir string
+
+  34  
+  35: type VaultStore interface {
+  36  	LoadConfig(key string) (*internal_environment.EnvConfig, error)
+
+internal\math_convert\q16.go:
+   9  // 65535 = 1.0
+  10: type Q16 uint16
+  11  
+
+internal\schema\boot\boot_marker.go:
+  10  
+  11: type FirstBootMarker struct {
+  12  	MachineID     string                         `json:"machine_id"`
+
+internal\schema\boot\boot_mode.go:
+  4  
+  5: type BootMode string
+  6  
+
+internal\schema\environment\attestation.go:
+   5  // EnvAttestation defines the cryptographic seal of the environment
+   6: type EnvAttestation struct {
+   7  	Locked        bool          `json:"locked"`
+
+  14  
+  15: type SchemaInfo struct {
+  16  	Version int
+
+  20  
+  21: type BootTrust uint8
+  22  
+
+internal\schema\environment\capabilities.go:
+  30  
+  31: type CapabilityStatus int
+  32  
+
+  38  
+  39: type CapabilityInfo struct {
+  40  	Available bool
+
+  44  
+  45: type CapabilityProfile struct {
+  46  	Set   CapabilitySet
+
+internal\schema\environment\device_identity.go:
+  10  
+  11: type IdentityProfile struct {
+  12  	MachineID    string
+
+  17  
+  18: type FormFactor string
+  19  
+
+  27  
+  28: type MachineIdentity struct {
+  29  	MachineID    string          `json:"machine_id"`
+
+internal\schema\environment\discovery_profile.go:
+  6  
+  7: type DiscoveryProfile struct {
+  8  	Physical          PhysicalProfile      `json:"physical"`
+
+internal\schema\environment\env_config.go:
+  12  
+  13: type BootSequence struct {
+  14  	Env          *EnvConfig
+
+  24  // Use EntityKind (uint8) internally for speed and clarity. Use TierType (string) externally for readability and compatibility.
+  25: type EntityKind uint8
+  26  
+
+  37  
+  38: type EnvConfig struct {
+  39  	SchemaVersion int                   `json:"internal_version"`
+
+internal\schema\environment\hardware_profile.go:
+   10  
+   11: type HardwareProfile struct {
+   12  	Processors []Processor     `json:"processors"`
+
+   16  
+   17: type PhysicalProfile struct {
+   18  	PowerPresent bool    `json:"power_present"`
+
+   21  
+   22: type SignalProfile struct {
+   23  	BusType     string  `json:"bus_type"`
+
+   28  
+   29: type ProtocolProfile struct {
+   30  	FirmwareVersion   string `json:"firmware_version"`
+
+   36  
+   37: type CapabilityDescriptor struct {
+   38  	SensorOnly                 bool
+
+   44  
+   45: type NodeDescriptor struct {
+   46  	NodeID    int    `json:"node_id"`
+
+   51  
+   52: type BusEntry struct {
+   53  	ID         string
+
+   57  
+   58: type BusCapability struct {
+   59  	ID         string           `json:"id"`
+
+   64  
+   65: type Processor struct {
+   66  	Type    string  `json:"type"` // CPU, GPU, TPU
+
+   70  
+   71: type DeviceClass string
+   72  
+
+   81  
+   82: type CapabilityTag string
+   83  
+
+   89  
+   90: // PlatformClass defines the type of hardware (Vehicle, Drone, etc.)
+   91: type PlatformClass string
+   92  
+
+  102  
+  103: type PlatformProfile struct {
+  104  	Class        DeviceClass
+
+  110  
+  111: type PlatformScore struct {
+  112  	Type       PlatformClass
+
+  120  
+  121: type Signal struct {
+  122  	Name       string
+
+  129  // PlatformResolution is the finalized identity of the environment.
+  130: type PlatformResolution struct {
+  131  	Candidates []PlatformScore `json:"candidates"`
+
+  137  
+  138: type Capability uint64
+  139: type CapabilitySet uint64
+  140  
+
+internal\schema\user\settings.go:
+   13  // Move these from interaction to schema so everyone can see them
+   14: type InteractionMode string
+   15  
+
+   23  // Define what an Orchestrator DOES, not what it IS.
+   24: type Orchestrator interface {
+   25  	StartAll(session *UserSession)
+
+   35  
+   36: type UserCoreConfig struct {
+   37  	MainLang      string
+
+   43  
+   44: type CustomizedConfig struct {
+   45  	Version      string
+
+   49  
+   50: type UserIdentity struct {
+   51  	Username string
+
+   53  
+   54: type UserPreferences struct {
+   55  	AIStyle         string
+
+   59  
+   60: type UserSession struct {
+   61  	Identity    *UserIdentity
+
+   69  // Use TierType (string) externally for readability and compatibility. Use EntityType (uint8) internally for speed and clarity.
+   70: type TierType string
+   71  
+
+   79  // Optional richer structure
+   80: type TierProfile struct {
+   81  	Name TierType
+
+   87  
+   88: type ServiceType string
+   89  
+
+   99  // Optional richer structure
+  100: type ServiceProfile struct {
+  101  	Name ServiceType
+
+  103  
+  104: type Attestation struct {
+  105  	SessionToken string
+
+  109  
+  110: type TrustLevel uint8
+  111  
+
+  119  
+  120: type PermissionKey string
+  121  
+
+  132  
+  133: type UserConfig struct {
+  134  	Username        string
+
+  146  
+  147: type SessionBuilder struct{}
+  148  
+
+  165  
+  166: type BuildContext struct {
+  167  	Platform internal_environment.PlatformClass
+
+internal\schema\verification\permissions.go:
+  6  
+  7: type PermissionMask uint64
+  8  
+
+internal\schema\verification\security_config.go:
+  33  func (c *user_setting.CustomizedConfig) Hash() string {
+  34: 	type stable struct {
+  35  		Version       string
+
+modules\adapter\module_adapter.go:
+  18  // Adapter wraps old DomainModule into new runtime_supervisor.Module
+  19: type Adapter struct {
+  20  	legacy domain_shared.DomainModule
+
+  50  
+  51: type Stoppable interface {
+  52  	Stop(ctx context.Context) error
+
+  61  
+  62: type HealthAware interface {
+  63  	Health() error
+
+modules\data_transport\file\http_ingestion.go:
+  49  
+  50: type FileRepository interface {
+  51  	StoreChunk(ctx context.Context, data []byte) error
+
+modules\data_transport\ingestion\ingestion_module.go:
+  15  
+  16: type IngestionModule struct {
+  17  	kernel_lifecycle.BaseModule
+
+modules\data_transport\ingress\interfaces.go:
+  6  
+  7: type Handler interface {
+  8  	Name() string
+
+modules\data_transport\protocols\audit_module.go:
+  16  
+  17: type AuditModule struct {
+  18  	kernel_lifecycle.BaseModule
+
+modules\data_transport\storage\database_sink_module.go:
+  27  
+  28: type DatabaseSinkModule struct {
+  29  	BaseModule
+
+modules\data_transport\telemetry\telemetry_module.go:
+  14  
+  15: type TelemetryModule struct {
+  16  	BaseModule
+
+  23  
+  24: type TelemetryClient interface {
+  25  	Send([]byte) error
+
+modules\domain\audio\capture\audio_module_entry.go:
+   32  
+   33: type AudioModule struct {
+   34  	kernel_lifecycle.BaseModule
+
+  218  
+  219: type AudioRepository struct{}
+  220  
+
+modules\domain\audio\capture\audio_vad.go:
+  20  
+  21: type AudioVAD struct {
+  22  	stream       *portaudio.Stream
+
+modules\domain\audio\engine\voice_engine.go:
+  11  
+  12: type VoiceEngine struct {
+  13  	audio *audio_capture.AudioVAD
+
+modules\domain\audio\io\audio_feature_service.go:
+  12  
+  13: type FeatureExtractor struct {
+  14  	sampleRate int
+
+modules\domain\audio\processing\wav_writer.go:
+   9  
+  10: type WAVWriter struct {
+  11  	file       *os.File
+
+modules\domain\audio\recognition\wake_word.go:
+   9  
+  10: type WakeWordDetector struct {
+  11  	engine *porcupine.Porcupine
+
+modules\domain\cognition\cognition_module.go:
+  17  // CognitionModule handles incoming intents and converts them to tasks.
+  18: type CognitionModule struct {
+  19  	ctx *runtime_engine.RuntimeContext
+
+modules\domain\industrial\industrial_protocol_module.go:
+  13  
+  14: type IndustrialProtocolModule struct {
+  15  	BaseModule // embed BaseModule
+
+modules\domain\inference\inference_module.go:
+  28  // --- Telemetry and Inference Types ---
+  29: type TelemetryEvent struct {
+  30  	DeviceID  string  `json:"device_id"`
+
+  34  
+  35: type InferenceResult struct {
+  36  	DeviceID   string  `json:"device_id"`
+
+  41  // --- Placeholder Model Interface ---
+  42: type Model interface {
+  43  	Predict(ctx context.Context, req PredictionRequest) (PredictionResult, error)
+
+  45  
+  46: type PredictionRequest struct {
+  47  	DeviceID  string
+
+  51  
+  52: type PredictionResult struct {
+  53  	DeviceID   string
+
+  59  // --- InferenceModule ---
+  60: type InferenceModule struct {
+  61  	BaseModule
+
+modules\domain\productivity\productivity_module.go:
+  12  
+  13: type ProductivityModule struct {
+  14  	ctx runtime_engine.RuntimeContext
+
+modules\domain\shared\domain_types.go:
+   6  
+   7: type Intent struct {
+   8  	Name       string
+
+  12  
+  13: type Task struct {
+  14  	Intent Intent
+
+modules\domain\shared\interfaces.go:
+   6  // Legacy module contract (existing system)
+   7: type DomainModule interface {
+   8  	Name() string
+
+  13  // Optional runtime injection
+  14: type RuntimeAware interface {
+  15  	SetRuntime(ctx any) // or *runtime_engine.RuntimeContext (preferred)
+
+modules\kernel_extension\adapters\legacy\adapter.go:
+  11  
+  12: type WASMModule struct {
+  13  	module api.Module
+
+modules\kernel_extension\lifecycle\autonomous_kernel.go:
+  7  
+  8: type AutonomousKernel struct {
+  9  	ctx bootstrap.BootContext
+
+modules\kernel_extension\lifecycle\base_module.go:
+  11  
+  12: type BaseModule struct {
+  13  	name string
+
+pkg\logging\bloat_guard.go:
+  16  
+  17: type BloatGuard struct {
+  18  	mu         sync.Mutex
+
+pkg\logging\reflective_logger.go:
+  13  
+  14: type ReflectiveLogger struct {
+  15  	FileHandle *os.File
+
+  18  
+  19: type LogEntry struct {
+  20  	Timestamp string `json:"t"`
+
+runtime\session.go:
+  21  
+  22: type SessionState int
+  23  
+
+  31  
+  32: type Session struct {
+  33  	execCtx *bootstrap.BootContext
+
+runtime\bus\message_bus.go:
+  4  
+  5: type MessageBus struct {
+  6  	subscribers map[string][]chan Message
+
+  8  
+  9: type Message struct {
+  10  	Topic string
+
+runtime\engine\runtime_builder.go:
+  20  
+  21: type RuntimeContext struct {
+  22  	Router       router.Router
+
+runtime\interface_adapter\cli_adapter.go:
+  16  
+  17: type CLIAuth struct{}
+  18  
+
+  25  
+  26: type CLIAdapter struct{}
+  27  
+
+  40  
+  41: type CLIModule struct{}
+  42  
+
+runtime\interface_adapter\gui_adapter.go:
+  10  
+  11: type GUIAdapter struct{}
+  12  
+
+  24  
+  25: type GUIAuth struct{}
+  26  
+
+runtime\interface_adapter\hmi_adapter.go:
+  11  // ===================Screen Adapter
+  12: type ScreenAdapter struct{}
+  13  
+
+runtime\interface_adapter\orchestrator.go:
+  8  
+  9: type Orchestrator struct {
+  10  	adapters []bootstrap_phase.InterfaceAdapter
+
+runtime\interface_adapter\tui_adapter.go:
+  11  
+  12: type TUIAdapter struct{}
+  13  
+
+  25  
+  26: type TUIAuth struct{}
+  27  
+
+runtime\interface_adapter\voice_adapter.go:
+  13  
+  14: type VoiceAuth struct{}
+  15  
+
+runtime\session\session_manager.go:
+  17  // UserProfile defines the human operator
+  18: type UserProfile struct {
+  19  	Username     string
+
+  26  // Session represents an active login
+  27: type Session struct {
+  28  	User      UserProfile
+
+  36  
+  37: type MyAuthManager struct {
+  38  	*auth.AuthManager
+
+runtime\supervisor\runtime_supervisor.go:
+  15  
+  16: type Module interface {
+  17  	Name() string
+
+  23  
+  24: type HealthStatus struct {
+  25  	Healthy  bool
+
+  66  
+  67: type RestartPolicy struct {
+  68  	MaxRestarts int
+
+  84  
+  85: type moduleState struct {
+  86  	module Module
+
+  97  
+  98: type Supervisor struct {
+  99  	log     *zap.Logger
+
+runtime\types\runtime_types.go:
+  14  // It MUST NOT contain raw BootSequence.
+  15: type ExecutionContext struct {
+  16  	Logger      *zap.Logger
+
+  23  // Optional runtime component example
+  24: type AgentRuntime struct{}
+  25  

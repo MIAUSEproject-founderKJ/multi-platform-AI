@@ -9,12 +9,13 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
+	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
 	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
 	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
+	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 	"go.uber.org/zap"
 )
 
@@ -58,9 +59,9 @@ type PredictionResult struct {
 
 // --- InferenceModule ---
 type InferenceModule struct {
-	BaseModule
+	kernel_lifecycle.BaseModule
 
-	ctx     *bootstrap.BootContext
+	ctx     runtime_types.ExecutionContext
 	runtime *runtime_engine.RuntimeContext // runtime reference
 	logger  *zap.Logger
 	running atomic.Bool
@@ -93,7 +94,7 @@ func (m *InferenceModule) SetRuntime(rtx *runtime_engine.RuntimeContext) {
 }
 
 // --- Base Init ---
-func (m *InferenceModule) Init(ctx *bootstrap.BootContext) error {
+func (m *InferenceModule) Init(ctx runtime_types.ExecutionContext) error {
 	if m.runtime == nil {
 		return errors.New("runtime not set")
 	}
@@ -220,7 +221,7 @@ func (m *InferenceModule) Handle(ctx context.Context, payload []byte) error {
 	}
 }
 
-func (m *InferenceModule) Allowed(ctx *bootstrap.BootContext) bool {
+func (m *InferenceModule) Allowed(ctx runtime_types.ExecutionContext) bool {
 	return true
 }
 

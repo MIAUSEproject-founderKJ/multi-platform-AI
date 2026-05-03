@@ -6,12 +6,12 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
 	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
+	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 )
 
 // CognitionModule handles incoming intents and converts them to tasks.
@@ -30,7 +30,7 @@ func (m *CognitionModule) SetRuntime(rtx *runtime_engine.RuntimeContext) {
 }
 
 // Init subscribes to the "audio.intent" topic
-func (m *CognitionModule) Init(ctx *bootstrap.BootContext) error {
+func (m *CognitionModule) Init(ctx runtime_types.ExecutionContext) error {
 	if m.ctx == nil {
 		ctx.Logger.Error("runtime context not set")
 		return errors.New("runtime context not set")
@@ -67,7 +67,7 @@ func (m *CognitionModule) Run(ctx context.Context) error {
 func (m *CognitionModule) Name() string                                             { return "CognitionModule" }
 func (m *CognitionModule) Category() ModuleCategory                                 { return ModuleDomain }
 func (m *CognitionModule) DependsOn() []string                                      { return []string{"AudioModule"} }
-func (m *CognitionModule) Allowed(ctx *bootstrap.BootContext) bool                  { return true }
+func (m *CognitionModule) Allowed(ctx runtime_types.ExecutionContext) bool          { return true }
 func (m *CognitionModule) Start() error                                             { return nil }
 func (m *CognitionModule) Stop() error                                              { return nil }
 func (m *CognitionModule) SupportedPlatforms() []internal_environment.PlatformClass { return nil }

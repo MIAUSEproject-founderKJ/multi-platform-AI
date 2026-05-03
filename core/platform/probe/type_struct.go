@@ -1,4 +1,4 @@
-// bootstrap/probe/type_struct.go
+// core/platform/probe/type_struct.go
 package probe
 
 import (

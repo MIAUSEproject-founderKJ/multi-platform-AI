@@ -23,8 +23,8 @@ type UserProfile struct {
 	CreatedAt    time.Time
 }
 
-// Session represents an active login
-type Session struct {
+// AuthSession represents an active login
+type AuthSession struct {
 	User      UserProfile
 	Token     string
 	ExpiresAt time.Time
@@ -39,7 +39,7 @@ type MyAuthManager struct {
 }
 
 // Login verifies credentials and returns a session
-func (am *MyAuthManager) Login(username, password string) (*Session, error) {
+func (am *MyAuthManager) Login(username, password string) (*AuthSession, error) {
 	// 1. Fetch user from Vault
 	var user UserProfile
 	found, err := am.Vault.Read("users", username, &user)
@@ -48,13 +48,16 @@ func (am *MyAuthManager) Login(username, password string) (*Session, error) {
 	}
 
 	// 2. Verify Password (Using SHA256 for demo; use bcrypt in prod)
-	hash := hashPassword(password)
+	hash, err := hashPassword(password)
+	if err != nil {
+		return nil, err
+	}
 	if user.PasswordHash != hash {
 		return nil, errors.New("invalid credentials")
 	}
 
 	// 3. Create Session
-	return &Session{
+	return &AuthSession{
 		User:      user,
 		Token:     generateToken(),
 		ExpiresAt: time.Now().Add(12 * time.Hour),

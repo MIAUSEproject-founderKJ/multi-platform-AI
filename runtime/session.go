@@ -15,7 +15,8 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
+	core_agent "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/agent"
+	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 )
 
 type SessionState int
@@ -28,9 +29,9 @@ const (
 	SessionStopped
 )
 
-type Session struct {
-	execCtx *bootstrap.BootContext
-	agent   *agent.AgentRuntime
+type RuntimeSession struct {
+	execCtx runtime_types.ExecutionContext
+	agent   *core_agent.AgentRuntime
 
 	stateMu sync.RWMutex
 	state   SessionState
@@ -53,9 +54,9 @@ WaitGroup to track goroutines
 Error channel for async failures
 Idempotent Start/Stop
 */
-func NewSession(ctx *bootstrap.BootContext, agent *agent.AgentRuntime) *Session {
-	return &Session{
-		execCtx:    ctx,
+func NewRuntimeSession(bootctx runtime_types.ExecutionContext, agent *core_agent.AgentRuntime) *RuntimeSession {
+	return &RuntimeSession{
+		execCtx:    bootctx,
 		agent:      agent,
 		state:      SessionCreated,
 		errCh:      make(chan error, 8),
@@ -63,7 +64,7 @@ func NewSession(ctx *bootstrap.BootContext, agent *agent.AgentRuntime) *Session 
 	}
 }
 
-func (s *Session) Start(parent context.Context) error {
+func (s *RuntimeSession) Start(parent context.Context) error {
 	var startErr error
 
 	s.startOnce.Do(func() {
@@ -101,12 +102,11 @@ Async errors
 Context cancellation
 Panic recovery*/
 
-func (s *Session) runSupervisor() {
+func (s *RuntimeSession) runSupervisor() {
 	defer s.wg.Done()
 
 	defer func() {
 		if r := recover(); r != nil {
-			s.execCtx.Logger.Info("session panic")
 			s.errCh <- errors.New("session panic")
 		}
 	}()
@@ -115,12 +115,10 @@ func (s *Session) runSupervisor() {
 		select {
 
 		case <-s.rootCtx.Done():
-			s.execCtx.Logger.Info("session context canceled")
 			return
 
 		case err := <-s.errCh:
 			if err != nil {
-				s.execCtx.Logger.Info("session async error")
 				s.Stop(context.Background())
 				return
 			}
@@ -133,7 +131,7 @@ Stops dependencies explicitly
 Waits for all goroutines
 Supports timeout via passed context*/
 
-func (s *Session) Stop(ctx context.Context) error {
+func (s *RuntimeSession) Stop(ctx context.Context) error {
 	var stopErr error
 
 	s.stopOnce.Do(func() {
@@ -174,7 +172,7 @@ func (s *Session) Stop(ctx context.Context) error {
 }
 
 // Ensures valid lifecycle flow.
-func (s *Session) transition(from, to SessionState) bool {
+func (s *RuntimeSession) transition(from, to SessionState) bool {
 	s.stateMu.Lock()
 	defer s.stateMu.Unlock()
 

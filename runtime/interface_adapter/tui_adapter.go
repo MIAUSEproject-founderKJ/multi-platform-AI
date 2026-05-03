@@ -2,6 +2,13 @@
 
 package interface_adapter
 
+import (
+	"fmt"
+
+	auth "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
+	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user_setting"
+)
+
 type TUIAdapter struct{}
 
 func (t *TUIAdapter) Start(session *user_setting.UserSession) error {
@@ -17,6 +24,7 @@ func (t *TUIAuth) StartAuthFlow(am *auth.AuthManager) (*user_setting.UserSession
 }
 
 type TUIAuth struct{}
+
 func NewTUIAuth() auth.AuthInterface {
 	return &TUIAuth{}
 }

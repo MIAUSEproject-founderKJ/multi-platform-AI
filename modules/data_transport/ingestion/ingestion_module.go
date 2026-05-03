@@ -6,17 +6,17 @@ import (
 	"context"
 	"sync/atomic"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/file"
 	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
+	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 )
 
 type IngestionModule struct {
 	kernel_lifecycle.BaseModule
-	repo file.FileRepository
-	ctx  *bootstrap.BootContext
+	repo    file.FileRepository
+	bootctx runtime_types.ExecutionContext
 
 	running atomic.Bool
 }
@@ -38,16 +38,16 @@ func (m *IngestionModule) Category() ModuleCategory {
 
 func (m *IngestionModule) DependsOn() []string { return m.deps }
 
-func (m *IngestionModule) Allowed(*bootstrap.BootContext) bool { return true }
+func (m *IngestionModule) Allowed(bootctx runtime_types.ExecutionContext) bool { return true }
 
-func (m *IngestionModule) Init(*bootstrap.BootContext) error { return nil }
+func (m *IngestionModule) Init(bootctx runtime_types.ExecutionContext) error { return nil }
 
 func (m *IngestionModule) Start() error { return nil }
 
 func (m *IngestionModule) Stop() error { return nil }
 
-func (m *IngestionModule) Run(ctx context.Context) error {
-	<-ctx.Done()
+func (m *IngestionModule) Run(bootctx context.Context) error {
+	<-bootctx.Done()
 	return nil
 }
 
@@ -60,6 +60,6 @@ func (m *IngestionModule) RequiredCapabilities() internal_environment.Capability
 
 func (m *IngestionModule) Optional() bool { return false }
 
-func (m *IngestionModule) handle(ctx context.Context, payload []byte) error {
-	return m.repo.StoreChunk(ctx, payload)
+func (m *IngestionModule) handle(bootctx context.Context, payload []byte) error {
+	return m.repo.StoreChunk(bootctx, payload)
 }

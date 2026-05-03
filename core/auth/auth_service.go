@@ -12,9 +12,12 @@ import (
 	"strings"
 	"time"
 
+	bootstrap "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	bootstrap_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases"
-	security_decision "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision"
+	bootstrap_resolver "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/resolver"
 	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
+	security_decision "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/mutual_interaction"
 
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
@@ -31,6 +34,11 @@ type AuthManager struct {
 
 type AuthInterface interface {
 	StartAuthFlow(auth *AuthManager) (*user_setting.UserSession, error)
+}
+
+type Credentials struct {
+	UserID   string
+	Password string
 }
 
 // detectEntityAndTier inspects the user identity to assign entity and tier
@@ -551,12 +559,12 @@ func (am *AuthManager) initializeRuntime(session *user_setting.UserSession) erro
 	orch := bootstrap_phase.BuildOrchestrator(cp)
 	orch.StartAll(session)
 
-	mode := bootstrap_phase.ResolveInteractionMode(session.Config, cp.Set)
+	mode := mutual_interaction.ResolveInteractionMode(session.Config, cp.Set)
 
-	session.Capabilities = cp.Set
-	session.CapProfile = cp
-	session.Mode = string(mode)
-	session.Orchestrator = orch
+	bootstrap.Capabilities = cp.Set
+	bootstrap.CapProfile = cp
+	bootstrap.Mode = string(mode)
+	bootstrap.Orchestrator = orch
 
 	orch.Broadcast("Session initialized successfully")
 

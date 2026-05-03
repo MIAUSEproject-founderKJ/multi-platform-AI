@@ -40,7 +40,7 @@ func (a *Adapter) Name() string {
 }
 
 func (a *Adapter) Init(ctx context.Context) error {
-	Init(ctx context.Context, boot *bootstrap.BootContext)
+	Init(ctx context.Context, boot runtime_types.ExecutionContext)
 }
 
 func (a *Adapter) Start(ctx context.Context) error {

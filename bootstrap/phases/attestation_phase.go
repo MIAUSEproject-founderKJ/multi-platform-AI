@@ -3,14 +3,13 @@
 package bootstrap_phase
 
 import (
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
-	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
+	auth "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 )
 
 func PhaseAttestation(
-	vault verification_persistence.VaultStore,
+
 	identity *internal_environment.MachineIdentity,
 	bootSeq *internal_environment.BootSequence,
 	preSession *user_setting.UserSession,

@@ -6,12 +6,14 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
+	auth "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	audio_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/audio/engine"
+	mutual_interaction "github.com/MIAUSEproject-founderKJ/multi-platform-AI/mutual_interaction"
+	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 )
+
 func BuildAuthInterface(mode user_setting.InteractionMode) auth.AuthInterface {
 	switch mode {
 	case user_setting.ModeGUI:
@@ -25,16 +27,16 @@ func BuildAuthInterface(mode user_setting.InteractionMode) auth.AuthInterface {
 	}
 }
 
-func PhaseInterface(ctx bootstrap.BootContext, caps *internal_environment.CapabilityProfile) (*user_setting.UserSession, error) {
+func PhaseInterface(bootctx runtime_types.ExecutionContext, caps *internal_environment.CapabilityProfile) (*user_setting.UserSession, error) {
 
-	mode := ResolveInteractionMode(nil, caps.Set)
+	mode := mutual_interaction.ResolveInteractionMode(nil, caps.Set)
 
 	ui := BuildAuthInterface(mode)
 	if ui == nil {
 		return nil, errors.New("failed to build auth interface")
 	}
 
-	authManager := auth.AuthManager{Vault: ctx.Vault}
+	authManager := auth.AuthManager{}
 
 	result, err := ui.StartAuthFlow(&authManager)
 	if err != nil {
@@ -60,7 +62,7 @@ type MainInterface interface {
 
 type HybridAuthUI struct {
 	Voice audio_engine.VoiceEngine
-	GUI   runtime.GUIEngine
+	GUI   GUIEngine
 }
 
 func (h *HybridAuthUI) StartAuthFlow(auth *auth.AuthManager) (*user_setting.UserSession, error) {
@@ -78,11 +80,6 @@ func (h *HybridAuthUI) StartAuthFlow(auth *auth.AuthManager) (*user_setting.User
 	default:
 		return nil, errors.New("invalid choice")
 	}
-}
-
-type Credentials struct {
-	UserID   string
-	Password string
 }
 
 func (h *HybridAuthUI) promptChoice() string {

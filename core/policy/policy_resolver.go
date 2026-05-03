@@ -3,8 +3,8 @@
 package policy
 
 import (
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
+	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 )
 
 type Resolver struct {
@@ -17,7 +17,7 @@ func NewResolver() *Resolver {
 	}
 }
 
-func (r *Resolver) Resolve(ctx *bootstrap.BootContext) Decision {
+func (r *Resolver) Resolve(bootctx runtime_types.ExecutionContext) Decision {
 
 	perms := make(map[user_setting.PermissionKey]bool)
 
@@ -25,7 +25,7 @@ func (r *Resolver) Resolve(ctx *bootstrap.BootContext) Decision {
 
 	for _, p := range r.Policies {
 
-		if ctx.Capabilities.Has(p.RequireCaps) {
+		if bootctx.Capabilities.Has(p.RequireCaps) {
 
 			matched = append(matched, p.Name)
 

@@ -5,7 +5,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/data_transport/ingress"
+	transport_ingress "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/data_transport/ingress"
 	"github.com/tetratelabs/wazero/api"
 )
 
@@ -33,4 +33,4 @@ func (w *WASMModule) Handle(ctx context.Context, payload []byte) error {
 	return err
 }
 
-var _ ingress.Handler = (*WASMModule)(nil)
+var _ transport_ingress.Handler = (*WASMModule)(nil)

@@ -13,11 +13,11 @@ package kernel_supervisor
 import (
 	"fmt"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
+	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 )
 
-func ResolveDependencies(mods []kernel_lifecycle.DomainModule) ([]kernel_lifecycle.DomainModule, error) {
-	nameIndex := make(map[string]kernel_lifecycle.DomainModule)
+func ResolveDependencies(mods []domain_shared.DomainModule) ([]domain_shared.DomainModule, error) {
+	nameIndex := make(map[string]domain_shared.DomainModule)
 	inDegree := make(map[string]int)
 	graph := make(map[string][]string)
 
@@ -44,7 +44,7 @@ func ResolveDependencies(mods []kernel_lifecycle.DomainModule) ([]kernel_lifecyc
 		}
 	}
 
-	var ordered []kernel_lifecycle.DomainModule
+	var ordered []domain_shared.DomainModule
 
 	for len(queue) > 0 {
 		current := queue[0]

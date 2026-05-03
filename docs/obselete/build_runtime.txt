@@ -1,0 +1,66 @@
+// cmd/aios/build_runtime.go
+package main
+
+import (
+	"context"
+	"errors"
+
+	modules_adapter "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/adapter"
+	transport_filter "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/data_transport/filter"
+	kernel_registry "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/registry"
+	kernel_supervisor "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/supervisor"
+	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
+	interface_adapter "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/interface_adapter"
+	runtime_supervisor "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/supervisor"
+	"go.uber.org/zap"
+)
+
+func buildRuntime(ctx context.Context, log *zap.Logger, sys *SystemContext) (*App, error) {
+
+	if sys.Exec == nil {
+		return nil, errors.New("missing execution context")
+	}
+
+	// 🔥 STRICT LINEAGE: Runtime derives from ExecutionContext
+	rtx, err := runtime_engine.Build(sys.Exec, sys.Session, log)
+	if err != nil {
+		return nil, err
+	}
+	rtx.Session = sys.Session
+	if sys.Session.Config != nil {
+		rtx.Config = sys.Session.Config
+	}
+
+	startCLI(ctx, log)
+
+	// --- MODULE GRAPH ---
+	reg := kernel_registry.DefaultRegistry()
+
+	filtered := transport_filter.FilterModules(reg, sys.Boot)
+
+	// 🔥 Capability enforcement hook (critical for your architecture)
+	filtered = enforceCapabilities(filtered, sys.Boot, log)
+
+	ordered, err := kernel_supervisor.ResolveDependencies(filtered)
+	if err != nil {
+		return nil, err
+	}
+
+	adapted := modules_adapter.AdaptModules(ordered, rtx)
+
+	if len(adapted) == 0 {
+		log.Warn("NO_MODULES_FALLBACK")
+		adapted = []runtime_supervisor.Module{
+			interface_adapter.NewCLIModule(),
+		}
+	}
+
+	resilient := wrapModules(adapted, log)
+
+	sup := runtime_supervisor.NewSupervisor(log, resilient)
+
+	return &App{
+		log:        log,
+		supervisor: sup,
+	}, nil
+}

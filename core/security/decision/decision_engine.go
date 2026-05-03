@@ -3,16 +3,16 @@
 package security_decision
 
 import (
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
+	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 )
 
 type Enforcer struct {
-	ctx *bootstrap.BootContext
+	ctx runtime_types.ExecutionContext
 }
 
-func NewEnforcer(ctx *bootstrap.BootContext) *Enforcer {
-	return &Enforcer{ctx: ctx}
+func NewEnforcer(bootctx runtime_types.ExecutionContext) *Enforcer {
+	return &Enforcer{ctx: bootctx}
 }
 
 func (e *Enforcer) Allow(p user_setting.PermissionKey) bool {
@@ -29,8 +29,8 @@ type AuthorizationService struct {
 	Resolver PermissionResolver
 }
 
-func (as *AuthorizationService) Authorize(authCtx *AuthorizationContext) map[user_setting.PermissionKey]bool {
-	perms := as.Resolver.Resolve(authCtx)
+func (as *AuthorizationService) Authorize(authbootctx *AuthorizationContext) map[user_setting.PermissionKey]bool {
+	perms := as.Resolver.Resolve(authbootctx)
 
 	permMap := make(map[user_setting.PermissionKey]bool)
 	for _, p := range perms {

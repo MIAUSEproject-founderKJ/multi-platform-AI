@@ -3,7 +3,6 @@ package bootstrap_resolver
 
 import (
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
-	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
 )
 
 func DeviceCapabilitiesResolver(env *internal_environment.EnvConfig, capSet internal_environment.CapabilitySet) (*internal_environment.CapabilityDescriptor, error) {

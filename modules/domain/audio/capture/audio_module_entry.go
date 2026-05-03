@@ -8,12 +8,16 @@ import (
 	"fmt"
 	"sync/atomic"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
+	audio_io "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/audio/io"
+	audio_processing "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/audio/processing"
+	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
+	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
 	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
 	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
+	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 	"go.uber.org/zap"
 )
 
@@ -30,8 +34,8 @@ type AudioModule struct {
 	kernel_lifecycle.BaseModule
 
 	runtime   *runtime_engine.RuntimeContext
-	writer    *WAVWriter
-	extractor *FeatureExtractor
+	writer    *audio_processing.WAVWriter
+	extractor *audio_io.FeatureExtractor
 	repo      *AudioRepository
 
 	running atomic.Bool
@@ -41,7 +45,7 @@ type AudioModule struct {
 // Constructor
 // --------------------------------------------------
 
-func NewAudioModule() kernel_lifecycle.DomainModule {
+func NewAudioModule() domain_shared.DomainModule {
 	m := &AudioModule{}
 	m.SetName("AudioModule")
 	m.SetDeps([]string{"StorageModule"})
@@ -60,7 +64,7 @@ func (m *AudioModule) SetRuntime(rtx *runtime_engine.RuntimeContext) {
 // Init (no goroutines here)
 // --------------------------------------------------
 
-func (m *AudioModule) Init(ctx *bootstrap.BootContext) error {
+func (m *AudioModule) Init(ctx runtime_types.ExecutionContext) error {
 	if m.runtime == nil {
 		return ErrRuntimeNotSet
 	}
@@ -72,8 +76,8 @@ func (m *AudioModule) Init(ctx *bootstrap.BootContext) error {
 
 	outputPath := m.runtime.SafePath("audio/audio_output.wav")
 
-	m.writer = NewWAVWriter(outputPath)
-	m.extractor = NewFeatureExtractor(16000)
+	m.writer = audio_processing.NewWAVWriter(outputPath)
+	m.extractor = audio_io.NewFeatureExtractor(16000)
 	m.repo = NewAudioRepository()
 
 	return nil
@@ -159,15 +163,15 @@ func (m *AudioModule) RequiredCapabilities() internal_environment.CapabilitySet 
 // Policy Enforcement (CRITICAL)
 // --------------------------------------------------
 
-func (m *AudioModule) Allowed(ctx *bootstrap.BootContext) bool {
+func (m *AudioModule) Allowed(ctx runtime_types.ExecutionContext) bool {
 
 	// Must have runtime execution rights
-	if !ctx.Permissions[user_setting.PermBasicRuntime] {
+	if !ctx.HasPermission(user_setting.PermBasicRuntime) {
 		return false
 	}
 
 	// Audio capture requires hardware permission
-	if !ctx.Permissions[user_setting.PermHardwareIO] {
+	if !ctx.HasPermission(user_setting.PermHardwareIO) {
 		return false
 	}
 

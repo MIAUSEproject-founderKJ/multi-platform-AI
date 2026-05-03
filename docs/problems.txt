@@ -1,27 +1,200 @@
+https://chatgpt.com/share/69f656ca-7f84-8324-bdd4-2f37ba6b1803
+
+undefined: InterfaceAdapter
+user_setting.UserIdentity (type) is not an expression
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth")
+undefined: vault
+undefined: vault
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
+bm.DecideBootPath undefined (type *BootManager has no field or method DecideBootPath)
+undefined: v
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
+undefined: DeviceCapabilities
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
+undefined: NewGUIAuth
+undefined: NewTUIAuth
+undefined: NewVoiceAuth
+undefined: NewCLIAuth
+undefined: DeviceCapabilities
+undefined: DeviceCapabilities
+undefined: GUIEngine
+undefined: Credentials
+undefined: Credentials
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
+declared and not used: service
+invalid composite literal type runtime_types.ExecutionContext
+invalid operation: capSet & internal_environment.CapCANBus (mismatched types internal_environment.CapabilitySet and internal_environment.Capability)
+invalid operation: capSet & internal_environment.CapSafetyCritical (mismatched types internal_environment.CapabilitySet and internal_environment.Capability)
+invalid operation: capSet & internal_environment.CapLocalStorage (mismatched types internal_environment.CapabilitySet and internal_environment.Capability)
+e.boot.PlatformClass undefined (type runtime_types.ExecutionContext has no field or method PlatformClass)
+cannot use e.boot.Capabilities (value of type func() internal_environment.CapabilitySet) as internal_environment.CapabilitySet value in return statement
+e.boot.TrustLevel undefined (type runtime_types.ExecutionContext has no field or method TrustLevel)
+e.boot.Permissions undefined (type runtime_types.ExecutionContext has no field or method Permissions)
+e.boot.Service undefined (type runtime_types.ExecutionContext has no field or method Service)
+undefined: modules_adapter.AdaptModules
+invalid composite literal type runtime_types.ExecutionContext
+assignment mismatch: 2 variables but bootstrap_resolver.ResolveExecutionContext returns 1 value
+cannot use bootCtx (variable of type *runtime_types.ExecutionContext) as runtime_types.ExecutionContext value in argument to bootstrap_resolver.ResolveExecutionContext: *runtime_types.ExecutionContext does not implement runtime_types.ExecutionContext (type *runtime_types.ExecutionContext is pointer to interface, not interface)
+declared and not used: token
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision")
+undefined: internal_verification.ToMask
+session.PermMask undefined (type *user_setting.UserSession has no field or method PermMask)
+cfg.WithDefaults undefined (type *user_setting.CustomizedConfig has no field or method WithDefaults)
+cannot use &user_setting.UserConfig{…} (value of type *user_setting.UserConfig) as user_setting.UserCoreConfig value in assignment
+cfg.WithDefaults undefined (type user_setting.CustomizedConfig has no field or method WithDefaults)
+cfg.Migrate undefined (type user_setting.CustomizedConfig has no field or method Migrate)
+cannot use newCfg (variable of type *user_setting.CustomizedConfig) as user_setting.UserCoreConfig value in assignment
+session.Orchestrator undefined (type *user_setting.UserSession has no field or method Orchestrator)
+assignment mismatch: 1 variable but bootstrap_resolver.DeviceCapabilitiesResolver returns 2 values
+not enough arguments in call to bootstrap_resolver.DeviceCapabilitiesResolver
+	have ()
+	want (*internal_environment.EnvConfig, internal_environment.CapabilitySet)
+undefined: bootstrap_phase.BuildOrchestrator
+cannot use session.Config (variable of struct type user_setting.UserCoreConfig) as *user_setting.CustomizedConfig value in argument to mutual_interaction.ResolveInteractionMode
+undefined: bootstrap.Capabilities
+undefined: bootstrap.CapProfile
+undefined: bootstrap.Mode
+undefined: bootstrap.Orchestrator
+bootctx.Capabilities.Has undefined (type func() internal_environment.CapabilitySet has no field or method Has)
+cannot use internal_environment.CapNetwork (constant 256 of uint64 type internal_environment.Capability) as internal_environment.CapabilitySet value in struct literal
+cannot use internal_environment.CapSafetyCritical (constant 8192 of uint64 type internal_environment.Capability) as internal_environment.CapabilitySet value in struct literal
+cannot use internal_environment.CapSecureEnclave (constant 128 of uint64 type internal_environment.Capability) as internal_environment.CapabilitySet value in struct literal
+e.ctx.Permissions undefined (type runtime_types.ExecutionContext has no field or method Permissions)
+undefined: DerivePermissions
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot]
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment")
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]
+invalid operation: *c |= cap (mismatched types CapabilitySet and Capability)
+invalid operation: *c &= ^cap (mismatched types CapabilitySet and Capability)
+invalid operation: c & cap (mismatched types CapabilitySet and Capability)
+invalid operation: set |= cap (mismatched types CapabilitySet and Capability)
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user")
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment")
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]
+import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user]
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification")
+s.PermMask undefined (type *UserSession has no field or method PermMask)
+unknown field SessionID in struct literal of type UserSession
+unknown field Platform in struct literal of type UserSession
+unknown field Entity in struct literal of type UserSession
+unknown field Tier in struct literal of type UserSession
+unknown field Service in struct literal of type UserSession
+unknown field Permissions in struct literal of type UserSession
+unknown field CreatedAt in struct literal of type UserSession
+unknown field ExpiresAt in struct literal of type UserSession
+cannot define new methods on non-local type user_setting.CustomizedConfig
+cannot define new methods on non-local type user_setting.CustomizedConfig
+missing ',' in argument list
+m.RequiredCapabilities undefined (type domain_shared.DomainModule has no field or method RequiredCapabilities)
+ctx.Capabilities.HasAll undefined (type func() internal_environment.CapabilitySet has no field or method HasAll)
+m.Allowed undefined (type domain_shared.DomainModule has no field or method Allowed)
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/file (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/file")
+cannot use &IngestionModule{…} (value of type *IngestionModule) as domain_shared.DomainModule value in return statement: *IngestionModule does not implement domain_shared.DomainModule (wrong type for method Init)
+		have Init(runtime_types.ExecutionContext) error
+		want Init(context.Context) error
+cannot refer to unexported field name in struct literal of type kernel_lifecycle.BaseModule
+cannot refer to unexported field deps in struct literal of type kernel_lifecycle.BaseModule
+m.name undefined (type *IngestionModule has no field or method name, but does have method Name)
+undefined: ModuleCategory
+undefined: ModuleDomain
+m.deps undefined (cannot refer to unexported field deps)
+cannot use m (variable of type *AuditModule) as domain_shared.DomainModule value in return statement: *AuditModule does not implement domain_shared.DomainModule (wrong type for method Init)
+		have Init(runtime_types.ExecutionContext) error
+		want Init(context.Context) error
+undefined: ModuleCategory
+undefined: ModuleDomain
+undefined: BaseModule
+undefined: ModuleCategory
+undefined: ModuleDomain
+cannot refer to unexported field name in struct literal of type kernel_lifecycle.BaseModule
+cannot use &TelemetryModule{…} (value of type *TelemetryModule) as domain_shared.DomainModule value in return statement: *TelemetryModule does not implement domain_shared.DomainModule (wrong type for method Init)
+		have Init(runtime_types.ExecutionContext) error
+		want Init(context.Context) error
+cannot refer to unexported field name in struct literal of type kernel_lifecycle.BaseModule
+cannot refer to unexported field deps in struct literal of type kernel_lifecycle.BaseModule
+m.ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)
+m.ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)
+m.ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)
+m.ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)
+m.ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)
+m.ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)
+undefined: ModuleCategory
+undefined: ModuleDomain
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules")
+cannot use m (variable of type *AudioModule) as domain_shared.DomainModule value in return statement: *AudioModule does not implement domain_shared.DomainModule (wrong type for method Init)
+		have Init(runtime_types.ExecutionContext) error
+		want Init(context.Context) error
+cannot use internal_environment.CapLocalStorage | internal_environment.CapNetwork (constant 65792 of uint64 type internal_environment.Capability) as internal_environment.CapabilitySet value in return statement
+ve.audio.outChan undefined (cannot refer to unexported field outChan)
+undefined: sampleRate
+cannot use &CognitionModule{} (value of type *CognitionModule) as domain_shared.DomainModule value in return statement: *CognitionModule does not implement domain_shared.DomainModule (wrong type for method Init)
+		have Init(runtime_types.ExecutionContext) error
+		want Init(context.Context) error
+ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)
+undefined: ModuleCategory
+undefined: ModuleDomain
+undefined: Intent
+undefined: Intent
+undefined: Intent
+undefined: Task
+undefined: Task
+cannot use &IndustrialProtocolModule{…} (value of type *IndustrialProtocolModule) as domain_shared.DomainModule value in return statement: *IndustrialProtocolModule does not implement domain_shared.DomainModule (wrong type for method Init)
+		have Init(runtime_types.ExecutionContext) error
+		want Init(context.Context) error
+cannot refer to unexported field name in struct literal of type kernel_lifecycle.BaseModule
+cannot refer to unexported field deps in struct literal of type kernel_lifecycle.BaseModule
+undefined: ModuleCategory
+undefined: ModuleDomain
+m.ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)
+m.ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)
+cannot use m (variable of type *InferenceModule) as domain_shared.DomainModule value in return statement: *InferenceModule does not implement domain_shared.DomainModule (wrong type for method Init)
+		have Init(runtime_types.ExecutionContext) error
+		want Init(context.Context) error
+m.name undefined (type *InferenceModule has no field or method name, but does have method Name)
+m.deps undefined (cannot refer to unexported field deps)
+undefined: ModuleCategory
+undefined: ModuleDomain
+mem.Allocate undefined (type api.Memory has no field or method Allocate)
+m.DependsOn undefined (type domain_shared.DomainModule has no field or method DependsOn)
+undefined: hmi.ProgressUpdate
+undefined: hmi.ProgressUpdate
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases")
+user_setting.UserIdentity (type) is not an expression
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user_setting (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user_setting")
+cannot define new methods on non-local type auth.AuthManager
+========================================================
 [{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/orchestrator/boot_orchestrator.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/api/hmi/hmi_contract.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
-		"value": "BrokenImport",
+		"value": "UndeclaredName",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
+			"fragment": "UndeclaredName"
 		}
 	},
 	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap\")",
+	"message": "undefined: InterfaceAdapter",
 	"source": "compiler",
-	"startLineNumber": 6,
-	"startColumn": 12,
-	"endLineNumber": 6,
-	"endColumn": 92,
+	"startLineNumber": 18,
+	"startColumn": 2,
+	"endLineNumber": 18,
+	"endColumn": 18,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/orchestrator/boot_orchestrator.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "NotAnExpr",
 		"target": {
@@ -42,7 +215,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/attestation_phase.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"severity": 8,
 	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
 	"source": "go list",
@@ -53,7 +226,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/attestation_phase.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "BrokenImport",
 		"target": {
@@ -68,13 +241,55 @@
 	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth\")",
 	"source": "compiler",
 	"startLineNumber": 6,
-	"startColumn": 2,
+	"startColumn": 7,
 	"endLineNumber": 6,
-	"endColumn": 66,
+	"endColumn": 71,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/attestation_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: vault",
+	"source": "compiler",
+	"startLineNumber": 23,
+	"startColumn": 16,
+	"endLineNumber": 23,
+	"endColumn": 21,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/attestation_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: vault",
+	"source": "compiler",
+	"startLineNumber": 29,
+	"startColumn": 13,
+	"endLineNumber": 29,
+	"endColumn": 18,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/boot_resolution_phase.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"severity": 8,
 	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
 	"source": "go list",
@@ -85,7 +300,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/boot_resolution_phase.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -99,81 +314,14 @@
 	"severity": 8,
 	"message": "bm.DecideBootPath undefined (type *BootManager has no field or method DecideBootPath)",
 	"source": "compiler",
-	"startLineNumber": 26,
+	"startLineNumber": 25,
 	"startColumn": 16,
-	"endLineNumber": 26,
+	"endLineNumber": 25,
 	"endColumn": 30,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/capability_phase.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"severity": 8,
-	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
-	"source": "go list",
-	"startLineNumber": 1,
-	"startColumn": 1,
-	"endLineNumber": 1,
-	"endColumn": 1,
-	"modelVersionId": 2,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/capability_phase.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "NotAnExpr",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "NotAnExpr"
-		}
-	},
-	"severity": 8,
-	"message": "user_setting.UserIdentity (type) is not an expression",
-	"source": "compiler",
-	"startLineNumber": 178,
-	"startColumn": 38,
-	"endLineNumber": 178,
-	"endColumn": 63,
-	"modelVersionId": 2,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/discovery_phase.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"severity": 8,
-	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
-	"source": "go list",
-	"startLineNumber": 1,
-	"startColumn": 1,
-	"endLineNumber": 1,
-	"endColumn": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/identity_phase.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"severity": 8,
-	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
-	"source": "go list",
-	"startLineNumber": 1,
-	"startColumn": 1,
-	"endLineNumber": 1,
-	"endColumn": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/interface_phase.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"severity": 8,
-	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
-	"source": "go list",
-	"startLineNumber": 1,
-	"startColumn": 1,
-	"endLineNumber": 1,
-	"endColumn": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/interface_phase.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/boot_resolution_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -185,16 +333,16 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: runtime",
+	"message": "undefined: v",
 	"source": "compiler",
-	"startLineNumber": 51,
-	"startColumn": 8,
-	"endLineNumber": 51,
-	"endColumn": 15,
+	"startLineNumber": 36,
+	"startColumn": 13,
+	"endLineNumber": 36,
+	"endColumn": 14,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/module_resolution_phase.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/capability_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"severity": 8,
 	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
 	"source": "go list",
@@ -204,32 +352,317 @@
 	"endColumn": 1,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/resolver/capabilities_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/capability_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
-		"value": "UnusedImport",
+		"value": "UndeclaredName",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UnusedImport"
+			"fragment": "UndeclaredName"
 		}
 	},
 	"severity": 8,
-	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification\" imported as internal_verification and not used",
+	"message": "undefined: DeviceCapabilities",
 	"source": "compiler",
-	"startLineNumber": 6,
+	"startLineNumber": 75,
+	"startColumn": 32,
+	"endLineNumber": 75,
+	"endColumn": 50,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/discovery_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/identity_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"modelVersionId": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: NewGUIAuth",
+	"source": "compiler",
+	"startLineNumber": 20,
+	"startColumn": 10,
+	"endLineNumber": 20,
+	"endColumn": 20,
+	"modelVersionId": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: NewTUIAuth",
+	"source": "compiler",
+	"startLineNumber": 22,
+	"startColumn": 10,
+	"endLineNumber": 22,
+	"endColumn": 20,
+	"modelVersionId": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: NewVoiceAuth",
+	"source": "compiler",
+	"startLineNumber": 24,
+	"startColumn": 10,
+	"endLineNumber": 24,
+	"endColumn": 22,
+	"modelVersionId": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: NewCLIAuth",
+	"source": "compiler",
+	"startLineNumber": 26,
+	"startColumn": 10,
+	"endLineNumber": 26,
+	"endColumn": 20,
+	"modelVersionId": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: DeviceCapabilities",
+	"source": "compiler",
+	"startLineNumber": 49,
+	"startColumn": 71,
+	"endLineNumber": 49,
+	"endColumn": 89,
+	"modelVersionId": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: DeviceCapabilities",
+	"source": "compiler",
+	"startLineNumber": 50,
+	"startColumn": 9,
+	"endLineNumber": 50,
+	"endColumn": 27,
+	"modelVersionId": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: GUIEngine",
+	"source": "compiler",
+	"startLineNumber": 65,
+	"startColumn": 8,
+	"endLineNumber": 65,
+	"endColumn": 17,
+	"modelVersionId": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: Credentials",
+	"source": "compiler",
+	"startLineNumber": 92,
+	"startColumn": 45,
+	"endLineNumber": 92,
+	"endColumn": 56,
+	"modelVersionId": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: Credentials",
+	"source": "compiler",
+	"startLineNumber": 99,
+	"startColumn": 9,
+	"endLineNumber": 99,
+	"endColumn": 20,
+	"modelVersionId": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/phases/module_resolution_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/resolver/boot_policy_resolver.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UnusedVar",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UnusedVar"
+		}
+	},
+	"severity": 8,
+	"message": "declared and not used: service",
+	"source": "compiler",
+	"startLineNumber": 35,
 	"startColumn": 2,
-	"endLineNumber": 6,
-	"endColumn": 23,
+	"endLineNumber": 35,
+	"endColumn": 9,
 	"tags": [
 		1
 	],
 	"origin": "extHost1"
 },{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/resolver/boot_policy_resolver.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "InvalidLit",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "InvalidLit"
+		}
+	},
+	"severity": 8,
+	"message": "invalid composite literal type runtime_types.ExecutionContext",
+	"source": "compiler",
+	"startLineNumber": 83,
+	"startColumn": 14,
+	"endLineNumber": 83,
+	"endColumn": 46,
+	"origin": "extHost1"
+},{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/resolver/capabilities_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MismatchedTypes",
 		"target": {
@@ -243,14 +676,14 @@
 	"severity": 8,
 	"message": "invalid operation: capSet & internal_environment.CapCANBus (mismatched types internal_environment.CapabilitySet and internal_environment.Capability)",
 	"source": "compiler",
-	"startLineNumber": 24,
+	"startLineNumber": 23,
 	"startColumn": 5,
-	"endLineNumber": 24,
+	"endLineNumber": 23,
 	"endColumn": 42,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/resolver/capabilities_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MismatchedTypes",
 		"target": {
@@ -264,14 +697,14 @@
 	"severity": 8,
 	"message": "invalid operation: capSet & internal_environment.CapSafetyCritical (mismatched types internal_environment.CapabilitySet and internal_environment.Capability)",
 	"source": "compiler",
-	"startLineNumber": 28,
+	"startLineNumber": 27,
 	"startColumn": 5,
-	"endLineNumber": 28,
+	"endLineNumber": 27,
 	"endColumn": 50,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/resolver/capabilities_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MismatchedTypes",
 		"target": {
@@ -285,14 +718,14 @@
 	"severity": 8,
 	"message": "invalid operation: capSet & internal_environment.CapLocalStorage (mismatched types internal_environment.CapabilitySet and internal_environment.Capability)",
 	"source": "compiler",
-	"startLineNumber": 32,
+	"startLineNumber": 31,
 	"startColumn": 5,
-	"endLineNumber": 32,
+	"endLineNumber": 31,
 	"endColumn": 48,
 	"origin": "extHost1"
 },{
-	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/bootstrap.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/resolver/execution_context_resolver.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -304,79 +737,16 @@
 		}
 	},
 	"severity": 8,
-	"message": "sysCtx.user_setting undefined (type *SystemContext has no field or method user_setting)",
+	"message": "e.boot.PlatformClass undefined (type runtime_types.ExecutionContext has no field or method PlatformClass)",
 	"source": "compiler",
-	"startLineNumber": 84,
-	"startColumn": 35,
-	"endLineNumber": 84,
-	"endColumn": 47,
+	"startLineNumber": 15,
+	"startColumn": 16,
+	"endLineNumber": 15,
+	"endColumn": 29,
 	"origin": "extHost1"
 },{
-	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/bootstrap.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "MissingFieldOrMethod",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "MissingFieldOrMethod"
-		}
-	},
-	"severity": 8,
-	"message": "sysCtx.Session.Mode undefined (type *user_setting.UserSession has no field or method Mode)",
-	"source": "compiler",
-	"startLineNumber": 85,
-	"startColumn": 44,
-	"endLineNumber": 85,
-	"endColumn": 48,
-	"origin": "extHost1"
-},{
-	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/bootstrap.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "MissingFieldOrMethod",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "MissingFieldOrMethod"
-		}
-	},
-	"severity": 8,
-	"message": "sysCtx.Session.Tier undefined (type *user_setting.UserSession has no field or method Tier)",
-	"source": "compiler",
-	"startLineNumber": 86,
-	"startColumn": 34,
-	"endLineNumber": 86,
-	"endColumn": 38,
-	"origin": "extHost1"
-},{
-	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/bootstrap.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "MismatchedTypes",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "MismatchedTypes"
-		}
-	},
-	"severity": 8,
-	"message": "invalid operation: sys.Session.Config != nil (mismatched types user_setting.UserCoreConfig and untyped nil)",
-	"source": "compiler",
-	"startLineNumber": 155,
-	"startColumn": 27,
-	"endLineNumber": 155,
-	"endColumn": 30,
-	"origin": "extHost1"
-},{
-	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/bootstrap.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/resolver/execution_context_resolver.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "IncompatibleAssign",
 		"target": {
@@ -388,16 +758,163 @@
 		}
 	},
 	"severity": 8,
-	"message": "cannot use sys.Session.Config (variable of struct type user_setting.UserCoreConfig) as *user_setting.UserConfig value in assignment",
+	"message": "cannot use e.boot.Capabilities (value of type func() internal_environment.CapabilitySet) as internal_environment.CapabilitySet value in return statement",
 	"source": "compiler",
-	"startLineNumber": 156,
+	"startLineNumber": 19,
+	"startColumn": 9,
+	"endLineNumber": 19,
+	"endColumn": 28,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/resolver/execution_context_resolver.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "e.boot.TrustLevel undefined (type runtime_types.ExecutionContext has no field or method TrustLevel)",
+	"source": "compiler",
+	"startLineNumber": 23,
 	"startColumn": 16,
-	"endLineNumber": 156,
-	"endColumn": 34,
+	"endLineNumber": 23,
+	"endColumn": 26,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/resolver/execution_context_resolver.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "e.boot.Permissions undefined (type runtime_types.ExecutionContext has no field or method Permissions)",
+	"source": "compiler",
+	"startLineNumber": 27,
+	"startColumn": 16,
+	"endLineNumber": 27,
+	"endColumn": 27,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/bootstrap/resolver/execution_context_resolver.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "e.boot.Service undefined (type runtime_types.ExecutionContext has no field or method Service)",
+	"source": "compiler",
+	"startLineNumber": 31,
+	"startColumn": 16,
+	"endLineNumber": 31,
+	"endColumn": 23,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/app.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: modules_adapter.AdaptModules",
+	"source": "compiler",
+	"startLineNumber": 49,
+	"startColumn": 29,
+	"endLineNumber": 49,
+	"endColumn": 41,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/attempt_boot.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "InvalidLit",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "InvalidLit"
+		}
+	},
+	"severity": 8,
+	"message": "invalid composite literal type runtime_types.ExecutionContext",
+	"source": "compiler",
+	"startLineNumber": 22,
+	"startColumn": 3,
+	"endLineNumber": 22,
+	"endColumn": 47,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/attempt_boot.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "WrongAssignCount",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "WrongAssignCount"
+		}
+	},
+	"severity": 8,
+	"message": "assignment mismatch: 2 variables but bootstrap_resolver.ResolveExecutionContext returns 1 value",
+	"source": "compiler",
+	"startLineNumber": 41,
+	"startColumn": 18,
+	"endLineNumber": 41,
+	"endColumn": 78,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/cmd/aios/attempt_boot.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "InvalidIfaceAssign",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "InvalidIfaceAssign"
+		}
+	},
+	"severity": 8,
+	"message": "cannot use bootCtx (variable of type *runtime_types.ExecutionContext) as runtime_types.ExecutionContext value in argument to bootstrap_resolver.ResolveExecutionContext: *runtime_types.ExecutionContext does not implement runtime_types.ExecutionContext (type *runtime_types.ExecutionContext is pointer to interface, not interface)",
+	"source": "compiler",
+	"startLineNumber": 41,
+	"startColumn": 61,
+	"endLineNumber": 41,
+	"endColumn": 68,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_gatekeeper.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UnusedVar",
 		"target": {
@@ -421,7 +938,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "BrokenImport",
 		"target": {
@@ -435,14 +952,14 @@
 	"severity": 8,
 	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision (no required module provides package \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision\")",
 	"source": "compiler",
-	"startLineNumber": 16,
+	"startLineNumber": 19,
 	"startColumn": 20,
-	"endLineNumber": 16,
+	"endLineNumber": 19,
 	"endColumn": 101,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -456,14 +973,14 @@
 	"severity": 8,
 	"message": "undefined: internal_verification.ToMask",
 	"source": "compiler",
-	"startLineNumber": 452,
+	"startLineNumber": 460,
 	"startColumn": 37,
-	"endLineNumber": 452,
+	"endLineNumber": 460,
 	"endColumn": 43,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -477,14 +994,14 @@
 	"severity": 8,
 	"message": "session.PermMask undefined (type *user_setting.UserSession has no field or method PermMask)",
 	"source": "compiler",
-	"startLineNumber": 468,
+	"startLineNumber": 476,
 	"startColumn": 10,
-	"endLineNumber": 468,
+	"endLineNumber": 476,
 	"endColumn": 18,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -498,14 +1015,14 @@
 	"severity": 8,
 	"message": "cfg.WithDefaults undefined (type *user_setting.CustomizedConfig has no field or method WithDefaults)",
 	"source": "compiler",
-	"startLineNumber": 483,
+	"startLineNumber": 491,
 	"startColumn": 6,
-	"endLineNumber": 483,
+	"endLineNumber": 491,
 	"endColumn": 18,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "IncompatibleAssign",
 		"target": {
@@ -519,14 +1036,14 @@
 	"severity": 8,
 	"message": "cannot use &user_setting.UserConfig{…} (value of type *user_setting.UserConfig) as user_setting.UserCoreConfig value in assignment",
 	"source": "compiler",
-	"startLineNumber": 485,
+	"startLineNumber": 493,
 	"startColumn": 19,
-	"endLineNumber": 491,
+	"endLineNumber": 499,
 	"endColumn": 3,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -540,14 +1057,14 @@
 	"severity": 8,
 	"message": "cfg.WithDefaults undefined (type user_setting.CustomizedConfig has no field or method WithDefaults)",
 	"source": "compiler",
-	"startLineNumber": 515,
+	"startLineNumber": 523,
 	"startColumn": 6,
-	"endLineNumber": 515,
+	"endLineNumber": 523,
 	"endColumn": 18,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -561,14 +1078,14 @@
 	"severity": 8,
 	"message": "cfg.Migrate undefined (type user_setting.CustomizedConfig has no field or method Migrate)",
 	"source": "compiler",
-	"startLineNumber": 516,
+	"startLineNumber": 524,
 	"startColumn": 6,
-	"endLineNumber": 516,
+	"endLineNumber": 524,
 	"endColumn": 13,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "IncompatibleAssign",
 		"target": {
@@ -582,14 +1099,14 @@
 	"severity": 8,
 	"message": "cannot use newCfg (variable of type *user_setting.CustomizedConfig) as user_setting.UserCoreConfig value in assignment",
 	"source": "compiler",
-	"startLineNumber": 539,
+	"startLineNumber": 547,
 	"startColumn": 20,
-	"endLineNumber": 539,
+	"endLineNumber": 547,
 	"endColumn": 26,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -603,35 +1120,56 @@
 	"severity": 8,
 	"message": "session.Orchestrator undefined (type *user_setting.UserSession has no field or method Orchestrator)",
 	"source": "compiler",
-	"startLineNumber": 541,
+	"startLineNumber": 549,
 	"startColumn": 26,
-	"endLineNumber": 541,
+	"endLineNumber": 549,
 	"endColumn": 38,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
-		"value": "UndeclaredName",
+		"value": "WrongAssignCount",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
+			"fragment": "WrongAssignCount"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: bootstrap_resolver",
+	"message": "assignment mismatch: 1 variable but bootstrap_resolver.DeviceCapabilitiesResolver returns 2 values",
 	"source": "compiler",
-	"startLineNumber": 549,
+	"startLineNumber": 557,
 	"startColumn": 8,
-	"endLineNumber": 549,
-	"endColumn": 26,
+	"endLineNumber": 557,
+	"endColumn": 55,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "WrongArgCount",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "WrongArgCount"
+		}
+	},
+	"severity": 8,
+	"message": "not enough arguments in call to bootstrap_resolver.DeviceCapabilitiesResolver\n\thave ()\n\twant (*internal_environment.EnvConfig, internal_environment.CapabilitySet)",
+	"source": "compiler",
+	"startLineNumber": 557,
+	"startColumn": 54,
+	"endLineNumber": 557,
+	"endColumn": 54,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -643,16 +1181,16 @@
 		}
 	},
 	"severity": 8,
-	"message": "undefined: boot_phase.BuildOrchestrator",
+	"message": "undefined: bootstrap_phase.BuildOrchestrator",
 	"source": "compiler",
-	"startLineNumber": 551,
-	"startColumn": 21,
-	"endLineNumber": 551,
-	"endColumn": 38,
+	"startLineNumber": 559,
+	"startColumn": 26,
+	"endLineNumber": 559,
+	"endColumn": 43,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "IncompatibleAssign",
 		"target": {
@@ -664,121 +1202,121 @@
 		}
 	},
 	"severity": 8,
-	"message": "cannot use session.Config (variable of struct type user_setting.UserCoreConfig) as *user_setting.CustomizedConfig value in argument to boot_phase.ResolveInteractionMode",
+	"message": "cannot use session.Config (variable of struct type user_setting.UserCoreConfig) as *user_setting.CustomizedConfig value in argument to mutual_interaction.ResolveInteractionMode",
 	"source": "compiler",
-	"startLineNumber": 554,
-	"startColumn": 44,
-	"endLineNumber": 554,
-	"endColumn": 58,
+	"startLineNumber": 562,
+	"startColumn": 52,
+	"endLineNumber": 562,
+	"endColumn": 66,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
-		"value": "MissingFieldOrMethod",
+		"value": "UndeclaredImportedName",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "MissingFieldOrMethod"
+			"fragment": "UndeclaredImportedName"
 		}
 	},
 	"severity": 8,
-	"message": "session.Capabilities undefined (type *user_setting.UserSession has no field or method Capabilities)",
+	"message": "undefined: bootstrap.Capabilities",
 	"source": "compiler",
-	"startLineNumber": 556,
-	"startColumn": 10,
-	"endLineNumber": 556,
+	"startLineNumber": 564,
+	"startColumn": 12,
+	"endLineNumber": 564,
+	"endColumn": 24,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: bootstrap.CapProfile",
+	"source": "compiler",
+	"startLineNumber": 565,
+	"startColumn": 12,
+	"endLineNumber": 565,
 	"endColumn": 22,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
-		"value": "MissingFieldOrMethod",
+		"value": "UndeclaredImportedName",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "MissingFieldOrMethod"
+			"fragment": "UndeclaredImportedName"
 		}
 	},
 	"severity": 8,
-	"message": "session.CapProfile undefined (type *user_setting.UserSession has no field or method CapProfile)",
+	"message": "undefined: bootstrap.Mode",
 	"source": "compiler",
-	"startLineNumber": 557,
-	"startColumn": 10,
-	"endLineNumber": 557,
-	"endColumn": 20,
+	"startLineNumber": 566,
+	"startColumn": 12,
+	"endLineNumber": 566,
+	"endColumn": 16,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
-		"value": "MissingFieldOrMethod",
+		"value": "UndeclaredImportedName",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "MissingFieldOrMethod"
+			"fragment": "UndeclaredImportedName"
 		}
 	},
 	"severity": 8,
-	"message": "session.Mode undefined (type *user_setting.UserSession has no field or method Mode)",
+	"message": "undefined: bootstrap.Orchestrator",
 	"source": "compiler",
-	"startLineNumber": 558,
-	"startColumn": 10,
-	"endLineNumber": 558,
-	"endColumn": 14,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/auth/auth_service.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "MissingFieldOrMethod",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "MissingFieldOrMethod"
-		}
-	},
-	"severity": 8,
-	"message": "session.Orchestrator undefined (type *user_setting.UserSession has no field or method Orchestrator)",
-	"source": "compiler",
-	"startLineNumber": 559,
-	"startColumn": 10,
-	"endLineNumber": 559,
-	"endColumn": 22,
+	"startLineNumber": 567,
+	"startColumn": 12,
+	"endLineNumber": 567,
+	"endColumn": 24,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/policy/policy_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
-		"value": "IncompatibleAssign",
+		"value": "MissingFieldOrMethod",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "IncompatibleAssign"
+			"fragment": "MissingFieldOrMethod"
 		}
 	},
 	"severity": 8,
-	"message": "cannot use p.RequireCaps (variable of uint64 type internal_environment.CapabilitySet) as internal_environment.Capability value in argument to ctx.Capabilities.Has",
+	"message": "bootctx.Capabilities.Has undefined (type func() internal_environment.CapabilitySet has no field or method Has)",
 	"source": "compiler",
 	"startLineNumber": 28,
 	"startColumn": 27,
 	"endLineNumber": 28,
-	"endColumn": 40,
+	"endColumn": 30,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/policy/registry.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "IncompatibleAssign",
 		"target": {
@@ -796,11 +1334,10 @@
 	"startColumn": 16,
 	"endLineNumber": 12,
 	"endColumn": 47,
-	"modelVersionId": 2,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/policy/registry.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "IncompatibleAssign",
 		"target": {
@@ -818,11 +1355,10 @@
 	"startColumn": 16,
 	"endLineNumber": 21,
 	"endColumn": 54,
-	"modelVersionId": 2,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/policy/registry.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "IncompatibleAssign",
 		"target": {
@@ -840,11 +1376,31 @@
 	"startColumn": 16,
 	"endLineNumber": 33,
 	"endColumn": 53,
-	"modelVersionId": 2,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/decision/decision_engine.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "e.ctx.Permissions undefined (type runtime_types.ExecutionContext has no field or method Permissions)",
+	"source": "compiler",
+	"startLineNumber": 20,
+	"startColumn": 17,
+	"endLineNumber": 20,
+	"endColumn": 28,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/core/security/decision/permission_deriver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -865,7 +1421,18 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/boot/boot_marker.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/boot/boot_marker.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "BrokenImport",
 		"target": {
@@ -885,10 +1452,21 @@
 	"endColumn": 105,
 	"origin": "extHost1"
 },{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/boot/boot_mode.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/environment/attestation.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"severity": 8,
-	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
 	"source": "go list",
 	"startLineNumber": 1,
 	"startColumn": 1,
@@ -897,9 +1475,9 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/environment/capabilities.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"severity": 8,
-	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
 	"source": "go list",
 	"startLineNumber": 1,
 	"startColumn": 1,
@@ -908,7 +1486,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/environment/capabilities.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MismatchedTypes",
 		"target": {
@@ -922,14 +1500,14 @@
 	"severity": 8,
 	"message": "invalid operation: *c |= cap (mismatched types CapabilitySet and Capability)",
 	"source": "compiler",
-	"startLineNumber": 8,
+	"startLineNumber": 35,
 	"startColumn": 2,
-	"endLineNumber": 8,
+	"endLineNumber": 35,
 	"endColumn": 4,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/environment/capabilities.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MismatchedTypes",
 		"target": {
@@ -943,14 +1521,14 @@
 	"severity": 8,
 	"message": "invalid operation: *c &= ^cap (mismatched types CapabilitySet and Capability)",
 	"source": "compiler",
-	"startLineNumber": 12,
+	"startLineNumber": 39,
 	"startColumn": 2,
-	"endLineNumber": 12,
+	"endLineNumber": 39,
 	"endColumn": 4,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/environment/capabilities.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MismatchedTypes",
 		"target": {
@@ -964,14 +1542,14 @@
 	"severity": 8,
 	"message": "invalid operation: c & cap (mismatched types CapabilitySet and Capability)",
 	"source": "compiler",
-	"startLineNumber": 16,
+	"startLineNumber": 43,
 	"startColumn": 9,
-	"endLineNumber": 16,
+	"endLineNumber": 43,
 	"endColumn": 14,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/environment/capabilities.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MismatchedTypes",
 		"target": {
@@ -985,16 +1563,16 @@
 	"severity": 8,
 	"message": "invalid operation: set |= cap (mismatched types CapabilitySet and Capability)",
 	"source": "compiler",
-	"startLineNumber": 54,
+	"startLineNumber": 81,
 	"startColumn": 4,
-	"endLineNumber": 54,
+	"endLineNumber": 81,
 	"endColumn": 7,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/environment/device_identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"severity": 8,
-	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
 	"source": "go list",
 	"startLineNumber": 1,
 	"startColumn": 1,
@@ -1003,7 +1581,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/environment/device_identity.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "BrokenImport",
 		"target": {
@@ -1023,10 +1601,10 @@
 	"endColumn": 90,
 	"origin": "extHost1"
 },{
-	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/environment/discovery_profile.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/environment/discovery_profile.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"severity": 8,
-	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
 	"source": "go list",
 	"startLineNumber": 1,
 	"startColumn": 1,
@@ -1035,9 +1613,9 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/environment/env_config.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"severity": 8,
-	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
 	"source": "go list",
 	"startLineNumber": 1,
 	"startColumn": 1,
@@ -1046,7 +1624,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/environment/env_config.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "BrokenImport",
 		"target": {
@@ -1066,22 +1644,10 @@
 	"endColumn": 105,
 	"origin": "extHost1"
 },{
-	"resource": "/c:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/environment/hardware_profile.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/environment/hardware_profile.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"severity": 8,
-	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
-	"source": "go list",
-	"startLineNumber": 1,
-	"startColumn": 1,
-	"endLineNumber": 1,
-	"endColumn": 1,
-	"modelVersionId": 1,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/user/settings.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"severity": 8,
-	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user]",
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
 	"source": "go list",
 	"startLineNumber": 1,
 	"startColumn": 1,
@@ -1090,7 +1656,18 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/user/settings.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/user/settings.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "BrokenImport",
 		"target": {
@@ -1111,7 +1688,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/user/settings.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -1132,7 +1709,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/user/settings.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1153,7 +1730,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/user/settings.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1174,7 +1751,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/user/settings.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1195,7 +1772,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/user/settings.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1216,7 +1793,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/user/settings.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1237,7 +1814,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/user/settings.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1258,7 +1835,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/user/settings.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1279,7 +1856,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/user/settings.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1299,29 +1876,61 @@
 	"endColumn": 12,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/verification/permissions.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/verification/security_config.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
-		"value": "BrokenImport",
+		"value": "InvalidRecv",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
+			"fragment": "InvalidRecv"
 		}
 	},
 	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user\")",
+	"message": "cannot define new methods on non-local type user_setting.CustomizedConfig",
 	"source": "compiler",
-	"startLineNumber": 5,
-	"startColumn": 21,
-	"endLineNumber": 5,
-	"endColumn": 96,
+	"startLineNumber": 13,
+	"startColumn": 9,
+	"endLineNumber": 13,
+	"endColumn": 38,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/internal/schema/verification/security_config.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "InvalidRecv",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "InvalidRecv"
+		}
+	},
+	"severity": 8,
+	"message": "cannot define new methods on non-local type user_setting.CustomizedConfig",
+	"source": "compiler",
+	"startLineNumber": 33,
+	"startColumn": 10,
+	"endLineNumber": 33,
+	"endColumn": 39,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/adapter/module_adapter.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "missing ',' in argument list",
+	"source": "syntax",
+	"startLineNumber": 43,
+	"startColumn": 11,
+	"endLineNumber": 43,
+	"endColumn": 11,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/filter/filter_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -1339,11 +1948,31 @@
 	"startColumn": 17,
 	"endLineNumber": 16,
 	"endColumn": 37,
-	"modelVersionId": 3,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/filter/filter_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "ctx.Capabilities.HasAll undefined (type func() internal_environment.CapabilitySet has no field or method HasAll)",
+	"source": "compiler",
+	"startLineNumber": 18,
+	"startColumn": 24,
+	"endLineNumber": 18,
+	"endColumn": 30,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/filter/filter_module.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -1361,11 +1990,10 @@
 	"startColumn": 9,
 	"endLineNumber": 22,
 	"endColumn": 16,
-	"modelVersionId": 3,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/ingestion/ingestion_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "BrokenImport",
 		"target": {
@@ -1379,14 +2007,14 @@
 	"severity": 8,
 	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/file (no required module provides package \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/file\")",
 	"source": "compiler",
-	"startLineNumber": 12,
+	"startLineNumber": 11,
 	"startColumn": 2,
-	"endLineNumber": 12,
+	"endLineNumber": 11,
 	"endColumn": 69,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/ingestion/ingestion_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "InvalidIfaceAssign",
 		"target": {
@@ -1398,7 +2026,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cannot use &IngestionModule{…} (value of type *IngestionModule) as domain_shared.DomainModule value in return statement: *IngestionModule does not implement domain_shared.DomainModule (wrong type for method Init)\n\t\thave Init(*bootstrap.BootContext) error\n\t\twant Init(context.Context) error",
+	"message": "cannot use &IngestionModule{…} (value of type *IngestionModule) as domain_shared.DomainModule value in return statement: *IngestionModule does not implement domain_shared.DomainModule (wrong type for method Init)\n\t\thave Init(runtime_types.ExecutionContext) error\n\t\twant Init(context.Context) error",
 	"source": "compiler",
 	"startLineNumber": 25,
 	"startColumn": 9,
@@ -1407,7 +2035,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/ingestion/ingestion_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1428,7 +2056,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/ingestion/ingestion_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1449,7 +2077,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/ingestion/ingestion_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -1470,7 +2098,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/ingestion/ingestion_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1491,7 +2119,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/ingestion/ingestion_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1512,7 +2140,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/ingestion/ingestion_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -1533,7 +2161,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/protocols/audit_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "InvalidIfaceAssign",
 		"target": {
@@ -1545,7 +2173,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cannot use m (variable of type *AuditModule) as domain_shared.DomainModule value in return statement: *AuditModule does not implement domain_shared.DomainModule (wrong type for method Init)\n\t\thave Init(*bootstrap.BootContext) error\n\t\twant Init(context.Context) error",
+	"message": "cannot use m (variable of type *AuditModule) as domain_shared.DomainModule value in return statement: *AuditModule does not implement domain_shared.DomainModule (wrong type for method Init)\n\t\thave Init(runtime_types.ExecutionContext) error\n\t\twant Init(context.Context) error",
 	"source": "compiler",
 	"startLineNumber": 26,
 	"startColumn": 9,
@@ -1554,7 +2182,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/protocols/audit_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1575,7 +2203,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/protocols/audit_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1596,7 +2224,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/storage/database_sink_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1617,7 +2245,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/storage/database_sink_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1638,7 +2266,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/storage/database_sink_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1653,13 +2281,13 @@
 	"message": "undefined: ModuleDomain",
 	"source": "compiler",
 	"startLineNumber": 127,
-	"startColumn": 80,
+	"startColumn": 88,
 	"endLineNumber": 127,
-	"endColumn": 92,
+	"endColumn": 100,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/storage/database_sink_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1680,28 +2308,28 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/telemetry/telemetry_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
-		"value": "UndeclaredName",
+		"value": "InvalidIfaceAssign",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
+			"fragment": "InvalidIfaceAssign"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: BaseModule",
+	"message": "cannot use &TelemetryModule{…} (value of type *TelemetryModule) as domain_shared.DomainModule value in return statement: *TelemetryModule does not implement domain_shared.DomainModule (wrong type for method Init)\n\t\thave Init(runtime_types.ExecutionContext) error\n\t\twant Init(context.Context) error",
 	"source": "compiler",
-	"startLineNumber": 16,
-	"startColumn": 2,
-	"endLineNumber": 16,
-	"endColumn": 12,
+	"startLineNumber": 30,
+	"startColumn": 9,
+	"endLineNumber": 35,
+	"endColumn": 3,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/telemetry/telemetry_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1722,7 +2350,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/telemetry/telemetry_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -1743,7 +2371,133 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/telemetry/telemetry_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "m.ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)",
+	"source": "compiler",
+	"startLineNumber": 42,
+	"startColumn": 27,
+	"endLineNumber": 42,
+	"endColumn": 33,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/telemetry/telemetry_module.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "m.ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)",
+	"source": "compiler",
+	"startLineNumber": 43,
+	"startColumn": 9,
+	"endLineNumber": 43,
+	"endColumn": 15,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/telemetry/telemetry_module.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "m.ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)",
+	"source": "compiler",
+	"startLineNumber": 52,
+	"startColumn": 27,
+	"endLineNumber": 52,
+	"endColumn": 33,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/telemetry/telemetry_module.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "m.ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)",
+	"source": "compiler",
+	"startLineNumber": 53,
+	"startColumn": 9,
+	"endLineNumber": 53,
+	"endColumn": 15,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/telemetry/telemetry_module.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "m.ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)",
+	"source": "compiler",
+	"startLineNumber": 60,
+	"startColumn": 27,
+	"endLineNumber": 60,
+	"endColumn": 33,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/telemetry/telemetry_module.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "m.ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)",
+	"source": "compiler",
+	"startLineNumber": 61,
+	"startColumn": 9,
+	"endLineNumber": 61,
+	"endColumn": 15,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/telemetry/telemetry_module.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1764,7 +2518,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/data_transport/telemetry/telemetry_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -1785,7 +2539,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/audio/capture/audio_module_entry.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "BrokenImport",
 		"target": {
@@ -1799,191 +2553,35 @@
 	"severity": 8,
 	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules (no required module provides package \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules\")",
 	"source": "compiler",
-	"startLineNumber": 14,
+	"startLineNumber": 13,
 	"startColumn": 2,
-	"endLineNumber": 14,
+	"endLineNumber": 13,
 	"endColumn": 64,
-	"modelVersionId": 3,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/audio/capture/audio_module_entry.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
-		"value": "UndeclaredName",
+		"value": "InvalidIfaceAssign",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
+			"fragment": "InvalidIfaceAssign"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: kernel_lifecycle",
+	"message": "cannot use m (variable of type *AudioModule) as domain_shared.DomainModule value in return statement: *AudioModule does not implement domain_shared.DomainModule (wrong type for method Init)\n\t\thave Init(runtime_types.ExecutionContext) error\n\t\twant Init(context.Context) error",
 	"source": "compiler",
-	"startLineNumber": 30,
-	"startColumn": 2,
-	"endLineNumber": 30,
-	"endColumn": 18,
-	"modelVersionId": 3,
+	"startLineNumber": 52,
+	"startColumn": 9,
+	"endLineNumber": 52,
+	"endColumn": 10,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/audio/capture/audio_module_entry.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: WAVWriter",
-	"source": "compiler",
-	"startLineNumber": 33,
-	"startColumn": 13,
-	"endLineNumber": 33,
-	"endColumn": 22,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/audio/capture/audio_module_entry.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: FeatureExtractor",
-	"source": "compiler",
-	"startLineNumber": 34,
-	"startColumn": 13,
-	"endLineNumber": 34,
-	"endColumn": 29,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/audio/capture/audio_module_entry.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: kernel_lifecycle",
-	"source": "compiler",
-	"startLineNumber": 44,
-	"startColumn": 23,
-	"endLineNumber": 44,
-	"endColumn": 39,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/audio/capture/audio_module_entry.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "MissingFieldOrMethod",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "MissingFieldOrMethod"
-		}
-	},
-	"severity": 8,
-	"message": "m.SetName undefined (type *AudioModule has no field or method SetName)",
-	"source": "compiler",
-	"startLineNumber": 46,
-	"startColumn": 4,
-	"endLineNumber": 46,
-	"endColumn": 11,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/audio/capture/audio_module_entry.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "MissingFieldOrMethod",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "MissingFieldOrMethod"
-		}
-	},
-	"severity": 8,
-	"message": "m.SetDeps undefined (type *AudioModule has no field or method SetDeps)",
-	"source": "compiler",
-	"startLineNumber": 47,
-	"startColumn": 4,
-	"endLineNumber": 47,
-	"endColumn": 11,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/audio/capture/audio_module_entry.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: NewWAVWriter",
-	"source": "compiler",
-	"startLineNumber": 75,
-	"startColumn": 13,
-	"endLineNumber": 75,
-	"endColumn": 25,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/audio/capture/audio_module_entry.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: NewFeatureExtractor",
-	"source": "compiler",
-	"startLineNumber": 76,
-	"startColumn": 16,
-	"endLineNumber": 76,
-	"endColumn": 35,
-	"modelVersionId": 3,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/audio/capture/audio_module_entry.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "IncompatibleAssign",
 		"target": {
@@ -1997,15 +2595,14 @@
 	"severity": 8,
 	"message": "cannot use internal_environment.CapLocalStorage | internal_environment.CapNetwork (constant 65792 of uint64 type internal_environment.Capability) as internal_environment.CapabilitySet value in return statement",
 	"source": "compiler",
-	"startLineNumber": 155,
+	"startLineNumber": 159,
 	"startColumn": 9,
-	"endLineNumber": 155,
+	"endLineNumber": 159,
 	"endColumn": 79,
-	"modelVersionId": 3,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/audio/engine/voice_engine.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -2019,14 +2616,14 @@
 	"severity": 8,
 	"message": "ve.audio.outChan undefined (cannot refer to unexported field outChan)",
 	"source": "compiler",
-	"startLineNumber": 48,
+	"startLineNumber": 49,
 	"startColumn": 30,
-	"endLineNumber": 48,
+	"endLineNumber": 49,
 	"endColumn": 37,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/audio/engine/voice_engine.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2040,14 +2637,14 @@
 	"severity": 8,
 	"message": "undefined: sampleRate",
 	"source": "compiler",
-	"startLineNumber": 63,
+	"startLineNumber": 64,
 	"startColumn": 20,
-	"endLineNumber": 63,
+	"endLineNumber": 64,
 	"endColumn": 30,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/cognition/cognition_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "InvalidIfaceAssign",
 		"target": {
@@ -2059,7 +2656,7 @@
 		}
 	},
 	"severity": 8,
-	"message": "cannot use &CognitionModule{} (value of type *CognitionModule) as domain_shared.DomainModule value in return statement: *CognitionModule does not implement domain_shared.DomainModule (wrong type for method Init)\n\t\thave Init(*bootstrap.BootContext) error\n\t\twant Init(context.Context) error",
+	"message": "cannot use &CognitionModule{} (value of type *CognitionModule) as domain_shared.DomainModule value in return statement: *CognitionModule does not implement domain_shared.DomainModule (wrong type for method Init)\n\t\thave Init(runtime_types.ExecutionContext) error\n\t\twant Init(context.Context) error",
 	"source": "compiler",
 	"startLineNumber": 24,
 	"startColumn": 9,
@@ -2068,7 +2665,28 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/cognition/cognition_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)",
+	"source": "compiler",
+	"startLineNumber": 35,
+	"startColumn": 7,
+	"endLineNumber": 35,
+	"endColumn": 13,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/cognition/cognition_module.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2089,7 +2707,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/cognition/cognition_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2110,7 +2728,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/cognition/cognition_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2131,7 +2749,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/cognition/cognition_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2152,7 +2770,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/cognition/cognition_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2173,7 +2791,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/cognition/cognition_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2194,7 +2812,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/cognition/cognition_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2215,28 +2833,28 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/industrial/industrial_protocol_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
-		"value": "UndeclaredName",
+		"value": "InvalidIfaceAssign",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
+			"fragment": "InvalidIfaceAssign"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: BaseModule",
+	"message": "cannot use &IndustrialProtocolModule{…} (value of type *IndustrialProtocolModule) as domain_shared.DomainModule value in return statement: *IndustrialProtocolModule does not implement domain_shared.DomainModule (wrong type for method Init)\n\t\thave Init(runtime_types.ExecutionContext) error\n\t\twant Init(context.Context) error",
 	"source": "compiler",
-	"startLineNumber": 15,
-	"startColumn": 2,
-	"endLineNumber": 15,
-	"endColumn": 12,
+	"startLineNumber": 22,
+	"startColumn": 9,
+	"endLineNumber": 27,
+	"endColumn": 3,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/industrial/industrial_protocol_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -2257,7 +2875,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/industrial/industrial_protocol_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingLitField",
 		"target": {
@@ -2278,7 +2896,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/industrial/industrial_protocol_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2299,7 +2917,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/industrial/industrial_protocol_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2319,29 +2937,8 @@
 	"endColumn": 21,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/inference/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: BaseModule",
-	"source": "compiler",
-	"startLineNumber": 61,
-	"startColumn": 2,
-	"endLineNumber": 61,
-	"endColumn": 12,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/inference/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/industrial/industrial_protocol_module.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -2353,16 +2950,16 @@
 		}
 	},
 	"severity": 8,
-	"message": "m.SetName undefined (type *InferenceModule has no field or method SetName)",
+	"message": "m.ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)",
 	"source": "compiler",
-	"startLineNumber": 78,
-	"startColumn": 4,
-	"endLineNumber": 78,
-	"endColumn": 11,
+	"startLineNumber": 66,
+	"startColumn": 27,
+	"endLineNumber": 66,
+	"endColumn": 33,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/inference/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/industrial/industrial_protocol_module.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -2374,16 +2971,37 @@
 		}
 	},
 	"severity": 8,
-	"message": "m.SetDeps undefined (type *InferenceModule has no field or method SetDeps)",
+	"message": "m.ctx.Logger undefined (type runtime_types.ExecutionContext has no field or method Logger)",
 	"source": "compiler",
-	"startLineNumber": 79,
-	"startColumn": 4,
-	"endLineNumber": 79,
-	"endColumn": 11,
+	"startLineNumber": 67,
+	"startColumn": 9,
+	"endLineNumber": 67,
+	"endColumn": 15,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/inference/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "InvalidIfaceAssign",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "InvalidIfaceAssign"
+		}
+	},
+	"severity": 8,
+	"message": "cannot use m (variable of type *InferenceModule) as domain_shared.DomainModule value in return statement: *InferenceModule does not implement domain_shared.DomainModule (wrong type for method Init)\n\t\thave Init(runtime_types.ExecutionContext) error\n\t\twant Init(context.Context) error",
+	"source": "compiler",
+	"startLineNumber": 81,
+	"startColumn": 9,
+	"endLineNumber": 81,
+	"endColumn": 10,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/inference/inference_module.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -2397,14 +3015,14 @@
 	"severity": 8,
 	"message": "m.name undefined (type *InferenceModule has no field or method name, but does have method Name)",
 	"source": "compiler",
-	"startLineNumber": 228,
+	"startLineNumber": 229,
 	"startColumn": 11,
-	"endLineNumber": 228,
+	"endLineNumber": 229,
 	"endColumn": 15,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/inference/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -2416,16 +3034,16 @@
 		}
 	},
 	"severity": 8,
-	"message": "m.deps undefined (type *InferenceModule has no field or method deps)",
+	"message": "m.deps undefined (cannot refer to unexported field deps)",
 	"source": "compiler",
-	"startLineNumber": 232,
+	"startLineNumber": 233,
 	"startColumn": 11,
-	"endLineNumber": 232,
+	"endLineNumber": 233,
 	"endColumn": 15,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/inference/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2439,14 +3057,14 @@
 	"severity": 8,
 	"message": "undefined: ModuleCategory",
 	"source": "compiler",
-	"startLineNumber": 235,
+	"startLineNumber": 236,
 	"startColumn": 38,
-	"endLineNumber": 235,
+	"endLineNumber": 236,
 	"endColumn": 52,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/domain/inference/inference_module.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredName",
 		"target": {
@@ -2460,38 +3078,14 @@
 	"severity": 8,
 	"message": "undefined: ModuleDomain",
 	"source": "compiler",
-	"startLineNumber": 236,
+	"startLineNumber": 237,
 	"startColumn": 9,
-	"endLineNumber": 236,
+	"endLineNumber": 237,
 	"endColumn": 21,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/kernel_extension/adapters/legacy/adapter.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UnusedImport",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UnusedImport"
-		}
-	},
-	"severity": 8,
-	"message": "\"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/data_transport/ingress\" imported as transport_ingress and not used",
-	"source": "compiler",
-	"startLineNumber": 8,
-	"startColumn": 2,
-	"endLineNumber": 8,
-	"endColumn": 87,
-	"tags": [
-		1
-	],
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/kernel_extension/adapters/legacy/adapter.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "MissingFieldOrMethod",
 		"target": {
@@ -2511,134 +3105,29 @@
 	"endColumn": 25,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/kernel_extension/adapters/legacy/adapter.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: ingress",
-	"source": "compiler",
-	"startLineNumber": 36,
-	"startColumn": 7,
-	"endLineNumber": 36,
-	"endColumn": 14,
-	"origin": "extHost1"
-},{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/kernel_extension/supervisor/module_dependency_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
-		"value": "BrokenImport",
+		"value": "MissingFieldOrMethod",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "BrokenImport"
+			"fragment": "MissingFieldOrMethod"
 		}
 	},
 	"severity": 8,
-	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules (no required module provides package \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules\")",
+	"message": "m.DependsOn undefined (type domain_shared.DomainModule has no field or method DependsOn)",
 	"source": "compiler",
-	"startLineNumber": 16,
-	"startColumn": 2,
-	"endLineNumber": 16,
-	"endColumn": 64,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/kernel_extension/supervisor/module_dependency_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: kernel_lifecycle",
-	"source": "compiler",
-	"startLineNumber": 19,
-	"startColumn": 33,
-	"endLineNumber": 19,
-	"endColumn": 49,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/kernel_extension/supervisor/module_dependency_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: kernel_lifecycle",
-	"source": "compiler",
-	"startLineNumber": 19,
-	"startColumn": 67,
-	"endLineNumber": 19,
-	"endColumn": 83,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/kernel_extension/supervisor/module_dependency_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: kernel_lifecycle",
-	"source": "compiler",
-	"startLineNumber": 20,
-	"startColumn": 31,
-	"endLineNumber": 20,
-	"endColumn": 47,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/modules/kernel_extension/supervisor/module_dependency_resolver.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: kernel_lifecycle",
-	"source": "compiler",
-	"startLineNumber": 47,
-	"startColumn": 16,
-	"endLineNumber": 47,
-	"endColumn": 32,
+	"startLineNumber": 31,
+	"startColumn": 25,
+	"endLineNumber": 31,
+	"endColumn": 34,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/pkg/logging/reflective_logger.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -2659,7 +3148,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/pkg/logging/reflective_logger.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "UndeclaredImportedName",
 		"target": {
@@ -2680,7 +3169,7 @@
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/runtime/engine/runtime_builder.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "BrokenImport",
 		"target": {
@@ -2695,76 +3184,55 @@
 	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases\")",
 	"source": "compiler",
 	"startLineNumber": 12,
-	"startColumn": 13,
+	"startColumn": 18,
 	"endLineNumber": 12,
-	"endColumn": 84,
+	"endColumn": 89,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/runtime/session.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/runtime/interface_adapter/cli_adapter.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
-		"value": "UndeclaredName",
+		"value": "NotAnExpr",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
+			"fragment": "NotAnExpr"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: agent",
+	"message": "user_setting.UserIdentity (type) is not an expression",
 	"source": "compiler",
-	"startLineNumber": 33,
-	"startColumn": 11,
-	"endLineNumber": 33,
-	"endColumn": 16,
+	"startLineNumber": 29,
+	"startColumn": 38,
+	"endLineNumber": 29,
+	"endColumn": 63,
 	"origin": "extHost1"
 },{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/runtime/session.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/runtime/interface_adapter/tui_adapter.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
-		"value": "UndeclaredName",
+		"value": "BrokenImport",
 		"target": {
 			"$mid": 1,
 			"path": "/golang.org/x/tools/internal/typesinternal",
 			"scheme": "https",
 			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
+			"fragment": "BrokenImport"
 		}
 	},
 	"severity": 8,
-	"message": "undefined: agent",
+	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user_setting (no required module provides package \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user_setting\")",
 	"source": "compiler",
-	"startLineNumber": 56,
-	"startColumn": 52,
-	"endLineNumber": 56,
-	"endColumn": 57,
+	"startLineNumber": 9,
+	"startColumn": 15,
+	"endLineNumber": 9,
+	"endColumn": 98,
 	"origin": "extHost1"
 },{
 	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/runtime/session/session_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "WrongAssignCount",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "WrongAssignCount"
-		}
-	},
-	"severity": 8,
-	"message": "assignment mismatch: 1 variable but hashPassword returns 2 values",
-	"source": "compiler",
-	"startLineNumber": 51,
-	"startColumn": 10,
-	"endLineNumber": 51,
-	"endColumn": 32,
-	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/runtime/session/session_manager.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
+	"owner": "_generated_diagnostic_collection_name_#0",
 	"code": {
 		"value": "InvalidRecv",
 		"target": {
@@ -2778,179 +3246,9 @@
 	"severity": 8,
 	"message": "cannot define new methods on non-local type auth.AuthManager",
 	"source": "compiler",
-	"startLineNumber": 65,
+	"startLineNumber": 68,
 	"startColumn": 11,
-	"endLineNumber": 65,
+	"endLineNumber": 68,
 	"endColumn": 27,
 	"origin": "extHost1"
-},{
-	"resource": "/C:/Users/MIAUSE/Documents/GitHub/Programming/multi-platform-AI/runtime/supervisor/runtime_supervisor.go",
-	"owner": "_generated_diagnostic_collection_name_#1",
-	"code": {
-		"value": "UndeclaredName",
-		"target": {
-			"$mid": 1,
-			"path": "/golang.org/x/tools/internal/typesinternal",
-			"scheme": "https",
-			"authority": "pkg.go.dev",
-			"fragment": "UndeclaredName"
-		}
-	},
-	"severity": 8,
-	"message": "undefined: total",
-	"source": "compiler",
-	"startLineNumber": 46,
-	"startColumn": 13,
-	"endLineNumber": 46,
-	"endColumn": 18,
-	"origin": "extHost1"
 }]
-======================================
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/bootstrap")
-user_setting.UserIdentity (type) is not an expression
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth")
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
-bm.DecideBootPath undefined (type *BootManager has no field or method DecideBootPath)
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
-user_setting.UserIdentity (type) is not an expression
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
-undefined: runtime
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
-"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification" imported as internal_verification and not used
-invalid operation: capSet & internal_environment.CapCANBus (mismatched types internal_environment.CapabilitySet and internal_environment.Capability)
-invalid operation: capSet & internal_environment.CapSafetyCritical (mismatched types internal_environment.CapabilitySet and internal_environment.Capability)
-invalid operation: capSet & internal_environment.CapLocalStorage (mismatched types internal_environment.CapabilitySet and internal_environment.Capability)
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/registry (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/registry")
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/adapter (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/adapter")
-sysCtx.user_setting undefined (type *SystemContext has no field or method user_setting)
-sysCtx.Session.Mode undefined (type *user_setting.UserSession has no field or method Mode)
-sysCtx.Session.Tier undefined (type *user_setting.UserSession has no field or method Tier)
-invalid operation: sys.Session.Config != nil (mismatched types user_setting.UserCoreConfig and untyped nil)
-cannot use sys.Session.Config (variable of struct type user_setting.UserCoreConfig) as *user_setting.UserConfig value in assignment
-undefined: modules
-declared and not used: token
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision")
-undefined: internal_verification.ToMask
-session.PermMask undefined (type *user_setting.UserSession has no field or method PermMask)
-cfg.WithDefaults undefined (type *user_setting.CustomizedConfig has no field or method WithDefaults)
-cannot use &user_setting.UserConfig{…} (value of type *user_setting.UserConfig) as user_setting.UserCoreConfig value in assignment
-cfg.WithDefaults undefined (type user_setting.CustomizedConfig has no field or method WithDefaults)
-cfg.Migrate undefined (type user_setting.CustomizedConfig has no field or method Migrate)
-cannot use newCfg (variable of type *user_setting.CustomizedConfig) as user_setting.UserCoreConfig value in assignment
-session.Orchestrator undefined (type *user_setting.UserSession has no field or method Orchestrator)
-undefined: bootstrap_resolver
-undefined: boot_phase.BuildOrchestrator
-cannot use session.Config (variable of struct type user_setting.UserCoreConfig) as *user_setting.CustomizedConfig value in argument to boot_phase.ResolveInteractionMode
-session.Capabilities undefined (type *user_setting.UserSession has no field or method Capabilities)
-session.CapProfile undefined (type *user_setting.UserSession has no field or method CapProfile)
-session.Mode undefined (type *user_setting.UserSession has no field or method Mode)
-session.Orchestrator undefined (type *user_setting.UserSession has no field or method Orchestrator)
-cannot use p.RequireCaps (variable of uint64 type internal_environment.CapabilitySet) as internal_environment.Capability value in argument to ctx.Capabilities.Has
-cannot use internal_environment.CapNetwork (constant 256 of uint64 type internal_environment.Capability) as internal_environment.CapabilitySet value in struct literal
-cannot use internal_environment.CapSafetyCritical (constant 8192 of uint64 type internal_environment.Capability) as internal_environment.CapabilitySet value in struct literal
-cannot use internal_environment.CapSecureEnclave (constant 128 of uint64 type internal_environment.Capability) as internal_environment.CapabilitySet value in struct literal
-undefined: DerivePermissions
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment")
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]
-invalid operation: *c |= cap (mismatched types CapabilitySet and Capability)
-invalid operation: *c &= ^cap (mismatched types CapabilitySet and Capability)
-invalid operation: c & cap (mismatched types CapabilitySet and Capability)
-invalid operation: set |= cap (mismatched types CapabilitySet and Capability)
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user")
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment")
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/policy github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user]
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification")
-s.PermMask undefined (type *UserSession has no field or method PermMask)
-unknown field SessionID in struct literal of type UserSession
-unknown field Platform in struct literal of type UserSession
-unknown field Entity in struct literal of type UserSession
-unknown field Tier in struct literal of type UserSession
-unknown field Service in struct literal of type UserSession
-unknown field Permissions in struct literal of type UserSession
-unknown field CreatedAt in struct literal of type UserSession
-unknown field ExpiresAt in struct literal of type UserSession
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user")
-m.RequiredCapabilities undefined (type domain_shared.DomainModule has no field or method RequiredCapabilities)
-m.Allowed undefined (type domain_shared.DomainModule has no field or method Allowed)
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/file (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/file")
-cannot use &IngestionModule{…} (value of type *IngestionModule) as domain_shared.DomainModule value in return statement: *IngestionModule does not implement domain_shared.DomainModule (wrong type for method Init)
-		have Init(*bootstrap.BootContext) error
-		want Init(context.Context) error
-cannot refer to unexported field name in struct literal of type kernel_lifecycle.BaseModule
-cannot refer to unexported field deps in struct literal of type kernel_lifecycle.BaseModule
-m.name undefined (type *IngestionModule has no field or method name, but does have method Name)
-undefined: ModuleCategory
-undefined: ModuleDomain
-m.deps undefined (cannot refer to unexported field deps)
-cannot use m (variable of type *AuditModule) as domain_shared.DomainModule value in return statement: *AuditModule does not implement domain_shared.DomainModule (wrong type for method Init)
-		have Init(*bootstrap.BootContext) error
-		want Init(context.Context) error
-undefined: ModuleCategory
-undefined: ModuleDomain
-undefined: BaseModule
-undefined: ModuleCategory
-undefined: ModuleDomain
-cannot refer to unexported field name in struct literal of type kernel_lifecycle.BaseModule
-undefined: BaseModule
-cannot refer to unexported field name in struct literal of type kernel_lifecycle.BaseModule
-cannot refer to unexported field deps in struct literal of type kernel_lifecycle.BaseModule
-undefined: ModuleCategory
-undefined: ModuleDomain
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules")
-undefined: kernel_lifecycle
-undefined: WAVWriter
-undefined: FeatureExtractor
-undefined: kernel_lifecycle
-m.SetName undefined (type *AudioModule has no field or method SetName)
-m.SetDeps undefined (type *AudioModule has no field or method SetDeps)
-undefined: NewWAVWriter
-undefined: NewFeatureExtractor
-cannot use internal_environment.CapLocalStorage | internal_environment.CapNetwork (constant 65792 of uint64 type internal_environment.Capability) as internal_environment.CapabilitySet value in return statement
-ve.audio.outChan undefined (cannot refer to unexported field outChan)
-undefined: sampleRate
-cannot use &CognitionModule{} (value of type *CognitionModule) as domain_shared.DomainModule value in return statement: *CognitionModule does not implement domain_shared.DomainModule (wrong type for method Init)
-		have Init(*bootstrap.BootContext) error
-		want Init(context.Context) error
-undefined: ModuleCategory
-undefined: ModuleDomain
-undefined: Intent
-undefined: Intent
-undefined: Intent
-undefined: Task
-undefined: Task
-undefined: BaseModule
-cannot refer to unexported field name in struct literal of type kernel_lifecycle.BaseModule
-cannot refer to unexported field deps in struct literal of type kernel_lifecycle.BaseModule
-undefined: ModuleCategory
-undefined: ModuleDomain
-undefined: BaseModule
-m.SetName undefined (type *InferenceModule has no field or method SetName)
-m.SetDeps undefined (type *InferenceModule has no field or method SetDeps)
-m.name undefined (type *InferenceModule has no field or method name, but does have method Name)
-m.deps undefined (type *InferenceModule has no field or method deps)
-undefined: ModuleCategory
-undefined: ModuleDomain
-"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/data_transport/ingress" imported as transport_ingress and not used
-mem.Allocate undefined (type api.Memory has no field or method Allocate)
-undefined: ingress
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules")
-undefined: kernel_lifecycle
-undefined: kernel_lifecycle
-undefined: kernel_lifecycle
-undefined: kernel_lifecycle
-undefined: hmi.ProgressUpdate
-undefined: hmi.ProgressUpdate
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases")
-undefined: agent
-undefined: agent
-assignment mismatch: 1 variable but hashPassword returns 2 values
-cannot define new methods on non-local type auth.AuthManager
-undefined: total

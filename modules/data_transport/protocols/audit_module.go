@@ -6,12 +6,12 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
 	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
+	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 )
 
 type AuditModule struct {
@@ -39,8 +39,8 @@ func (m *AuditModule) Optional() bool {
 	return true
 }
 
-func (m *AuditModule) Allowed(ctx *bootstrap.BootContext) bool {
-	return ctx.Permissions[user_setting.PermDiagnostics]
+func (m *AuditModule) Allowed(ctx runtime_types.ExecutionContext) bool {
+	return ctx.HasPermission(user_setting.PermDiagnostics)
 }
 
 func (m *AuditModule) Category() ModuleCategory {
@@ -55,7 +55,7 @@ func (m *AuditModule) DependsOn() []string {
 	return nil
 }
 
-func (m *AuditModule) Init(ctx *bootstrap.BootContext) error {
+func (m *AuditModule) Init(ctx runtime_types.ExecutionContext) error {
 	if m.runtime == nil {
 		return fmt.Errorf("runtime not set")
 	}

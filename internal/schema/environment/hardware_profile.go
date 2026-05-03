@@ -34,14 +34,6 @@ type ProtocolProfile struct {
 	SupportsSafeStop  bool   `json:"supports_safe_stop"`
 }
 
-type CapabilityDescriptor struct {
-	SensorOnly                 bool
-	SupportsRegisterControl    bool
-	SupportsGoalControl        bool
-	HasSafetyEnvelope          bool
-	SupportsAcceleratedCompute bool
-}
-
 type NodeDescriptor struct {
 	NodeID    int    `json:"node_id"`
 	VendorID  string `json:"vendor_id"`
@@ -70,6 +62,7 @@ type Processor struct {
 
 type DeviceClass string
 
+// hardware grouping
 const (
 	DeviceComputer   DeviceClass = "computer"
 	DeviceMobile     DeviceClass = "mobile"
@@ -77,14 +70,6 @@ const (
 	DeviceIndustrial DeviceClass = "industrial"
 	DeviceVehicle    DeviceClass = "vehicle"
 	DeviceRobot      DeviceClass = "robot"
-)
-
-type CapabilityTag string
-
-const (
-	TagDrone      CapabilityTag = "drone"
-	TagGamepad    CapabilityTag = "gamepad"
-	TagAutomotive CapabilityTag = "automotive"
 )
 
 // PlatformClass defines the type of hardware (Vehicle, Drone, etc.)
@@ -101,6 +86,7 @@ const (
 )
 
 type PlatformProfile struct {
+	//full resolved identity
 	Class        DeviceClass
 	Form         FormFactor
 	Capabilities []CapabilityTag
@@ -134,9 +120,6 @@ type PlatformResolution struct {
 	Source     string          `json:"source"` // e.g., "heuristic_v1" or "manual_override"
 	ResolvedAt time.Time       `json:"resolved_at"`
 }
-
-type Capability uint64
-type CapabilitySet uint64
 
 const (
 	CapDisplay Capability = 1 << iota

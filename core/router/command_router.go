@@ -22,9 +22,10 @@ const (
 )
 
 type Envelope struct {
-	Type    MessageType
-	Payload []byte
-	Source  string
+	Type     MessageType
+	Payload  []byte
+	Source   string
+	Metadata map[string]string
 }
 
 type Router interface {

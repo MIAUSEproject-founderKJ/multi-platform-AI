@@ -2,50 +2,41 @@
 package bootstrap_resolver
 
 import (
-	"fmt"
-
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
+	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 )
 
+type executionContextView struct {
+	boot runtime_types.ExecutionContext
+}
+
+func (e *executionContextView) Platform() internal_environment.PlatformClass {
+	return e.boot.PlatformClass
+}
+
+func (e *executionContextView) Capabilities() internal_environment.CapabilitySet {
+	return e.boot.Capabilities
+}
+
+func (e *executionContextView) SecurityTier() user_setting.TrustLevel {
+	return e.boot.TrustLevel
+}
+
+func (e *executionContextView) HasPermission(p user_setting.PermissionKey) bool {
+	return e.boot.Permissions[p]
+}
+
+func (e *executionContextView) ServiceType() user_setting.ServiceType {
+	return e.boot.Service
+}
+
 func ResolveExecutionContext(
-	bs *internal_environment.BootSequence,
-) (*runtime_types.ExecutionContext, error) {
+	bootCtx runtime_types.ExecutionContext,
+	session *user_setting.UserSession,
+) runtime_types.ExecutionContext {
 
-	// ------------------------------------------------------------
-	// 1. Validation
-	// ------------------------------------------------------------
-
-	if bs == nil {
-		return nil, fmt.Errorf("bootstrap sequence is nil")
+	return &executionContextView{
+		boot: bootCtx,
 	}
-
-	if bs.UserSession == nil {
-		return nil, fmt.Errorf("missing user session")
-	}
-
-	if bs.Env == nil || !bs.Env.Attestation.Valid {
-		return nil, fmt.Errorf("invalid attestation state")
-	}
-
-	// ------------------------------------------------------------
-	// 2. Derive policy (pure logic)
-	// ------------------------------------------------------------
-
-	bootCtx, err := ResolveBootContext(bs) // must be PURE
-	if err != nil {
-		return nil, err
-	}
-
-	// ------------------------------------------------------------
-	// 3. Construct ExecutionContext (NO runtime deps)
-	// ------------------------------------------------------------
-
-	ctx := &runtime_types.ExecutionContext{
-		Session:     bs.UserSession,
-		Permissions: bootCtx.Permissions,
-		TrustLevel:  bootCtx.TrustLevel,
-	}
-
-	return ctx, nil
 }

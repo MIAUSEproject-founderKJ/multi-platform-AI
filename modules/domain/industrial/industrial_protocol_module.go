@@ -5,16 +5,16 @@ import (
 	"context"
 	"sync/atomic"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
+	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 )
 
 type IndustrialProtocolModule struct {
-	BaseModule // embed BaseModule
-	healthy    atomic.Bool
-	ctx        *bootstrap.BootContext // store BootContext locally
+	kernel_lifecycle.BaseModule // embed BaseModule
+	healthy                     atomic.Bool
+	ctx                         runtime_types.ExecutionContext // store BootContext locally
 }
 
 // Factory function
@@ -27,7 +27,7 @@ func NewIndustrialProtocolModule() domain_shared.DomainModule {
 	}
 }
 
-func (m *IndustrialProtocolModule) Init(ctx *bootstrap.BootContext) error {
+func (m *IndustrialProtocolModule) Init(ctx runtime_types.ExecutionContext) error {
 	m.ctx = ctx // store for internal use
 	m.healthy.Store(true)
 	return nil
@@ -45,7 +45,7 @@ func (m *IndustrialProtocolModule) DependsOn() []string {
 	return []string{"TelemetryModule"}
 }
 
-func (m *IndustrialProtocolModule) Allowed(ctx *bootstrap.BootContext) bool {
+func (m *IndustrialProtocolModule) Allowed(ctx runtime_types.ExecutionContext) bool {
 	return true
 }
 

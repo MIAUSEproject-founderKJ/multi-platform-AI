@@ -4,6 +4,33 @@ package internal_environment
 
 import "time"
 
+type CapabilityDescriptor struct {
+	SensorOnly                 bool
+	SupportsRegisterControl    bool
+	SupportsGoalControl        bool
+	HasSafetyEnvelope          bool
+	SupportsAcceleratedCompute bool
+}
+
+type CapabilityTag string
+
+const (
+	TagDrone      CapabilityTag = "drone"
+	TagGamepad    CapabilityTag = "gamepad"
+	TagAutomotive CapabilityTag = "automotive"
+)
+
+type DeviceCapabilities struct {
+	HasDisplay  bool
+	HasKeyboard bool
+	HasMic      bool
+	HasSpeaker  bool
+	GPU         bool
+}
+
+type Capability uint64
+type CapabilitySet uint64
+
 func (c *CapabilitySet) Add(cap Capability) {
 	*c |= cap
 }

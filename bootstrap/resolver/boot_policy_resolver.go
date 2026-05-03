@@ -4,12 +4,12 @@ package bootstrap_resolver
 import (
 	"fmt"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
+	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 )
 
-func ResolveBootContext(bs *internal_environment.BootSequence) (*bootstrap.BootContext, error) {
+func ResolveBootContext(bs *internal_environment.BootSequence) (*runtime_types.ExecutionContext, error) {
 
 	if bs == nil {
 		return nil, fmt.Errorf("bootstrap sequence is nil")
@@ -70,30 +70,17 @@ func ResolveBootContext(bs *internal_environment.BootSequence) (*bootstrap.BootC
 	}
 
 	if caps.Has(internal_environment.CapSafetyCritical) && trust == internal_environment.TrustStrong {
-		perms[user_setting.PermSafetyOverride] = true
-	}
-
-	if trust == internal_environment.TrustStrong {
 		perms[user_setting.PermAdmin] = true
 		perms[user_setting.PermSafetyOverride] = true
 	}
 
 	for p, allowed := range session.Permissions {
-		if allowed {
-			perms[p] = true
+		if allowed && perms[p] {
+			perms[p] = true // keep allowed
 		}
 	}
 
-	ctx := &bootstrap.BootContext{
-		PlatformClass: env.Platform.Final,
-		Capabilities:  caps,
-		Service:       service,
-		Entity:        entity,
-		Tier:          tier,
-		BootMode:      bs.Mode,
-		Permissions:   perms,
-		TrustLevel:    user_setting.TrustLevel(trust),
-	}
+	bootctx := &runtime_types.ExecutionContext{}
 
-	return ctx, nil
+	return bootctx, nil
 }
