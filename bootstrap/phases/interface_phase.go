@@ -11,7 +11,6 @@ import (
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	audio_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/audio/engine"
 	mutual_interaction "github.com/MIAUSEproject-founderKJ/multi-platform-AI/mutual_interaction"
-	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 )
 
 func BuildAuthInterface(mode user_setting.InteractionMode) auth.AuthInterface {
@@ -27,7 +26,7 @@ func BuildAuthInterface(mode user_setting.InteractionMode) auth.AuthInterface {
 	}
 }
 
-func PhaseInterface(bootctx runtime_types.ExecutionContext, caps *internal_environment.CapabilityProfile) (*user_setting.UserSession, error) {
+func PhaseInterface(caps *internal_environment.CapabilityProfile) (*user_setting.UserSession, error) {
 
 	mode := mutual_interaction.ResolveInteractionMode(nil, caps.Set)
 
@@ -46,8 +45,8 @@ func PhaseInterface(bootctx runtime_types.ExecutionContext, caps *internal_envir
 	return result, nil
 }
 
-func ToDeviceCapabilities(cp *internal_environment.CapabilityProfile) DeviceCapabilities {
-	return DeviceCapabilities{
+func ToDeviceCapabilities(cp *internal_environment.CapabilityProfile) internal_environment.DeviceCapabilities {
+	return internal_environment.DeviceCapabilities{
 		HasDisplay:  cp.Has(internal_environment.CapDisplay),
 		HasKeyboard: cp.Has(internal_environment.CapKeyboard),
 		HasMic:      cp.Has(internal_environment.CapMicrophone),

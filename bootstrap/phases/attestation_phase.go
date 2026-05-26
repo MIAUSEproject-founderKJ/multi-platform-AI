@@ -3,7 +3,7 @@
 package bootstrap_phase
 
 import (
-	auth "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
+	"errors"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 )
@@ -15,28 +15,11 @@ func PhaseAttestation(
 	preSession *user_setting.UserSession,
 ) (*user_setting.UserSession, error) {
 
-	var cred struct {
-		UserID   string
-		Password string
-	}
-
-	found, err := vault.Read("credentials", identity.MachineID, &cred)
-	if err != nil || !found {
-		return nil, err
-	}
-
-	am := &auth.AuthManager{
-		Vault:    vault,
-		Identity: identity,
-		Platform: identity.PlatformType,
-		Entity:   bootSeq.Env.EntityType,
-		Tier:     bootSeq.Env.TierType,
-	}
-
-	// Prefer pre-authenticated session
+	// Prefer pre-authenticated session when available.
 	if preSession != nil {
 		return preSession, nil
 	}
 
-	return am.Login(cred.UserID, cred.Password)
+	// Attestation cannot proceed here without an existing session.
+	return nil, errors.New("attestation unavailable without preauthenticated session")
 }

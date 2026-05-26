@@ -72,7 +72,7 @@ type InterfaceAdapter interface {
 	Notify(msg string)
 }
 
-func SelectInteractionMode(cap DeviceCapabilities) user_setting.InteractionMode {
+func SelectInteractionMode(cap internal_environment.DeviceCapabilities) user_setting.InteractionMode {
 
 	switch {
 	case cap.HasDisplay && cap.GPU:

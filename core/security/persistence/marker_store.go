@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"time"
 
 	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
@@ -26,16 +25,6 @@ func (v *IsolatedVault) WriteMarker(name string) error {
 	return os.WriteFile(path, []byte("PROVISIONED"), 0600)
 }
 
-func (v *IsolatedVault) MarkFirstBoot(machineID string) error {
-	marker := &internal_boot.FirstBootMarker{
-		MachineID:   machineID,
-		Initialized: true,
-		CreatedAt:   time.Now(),
-	}
-
-	return v.SaveFirstBootMarker(marker)
-}
-
 func (v *IsolatedVault) LoadFirstBootMarker() (*internal_boot.FirstBootMarker, error) {
 	path := filepath.Join(v.BaseDir, firstBootVaultKey+".json")
 
@@ -52,7 +41,7 @@ func (v *IsolatedVault) LoadFirstBootMarker() (*internal_boot.FirstBootMarker, e
 	return &marker, nil
 }
 
-func (v *IsolatedVault) SaveFirstBootMarker(marker *internal_boot.FirstBootMarker) error {
+func (v *IsolatedVault) MarkFirstBoot(marker *internal_boot.FirstBootMarker) error {
 	path := filepath.Join(v.BaseDir, firstBootVaultKey+".json")
 
 	data, err := json.MarshalIndent(marker, "", "  ")

@@ -9,7 +9,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	bootstrap_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/router"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	runtime "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
@@ -18,51 +17,71 @@ import (
 	"go.uber.org/zap"
 )
 
-type RuntimeContext struct {
-	Router       router.Router
-	Bus          *runtime_bus.MessageBus
-	DB           *sql.DB
-	Logger       *zap.Logger
-	BasePath     string
-	Session      *user_setting.UserSession
-	Orchestrator *bootstrap_phase.Orchestrator
-	Config       *user_setting.UserConfig
-	Context      context.Context
+type RuntimePolicy struct {
+	Permissions map[user_setting.PermissionKey]bool
+
+	MaxInferenceRate     int
+	MaxActuatorAuthority float64
+
+	AllowExternalNetwork bool
+	RequireHumanApproval bool
+
+	AllowedModules map[string]bool
+
+	SafetyMode SafetyMode
 }
 
-func (r *RuntimeContext) SafePath(rel string) string {
+type AppContainer struct {
+	Logger *zap.Logger
+	DB     *sql.DB
+	Bus    *runtime_bus.MessageBus
+	Router router.Router
+}
 
-	if r.BasePath == "" {
-		r.BasePath = "./data" // fallback
+type RuntimeContainer struct {
+	Policy *RuntimePolicy
+	Infra  *AppContainer
+	Ctx    context.Context
+}
+
+func (r *RuntimeContainer) SafePath(rel string) (string, error) {
+	base := filepath.Clean(r.Infra.BasePath)
+
+	target := filepath.Join(base, rel)
+	target = filepath.Clean(target)
+
+	if !strings.HasPrefix(target, base) {
+		return "", errors.New("path traversal detected")
 	}
 
-	// normalize path
-	clean := filepath.Clean(rel)
-
-	// prevent directory traversal
-	if strings.Contains(clean, "..") {
-		clean = strings.ReplaceAll(clean, "..", "")
-	}
-
-	return filepath.Join(r.BasePath, clean)
+	return target, nil
 }
 
 ///////////////////////////////////////////////////////////////
 // CONSTRUCTOR
 ///////////////////////////////////////////////////////////////
 
-func Build(exec *runtime_types.ExecutionContext, user *user_setting.UserSession, logger *zap.Logger) (*RuntimeContext, error) {
+func Build(
+	exec runtime_types.ExecutionContext,
+	user *user_setting.UserSession,
+	logger *zap.Logger,
+	db *sql.DB,
+	rt router.Router,
+) (*RuntimeContainer, error) {
 	if logger == nil {
 		return nil, errors.New("logger is required")
 	}
 
-	rtx := &RuntimeContext{
+	rtx := &AppContainer{
 		Bus:    runtime.NewMessageBus(),
 		Logger: logger,
+		DB:     db,
+		Router: rt,
 	}
 
-	// Optional: initialize router if required
-	rtx.Router = router.New() // <-- ONLY if this exists
-
-	return rtx, nil
+	return &RuntimeContainer{
+		Infra: rtx,
+	}, nil
 }
+
+func (app *RuntimeContainer) Start(ctx context.Context) error

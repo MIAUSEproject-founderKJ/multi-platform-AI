@@ -8,27 +8,27 @@ import (
 )
 
 type executionContextView struct {
-	boot runtime_types.ExecutionContext
+	exec runtime_types.ExecutionContext
 }
 
 func (e *executionContextView) Platform() internal_environment.PlatformClass {
-	return e.boot.PlatformClass
+	return e.exec.PlatformClass
 }
 
 func (e *executionContextView) Capabilities() internal_environment.CapabilitySet {
-	return e.boot.Capabilities
+	return e.exec.Capabilities
 }
 
 func (e *executionContextView) SecurityTier() user_setting.TrustLevel {
-	return e.boot.TrustLevel
+	return e.exec.TrustLevel
 }
 
 func (e *executionContextView) HasPermission(p user_setting.PermissionKey) bool {
-	return e.boot.Permissions[p]
+	return e.exec.Permissions[p]
 }
 
 func (e *executionContextView) ServiceType() user_setting.ServiceType {
-	return e.boot.Service
+	return e.exec.Service
 }
 
 func ResolveExecutionContext(
@@ -37,6 +37,6 @@ func ResolveExecutionContext(
 ) runtime_types.ExecutionContext {
 
 	return &executionContextView{
-		boot: bootCtx,
+		exec: bootCtx,
 	}
 }

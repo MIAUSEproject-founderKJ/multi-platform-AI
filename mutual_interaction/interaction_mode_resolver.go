@@ -22,9 +22,6 @@ func ResolveInteractionMode(
 	case cap.Has(internal_environment.CapDisplay) && cap.Has(internal_environment.CapKeyboard):
 		return user_setting.ModeTUI
 
-	case cap.Has(internal_environment.CapMicrophone) && cap.Has(internal_environment.CapSpeaker):
-		return user_setting.ModeVoice
-
 	default:
 		return user_setting.ModeCLI
 	}

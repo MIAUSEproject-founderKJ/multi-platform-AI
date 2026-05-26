@@ -1,5 +1,5 @@
 // core/verification/verification/verification_engine.go
-package verification_verification
+package core_verification
 
 import (
 	"crypto/sha256"
@@ -72,12 +72,4 @@ func VerifyAgainstGolden(v verification_persistence.VaultStore, machineID string
 	}
 	logging.Info("[verification] Binary integrity verified.")
 	return nil
-}
-
-func ProvisionGolden(v verification_persistence.VaultStore, machineID string) ([]byte, error) {
-	hash, err := MeasureSelf()
-	if err != nil {
-		return nil, fmt.Errorf("failed_to_measure_binary: %w", err)
-	}
-	return hash, err
 }

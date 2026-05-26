@@ -35,11 +35,10 @@ func OpenVault() (*IsolatedVault, error) {
 type VaultStore interface {
 	LoadConfig(key string) (*internal_environment.EnvConfig, error)
 	SaveConfig(key string, cfg *internal_environment.EnvConfig) error
-	MarkFirstBoot(machineID string) error
 	LoadGoldenHash(machine string) (string, error)
 	SealGoldenHash(machine string, hash []byte) error
 	LoadFirstBootMarker() (*internal_boot.FirstBootMarker, error)
-	SaveFirstBootMarker(*internal_boot.FirstBootMarker) error
+	MarkFirstBoot(*internal_boot.FirstBootMarker) error
 	Read(key, id string, out interface{}) (bool, error)
 	Write(key, id string, value interface{}) error
 	Exists(collection string, key string) (bool, error)

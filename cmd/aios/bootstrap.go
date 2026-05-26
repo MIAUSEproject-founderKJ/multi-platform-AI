@@ -1,6 +1,5 @@
 // =========================
 // PRODUCTION-GRADE MAIN.GO - cmd/aios/bootstrap.go
-// Boot → ExecutionContext → RuntimeContext → Modules → Supervisor → Interfaces
 // =========================
 package main
 

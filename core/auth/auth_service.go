@@ -554,7 +554,10 @@ func (am *AuthManager) HandleConfigUpdate(session *user_setting.UserSession) {
 
 func (am *AuthManager) initializeRuntime(session *user_setting.UserSession) error {
 
-	cp := bootstrap_resolver.DeviceCapabilitiesResolver()
+	cp, err := bootstrap_resolver.DeviceCapabilitiesResolver()
+	if err != nil {
+		return err
+	}
 
 	orch := bootstrap_phase.BuildOrchestrator(cp)
 	orch.StartAll(session)

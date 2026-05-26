@@ -14,10 +14,11 @@ import (
 type InteractionMode string
 
 const (
-	ModeCLI   InteractionMode = "cli"
-	ModeTUI   InteractionMode = "tui"
-	ModeGUI   InteractionMode = "gui"
-	ModeVoice InteractionMode = "voice"
+	ModeCLI     InteractionMode = "cli"
+	ModeTUI     InteractionMode = "tui"
+	ModeGUI     InteractionMode = "gui"
+	VoiceInput  InteractionMode = "voice_in"
+	VoiceOutput InteractionMode = "voice_out"
 )
 
 // Define what an Orchestrator DOES, not what it IS.

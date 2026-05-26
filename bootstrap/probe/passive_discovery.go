@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 )
 
 type SignalBuilder func(fp HardwareFingerprint, env *internal_environment.EnvConfig) []internal_environment.Signal
