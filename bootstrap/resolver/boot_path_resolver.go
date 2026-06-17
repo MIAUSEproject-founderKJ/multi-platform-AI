@@ -5,13 +5,13 @@ package bootstrap_resolver
 import (
 	"fmt"
 
-	bootstrap_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/keys"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 )
 
 // DecideBootPath determines whether to run fast or cold boot
-func (bm *bootstrap_phase.BootManager) DecideBootPath() (*internal_environment.BootSequence, error) {
+func (bm *BootManager) DecideBootPath() (*internal_environment.BootSequence, error) {
 	// Load last known environment
 	lastkey := keys.LastKnownEnvKey(bm.Identity.MachineID)
 	env, err := bm.Vault.LoadConfig(lastkey)
@@ -20,6 +20,14 @@ func (bm *bootstrap_phase.BootManager) DecideBootPath() (*internal_environment.B
 	}
 
 	if env == nil {
+		marker := &internal_boot.FirstBootMarker{
+			MachineID: bm.Identity.MachineID,
+		}
+
+		if err := bm.Vault.MarkFirstBoot(marker); err != nil {
+			return nil, err
+		}
+
 		return bm.runColdBoot()
 	}
 	// Perform fast boot

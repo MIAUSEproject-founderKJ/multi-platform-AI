@@ -10,15 +10,34 @@ import (
 	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
 )
 
+type InteractionCapability struct {
+	CLI   bool
+	TUI   bool
+	GUI   bool
+	Voice bool
+}
+
 // Move these from interaction to schema so everyone can see them
 type InteractionMode string
 
 const (
-	ModeCLI     InteractionMode = "cli"
-	ModeTUI     InteractionMode = "tui"
-	ModeGUI     InteractionMode = "gui"
-	VoiceInput  InteractionMode = "voice_in"
-	VoiceOutput InteractionMode = "voice_out"
+	ModeCLIonly InteractionMode = "cli"
+	ModeTUIonly InteractionMode = "tui"
+	ModeGUIonly InteractionMode = "gui"
+	ModeFull    InteractionMode = "cgtvio" // Console + GUI + TUI + Voice
+	ModeCT      InteractionMode = "ct"     // Console + TUI
+	ModeCG      InteractionMode = "cg"     // Console + GUI
+	ModeCVo     InteractionMode = "cvo"    // Console + VoiceOut
+	ModeCVi     InteractionMode = "cvi"    // Console + VoiceInOut
+	ModeTG      InteractionMode = "tg"     // TUI + GUI
+	ModeTVi     InteractionMode = "tvi"    // TUI + VoiceIn
+	ModeTVo     InteractionMode = "tvo"    // TUI + VoiceOut
+	ModeGVo     InteractionMode = "gvo"    // GUI + VoiceOut
+	ModeGVi     InteractionMode = "gvi"    // GUI + VoiceIn
+	ModeGVio    InteractionMode = "gvio"   // GUI + VoiceIn+Out
+	ModeTVio    InteractionMode = "tvio"   // TUI + VoiceInOut
+	ModeGTVio   InteractionMode = "gtvio"  // GUI + TUI + VoiceInOut
+	ModeVio     InteractionMode = "vio"    // VoiceInOut only
 )
 
 // Define what an Orchestrator DOES, not what it IS.
@@ -62,6 +81,21 @@ type UserSession struct {
 	Identity    *UserIdentity
 	Config      UserCoreConfig
 	Preferences *UserPreferences
+
+	Claims SessionClaims
+}
+
+type SessionClaims struct {
+	SessionID string
+	Platform  internal_environment.PlatformClass
+	Entity    internal_environment.EntityKind
+	Tier      TierType
+	Service   ServiceType
+
+	Permissions map[PermissionKey]bool
+
+	CreatedAt time.Time
+	ExpiresAt time.Time
 }
 
 // ------------------------------------------------------------
@@ -150,9 +184,9 @@ type SessionBuilder struct{}
 func (b *SessionBuilder) Build(
 	ctx *BuildContext,
 	permissions map[PermissionKey]bool,
-) *UserSession {
+) *SessionClaims {
 
-	return &UserSession{
+	return &SessionClaims{
 		SessionID:   fmt.Sprintf("%d", time.Now().UnixNano()),
 		Platform:    ctx.Platform,
 		Entity:      ctx.Entity,

@@ -88,14 +88,14 @@ func (h *HybridAuthUI) promptChoice() string {
 	return input
 }
 
-func (h *HybridAuthUI) collectCredentials() Credentials {
+func (h *HybridAuthUI) collectCredentials() auth.Credentials {
 	var user, pass string
 	fmt.Print("User: ")
 	fmt.Scanln(&user)
 	fmt.Print("Pass: ")
 	fmt.Scanln(&pass)
 
-	return Credentials{
+	return auth.Credentials{
 		UserID:   user,
 		Password: pass,
 	}

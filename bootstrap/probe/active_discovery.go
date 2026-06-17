@@ -9,8 +9,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 )
 
 // ActiveDiscovery acts as the "Neurologist" for the machine.

@@ -2,19 +2,19 @@
 package interface_adapter
 
 import (
-	bootstrap_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases"
+	bootstrap_resolver "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/resolver"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 )
 
 type Orchestrator struct {
-	adapters []bootstrap_phase.InterfaceAdapter
+	adapters []bootstrap_resolver.InterfaceAdapter
 }
 
 func NewOrchestrator() *Orchestrator {
 	return &Orchestrator{}
 }
 
-func (orch *Orchestrator) Add(adapter bootstrap_phase.InterfaceAdapter) {
+func (orch *Orchestrator) Add(adapter bootstrap_resolver.InterfaceAdapter) {
 	orch.adapters = append(orch.adapters, adapter)
 }
 

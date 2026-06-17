@@ -84,6 +84,7 @@ func (cp *CapabilityProfile) RecomputeSet() {
 	cp.Set = set
 }
 
+// NewCapabilityProfile initializes a new CapabilityProfile with an empty set and an empty stats map.
 func NewCapabilityProfile() *CapabilityProfile {
 	return &CapabilityProfile{
 		Set:   0,

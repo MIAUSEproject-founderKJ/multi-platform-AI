@@ -5,6 +5,8 @@ package bootstrap_resolver
 import (
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/probe"
 	core_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/verification"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 )
 
 // ------------------------------------------------------------
@@ -13,7 +15,7 @@ import (
 func (bm *BootManager) runFastBoot(env *internal_environment.EnvConfig) (*internal_environment.BootSequence, error) {
 	// 1. Verify against golden
 	marker, err := bm.Vault.LoadFirstBootMarker()
-	if err != nil || internal_environment.Version != internal_environment.CurrentVersion {
+	if err != nil || env.SchemaVersion != internal_environment.CurrentVersion {
 		return bm.runColdBoot()
 	}
 	if err := core_verification.VerifyAgainstGolden(bm.Vault, marker.MachineID); err != nil {
@@ -28,7 +30,7 @@ func (bm *BootManager) runFastBoot(env *internal_environment.EnvConfig) (*intern
 
 	return &internal_environment.BootSequence{
 		Env:      env,
-		Mode:     internal_environment.BootFast,
+		Mode:     internal_boot.BootFast,
 		Attested: true,
 	}, nil
 }
