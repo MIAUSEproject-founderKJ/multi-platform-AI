@@ -4,7 +4,7 @@ package bootstrap_phase
 
 import (
 	bootstrap_resolver "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/resolver"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/internal_environment/environment"
+	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 )
 
