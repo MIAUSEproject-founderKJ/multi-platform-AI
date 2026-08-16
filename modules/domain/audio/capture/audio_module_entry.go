@@ -10,7 +10,6 @@ import (
 
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules"
 	audio_io "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/audio/io"
 	audio_processing "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/audio/processing"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"

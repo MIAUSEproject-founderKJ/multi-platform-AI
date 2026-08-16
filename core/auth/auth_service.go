@@ -15,8 +15,8 @@ import (
 	bootstrap "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
 	bootstrap_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases"
 	bootstrap_resolver "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/resolver"
+	security_decision "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/decision"
 	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
-	security_decision "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/verification/decision"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/mutual_interaction"
 
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"

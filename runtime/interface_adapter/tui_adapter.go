@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	auth "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
-	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user_setting"
+	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 )
 
 type TUIAdapter struct{}

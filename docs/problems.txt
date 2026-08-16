@@ -31,3 +31,539 @@ import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/mult
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user]
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification")
 s.PermMask undefined (type *UserSession has no field or method PermMask)
+
+[{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/bootstrap/phases/attestation_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"modelVersionId": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/bootstrap/phases/boot_resolution_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/bootstrap/phases/capability_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/bootstrap/phases/discovery_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/bootstrap/phases/identity_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "BrokenImport",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "BrokenImport"
+		}
+	},
+	"severity": 8,
+	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth\")",
+	"source": "compiler",
+	"startLineNumber": 9,
+	"startColumn": 7,
+	"endLineNumber": 9,
+	"endColumn": 71,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: user_setting.ModeGUI",
+	"source": "compiler",
+	"startLineNumber": 18,
+	"startColumn": 20,
+	"endLineNumber": 18,
+	"endColumn": 27,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: NewGUIAuth",
+	"source": "compiler",
+	"startLineNumber": 19,
+	"startColumn": 10,
+	"endLineNumber": 19,
+	"endColumn": 20,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: user_setting.ModeTUI",
+	"source": "compiler",
+	"startLineNumber": 20,
+	"startColumn": 20,
+	"endLineNumber": 20,
+	"endColumn": 27,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: NewTUIAuth",
+	"source": "compiler",
+	"startLineNumber": 21,
+	"startColumn": 10,
+	"endLineNumber": 21,
+	"endColumn": 20,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredImportedName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredImportedName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: user_setting.ModeVoice",
+	"source": "compiler",
+	"startLineNumber": 22,
+	"startColumn": 20,
+	"endLineNumber": 22,
+	"endColumn": 29,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: NewVoiceAuth",
+	"source": "compiler",
+	"startLineNumber": 23,
+	"startColumn": 10,
+	"endLineNumber": 23,
+	"endColumn": 22,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: NewCLIAuth",
+	"source": "compiler",
+	"startLineNumber": 25,
+	"startColumn": 10,
+	"endLineNumber": 25,
+	"endColumn": 20,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/bootstrap/phases/interface_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "UndeclaredName",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "UndeclaredName"
+		}
+	},
+	"severity": 8,
+	"message": "undefined: GUIEngine",
+	"source": "compiler",
+	"startLineNumber": 64,
+	"startColumn": 8,
+	"endLineNumber": 64,
+	"endColumn": 17,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/bootstrap/phases/module_resolution_phase.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/internal/schema/boot/boot_marker.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/internal/schema/boot/boot_marker.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "BrokenImport",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "BrokenImport"
+		}
+	},
+	"severity": 8,
+	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment\")",
+	"source": "compiler",
+	"startLineNumber": 8,
+	"startColumn": 23,
+	"endLineNumber": 8,
+	"endColumn": 105,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/internal/schema/boot/boot_mode.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/internal/schema/environment/attestation.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/internal/schema/environment/capabilities.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/internal/schema/environment/capabilities.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "MismatchedTypes",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MismatchedTypes"
+		}
+	},
+	"severity": 8,
+	"message": "invalid operation: *c |= cap (mismatched types CapabilitySet and Capability)",
+	"source": "compiler",
+	"startLineNumber": 35,
+	"startColumn": 2,
+	"endLineNumber": 35,
+	"endColumn": 4,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/internal/schema/environment/capabilities.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "MismatchedTypes",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MismatchedTypes"
+		}
+	},
+	"severity": 8,
+	"message": "invalid operation: *c &= ^cap (mismatched types CapabilitySet and Capability)",
+	"source": "compiler",
+	"startLineNumber": 39,
+	"startColumn": 2,
+	"endLineNumber": 39,
+	"endColumn": 4,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/internal/schema/environment/capabilities.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "MismatchedTypes",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MismatchedTypes"
+		}
+	},
+	"severity": 8,
+	"message": "invalid operation: c & cap (mismatched types CapabilitySet and Capability)",
+	"source": "compiler",
+	"startLineNumber": 43,
+	"startColumn": 9,
+	"endLineNumber": 43,
+	"endColumn": 14,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/internal/schema/environment/capabilities.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "MismatchedTypes",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MismatchedTypes"
+		}
+	},
+	"severity": 8,
+	"message": "invalid operation: set |= cap (mismatched types CapabilitySet and Capability)",
+	"source": "compiler",
+	"startLineNumber": 81,
+	"startColumn": 4,
+	"endLineNumber": 81,
+	"endColumn": 7,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/internal/schema/environment/device_identity.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/internal/schema/environment/device_identity.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "BrokenImport",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "BrokenImport"
+		}
+	},
+	"severity": 8,
+	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user\")",
+	"source": "compiler",
+	"startLineNumber": 8,
+	"startColumn": 15,
+	"endLineNumber": 8,
+	"endColumn": 90,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/internal/schema/environment/discovery_profile.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/internal/schema/environment/env_config.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/C:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/internal/schema/environment/hardware_profile.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/c:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/internal/schema/user/settings.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"severity": 8,
+	"message": "import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user]",
+	"source": "go list",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1,
+	"origin": "extHost1"
+},{
+	"resource": "/c:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/internal/schema/user/settings.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "BrokenImport",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "BrokenImport"
+		}
+	},
+	"severity": 8,
+	"message": "could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification (missing metadata for import of \"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification\")",
+	"source": "compiler",
+	"startLineNumber": 10,
+	"startColumn": 24,
+	"endLineNumber": 10,
+	"endColumn": 107,
+	"origin": "extHost1"
+},{
+	"resource": "/c:/Users/MIAUSEKJ/Documents/GitHub/multi-platform-AI/internal/schema/user/settings.go",
+	"owner": "_generated_diagnostic_collection_name_#0",
+	"code": {
+		"value": "MissingFieldOrMethod",
+		"target": {
+			"$mid": 1,
+			"path": "/golang.org/x/tools/internal/typesinternal",
+			"scheme": "https",
+			"authority": "pkg.go.dev",
+			"fragment": "MissingFieldOrMethod"
+		}
+	},
+	"severity": 8,
+	"message": "s.PermMask undefined (type *UserSession has no field or method PermMask)",
+	"source": "compiler",
+	"startLineNumber": 53,
+	"startColumn": 11,
+	"endLineNumber": 53,
+	"endColumn": 19,
+	"origin": "extHost1"
+}]

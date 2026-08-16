@@ -7,8 +7,8 @@ import (
 	"sync/atomic"
 
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
+	file "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/data_transport/file"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/file"
 	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
 	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 )
