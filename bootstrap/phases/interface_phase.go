@@ -10,7 +10,6 @@ import (
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	audio_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/audio/engine"
-	mutual_interaction "github.com/MIAUSEproject-founderKJ/multi-platform-AI/mutual_interaction"
 )
 
 func BuildAuthInterface(mode user_setting.InteractionMode) auth.AuthInterface {
@@ -26,23 +25,20 @@ func BuildAuthInterface(mode user_setting.InteractionMode) auth.AuthInterface {
 	}
 }
 
-func PhaseInterface(caps *internal_environment.CapabilityProfile) (*user_setting.UserSession, error) {
+func PhaseInterface(
+	authManager *auth.AuthManager,
+	ui auth.AuthInterface,
+) (*user_setting.UserSession, error) {
 
-	mode := mutual_interaction.ResolveInteractionMode(nil, caps.Set)
+	if authManager == nil {
+		return nil, errors.New("auth manager is nil")
+	}
 
-	ui := BuildAuthInterface(mode)
 	if ui == nil {
-		return nil, errors.New("failed to build auth interface")
+		return nil, errors.New("auth interface is nil")
 	}
 
-	authManager := auth.AuthManager{}
-
-	result, err := ui.StartAuthFlow(&authManager)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return ui.StartAuthFlow(authManager)
 }
 
 func ToDeviceCapabilities(cp *internal_environment.CapabilityProfile) internal_environment.DeviceCapabilities {

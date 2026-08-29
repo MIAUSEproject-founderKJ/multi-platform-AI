@@ -27,12 +27,12 @@ type App struct {
 
 func buildApp(log *zap.Logger, sys *SystemContext) (*App, error) {
 
-	if sys.Exec == nil {
+	if sys.Execution == nil {
 		return nil, errors.New("missing execution context")
 	}
 
 	// --- Runtime ---
-	rtx, err := runtime_engine.Build(sys.Exec, sys.Session, log)
+	rtx, err := runtime_engine.Build(sys.Execution, sys.Session, log)
 	if err != nil {
 		return nil, err
 	}

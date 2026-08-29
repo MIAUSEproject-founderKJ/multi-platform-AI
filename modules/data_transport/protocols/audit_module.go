@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
@@ -47,7 +48,7 @@ func (m *AuditModule) Category() ModuleCategory {
 	return ModuleDomain
 }
 
-func (m *AuditModule) SupportedPlatforms() []internal_environment.PlatformClass {
+func (m *AuditModule) SupportedPlatforms() []internal_common.PlatformClass {
 	return nil // capability-driven only
 }
 

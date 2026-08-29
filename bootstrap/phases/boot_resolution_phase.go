@@ -4,12 +4,13 @@ package bootstrap_phase
 
 import (
 	bootstrap_resolver "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/resolver"
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 )
 
 // PhaseBootResolution determines the appropriate boot sequence based on the machine's identity.
-func PhaseBootResolution(identity *internal_environment.MachineIdentity) (*internal_environment.BootSequence, error) {
+func PhaseBootResolution(identity *internal_environment.MachineIdentity) (*internal_boot.BootSequence, error) {
 	bm := &bootstrap_resolver.BootManager{
 		Identity: identity,
 	}

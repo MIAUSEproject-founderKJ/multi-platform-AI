@@ -5,6 +5,7 @@ package bootstrap
 import (
 	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
 	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	"go.uber.org/zap"
@@ -12,10 +13,10 @@ import (
 
 // boot context is the shared state during the boot process, passed through orchestrator and resolvers. It contains all the information needed to make decisions and build the final execution context. It is NOT the final execution context, but a mutable state that evolves during boot.
 type BootContext struct {
-	platformClass internal_environment.PlatformClass
+	platformClass internal_common.PlatformClass
 	service       user_setting.ServiceType
-	entity        internal_environment.EntityKind
-	tier          user_setting.TierType
+	entity        internal_common.EntityKind
+	tier          internal_common.TierType
 	bootMode      internal_boot.BootMode
 
 	trustLevel   user_setting.TrustLevel

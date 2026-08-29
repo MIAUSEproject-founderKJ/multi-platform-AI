@@ -4,12 +4,14 @@ package bootstrap_resolver
 import (
 	"fmt"
 
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
 )
 
-func ResolveBootContext(bs *internal_environment.BootSequence) (*runtime_types.ExecutionContext, error) {
+func ResolveBootContext(bs *internal_boot.BootSequence) (*runtime_types.ExecutionContext, error) {
 
 	if bs == nil {
 		return nil, fmt.Errorf("bootstrap sequence is nil")
@@ -36,15 +38,15 @@ func ResolveBootContext(bs *internal_environment.BootSequence) (*runtime_types.E
 	caps := bs.Capabilities
 
 	// --- Trust resolution ---
-	var trust internal_environment.BootTrust
+	var trust internal_boot.FirstBootMarker
 
 	switch env.Attestation.Level {
-	case internal_environment.TrustStrong:
-		trust = internal_environment.TrustStrong
-	case internal_environment.TrustWeak:
-		trust = internal_environment.TrustWeak
+	case internal_common.TrustStrong:
+		trust = internal_common.TrustStrong
+	case internal_common.TrustWeak:
+		trust = internal_common.TrustWeak
 	default:
-		trust = internal_environment.TrustInvalid
+		trust = internal_common.TrustInvalid
 	}
 
 	// --- Permissions ---
@@ -52,15 +54,15 @@ func ResolveBootContext(bs *internal_environment.BootSequence) (*runtime_types.E
 	perms[user_setting.PermUser] = true
 
 	switch entity {
-	case internal_environment.EntityOrganization:
+	case internal_common.EntityOrganization:
 		perms[user_setting.PermDiagnostics] = true
-	case internal_environment.EntityTester:
+	case internal_common.EntityTester:
 		perms[user_setting.PermDiagnostics] = true
 		perms[user_setting.PermConfigEdit] = true
 	}
 
 	switch tier {
-	case user_setting.TierEnterprise:
+	case internal_common.TierEnterprise:
 		perms[user_setting.PermDiagnostics] = true
 		perms[user_setting.PermConfigEdit] = true
 	}
@@ -69,7 +71,7 @@ func ResolveBootContext(bs *internal_environment.BootSequence) (*runtime_types.E
 		perms[user_setting.PermHardwareIO] = true
 	}
 
-	if caps.Has(internal_environment.CapSafetyCritical) && trust == internal_environment.TrustStrong {
+	if caps.Has(internal_environment.CapSafetyCritical) && trust == internal_common.TrustStrong {
 		perms[user_setting.PermAdmin] = true
 		perms[user_setting.PermSafetyOverride] = true
 	}
@@ -80,7 +82,7 @@ func ResolveBootContext(bs *internal_environment.BootSequence) (*runtime_types.E
 		}
 	}
 
-	bootctx := &runtime_types.ExecutionContext{}
+	bootctx := &bootstrap_resolver.ExecutionContext{}
 
 	return bootctx, nil
 }

@@ -2,14 +2,15 @@
 
 package internal_environment
 
-// EnvAttestation defines the cryptographic seal of the environment
+import internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
+
 type EnvAttestation struct {
-	Locked        bool          `json:"locked"`
-	PlatformClass PlatformClass `json:"platform_class,omitempty"`
-	Valid         bool          `json:"valid"`
-	Level         BootTrust     `json:"level"` // "strong" | "weak" | "invalid"
-	EnvHash       string        `json:"env_hash"`
-	SessionToken  string        `json:"session_token,omitempty"`
+	Locked        bool                      `json:"locked"`
+	PlatformClass PlatformClass             `json:"platform_class,omitempty"`
+	Valid         bool                      `json:"valid"`
+	Level         internal_common.BootTrust `json:"level"`
+	EnvHash       string                    `json:"env_hash"`
+	SessionToken  string                    `json:"session_token,omitempty"`
 }
 
 type SchemaInfo struct {
@@ -17,14 +18,6 @@ type SchemaInfo struct {
 	Name    string
 	Created string
 }
-
-type BootTrust uint8
-
-const (
-	TrustInvalid BootTrust = iota
-	TrustWeak
-	TrustStrong
-)
 
 // CurrentVersion defines the active schema version used by the runtime.
 const CurrentVersion = 2

@@ -13,7 +13,7 @@ import (
 // ------------------------------------------------------------
 // Cold Boot: full hardware discovery and provisioning
 // ------------------------------------------------------------
-func (bm *BootManager) runColdBoot() (*internal_environment.BootSequence, error) {
+func (bm *BootManager) runColdBoot() (*internal_boot.BootSequence, error) {
 	// 1. Active hardware discovery
 	env := &internal_environment.EnvConfig{
 		Identity: *bm.Identity,
@@ -26,7 +26,7 @@ func (bm *BootManager) runColdBoot() (*internal_environment.BootSequence, error)
 
 	bm.Identity.BindHardware(fullProfile)
 
-	return &internal_environment.BootSequence{
+	return &internal_boot.BootSequence{
 		Env:      fullProfile,
 		Mode:     internal_boot.BootCold,
 		Attested: true,

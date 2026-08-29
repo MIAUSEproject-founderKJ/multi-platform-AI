@@ -2,7 +2,7 @@
 package security_decision
 
 import (
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 )
 
@@ -11,9 +11,9 @@ type PermissionResolver interface {
 }
 
 type AuthorizationContext struct {
-	Platform internal_environment.PlatformClass
-	Entity   internal_environment.EntityKind
-	Tier     user_setting.TierType
+	Platform internal_common.PlatformClass
+	Entity   internal_common.EntityKind
+	Tier     internal_common.TierType
 	Service  user_setting.ServiceType
 }
 

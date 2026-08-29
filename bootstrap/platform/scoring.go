@@ -5,16 +5,17 @@ import (
 	"time"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 )
 
 // Define constants to prevent magic strings
 const (
-	ClassUnknown     internal_environment.PlatformClass = "Unknown"
-	ClassVehicle     internal_environment.PlatformClass = "Automotive"
-	ClassIndustrial  internal_environment.PlatformClass = "Industrial"
-	ClassWorkstation internal_environment.PlatformClass = "Workstation"
+	ClassUnknown     internal_common.PlatformClass = "Unknown"
+	ClassVehicle     internal_common.PlatformClass = "Automotive"
+	ClassIndustrial  internal_common.PlatformClass = "Industrial"
+	ClassWorkstation internal_common.PlatformClass = "Workstation"
 )
 
 // RunResolution determines the Final PlatformClass based on confidence scores.
@@ -71,6 +72,6 @@ func RunResolution(env *internal_environment.EnvConfig) {
 }
 
 // Helper to prioritize safety-critical platforms during ties
-func isSafetyCritical(pType internal_environment.PlatformClass) bool {
+func isSafetyCritical(pType internal_common.PlatformClass) bool {
 	return pType == ClassVehicle || pType == ClassIndustrial
 }

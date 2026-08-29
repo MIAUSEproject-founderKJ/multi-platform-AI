@@ -2,6 +2,7 @@
 package bootstrap_resolver
 
 import (
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	runtime_types "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/types"
@@ -11,7 +12,7 @@ type executionContextView struct {
 	exec runtime_types.ExecutionContext
 }
 
-func (e *executionContextView) Platform() internal_environment.PlatformClass {
+func (e *executionContextView) Platform() internal_common.PlatformClass {
 	return e.exec.PlatformClass
 }
 

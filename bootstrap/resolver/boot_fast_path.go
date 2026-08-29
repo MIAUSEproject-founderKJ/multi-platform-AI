@@ -12,7 +12,7 @@ import (
 // ------------------------------------------------------------
 // Fast Boot: use cached environment
 // ------------------------------------------------------------
-func (bm *BootManager) runFastBoot(env *internal_environment.EnvConfig) (*internal_environment.BootSequence, error) {
+func (bm *BootManager) runFastBoot(env *internal_environment.EnvConfig) (*internal_boot.BootSequence, error) {
 	// 1. Verify against golden
 	marker, err := bm.Vault.LoadFirstBootMarker()
 	if err != nil || env.SchemaVersion != internal_environment.CurrentVersion {
@@ -28,7 +28,7 @@ func (bm *BootManager) runFastBoot(env *internal_environment.EnvConfig) (*intern
 		return bm.runColdBoot()
 	}
 
-	return &internal_environment.BootSequence{
+	return &internal_boot.BootSequence{
 		Env:      env,
 		Mode:     internal_boot.BootFast,
 		Attested: true,

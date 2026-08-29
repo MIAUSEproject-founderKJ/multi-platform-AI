@@ -6,8 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
-	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 )
 
 type InteractionCapability struct {
@@ -46,11 +45,11 @@ type Orchestrator interface {
 	Broadcast(msg string)
 }
 
-func (s *UserSession) HasPermission(p internal_verification.PermissionMask) bool {
+func (s *UserSession) HasPermission(p PermissionKey) bool {
 	if s == nil {
 		return false
 	}
-	return s.PermMask&p != 0
+	return s.Claims.Permissions[p]
 }
 
 type UserCoreConfig struct {
@@ -87,29 +86,18 @@ type UserSession struct {
 
 type SessionClaims struct {
 	SessionID string
-	Platform  internal_environment.PlatformClass
-	Entity    internal_environment.EntityKind
-	Tier      TierType
-	Service   ServiceType
+
+	Platform internal_common.PlatformClass
+	Entity   internal_common.EntityKind
+
+	Tier    internal_common.TierType
+	Service ServiceType
 
 	Permissions map[PermissionKey]bool
 
 	CreatedAt time.Time
 	ExpiresAt time.Time
 }
-
-// ------------------------------------------------------------
-// Tier System
-// ------------------------------------------------------------
-// Use TierType (string) externally for readability and compatibility. Use EntityType (uint8) internally for speed and clarity.
-type TierType string
-
-const (
-	TierUnknown    TierType = "unknown"
-	TierPersonal   TierType = "personal"
-	TierEnterprise TierType = "enterprise"
-	TierTester     TierType = "tester"
-)
 
 // Optional richer structure
 type TierProfile struct {
@@ -199,8 +187,8 @@ func (b *SessionBuilder) Build(
 }
 
 type BuildContext struct {
-	Platform internal_environment.PlatformClass
-	Entity   internal_environment.EntityKind
-	Tier     TierType
+	Platform internal_common.PlatformClass
+	Entity   internal_common.EntityKind
+	Tier     internal_common.TierType
 	Service  ServiceType
 }

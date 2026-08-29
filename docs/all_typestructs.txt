@@ -21,7 +21,7 @@ api\hmi\hmi_contract.go:
 bootstrap\boot_context.go:
   13  
   14: type BootContext struct {
-  15  	PlatformClass internal_environment.PlatformClass
+  15  	PlatformClass internal_common.PlatformClass
 
 bootstrap\phases\boot_resolution_phase.go:
   44  
@@ -96,7 +96,7 @@ bootstrap\probe\passive_discovery.go:
    17: type SignalBuilder func(fp HardwareFingerprint, env *internal_environment.EnvConfig) []internal_environment.Signal
    18  
    19: type PlatformDefinition struct {
-   20  	Type     internal_environment.PlatformClass
+   20  	Type     internal_common.PlatformClass
 
   236  // ------------------------------------------------------------
   237: type LocalPlatformScore struct {
@@ -206,7 +206,7 @@ core\security\decision\permission_deriver.go:
 
   12  
   13: type AuthorizationContext struct {
-  14  	Platform internal_environment.PlatformClass
+  14  	Platform internal_common.PlatformClass
 
   19  
   20: type DefaultPermissionResolver struct{}
@@ -431,7 +431,7 @@ internal\schema\user\settings.go:
 
   165  
   166: type BuildContext struct {
-  167  	Platform internal_environment.PlatformClass
+  167  	Platform internal_common.PlatformClass
 
 internal\schema\verification\permissions.go:
   6  

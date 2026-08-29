@@ -1,19 +1,28 @@
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
-could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth")
-undefined: user_setting.ModeGUI
-undefined: NewGUIAuth
-undefined: user_setting.ModeTUI
-undefined: NewTUIAuth
-undefined: user_setting.ModeVoice
-undefined: NewVoiceAuth
-undefined: NewCLIAuth
-undefined: GUIEngine
-import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases]
+import cycle not allowed
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases")
+could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/mutual_interaction (no required module provides package "github.com/MIAUSEproject-founderKJ/multi-platform-AI/mutual_interaction")
+not enough arguments in call to bootstrap_resolver.DeviceCapabilitiesResolver
+	have ()
+	want (*internal_environment.EnvConfig, internal_environment.CapabilitySet)
+undefined: BuildOrchestrator
+undefined: caps
+undefined: bootstrap.BuildAuthInterface
+undefined: auth.NewAuthManager
+undefined: vault
+undefined: platform
+no new variables on left side of :=
+PhaseInterface redeclared in this block
+undefined: AuthManager
+not enough arguments in call to bootstrap_resolver.DeviceCapabilitiesResolver
+	have ()
+	want (*internal_environment.EnvConfig, internal_environment.CapabilitySet)
+cp.Set undefined (type *internal_environment.CapabilityDescriptor has no field or method Set)
+undefined: bootstrap.Capabilities
+cp.Set undefined (type *internal_environment.CapabilityDescriptor has no field or method Set)
+undefined: bootstrap.CapProfile
+undefined: bootstrap.Mode
+undefined: bootstrap.Orchestrator
+no new variables on left side of :=
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot]
 could not import github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment (missing metadata for import of "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment")
 import cycle not allowed: import stack: [github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot]

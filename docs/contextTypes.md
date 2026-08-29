@@ -1,5 +1,5 @@
 type ExecutionContext interface {
-	Platform() internal_environment.PlatformClass
+	Platform() internal_common.PlatformClass
 	Capabilities() internal_environment.CapabilitySet
 	SecurityTier() user_setting.TrustLevel
 
@@ -28,10 +28,10 @@ type RuntimePolicy struct {
 }
 
 type BootContext struct {
-	platformClass internal_environment.PlatformClass
+	platformClass internal_common.PlatformClass
 	service       user_setting.ServiceType
-	entity        internal_environment.EntityKind
-	tier          user_setting.TierType
+	entity        internal_common.EntityKind
+	tier          internal_common.TierType
 	bootMode      internal_boot.BootMode
 
 	trustLevel  user_setting.TrustLevel

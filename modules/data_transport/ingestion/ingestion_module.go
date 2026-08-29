@@ -6,6 +6,7 @@ import (
 	"context"
 	"sync/atomic"
 
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	file "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/data_transport/file"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
@@ -51,7 +52,7 @@ func (m *IngestionModule) Run(bootctx context.Context) error {
 	return nil
 }
 
-func (m *IngestionModule) SupportedPlatforms() []internal_environment.PlatformClass { return nil }
+func (m *IngestionModule) SupportedPlatforms() []internal_common.PlatformClass { return nil }
 
 func (m *IngestionModule) RequiredCapabilities() internal_environment.CapabilitySet {
 	// This module doesn’t require any capabilities, so return 0

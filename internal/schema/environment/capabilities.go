@@ -32,15 +32,15 @@ type Capability uint64
 type CapabilitySet uint64
 
 func (c *CapabilitySet) Add(cap Capability) {
-	*c |= cap
+	*c |= CapabilitySet(cap)
 }
 
 func (c *CapabilitySet) Remove(cap Capability) {
-	*c &= ^cap
+	*c &= ^CapabilitySet(cap)
 }
 
 func (c CapabilitySet) Has(cap Capability) bool {
-	return c&cap != 0
+	return c&CapabilitySet(cap) != 0
 }
 
 func (c CapabilitySet) HasAll(required CapabilitySet) bool {
@@ -76,11 +76,13 @@ type CapabilityProfile struct {
 
 func (cp *CapabilityProfile) RecomputeSet() {
 	var set CapabilitySet
+
 	for cap, info := range cp.Stats {
 		if info.Status == CapOK {
-			set |= cap
+			set |= CapabilitySet(cap)
 		}
 	}
+
 	cp.Set = set
 }
 

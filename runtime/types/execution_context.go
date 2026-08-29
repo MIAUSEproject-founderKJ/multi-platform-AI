@@ -3,12 +3,13 @@
 package runtime_types
 
 import (
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 )
 
 type ExecutionContext interface {
-	Platform() internal_environment.PlatformClass
+	Platform() internal_common.PlatformClass
 	Capabilities() internal_environment.CapabilitySet
 	SecurityTier() user_setting.TrustLevel
 

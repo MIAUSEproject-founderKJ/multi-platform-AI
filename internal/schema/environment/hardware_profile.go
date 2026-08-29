@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 )
 
 type HardwareProfile struct {
@@ -72,19 +73,6 @@ const (
 	DeviceRobot      DeviceClass = "robot"
 )
 
-// PlatformClass defines the type of hardware (Vehicle, Drone, etc.)
-type PlatformClass string
-
-const (
-	PlatformComputer   PlatformClass = "computer"
-	PlatformMobile     PlatformClass = "mobile"
-	PlatformEmbedded   PlatformClass = "embedded"
-	PlatformIndustrial PlatformClass = "industrial"
-	PlatformVehicle    PlatformClass = "vehicle"
-	PlatformRobot      PlatformClass = "robot"
-	PlatformUnknown    PlatformClass = "unknown"
-)
-
 type PlatformProfile struct {
 	//full resolved identity
 	Class        DeviceClass
@@ -95,7 +83,7 @@ type PlatformProfile struct {
 // PlatformScore tracks the heuristic weight for a specific platform type.
 
 type PlatformScore struct {
-	Type       PlatformClass
+	Type       internal_common.PlatformClass
 	Profile    PlatformProfile // NEW
 	Signals    []Signal
 	Score      float64

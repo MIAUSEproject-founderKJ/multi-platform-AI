@@ -7,11 +7,10 @@ import (
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/keys"
 	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 )
 
 // DecideBootPath determines whether to run fast or cold boot
-func (bm *BootManager) DecideBootPath() (*internal_environment.BootSequence, error) {
+func (bm *BootManager) DecideBootPath() (*internal_boot.BootSequence, error) {
 	// Load last known environment
 	lastkey := keys.LastKnownEnvKey(bm.Identity.MachineID)
 	env, err := bm.Vault.LoadConfig(lastkey)

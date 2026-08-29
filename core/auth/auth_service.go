@@ -12,56 +12,36 @@ import (
 	"strings"
 	"time"
 
-	bootstrap "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
-	bootstrap_phase "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/phases"
-	bootstrap_resolver "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/resolver"
 	security_decision "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/decision"
 	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/mutual_interaction"
 
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	internal_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/verification"
 )
 
-type AuthManager struct {
-	Vault    verification_persistence.VaultStore
-	Identity *internal_environment.MachineIdentity
-	Platform internal_environment.PlatformClass
-	Entity   internal_environment.EntityKind
-	Tier     user_setting.TierType
-}
-
-type AuthInterface interface {
-	StartAuthFlow(auth *AuthManager) (*user_setting.UserSession, error)
-}
-
-type Credentials struct {
-	UserID   string
-	Password string
-}
-
 // detectEntityAndTier inspects the user identity to assign entity and tier
 func (am *AuthManager) detectEntityAndTier() {
 	if am.Identity == nil {
-		am.Entity = internal_environment.EntityStranger
-		am.Tier = user_setting.TierUnknown
+		am.Entity = internal_common.EntityStranger
+		am.Tier = internal_common.TierUnknown
 		return
 	}
 
 	switch am.Identity.EntityType {
-	case internal_environment.EntityPersonal:
-		am.Entity = internal_environment.EntityPersonal
-		am.Tier = user_setting.TierPersonal
-	case internal_environment.EntityOrganization:
-		am.Entity = internal_environment.EntityOrganization
-		am.Tier = user_setting.TierEnterprise
-	case internal_environment.EntityTester:
-		am.Entity = internal_environment.EntityTester
-		am.Tier = user_setting.TierTester
+	case internal_common.EntityPersonal:
+		am.Entity = internal_common.EntityPersonal
+		am.Tier = internal_common.TierPersonal
+	case internal_common.EntityOrganization:
+		am.Entity = internal_common.EntityOrganization
+		am.Tier = internal_common.TierEnterprise
+	case internal_common.EntityTester:
+		am.Entity = internal_common.EntityTester
+		am.Tier = internal_common.TierTester
 	default:
-		am.Entity = internal_environment.EntityStranger
-		am.Tier = user_setting.TierUnknown
+		am.Entity = internal_common.EntityStranger
+		am.Tier = internal_common.TierUnknown
 	}
 }
 
@@ -113,12 +93,12 @@ func PromptForRegistration(vault verification_persistence.VaultStore) (*internal
 	entityStr, _ := reader.ReadString('\n')
 	entityStr = strings.TrimSpace(entityStr)
 
-	entityType := internal_environment.EntityPersonal
+	entityType := internal_common.EntityPersonal
 	switch strings.ToLower(entityStr) {
 	case "organization":
-		entityType = internal_environment.EntityOrganization
+		entityType = internal_common.EntityOrganization
 	case "tester":
-		entityType = internal_environment.EntityTester
+		entityType = internal_common.EntityTester
 	}
 
 	identity := &internal_environment.MachineIdentity{
@@ -169,7 +149,7 @@ func (am *AuthManager) verifyUserCredentials(userID, password string) (bool, *in
 	return true, &stored
 }
 
-func (am *AuthManager) RegisterUser(userID, password string, entityType internal_environment.EntityKind) error {
+func (am *AuthManager) RegisterUser(userID, password string, entityType internal_common.EntityKind) error {
 	if am.Vault == nil {
 		return errors.New("vault not initialized")
 	}
@@ -234,7 +214,7 @@ func (am *AuthManager) Register() (*user_setting.UserSession, error) {
 	password, _ := reader.ReadString('\n')
 	password = strings.TrimSpace(password)
 
-	entityType := internal_environment.EntityPersonal
+	entityType := internal_common.EntityPersonal
 
 	if err := am.RegisterUser(userID, password, entityType); err != nil {
 		return nil, err
@@ -280,15 +260,15 @@ func (am *AuthManager) platformLoginFlow() (*user_setting.UserSession, error) {
 	// ------------------------------
 	// Vehicles / Autonomous Mobility
 	// ------------------------------
-	case internal_environment.PlatformVehicle, internal_environment.PlatformRobot:
+	case internal_common.PlatformVehicle, internal_common.PlatformRobot:
 		switch am.Entity {
-		case internal_environment.EntityPersonal:
+		case internal_common.EntityPersonal:
 			err = am.verifyKeyFobOrBiometrics()
-		case internal_environment.EntityOrganization:
+		case internal_common.EntityOrganization:
 			err = am.verifyBiometricsAndAppHandshake()
-		case internal_environment.EntityStranger:
+		case internal_common.EntityStranger:
 			err = am.guestLoginVehicle()
-		case internal_environment.EntityTester:
+		case internal_common.EntityTester:
 			err = am.verifyMechanicAccess()
 		default:
 			err = fmt.Errorf("unknown vehicle entity type")
@@ -297,24 +277,24 @@ func (am *AuthManager) platformLoginFlow() (*user_setting.UserSession, error) {
 	// ------------------------------
 	// Industrial / Embedded / Factory
 	// ------------------------------
-	case internal_environment.PlatformIndustrial, internal_environment.PlatformEmbedded:
+	case internal_common.PlatformIndustrial, internal_common.PlatformEmbedded:
 		err = am.verifyNFCCardOrButton()
 
 	// ------------------------------
 	// PCs / Laptops / Productivity
 	// ------------------------------
-	case internal_environment.PlatformComputer, internal_environment.PlatformMobile:
+	case internal_common.PlatformComputer, internal_common.PlatformMobile:
 		switch am.Entity {
-		case internal_environment.EntityPersonal:
+		case internal_common.EntityPersonal:
 			err = am.verifyPasswordOrOSBiometrics()
-		case internal_environment.EntityOrganization:
+		case internal_common.EntityOrganization:
 			err = am.verifyPasswordOrOSBiometrics()
 			if err == nil {
 				err = am.verify2FAEnterprise()
 			}
-		case internal_environment.EntityStranger:
+		case internal_common.EntityStranger:
 			err = am.guestLoginPC()
-		case internal_environment.EntityTester:
+		case internal_common.EntityTester:
 			err = am.enableDebugLogin()
 		default:
 			err = fmt.Errorf("unknown PC entity type")
@@ -334,11 +314,11 @@ func (am *AuthManager) platformLoginFlow() (*user_setting.UserSession, error) {
 	// Determine default service based on platform
 	service := user_setting.ServiceUnknown
 	switch am.Platform {
-	case internal_environment.PlatformVehicle, internal_environment.PlatformRobot:
+	case internal_common.PlatformVehicle, internal_common.PlatformRobot:
 		service = user_setting.ServiceEnterprise
-	case internal_environment.PlatformIndustrial, internal_environment.PlatformEmbedded:
+	case internal_common.PlatformIndustrial, internal_common.PlatformEmbedded:
 		service = user_setting.ServiceSystem
-	case internal_environment.PlatformComputer, internal_environment.PlatformMobile:
+	case internal_common.PlatformComputer, internal_common.PlatformMobile:
 		service = user_setting.ServicePersonal
 	}
 
@@ -497,13 +477,9 @@ func (am *AuthManager) createSession(service user_setting.ServiceType) (*user_se
 		UpdateMode:    cfg.UpdateMode,
 		PreferredMode: cfg.PreferredMode,
 	}
-
 	// ----------------------------
 	// 4. RUNTIME
 	// ----------------------------
-	if err := am.initializeRuntime(session); err != nil {
-		return nil, err
-	}
 
 	return session, nil
 }
@@ -531,45 +507,33 @@ func SaveUserConfig(vault verification_persistence.VaultStore, userID string, cf
 	return vault.Write("configs", userID, cfg)
 }
 
-func (am *AuthManager) HandleConfigUpdate(session *user_setting.UserSession) {
+func (am *AuthManager) HandleConfigUpdate(
+	session *user_setting.UserSession,
+) {
+
 	reader := bufio.NewReader(os.Stdin)
 
 	fmt.Print("[CONFIG] Enter command: ")
+
 	cmd, _ := reader.ReadString('\n')
 	cmd = strings.TrimSpace(cmd)
 
-	if cmd == "update config" {
-		fmt.Println("[CONFIG] Updating configuration...")
-		newCfg := PromptForUserConfig()
-
-		_ = SaveUserConfig(am.Vault, am.Identity.MachineID, newCfg)
-
-		session.Config = newCfg
-
-		if orch, ok := session.Orchestrator.(*bootstrap_phase.Orchestrator); ok {
-			orch.Broadcast("Configuration updated successfully")
-		}
-	}
-}
-
-func (am *AuthManager) initializeRuntime(session *user_setting.UserSession) error {
-
-	cp, err := bootstrap_resolver.DeviceCapabilitiesResolver()
-	if err != nil {
-		return err
+	if cmd != "update config" {
+		return
 	}
 
-	orch := bootstrap_phase.BuildOrchestrator(cp)
-	orch.StartAll(session)
+	fmt.Println("[CONFIG] Updating configuration...")
 
-	mode := mutual_interaction.ResolveInteractionMode(session.Config, cp.Set)
+	newCfg := PromptForUserConfig()
 
-	bootstrap.Capabilities = cp.Set
-	bootstrap.CapProfile = cp
-	bootstrap.Mode = string(mode)
-	bootstrap.Orchestrator = orch
+	if err := SaveUserConfig(
+		am.Vault,
+		am.Identity.MachineID,
+		newCfg,
+	); err != nil {
+		fmt.Println("[CONFIG] Failed to save configuration:", err)
+		return
+	}
 
-	orch.Broadcast("Session initialized successfully")
-
-	return nil
+	session.Config = newCfg
 }

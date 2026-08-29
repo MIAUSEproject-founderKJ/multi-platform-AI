@@ -5,6 +5,7 @@ import (
 	"context"
 	"sync/atomic"
 
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
@@ -73,7 +74,7 @@ func (m *IndustrialProtocolModule) Healthy() bool {
 	return m.healthy.Load()
 }
 
-func (m *IndustrialProtocolModule) SupportedPlatforms() []internal_environment.PlatformClass {
+func (m *IndustrialProtocolModule) SupportedPlatforms() []internal_common.PlatformClass {
 	return nil
 }
 func (m *IndustrialProtocolModule) RequiredCapabilities() internal_environment.CapabilitySet {

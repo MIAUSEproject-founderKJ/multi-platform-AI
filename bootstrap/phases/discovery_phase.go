@@ -6,13 +6,13 @@ import (
 	"fmt"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/probe"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 )
 
 type DiscoveryResult struct {
 	InstanceID   string
-	PlatformType internal_environment.PlatformClass
+	PlatformType internal_common.PlatformClass
 	OS           string
 	Architecture string
 }

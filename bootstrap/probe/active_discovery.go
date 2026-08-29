@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 )
@@ -20,10 +21,10 @@ func ActiveDiscovery(env *internal_environment.EnvConfig) (*internal_environment
 	logging.Info("[active_discovery] Phase 2: Active Hardware Mapping for %s", env.Platform.Final)
 
 	switch env.Platform.Final {
-	case internal_environment.PlatformComputer, internal_environment.PlatformMobile:
+	case internal_common.PlatformComputer, internal_common.PlatformMobile:
 		populateCompute(env)
-	case internal_environment.PlatformVehicle, internal_environment.PlatformRobot,
-		internal_environment.PlatformIndustrial, internal_environment.PlatformEmbedded:
+	case internal_common.PlatformVehicle, internal_common.PlatformRobot,
+		internal_common.PlatformIndustrial, internal_common.PlatformEmbedded:
 		populateEmbedded(env)
 	default:
 		logging.Warn("[PROBE] Unknown platform %s using sensor-only fallback", env.Platform.Final)

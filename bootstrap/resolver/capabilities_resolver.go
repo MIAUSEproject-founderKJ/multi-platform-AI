@@ -2,6 +2,7 @@
 package bootstrap_resolver
 
 import (
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 )
 
@@ -37,12 +38,12 @@ func DeviceCapabilitiesResolver(env *internal_environment.EnvConfig, capSet inte
 	// --------------------------------
 	switch env.Platform.Final {
 
-	case internal_environment.PlatformRobot, internal_environment.PlatformVehicle:
+	case internal_common.PlatformRobot, internal_common.PlatformVehicle:
 		caps.SupportsGoalControl =
 			caps.SupportsRegisterControl &&
 				caps.HasSafetyEnvelope
 
-	case internal_environment.PlatformEmbedded:
+	case internal_common.PlatformEmbedded:
 		caps.SensorOnly = !caps.SupportsRegisterControl
 	}
 

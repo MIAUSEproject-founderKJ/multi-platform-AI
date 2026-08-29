@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	kernel_lifecycle "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/lifecycle"
@@ -160,9 +161,9 @@ func (m *InferenceModule) convert(event TelemetryEvent) PredictionRequest {
 	}
 }
 
-func (m *InferenceModule) Start() error                                             { m.running.Store(true); return nil }
-func (m *InferenceModule) Stop() error                                              { m.running.Store(false); return nil }
-func (m *InferenceModule) SupportedPlatforms() []internal_environment.PlatformClass { return nil }
+func (m *InferenceModule) Start() error                                        { m.running.Store(true); return nil }
+func (m *InferenceModule) Stop() error                                         { m.running.Store(false); return nil }
+func (m *InferenceModule) SupportedPlatforms() []internal_common.PlatformClass { return nil }
 
 func (m *InferenceModule) processBatch(ctx context.Context, batch []PredictionRequest) {
 	for _, req := range batch {

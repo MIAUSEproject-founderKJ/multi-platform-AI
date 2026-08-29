@@ -9,8 +9,7 @@ import (
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
 	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
-	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
-	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -18,8 +17,8 @@ import (
 type UserProfile struct {
 	Username     string
 	PasswordHash string
-	Entity       internal_environment.EntityKind
-	Tier         user_setting.TierType
+	Entity       internal_common.EntityKind
+	Tier         internal_common.TierType
 	CreatedAt    time.Time
 }
 
@@ -30,8 +29,15 @@ type AuthSession struct {
 	ExpiresAt time.Time
 }
 
-func NewAuthManager(v verification_persistence.VaultStore) *auth.AuthManager {
-	return &auth.AuthManager{Vault: v}
+func NewAuthManager(
+	vault verification_persistence.VaultStore,
+	platform internal_common.PlatformClass,
+) *AuthManager {
+
+	return &AuthManager{
+		Vault:    vault,
+		Platform: platform,
+	}
 }
 
 type MyAuthManager struct {
@@ -67,8 +73,8 @@ func (am *MyAuthManager) Login(username, password string) (*AuthSession, error) 
 // Signup creates a new user in the Vault
 func (am *auth.AuthManager) Signup(
 	username, password string,
-	entity internal_environment.EntityKind,
-	tier user_setting.TierType,
+	entity internal_common.EntityKind,
+	tier internal_common.TierType,
 ) error {
 
 	exists, err := am.Vault.Exists("users", username)

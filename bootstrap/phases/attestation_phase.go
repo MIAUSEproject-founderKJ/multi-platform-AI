@@ -4,6 +4,8 @@ package bootstrap_phase
 
 import (
 	"errors"
+
+	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 )
@@ -11,7 +13,7 @@ import (
 func PhaseAttestation(
 
 	identity *internal_environment.MachineIdentity,
-	bootSeq *internal_environment.BootSequence,
+	bootSeq *internal_boot.BootSequence,
 	preSession *user_setting.UserSession,
 ) (*user_setting.UserSession, error) {
 

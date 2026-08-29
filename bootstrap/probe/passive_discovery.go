@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 )
@@ -17,14 +18,14 @@ import (
 type SignalBuilder func(fp HardwareFingerprint, env *internal_environment.EnvConfig) []internal_environment.Signal
 
 type PlatformDefinition struct {
-	Type     internal_environment.PlatformClass
+	Type     internal_common.PlatformClass
 	Profile  internal_environment.PlatformProfile
 	Builders []SignalBuilder
 }
 
 var platformRegistry = []PlatformDefinition{
 	{
-		Type: internal_environment.PlatformComputer,
+		Type: internal_common.PlatformComputer,
 		Profile: internal_environment.PlatformProfile{
 			Class: internal_environment.DeviceComputer,
 			Form:  internal_environment.FormDesktop,
@@ -32,7 +33,7 @@ var platformRegistry = []PlatformDefinition{
 		Builders: []SignalBuilder{buildDesktopSignals},
 	},
 	{
-		Type: internal_environment.PlatformMobile,
+		Type: internal_common.PlatformMobile,
 		Profile: internal_environment.PlatformProfile{
 			Class: internal_environment.DeviceMobile,
 			Form:  internal_environment.FormPhone,
@@ -40,7 +41,7 @@ var platformRegistry = []PlatformDefinition{
 		Builders: []SignalBuilder{buildMobileSignals},
 	},
 	{
-		Type: internal_environment.PlatformEmbedded,
+		Type: internal_common.PlatformEmbedded,
 		Profile: internal_environment.PlatformProfile{
 			Class: internal_environment.DeviceEmbedded,
 			Form:  internal_environment.FormHandheld,
@@ -48,14 +49,14 @@ var platformRegistry = []PlatformDefinition{
 		Builders: []SignalBuilder{buildEmbeddedSignals},
 	},
 	{
-		Type: internal_environment.PlatformIndustrial,
+		Type: internal_common.PlatformIndustrial,
 		Profile: internal_environment.PlatformProfile{
 			Class: internal_environment.DeviceIndustrial,
 		},
 		Builders: []SignalBuilder{buildIndustrialSignals},
 	},
 	{
-		Type: internal_environment.PlatformVehicle,
+		Type: internal_common.PlatformVehicle,
 		Profile: internal_environment.PlatformProfile{
 			Class:        internal_environment.DeviceVehicle,
 			Capabilities: []internal_environment.CapabilityTag{internal_environment.TagAutomotive},
@@ -63,7 +64,7 @@ var platformRegistry = []PlatformDefinition{
 		Builders: []SignalBuilder{buildVehicleSignals},
 	},
 	{
-		Type: internal_environment.PlatformRobot,
+		Type: internal_common.PlatformRobot,
 		Profile: internal_environment.PlatformProfile{
 			Class:        internal_environment.DeviceRobot,
 			Capabilities: []internal_environment.CapabilityTag{internal_environment.TagDrone},
@@ -278,7 +279,7 @@ func buildPlatformScore(def PlatformDefinition, fp HardwareFingerprint, env *int
 
 func runPlatformInference(env *internal_environment.EnvConfig, fp HardwareFingerprint) {
 	var results []internal_environment.PlatformScore
-	var best internal_environment.PlatformClass = internal_environment.PlatformUnknown
+	var best internal_common.PlatformClass = internal_common.PlatformUnknown
 	var bestScore float64
 	const minConfidence = 0.65
 	const delta = 0.1 // margin between top candidates
@@ -296,7 +297,7 @@ func runPlatformInference(env *internal_environment.EnvConfig, fp HardwareFinger
 
 	env.Platform.Candidates = results
 	env.Platform.Final = best
-	env.Platform.Locked = best != internal_environment.PlatformUnknown
+	env.Platform.Locked = best != internal_common.PlatformUnknown
 	env.Platform.ResolvedAt = time.Now()
 
 	logging.Info("[IDENTITY] Platform: %s (score %.2f)", best, bestScore)

@@ -7,6 +7,7 @@ import (
 	"errors"
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	domain_shared "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/shared"
 	runtime_bus "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/bus"
@@ -64,13 +65,13 @@ func (m *CognitionModule) Run(ctx context.Context) error {
 }
 
 // DomainModule interface methods
-func (m *CognitionModule) Name() string                                             { return "CognitionModule" }
-func (m *CognitionModule) Category() ModuleCategory                                 { return ModuleDomain }
-func (m *CognitionModule) DependsOn() []string                                      { return []string{"AudioModule"} }
-func (m *CognitionModule) Allowed(ctx runtime_types.ExecutionContext) bool          { return true }
-func (m *CognitionModule) Start() error                                             { return nil }
-func (m *CognitionModule) Stop() error                                              { return nil }
-func (m *CognitionModule) SupportedPlatforms() []internal_environment.PlatformClass { return nil }
+func (m *CognitionModule) Name() string                                        { return "CognitionModule" }
+func (m *CognitionModule) Category() ModuleCategory                            { return ModuleDomain }
+func (m *CognitionModule) DependsOn() []string                                 { return []string{"AudioModule"} }
+func (m *CognitionModule) Allowed(ctx runtime_types.ExecutionContext) bool     { return true }
+func (m *CognitionModule) Start() error                                        { return nil }
+func (m *CognitionModule) Stop() error                                         { return nil }
+func (m *CognitionModule) SupportedPlatforms() []internal_common.PlatformClass { return nil }
 
 // DomainModule implementation
 func (m *CognitionModule) RequiredCapabilities() internal_environment.CapabilitySet {

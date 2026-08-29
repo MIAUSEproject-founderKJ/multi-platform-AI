@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"sync/atomic"
 
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	audio_io "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/audio/io"
@@ -199,7 +200,7 @@ func (m *AudioModule) Category() modules.ModuleCategory {
 	return modules.ModuleDomain
 }
 
-func (m *AudioModule) SupportedPlatforms() []internal_environment.PlatformClass {
+func (m *AudioModule) SupportedPlatforms() []internal_common.PlatformClass {
 	return nil // capability-driven only
 }
 

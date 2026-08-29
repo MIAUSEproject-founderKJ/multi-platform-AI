@@ -5,11 +5,10 @@ package internal_environment
 import (
 	"time"
 
-	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 )
 
 type IdentityProfile struct {
-	//enriched hardware information
 	MachineID    string
 	MachineName  string
 	OS           string
@@ -27,15 +26,15 @@ const (
 )
 
 type MachineIdentity struct {
-	MachineID    string          `json:"machine_id"`
-	PlatformType PlatformClass   `json:"platform_type"` // PlatformClass defines the type of hardware (Vehicle, Drone, etc.)
-	Hostname     string          `json:"hostname"`
-	OS           string          `json:"os"`
-	Arch         string          `json:"arch"`
-	Hardware     HardwareProfile `json:"hardware"`
+	MachineID    string                        `json:"machine_id"`
+	PlatformType internal_common.PlatformClass `json:"platform_type"`
+	Hostname     string                        `json:"hostname"`
+	OS           string                        `json:"os"`
+	Arch         string                        `json:"arch"`
+	Hardware     HardwareProfile               `json:"hardware"`
 
-	EntityType EntityKind            `json:"entity_type"`
-	TierType   user_setting.TierType `json:"tier_type"`
+	EntityType internal_common.EntityKind `json:"entity_type"`
+	TierType   internal_common.TierType   `json:"tier_type"`
 
 	PasswordHash string    `json:"password_hash,omitempty"`
 	CreatedAt    time.Time `json:"created_at"`

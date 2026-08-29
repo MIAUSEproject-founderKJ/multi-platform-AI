@@ -9,16 +9,17 @@ import (
 
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/probe"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/math_convert"
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 )
 
 // Desktop/Laptop scoring using fingerprint
-func collectDesktopSignals(env *internal_environment.EnvConfig, fp probe.HardwareFingerprint, scores map[internal_environment.PlatformClass]*internal_environment.PlatformScore) {
-	s := scores[internal_environment.PlatformComputer]
+func collectDesktopSignals(env *internal_environment.EnvConfig, fp probe.HardwareFingerprint, scores map[internal_common.PlatformClass]*internal_environment.PlatformScore) {
+	s := scores[internal_common.PlatformComputer]
 	if s == nil {
-		s = &internal_environment.PlatformScore{Type: internal_environment.PlatformComputer, MaxScore: 1.5}
-		scores[internal_environment.PlatformComputer] = s
+		s = &internal_environment.PlatformScore{Type: internal_common.PlatformComputer, MaxScore: 1.5}
+		scores[internal_common.PlatformComputer] = s
 	}
 
 	cpu := runtime.NumCPU()

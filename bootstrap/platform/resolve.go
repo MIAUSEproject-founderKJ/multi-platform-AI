@@ -4,11 +4,12 @@ package platform
 import (
 	"time"
 
+	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 )
 
 // ResolvePlatform selects the final operational class based on scores and attestation locks.
-func ResolvePlatform(env *internal_environment.EnvConfig) internal_environment.PlatformClass {
+func ResolvePlatform(env *internal_environment.EnvConfig) internal_common.PlatformClass {
 	// 1. Check for Attestation Lock (The "Immutable" path)
 	if env.Attestation.Locked {
 		env.Platform.Final = env.Attestation.PlatformClass
@@ -18,7 +19,7 @@ func ResolvePlatform(env *internal_environment.EnvConfig) internal_environment.P
 	}
 
 	// 2. Fallback to Score-based Resolution
-	var bestType internal_environment.PlatformClass
+	var bestType internal_common.PlatformClass
 	var highestScore float64 = -1.0
 
 	for _, candidate := range env.Platform.Candidates {

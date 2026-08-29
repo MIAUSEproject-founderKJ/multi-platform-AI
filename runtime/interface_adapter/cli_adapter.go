@@ -26,7 +26,7 @@ func (c *CLIAuth) Authenticate() error {
 type CLIAdapter struct{}
 
 func (c *CLIAdapter) Start(session *user_setting.UserSession) error {
-	fmt.Println("CLI session started:", user_setting.UserIdentity)
+	fmt.Println("CLI session started:")
 	return nil
 }
 
