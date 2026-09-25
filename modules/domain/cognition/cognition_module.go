@@ -66,7 +66,7 @@ func (m *CognitionModule) Run(ctx context.Context) error {
 
 // DomainModule interface methods
 func (m *CognitionModule) Name() string                                        { return "CognitionModule" }
-func (m *CognitionModule) Category() ModuleCategory                            { return ModuleDomain }
+func (m *CognitionModule) Category() ModuleCategory                            { return CurrentVersion }
 func (m *CognitionModule) DependsOn() []string                                 { return []string{"AudioModule"} }
 func (m *CognitionModule) Allowed(ctx runtime_types.ExecutionContext) bool     { return true }
 func (m *CognitionModule) Start() error                                        { return nil }

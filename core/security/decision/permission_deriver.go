@@ -2,6 +2,7 @@
 package security_decision
 
 import (
+	bootstrap_resolver "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/resolver"
 	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 )
@@ -20,7 +21,7 @@ type AuthorizationContext struct {
 type DefaultPermissionResolver struct{}
 
 func (r *DefaultPermissionResolver) Resolve(ctx *AuthorizationContext) []user_setting.PermissionKey {
-	return DerivePermissions(
+	return bootstrap_resolver.DerivePermissions(
 		ctx.Platform,
 		ctx.Entity,
 		ctx.Tier,

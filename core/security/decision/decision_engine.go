@@ -16,13 +16,7 @@ func NewEnforcer(bootctx runtime_types.ExecutionContext) *Enforcer {
 }
 
 func (e *Enforcer) Allow(p user_setting.PermissionKey) bool {
-
-	v, ok := e.ctx.Permissions[p]
-	if !ok {
-		return false
-	}
-
-	return v
+	return e.ctx.HasPermission(p)
 }
 
 type AuthorizationService struct {

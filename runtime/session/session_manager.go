@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
+	auth "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
 	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
 	internal_common "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/common"
 	"golang.org/x/crypto/bcrypt"
@@ -32,9 +32,9 @@ type AuthSession struct {
 func NewAuthManager(
 	vault verification_persistence.VaultStore,
 	platform internal_common.PlatformClass,
-) *AuthManager {
+) *auth.AuthManager {
 
-	return &AuthManager{
+	return &auth.AuthManager{
 		Vault:    vault,
 		Platform: platform,
 	}

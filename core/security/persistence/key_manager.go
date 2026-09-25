@@ -5,48 +5,48 @@ package verification_persistence
 import (
 	"crypto/rand"
 	"encoding/base64"
-	"log"
+	"fmt"
 	"os"
+
+	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/pkg/logging"
 )
 
-// KeyManager handles the generation, storage, and retrieval of cryptographic keys.
+const RequiredKeyLength = 32 // 256-bit key for AES-256
+
+// GenerateSecureKeyBase64 creates a cryptographically secure 32-byte key encoded in Base64.
 func GenerateSecureKeyBase64() (string, error) {
-	key := make([]byte, 32)
-
-	_, err := rand.Read(key)
-	if err != nil {
-		return "", err
+	key := make([]byte, RequiredKeyLength)
+	if _, err := rand.Read(key); err != nil {
+		return "", fmt.Errorf("failed to generate random bytes: %w", err)
 	}
-
 	return base64.StdEncoding.EncodeToString(key), nil
 }
 
-// LoadSecureKey fetches the encryption key from environment variables.
-// It ensures the key meets the 32-byte requirement for AES-256.
-func LoadSecureKey() []byte {
+// LoadSecureKey fetches and validates the encryption key from environment variables.
+// If missing, generates an ephemeral key for temporary execution.
+func LoadSecureKey() ([]byte, error) {
 	keyStr := os.Getenv("APP_ENCRYPTION_KEY")
 
 	if keyStr == "" {
-		// Auto-generate (dev or first bootstrap)
+		logging.Warn("[VAULT] APP_ENCRYPTION_KEY not set; generating ephemeral key. Data will not persist across restarts.")
+
 		gen, err := GenerateSecureKeyBase64()
 		if err != nil {
-			log.Fatal("Failed to generate encryption key:", err)
+			return nil, fmt.Errorf("ephemeral key generation failed: %w", err)
 		}
 
-		log.Println("[verification] Generated ephemeral encryption key")
-
 		keyBytes, _ := base64.StdEncoding.DecodeString(gen)
-		return keyBytes
+		return keyBytes, nil
 	}
 
 	key, err := base64.StdEncoding.DecodeString(keyStr)
 	if err != nil {
-		log.Fatal("Invalid base64 key")
+		return nil, fmt.Errorf("invalid base64 encryption key: %w", err)
 	}
 
-	if len(key) != 32 {
-		log.Fatalf("Key must decode to 32 bytes, got %d", len(key))
+	if len(key) != RequiredKeyLength {
+		return nil, fmt.Errorf("invalid key length: got %d bytes, expected %d bytes", len(key), RequiredKeyLength)
 	}
 
-	return key
+	return key, nil
 }

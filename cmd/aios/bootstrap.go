@@ -24,7 +24,7 @@ func main() {
 	log, _ := zap.NewProduction()
 	defer log.Sync()
 
-	sys, err := buildSystemContext()
+	sys, err := buildSystemContext(log)
 	if err != nil {
 		log.Fatal("BOOT_FAILED", zap.Error(err))
 	}

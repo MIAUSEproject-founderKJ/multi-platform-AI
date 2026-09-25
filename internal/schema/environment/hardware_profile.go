@@ -102,11 +102,11 @@ type Signal struct {
 
 // PlatformResolution is the finalized identity of the environment.
 type PlatformResolution struct {
-	Candidates []PlatformScore `json:"candidates"`
-	Final      PlatformClass   `json:"final"`
-	Locked     bool            `json:"locked"`
-	Source     string          `json:"source"` // e.g., "heuristic_v1" or "manual_override"
-	ResolvedAt time.Time       `json:"resolved_at"`
+	Candidates []PlatformScore               `json:"candidates"`
+	Final      internal_common.PlatformClass `json:"final"`
+	Locked     bool                          `json:"locked"`
+	Source     string                        `json:"source"` // e.g., "heuristic_v1" or "manual_override"
+	ResolvedAt time.Time                     `json:"resolved_at"`
 }
 
 const (

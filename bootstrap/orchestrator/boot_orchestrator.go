@@ -33,12 +33,11 @@ func RunBootSequence(
 		return nil, nil, err
 	}
 
-	capsProfile := bootstrap_phase.PhaseCapability()
-
 	preSession, err := bootstrap_phase.PhaseInterface(
 	// auth manager,
 	// auth UI,
 	)
+
 	if err != nil {
 		return nil, nil, err
 	}

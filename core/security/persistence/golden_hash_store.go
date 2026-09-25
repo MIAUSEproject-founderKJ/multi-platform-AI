@@ -1,22 +1,13 @@
 // core/security/persistence/golden_hash_store.go
+
 package verification_persistence
 
-// GoldenHashStore is a simple in-memory store for golden hashes used in verification verification.
-
-import (
-	"os"
-	"path/filepath"
-)
-
 func (v *IsolatedVault) SealGoldenHash(machine string, hash []byte) error {
-	path := filepath.Join(v.BaseDir, "golden-"+machine)
-	return os.WriteFile(path, hash, 0600)
+	return v.writeEncrypted("golden-"+machine, hash)
 }
 
 func (v *IsolatedVault) LoadGoldenHash(machine string) (string, error) {
-	path := filepath.Join(v.BaseDir, "golden-"+machine)
-
-	data, err := os.ReadFile(path)
+	data, err := v.readDecrypted("golden-" + machine)
 	if err != nil {
 		return "", err
 	}

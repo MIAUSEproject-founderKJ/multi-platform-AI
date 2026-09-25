@@ -2,34 +2,36 @@
 package main
 
 import (
+	"fmt"
+
 	bootstrap "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap"
-	bootstrap_orchestrator "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator"
-	bootstrap_resolver "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/resolver"
-	verification_persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
+	bootorchestrator "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/orchestrator"
+	bootresolver "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/resolver"
+	persistence "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/persistence"
+	"go.uber.org/zap"
 )
 
-func attemptBoot() (*SystemContext, error) {
-	vault, err := verification_persistence.OpenVault() //load local secured key
+func attemptBoot(log *zap.Logger) (*SystemContext, error) {
+	vault, err := persistence.OpenVault(log)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("boot failed at vault initialization: %w", err)
 	}
 
-	// Stage 1: Boot orchestration
 	bootCtx := bootstrap.NewBootContext(vault)
 
-	bootSeq, session, err := bootstrap_orchestrator.RunBootSequence(bootCtx)
+	bootSeq, session, err := bootorchestrator.RunBootSequence(bootCtx)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("boot sequence execution failed: %w", err)
 	}
 
-	execCtx, err := bootstrap_resolver.ResolveExecutionContext(bootCtx, session)
+	execCtx, err := bootresolver.ResolveExecutionContext(bootSeq)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to resolve execution context: %w", err)
 	}
 
 	return &SystemContext{
-		Boot:    bootCtx,
-		Runtime: execCtx,
-		Session: session,
+		Boot:      bootCtx,
+		Execution: execCtx,
+		Session:   session,
 	}, nil
 }

@@ -4,43 +4,46 @@ package verification_persistence
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"os"
-	"path/filepath"
 )
 
 func (v *IsolatedVault) Read(collection, key string, out interface{}) (bool, error) {
-	path := filepath.Join(v.BaseDir, collection+"_"+key+".json")
-
-	data, err := os.ReadFile(path)
+	filename := fmt.Sprintf("%s_%s.json", collection, key)
+	data, err := v.readDecrypted(filename)
 	if err != nil {
-		if os.IsNotExist(err) {
+		if errors.Is(err, ErrNotFound) {
 			return false, nil
 		}
 		return false, err
 	}
 
 	if err := json.Unmarshal(data, out); err != nil {
-		return false, err
+		return false, fmt.Errorf("failed to unmarshal kv record (%s/%s): %w", collection, key, err)
 	}
 
 	return true, nil
 }
 
 func (v *IsolatedVault) Write(collection, key string, value interface{}) error {
-	path := filepath.Join(v.BaseDir, collection+"_"+key+".json")
-
-	data, err := json.MarshalIndent(value, "", "  ")
+	filename := fmt.Sprintf("%s_%s.json", collection, key)
+	data, err := json.Marshal(value)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to marshal kv record (%s/%s): %w", collection, key, err)
 	}
 
-	return os.WriteFile(path, data, 0600)
+	return v.writeEncrypted(filename, data)
 }
 
 func (v *IsolatedVault) Exists(collection, key string) (bool, error) {
-	path := filepath.Join(v.BaseDir, collection+"_"+key+".json")
+	filename := fmt.Sprintf("%s_%s.json", collection, key)
+	targetPath, err := v.resolvePath(filename)
+	if err != nil {
+		return false, err
+	}
 
-	_, err := os.Stat(path)
+	_, err = os.Stat(targetPath)
 	if err != nil {
 		if os.IsNotExist(err) {
 			return false, nil

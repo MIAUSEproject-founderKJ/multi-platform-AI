@@ -3,10 +3,7 @@
 package bootstrap_phase
 
 import (
-	"errors"
-
 	bootstrap_resolver "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/resolver"
-	auth "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
 	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/mutual_interaction"
@@ -37,22 +34,6 @@ func ResolveAuthMode(
 		caps.Set,
 	)
 
-}
-
-func PhaseInterface(
-	authManager *auth.AuthManager,
-	ui auth.AuthInterface,
-) (*user_setting.UserSession, error) {
-
-	if authManager == nil {
-		return nil, errors.New("auth manager is nil")
-	}
-
-	if ui == nil {
-		return nil, errors.New("auth interface is nil")
-	}
-
-	return ui.StartAuthFlow(authManager)
 }
 
 func (am *AuthManager) initializeRuntime(session *user_setting.UserSession) error {

@@ -59,7 +59,7 @@ func (m *DatabaseSinkModule) Init(ctx runtime_types.ExecutionContext) error {
 }
 
 // Run starts workers and handles shutdown
-func (m *DatabaseSinkModule) Run(ctx context.Context) error {
+func (m *DatabaseSinkModule) Run(ctx runtime_types.ExecutionContext) error {
 	m.setRunning(true)
 
 	for i := 0; i < DBWorkers; i++ {

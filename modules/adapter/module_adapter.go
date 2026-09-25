@@ -20,11 +20,13 @@ type Adapter struct {
 	legacy domain_shared.DomainModule
 }
 
-func AdaptModules(mods []domain_shared.DomainModule, rtx *runtime_engine.RuntimeContext) []runtime_supervisor.Module {
+func AdaptModules(
+	mods []domain_shared.DomainModule,
+	rtx *runtime_engine.RuntimeContext,
+) []runtime_supervisor.Module {
 	out := make([]runtime_supervisor.Module, 0, len(mods))
 
 	for _, m := range mods {
-		// Inject runtime if supported
 		if rm, ok := m.(domain_shared.RuntimeAware); ok {
 			rm.SetRuntime(rtx)
 		}
@@ -40,7 +42,7 @@ func (a *Adapter) Name() string {
 }
 
 func (a *Adapter) Init(ctx context.Context) error {
-	Init(ctx context.Context, boot runtime_types.ExecutionContext)
+	return a.legacy.Init(ctx, a.legacy.Runtime())
 }
 
 func (a *Adapter) Start(ctx context.Context) error {

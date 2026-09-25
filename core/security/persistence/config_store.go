@@ -1,40 +1,32 @@
 // core/security/persistence/config_store.go
+
 package verification_persistence
 
 import (
 	"encoding/json"
-	"os"
-	"path/filepath"
+	"fmt"
 
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 )
 
 func (v *IsolatedVault) SaveConfig(name string, config *internal_environment.EnvConfig) error {
-	path := filepath.Join(v.BaseDir, name+".json")
-
-	if err := os.MkdirAll(filepath.Dir(path), 0700); err != nil {
-		return err
-	}
-
-	data, err := json.MarshalIndent(config, "", "  ")
+	data, err := json.Marshal(config)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to marshal env config (%s): %w", name, err)
 	}
 
-	return os.WriteFile(path, data, 0600)
+	return v.writeEncrypted("config_"+name+".json", data)
 }
 
 func (v *IsolatedVault) LoadConfig(name string) (*internal_environment.EnvConfig, error) {
-	path := filepath.Join(v.BaseDir, name+".json")
-
-	data, err := os.ReadFile(path)
+	data, err := v.readDecrypted("config_" + name + ".json")
 	if err != nil {
 		return nil, err
 	}
 
 	var cfg internal_environment.EnvConfig
 	if err := json.Unmarshal(data, &cfg); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to unmarshal env config (%s): %w", name, err)
 	}
 
 	return &cfg, nil

@@ -1,5 +1,4 @@
-//cmd/aios/app.go
-
+// cmd/aios/app.go
 package main
 
 import (
@@ -12,12 +11,9 @@ import (
 	kernel_supervisor "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/kernel_extension/supervisor"
 	runtime_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/engine"
 	runtime_supervisor "github.com/MIAUSEproject-founderKJ/multi-platform-AI/runtime/supervisor"
+
 	"go.uber.org/zap"
 )
-
-// ============================================================
-// APP COMPOSITION
-// ============================================================
 
 type App struct {
 	log        *zap.Logger
@@ -26,21 +22,40 @@ type App struct {
 }
 
 func buildApp(log *zap.Logger, sys *SystemContext) (*App, error) {
+	if log == nil {
+		return nil, errors.New("logger is required")
+	}
+
+	if sys == nil {
+		return nil, errors.New("system context is required")
+	}
 
 	if sys.Execution == nil {
 		return nil, errors.New("missing execution context")
 	}
 
-	// --- Runtime ---
-	rtx, err := runtime_engine.Build(sys.Execution, sys.Session, log)
+	// --------------------------------------------------------
+	// Runtime
+	// --------------------------------------------------------
+
+	rtContainer, err := runtime_engine.Build(
+		sys.Execution,
+		sys.Session,
+		log,
+		sys.DB,
+		sys.Router,
+	)
 	if err != nil {
 		return nil, err
 	}
 
-	// --- Modules ---
+	rtx := rtContainer.Context()
+	if rtx == nil {
+		return nil, errors.New("failed to create runtime context")
+	}
+
 	registry := kernel_registry.DefaultRegistry()
 
-	// filtering + capability enforcement should already be resolved in boot
 	ordered, err := kernel_supervisor.ResolveDependencies(registry)
 	if err != nil {
 		return nil, err
@@ -52,7 +67,10 @@ func buildApp(log *zap.Logger, sys *SystemContext) (*App, error) {
 		return nil, errors.New("no modules available after adaptation")
 	}
 
-	// --- Supervisor ---
+	// --------------------------------------------------------
+	// Supervisor
+	// --------------------------------------------------------
+
 	sup := runtime_supervisor.NewSupervisor(log, modules)
 
 	return &App{
@@ -61,11 +79,14 @@ func buildApp(log *zap.Logger, sys *SystemContext) (*App, error) {
 	}, nil
 }
 
-// ============================================================
-// LIFECYCLE
-// ============================================================
-
 func (app *App) Start(ctx context.Context) error {
+	if app == nil {
+		return errors.New("app is nil")
+	}
+
+	if app.supervisor == nil {
+		return errors.New("runtime supervisor is nil")
+	}
 
 	if err := app.supervisor.Init(ctx); err != nil {
 		return err
@@ -76,12 +97,22 @@ func (app *App) Start(ctx context.Context) error {
 	}
 
 	app.startHTTP()
+
 	return nil
 }
 
 func (app *App) Stop(ctx context.Context) error {
+	if app == nil {
+		return nil
+	}
+
 	if app.server != nil {
 		_ = app.server.Shutdown(ctx)
 	}
-	return app.supervisor.Stop(ctx)
+
+	if app.supervisor != nil {
+		return app.supervisor.Stop(ctx)
+	}
+
+	return nil
 }

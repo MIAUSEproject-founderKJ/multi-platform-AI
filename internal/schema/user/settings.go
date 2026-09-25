@@ -101,7 +101,7 @@ type SessionClaims struct {
 
 // Optional richer structure
 type TierProfile struct {
-	Name TierType
+	Name internal_common.TierType
 }
 
 // ------------------------------------------------------------
