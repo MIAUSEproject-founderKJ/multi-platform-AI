@@ -15,7 +15,6 @@ import (
 )
 
 // ActiveDiscovery acts as the "Neurologist" for the machine.
-// bootstrap/probe/active_discovery.go
 func ActiveDiscovery(env *internal_environment.EnvConfig) (*internal_environment.EnvConfig, error) {
 
 	logging.Info("[active_discovery] Phase 2: Active Hardware Mapping for %s", env.Platform.Final)

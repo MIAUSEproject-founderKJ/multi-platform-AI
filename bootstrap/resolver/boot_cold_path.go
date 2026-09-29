@@ -3,10 +3,11 @@
 package bootstrap_resolver
 
 import (
+	"context"
 	"fmt"
 	"time"
 
-	"github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/probe"
+	probe "github.com/MIAUSEproject-founderKJ/multi-platform-AI/bootstrap/probe"
 	core_verification "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/security/verification"
 	keys "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/keys"
 	internal_boot "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/boot"
@@ -25,12 +26,15 @@ func (bm *BootManager) runColdBoot() (*internal_boot.BootSequence, error) {
 		Identity:      *bm.Identity,
 	}
 
-	fullProfile, err := probe.ActiveDiscovery(env)
-	if err != nil {
-		return nil, fmt.Errorf("hardware discovery failed: %w", err)
-	}
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
-	bm.Identity.BindHardware(fullProfile)
+	if err := probe.ClassifyPlatform(ctx, env); err != nil {
+		return nil, fmt.Errorf("platform classification failed: %w", err)
+	}
+	if err := probe.EnrichHardwareProfile(env); err != nil {
+		return nil, fmt.Errorf("hardware enrichment failed: %w", err)
+	}
 
 	// Measure and seal the golden baseline — this is what attestation checks against.
 	hash, err := core_verification.MeasureSelf()

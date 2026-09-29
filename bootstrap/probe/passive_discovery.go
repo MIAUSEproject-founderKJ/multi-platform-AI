@@ -138,13 +138,12 @@ func PassiveDiscovery(ctx context.Context) (*internal_environment.EnvConfig, err
 	}
 
 	env := &internal_environment.EnvConfig{
-		SchemaVersion: 1,
-		Identity: internal_environment.MachineIdentity{
-			OS: runtime.GOOS,
-		},
-		Hardware:  buildHardwareProfile(fp), // <-- FIX
-		Platform:  internal_environment.PlatformResolution{},
-		Discovery: internal_environment.DiscoveryProfile{},
+		SchemaVersion: internal_environment.CurrentVersion,
+		GeneratedAt:   time.Now(),
+		Identity:      internal_environment.MachineIdentity{OS: runtime.GOOS},
+		Hardware:      buildHardwareProfile(fp), // <-- FIX
+		Platform:      internal_environment.PlatformResolution{},
+		Discovery:     internal_environment.DiscoveryProfile{},
 	}
 
 	runPlatformInference(env, fp)

@@ -7,10 +7,11 @@ import (
 	"fmt"
 	"log"
 	"strings"
+
 	convert_data "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/convert_data"
+	audio_recognition "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/audio/recognition"
 	"github.com/gordonklaus/portaudio"
 	"github.com/maxhawkins/go-webrtcvad"
-	audio_recognition "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/audio/recognition"
 )
 
 const (
