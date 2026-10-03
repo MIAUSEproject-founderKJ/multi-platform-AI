@@ -39,3 +39,11 @@ type MachineIdentity struct {
 	PasswordHash string    `json:"password_hash,omitempty"`
 	CreatedAt    time.Time `json:"created_at"`
 }
+
+func (m *MachineIdentity) BindHardware(env *EnvConfig) {
+	if env == nil {
+		return
+	}
+	m.Hardware = env.Hardware
+	m.PlatformType = env.Platform.Final
+}

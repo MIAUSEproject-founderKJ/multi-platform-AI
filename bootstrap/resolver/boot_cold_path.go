@@ -36,6 +36,8 @@ func (bm *BootManager) runColdBoot() (*internal_boot.BootSequence, error) {
 		return nil, fmt.Errorf("hardware enrichment failed: %w", err)
 	}
 
+	bm.Identity.BindHardware(env)
+	env.Identity = *bm.Identity
 	// Measure and seal the golden baseline — this is what attestation checks against.
 	hash, err := core_verification.MeasureSelf()
 	if err != nil {

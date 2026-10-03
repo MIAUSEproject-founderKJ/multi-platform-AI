@@ -9,7 +9,6 @@ import (
 	auth "github.com/MIAUSEproject-founderKJ/multi-platform-AI/core/auth"
 	internal_environment "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/environment"
 	user_setting "github.com/MIAUSEproject-founderKJ/multi-platform-AI/internal/schema/user"
-	audio_engine "github.com/MIAUSEproject-founderKJ/multi-platform-AI/modules/domain/audio/engine"
 )
 
 func BuildAuthInterface(mode user_setting.InteractionMode) auth.AuthInterface {
@@ -55,8 +54,14 @@ type MainInterface interface {
 	Start(session *user_setting.UserSession) error
 }
 
+type VoiceInterface interface {
+	Start() error
+	Stop()
+	// whatever HybridAuthUI actually needs from VoiceEngine
+}
+
 type HybridAuthUI struct {
-	Voice audio_engine.VoiceEngine
+	Voice VoiceInterface // interface, not audio_engine.VoiceEngine
 	GUI   GUIEngine
 }
 
